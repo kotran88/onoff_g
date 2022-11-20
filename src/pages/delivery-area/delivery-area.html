@@ -1,0 +1,48 @@
+<!--
+  Generated template for the LoginpagePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <div class="headerclass">
+        <img alt="" (click)="dismiss()" src="assets/img/back.png" style="margin-left:2%; width:20px;background-color: #fff;float:left;">
+        <p style="margin-left:2%;width:90%; font-size:18px;font-weight: 900;">
+            배송지 입력
+        </p>
+    </div>
+
+    <!-- </ion-navbar> -->
+</ion-header>
+
+<ion-content padding style="width: 100%; height:100%;">
+    <div style="margin-top: 5%">
+        <div class="input-title">수령인</div>
+        <ion-input class="input-box" placeholder="" [(ngModel)]="name" type="text"></ion-input>
+
+        <div class="input-title">연락처</div>
+        <ion-input class="input-box" placeholder="" [(ngModel)]="phone" type="text"></ion-input>
+
+        <div class="input-title">우편번호</div>
+        <ion-input onclick="sample3_execDaumPostcode()" disabled="true" id="adress_A" class="input-box" style="width: 30%;" [(ngModel)]="Delivery.code" type="text"></ion-input>
+        <button onclick="sample3_execDaumPostcode()" style="width: 30%; padding: 3%;">
+      <a href="#postal-code" style="text-decoration: none; color: black;">우편번호 찾기</a>
+    </button>
+        <button style="display: none;" (click)="adress_check();" id="postal-code-btn"></button>
+
+        <div class="input-title">주소</div>
+        <ion-input id="adress_B" disabled="true" class="input-box" value="" [(ngModel)]="Delivery.adress" type="text"></ion-input>
+
+        <div class="input-title">상세주소</div>
+        <ion-input id="adress_C" class="input-box" value="" [(ngModel)]="Delivery.detail_adress" type="text"></ion-input>
+
+
+        <div id="postal-code" style="margin-left: 5%; width: 90%; height: 450px; border:solid 1px black; display: none; position: relative;">
+            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+        </div>
+
+        <div style=" margin-top:10%; text-align: center;">
+            <button (click)="check()" ion-button style="width: 50%;background-color:#70c5ed;font-size:16px;">확인</button>
+        </div>
+    </div>
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "appNamefornojo",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

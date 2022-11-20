@@ -1,0 +1,75 @@
+<!--
+  Generated template for the LoginpagePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+      <ion-title>로그인 V{{version}}</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content style="
+  background: black; margin-top:45px;" padding>
+  
+    <img class="logo" src="assets/img/logo_wad.jpg" />
+  
+    <div class="pass">
+      <input  style="margin-bottom:5% !important;" class="input-box" placeholder="이름 생년" [(ngModel)]="id" type="text"/>
+    </div>
+    <div class="pass">
+      
+    <input class="input-box"  style="margin-bottom: 1%;" placeholder="6~12자 입력" [(ngModel)]="password" type="text"/>
+   </div>
+    <!-- <div calss="chk-box" style="margin-top: 1%;"> -->
+     
+      <!-- <ion-checkbox style="width: 50px;
+      margin-left:30px;
+      height: 50px;" class="check-box" [(ngModel)]="check" ></ion-checkbox> -->
+      <div style="    padding: 20px;" class="middle">
+        <input id="checked" type="checkbox" name="xxx" value="yyy" >
+        <ion-label style="color:white; font-size:13px;" class="check-name" (click)="checkbox_click()">로그인 상태 유지</ion-label>
+      <!-- </div> -->
+        <!-- <button style="font-size:13px; 
+        width: 130px !important;" class="fnid-id" (click)="find_admin()">아이디/비밀번호 찾기</button> -->
+      </div>
+  <div style="
+  text-align: center;
+  font-size: 50px;
+  width: 100%;" class="b">
+  
+    <button ion-button calss="login-button" (click)="login()"
+      style="width: 90%; 
+      border-radius: 10px;
+      background-color: grey;
+      font-size: 25px;
+      color:white;
+      border-radius: 10px;
+      margin: auto;">
+        <span style="font-size:30px;"> 로그인</span>
+    </button>
+  
+    <button ion-button class="login-button"  (click)="signup()"
+    style="width: 90%; 
+    border-radius: 10px;
+    background-color: grey;
+    font-size: 25px;
+    color:white;
+    border-radius: 10px;
+    margin: auto;">
+       <span style="font-size:30px;"> 회원가입 </span>
+    </button>
+  </div>
+  
+     <!-- <div class="form">
+       <h4 style="width:100%;">아이디</h4>
+          <input  placeholder="아이디 입력" [(ngModel)]="id" type="text" />
+             <h4 style="width:100%;">비밀번호</h4>
+                <input placeholder="비밀번호 입력" [(ngModel)]="password" type="password"/>
+  
+                <button class="btn" (click)="login()">로그인</button>
+                <button class="btn" (click)="signup()">회원가입</button>
+              </div> -->
+  </ion-content>
+  

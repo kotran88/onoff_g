@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "311863716146",
+    "project_id": "gangnam-6c9f5",
+    "storage_bucket": "gangnam-6c9f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311863716146:android:b80f39387621cb40aecf2b",
+        "android_client_info": {
+          "package_name": "com.onofflab.gangnam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311863716146-me2vgghih141jb6qp6u053vctdag912u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEcXwJPLoRs-bQwhHq4aWw717LgDjnT8A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311863716146-me2vgghih141jb6qp6u053vctdag912u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

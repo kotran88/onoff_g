@@ -1,0 +1,45 @@
+page-peripheral {
+    .header-md::after,
+    .tabs-md[tabsPlacement="top"]>.tabbar::after {
+        background: transparent;
+        border-bottom: 5px solid #eee;
+    }
+    .gameshowwithborder {
+        border-radius: 8px;
+        background-color: #70c5ed;
+    }
+    .gamelist1 {
+        border: 1px dashed #70c5ed;
+        width: 31%;
+        height: 45%;
+        text-align: center;
+        margin: 10% 1% 1% 1%;
+        padding: 3% 0 3% 0;
+        float: left;
+        span {
+            font-weight: 800;
+        }
+    }
+    .gamelist2 {
+        border: 1px dashed #70c5ed;
+        width: 31%;
+        height: 45%;
+        text-align: center;
+        margin: 1% 1% 1% 1%;
+        padding: 3% 0 3% 0;
+        float: left;
+        span {
+            font-weight: 800;
+        }
+    }
+    .headconfirm {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 18px;
+        font-weight: 900;
+        text-align: center;
+        margin: 0% 0% 0% 0%;
+        line-height: 2;
+    }
+}
