@@ -75,7 +75,6 @@ export class MyApp {
             localStorage.setItem("loginflag", "false");
             localStorage.setItem("id", "");
             window.alert("로그아웃 되었습니다.")
-            // this.nav.setRoot(TspagePage);
             location.reload();
             // this.confirmAlert2("로그아웃 되었습니다.");
           }
