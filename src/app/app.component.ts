@@ -3,15 +3,9 @@ import { Platform ,ViewController,App,AlertController, Nav, MenuClose, Modal, Mo
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 // import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { MypagePage} from '../pages/mypage/mypage'
-import { ChatPage } from '../pages/chat/chat';
 import {TspagePage} from '../pages/tspage/tspage'
 import { LoginpagePage } from '../pages/loginpage/loginpage';
-import { SettingPage } from '../pages/setting/setting';
-import { CoinSavePage } from '../pages/coin-save/coin-save';
 import firebase from 'firebase/app';
-import { IntroducePage } from '../pages/introduce/introduce';
-import { HomeslidePage } from '../pages/homeslide/homeslide';
 @Component({
   templateUrl: 'app.html'
 })
@@ -48,20 +42,7 @@ export class MyApp {
     }
     else{
       this.id=localStorage.getItem('id');
-      this.firemain.child('users').child(this.id).once('value').then((snap)=>{
-        console.log(snap.val());
-        this.user=snap.val();
-        this.pages=[
-          {title:'주문관리',component:MypagePage},
-         
-          {title:'코인관리',component:CoinSavePage},
-          {title:'문의하기',component:ChatPage},
-          {title:'이용안내',component:HomeslidePage},
-          {title:'로그아웃',component:'logout'},
-          // {title:'SETTING',component:SettingPage},
-          // {title:'COIN',component:CoinSavePage},
-        ]
-      })
+      
     }
   }
 
@@ -70,16 +51,12 @@ export class MyApp {
     if(page.component==='logout'){
       this.logout();
     }
-    else if(page.component===HomeslidePage){
-      this.nav.push(HomeslidePage,{});
-    }
     else {
       this.nav.push(page.component,{user:this.user})
     }
   }
 
   gosetting(){
-    this.openPage({component:SettingPage})
   }
 
   logout() {
