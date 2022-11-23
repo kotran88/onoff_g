@@ -1,0 +1,35 @@
+page-parking {
+
+    .header {
+        position: absolute;
+        height: 80px;
+        width: 100%;
+        background-color: red;
+    }
+
+    .header-parking {
+        position: absolute;
+        height: 50px;
+        width: 50px;
+        // background-color: blue;
+        text-align: center;
+        top: 0px;
+        left: 30px;
+    }
+
+    .header-parking-text {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .header-parking-hr {
+        width: 50px;
+        background-color: white;
+        font-weight: bold;
+    }
+
+    .header-total {
+        position: absolute;
+        left: 250px;
+    }
+}
