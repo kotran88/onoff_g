@@ -21,6 +21,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 
 import { SignupPage } from '../pages/signup/signup';
+import { ParkingPage } from '../pages/parking/parking';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -43,6 +44,7 @@ initializeApp(firebaseConfig);
     MyApp,
     LoginpagePage,
     SignupPage,
+    ParkingPage,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +63,7 @@ initializeApp(firebaseConfig);
     MyApp,
     LoginpagePage,
     SignupPage,
+    ParkingPage,
     // ChatroomlistPage,
   ],
   providers: [

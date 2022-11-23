@@ -7,6 +7,7 @@ import  firebase from 'firebase';
 import * as $ from "jquery";
 
 import { SignupPage } from '../signup/signup';
+import { ParkingPage } from '../parking/parking';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -70,6 +71,8 @@ export class LoginpagePage {
     this.firemain.child('users').child(this.id).update({'login_flag':String(this.check)})
   }
   login(){
+    this.navCtrl.push(ParkingPage);
+    return;
     if(this.id==undefined||this.password==undefined){
 
       window.alert("아이디비번을 입력해주세요")
