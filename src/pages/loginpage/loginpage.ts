@@ -120,7 +120,7 @@ export class LoginpagePage {
               this.login_flag_update();
               var type = snap.val().type;
               if(type == "park"){
-                window.alert("주차로 이동합니다. ");
+                window.alert("주차로 이동합니다.. ");
               }
               // console.log("rr")
 
