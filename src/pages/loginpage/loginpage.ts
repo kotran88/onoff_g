@@ -30,7 +30,15 @@ export class LoginpagePage {
   loading:any;
   firemain = firebase.database().ref();
   constructor(public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
-
+    var flag = localStorage.getItem("loginflag");
+    this.check = flag;
+    setTimeout(()=>{
+      if(this.check=="true"){
+        $("#checked").prop('checked', true);
+      }else{
+        $("#checked").prop('checked', false);
+      }
+    },1000)
     // this.version='7.6';
     localStorage.setItem('version',this.version)
     var a=new Date();
@@ -60,7 +68,7 @@ export class LoginpagePage {
     this.navCtrl.push(SignupPage);
   }
   login_flag_update(){
-    this.firemain.child('user').child(this.id.split('@')[0]).update({'login_flag':String(this.check)})
+    this.firemain.child('users').child(this.id).update({'login_flag':String(this.check)})
   }
   login(){
     if(this.id==undefined||this.password==undefined){
@@ -84,8 +92,9 @@ export class LoginpagePage {
       }
       else{
         console.log(this.id);
-        this.firemain.child("user").child(this.id).once("value",(snap)=>{
+        this.firemain.child("users").child(this.id).once("value",(snap)=>{
           console.log("r")
+          console.log(snap.val())
           console.log(snap.numChildren());
           var length=snap.numChildren();
           console.log(snap.val()==null)
@@ -94,46 +103,53 @@ export class LoginpagePage {
           if(length==1){
             //loginflag 밖에 없을때 회원가입 화면으로 이동시킴.
             window.alert("아이디 및 비밀번호를 확인해주세요")
-          }else{
+          }
+          // else if(snap.val().flag!='approved'){
+          //   window.alert("승인 대기중으로 진행이 불가합니다")
+          //   return;
+          // }
+          else{
             if(snap.val()==null){
               window.alert("아이디 및 비밀번호를 확인해주세요")
             }
-            else if(snap.val().flag!='approved'){
-              window.alert("승인 대기중으로 진행이 불가합니다")
-              return;
-            }else{
+            else{
               console.log(snap.val())
               localStorage.setItem('id',this.id.split('@')[0]);
               localStorage.setItem('password',this.password);
+              localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
               this.login_flag_update();
-              console.log("rr")
+              var type = snap.val().type;
+              if(type == "park"){
+                window.alert("주차로 이동합니다. ");
+              }
+              // console.log("rr")
 
-              this.fire.auth.signInWithEmailAndPassword(this.id+"@naver.com", this.password).then( (data)=> {
-                console.log(data);
-                localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
-                this.login_success();
-              }).catch( (error)=> {
-                console.log("error")
-                console.log(error);
-                if(error.code=="auth/user-not-found"||error.code=="auth/wrong-password"){
-                  alert("유저의 아이디 혹은 비밀번호가 맞지않습니다.")
-                  return;
-                }else if(error.code=="auth/too-many-requests"){
+              // this.fire.auth.signInWithEmailAndPassword(this.id+"@naver.com", this.password).then( (data)=> {
+              //   console.log(data);
+              //   localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
+              //   this.login_success();
+              // }).catch( (error)=> {
+              //   console.log("error")
+              //   console.log(error);
+              //   if(error.code=="auth/user-not-found"||error.code=="auth/wrong-password"){
+              //     alert("유저의 아이디 혹은 비밀번호가 맞지않습니다.")
+              //     return;
+              //   }else if(error.code=="auth/too-many-requests"){
 
-                  var user=this.fire.auth.currentUser;
-                  // window.alert(user);
-                  console.log(user);
-                  localStorage.setItem("loginflag", String($('#checked' ).is(":checked")));
-                  this.login_success();
+              //     var user=this.fire.auth.currentUser;
+              //     // window.alert(user);
+              //     console.log(user);
+              //     localStorage.setItem("loginflag", String($('#checked' ).is(":checked")));
+              //     this.login_success();
 
-                  // user.delete().then(()=>{
+              //     // user.delete().then(()=>{
 
-                  // });
+              //     // });
 
-                }else{
-                  window.alert(error.code);
-                }
-              });
+              //   }else{
+              //     window.alert(error.code);
+              //   }
+              // });
             }
           }
         }).catch((e)=>{
@@ -156,6 +172,8 @@ export class LoginpagePage {
   }
 
   checkbox_click(){
-    this.check=!(this.check===true);
+    this.check=!this.check;
+    window.alert(this.check);
+    localStorage.setItem("loginflag", String(this.check));
   }
 }

@@ -4,6 +4,7 @@ import  firebase from 'firebase';
 
 
 import {IamportCordova} from '@ionic-native/iamport-cordova'
+import { T } from '@angular/core/src/render3';
 /**
  * Generated class for the SignupPage page.
  *
@@ -18,10 +19,15 @@ import {IamportCordova} from '@ionic-native/iamport-cordova'
 export class SignupPage {
   firemain = firebase.database().ref();
   name='추신수';
-  stage=2;
-  cellcert:any;
+  stage=1;
+  youngup:any;
+  jopanteam:any;
+  gaming:any="";
+  cellcert:any;dsfs
   residence='';
   sex='';
+  young=[];
+  jopan=[];
   id='';
   type=1;
   birth_year='';
@@ -46,11 +52,25 @@ export class SignupPage {
       console.log(snap.val())
       for(var a in snap.val()){
         console.log(snap.val())
-        this.companies.push({"name":snap.val()[a].groupName,"address":snap.val()[a].address});
+      //   for(var b in snap.val()[a].younglist){
+      //       console.log(snap.val()[a].younglist[b])
+      //   }dfss
+
+      //   for(var b in snap.val()[a].jopanlist){
+      //     console.log(snap.val()[a].jopanlist[b])
+      // }
+        this.companies.push({"name":snap.val()[a].groupName,"address":snap.val()[a].address,"jopanlist":snap.val()[a].jopanlist,"younglist":snap.val()[a].younglist});
       }
+    
     });
+
     console.log("result..")
     console.log(this.companies)
+  }
+  gotonext3(){
+    console.log(this.youngup);
+    console.log(this.jopanteam);
+    this.stage=4;
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
@@ -62,7 +82,57 @@ export class SignupPage {
       this.password_checker=true;
     }
   }
+  str_format(text, len) {
+    text = String(text);
+    for (var i = text.length; i < len; i++) {
+        text = '0' + text;
+    }
+    return text;
+}
+  format_date(d)
+{
+    var str = "";
+    var date = new Date(d);
+    // 2022-08-25T17:52:39.629Z
+    str  = this.str_format(date.getFullYear(), 4) + '.';
+    str += this.str_format(date.getMonth() + 1, 2) + '.';
+    str += this.str_format(date.getDate(), 2) + ' ';
+    str += this.str_format(date.getHours(), 2) + ':';
+    str += this.str_format(date.getMinutes(), 2);
 
+    return str;
+}
+  uploadToServer(value){
+    console.log(value)
+    console.log(this.id);
+    if(value==1){
+      console.log("부장 승인 요청 ")
+      console.log("info 승인 요청 ")
+      var nowdate=this.format_date(new Date())
+      this.firemain.child("users").child(this.id).update({"type":"director","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+  
+    }else if(value==2){
+      console.log("WT 승인 요청 ")
+       console.log("info 승인 요청 ")
+      var nowdate=this.format_date(new Date())
+      this.firemain.child("users").child(this.id).update({"type":"wt","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+  
+    }else if(value==3){
+      console.log("아가씨 승인 요청 ")
+      var nowdate=this.format_date(new Date())
+      this.firemain.child("users").child(this.id).update({"type":"agasi","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+    }else if(value==4){
+      console.log("info 승인 요청 ")
+      var nowdate=this.format_date(new Date())
+      this.firemain.child("users").child(this.id).update({"type":"info","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+    }else if(value==5){
+      console.log("주차 승인 요청 ")
+      var nowdate=this.format_date(new Date())
+      console.log(this.youngup);
+      console.log(this.jopanteam)
+      this.firemain.child("users").child(this.id).update({"type":"park","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+    }
+  }
   checker_roop(n1,n2,val){
 
     for(var i=n1;i<=n2;i++){
@@ -77,12 +147,40 @@ export class SignupPage {
   selecttype(value){
     console.log(value);
     this.type = value;
-    this.stage=4;
+    this.stage=5;
   }
   selectcompany(value){
     console.log(value);
     this.stage=3;
     this.selectedCompany=value;
+    console.log(this.companies);
+    for(var i=0; i<this.companies.length; i++){
+      console.log(this.companies[i]);
+      console.log("value is : "+value);
+      console.log(value);
+      if(this.companies[i].name==value.name){
+        console.log(this.companies[i]);
+        var newyoung = this.companies[i].younglist.split(",");
+        var newjopan = this.companies[i].jopanlist.split(",");
+        console.log(newyoung)
+        console.log(newyoung.length);
+        for(var b in newyoung){
+          console.log(newyoung[b])
+          if(newyoung[b]!=""){
+
+            this.young.push(newyoung[b])
+          }
+        }
+        for(var b in newjopan){
+          console.log(newjopan[b])
+          if(newjopan[b]!=""){
+
+            this.jopan.push(newjopan[b])
+          }
+        }
+      }
+    }
+    console.log(this.young);
   }
   checker(num){
 

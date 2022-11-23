@@ -28,7 +28,7 @@
       margin-left:30px;
       height: 50px;" class="check-box" [(ngModel)]="check" ></ion-checkbox> -->
       <div style="    padding: 20px;" class="middle">
-        <input id="checked" type="checkbox" name="xxx" value="yyy" >
+        <input id="checked" (click)="checkbox_click()" type="checkbox" name="xxx" value="yyy" >
         <ion-label style="color:white; font-size:13px;" class="check-name" (click)="checkbox_click()">로그인 상태 유지</ion-label>
       <!-- </div> -->
         <!-- <button style="font-size:13px; 
