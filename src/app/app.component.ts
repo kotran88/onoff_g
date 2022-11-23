@@ -3,7 +3,6 @@ import { Platform ,ViewController,App,AlertController, Nav, MenuClose, Modal, Mo
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 // import { SplashScreen } from '@ionic-native/splash-screen';
 
-import {TspagePage} from '../pages/tspage/tspage'
 import { LoginpagePage } from '../pages/loginpage/loginpage';
 import firebase from 'firebase/app';
 @Component({

@@ -7,7 +7,6 @@ import  firebase from 'firebase';
 import * as $ from "jquery";
 
 import { SignupPage } from '../signup/signup';
-import { TspagePage } from '../tspage/tspage';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -31,9 +30,9 @@ export class LoginpagePage {
   firemain = firebase.database().ref();
   constructor(public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
     var flag = localStorage.getItem("loginflag");
-    this.check = flag;
+    this.check = Boolean(flag);
     setTimeout(()=>{
-      if(this.check=="true"){
+      if(this.check==true){
         $("#checked").prop('checked', true);
       }else{
         $("#checked").prop('checked', false);
@@ -164,7 +163,6 @@ export class LoginpagePage {
     console.log('login success')
     this.loading.dismiss();
     // window.alert($('#checked' ).is(":checked"))
-    this.navCtrl.setRoot(TspagePage, { "id": this.id });
   }
 
   ionViewDidLoad() {

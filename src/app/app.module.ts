@@ -24,7 +24,6 @@ import { SignupPage } from '../pages/signup/signup';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { TspagePage } from '../pages/tspage/tspage';
 
 
 var firebaseConfig = {
@@ -44,8 +43,6 @@ initializeApp(firebaseConfig);
     MyApp,
     LoginpagePage,
     SignupPage,
-    TspagePage,
-    // ChatroomlistPage,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +60,7 @@ initializeApp(firebaseConfig);
   entryComponents: [
     MyApp,
     LoginpagePage,
-    TspagePage,SignupPage,
+    SignupPage,
     // ChatroomlistPage,
   ],
   providers: [
