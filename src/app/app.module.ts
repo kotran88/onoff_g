@@ -22,6 +22,9 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 
 import { SignupPage } from '../pages/signup/signup';
 import { ParkingPage } from '../pages/parking/parking';
+import { ReceiptPage } from '../pages/receipt/receipt';
+
+
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -45,6 +48,7 @@ initializeApp(firebaseConfig);
     LoginpagePage,
     SignupPage,
     ParkingPage,
+    ReceiptPage,
     ExpandableComponent,
   ],
   imports: [
@@ -65,6 +69,7 @@ initializeApp(firebaseConfig);
     LoginpagePage,
     SignupPage,
     ParkingPage,
+    ReceiptPage,
     // ChatroomlistPage,
   ],
   providers: [

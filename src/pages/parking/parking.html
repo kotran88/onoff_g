@@ -53,7 +53,7 @@
         </div>
         <hr style="width: 90%; height: 1px; background-color: white;">
       </div>
-      <img src="assets/img/plusbutton.png" class="foot-menu">
+      <img (click)="goToReceiptPage()" src="assets/img/plusbutton.png" class="foot-menu">
     </div>
     <div id="ion-label-area-2" style="display: none;">
       two
@@ -65,7 +65,8 @@
       <div *ngFor="let i of count; let j = index;">
         <button (click)="extendedAccordion(4, i)" class="accordion" id="accordion-{{i}}">
           <p style="flex: 1;">2022.10.{{j + 1}}</p>
-          <p style="margin-top: 10px; flex: 1;"><img src="assets/img/bottomarrow.png" style="height: 20px; width: 20px;"></p>
+          <p style="margin-top: 10px; flex: 1;"><img src="assets/img/bottomarrow.png"
+              style="height: 20px; width: 20px;"></p>
 
           <p style="flex: 4; text-align: end;">일계:80 합계:120</p>
         </button>

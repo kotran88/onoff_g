@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { ReceiptPage } from './../receipt/receipt';
 /**
  * Generated class for the ParkingPage page.
  *
@@ -40,6 +40,10 @@ export class ParkingPage {
   screenSwitch(e : any) : void {
     for (let i = 1; i <= 4; i++) { document.getElementById("ion-label-area-" + i).style.display = "none"; }
     document.getElementById("ion-label-area-" + e.value).style.display = "";
+  }
+
+  goToReceiptPage() : void {
+    this.navCtrl.push(ReceiptPage);
   }
 
 
