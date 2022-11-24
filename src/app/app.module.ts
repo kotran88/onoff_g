@@ -25,7 +25,7 @@ import { ParkingPage } from '../pages/parking/parking';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-
+import { ExpandableComponent } from '../components/expandable/expandable';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -45,6 +45,7 @@ initializeApp(firebaseConfig);
     LoginpagePage,
     SignupPage,
     ParkingPage,
+    ExpandableComponent,
   ],
   imports: [
     BrowserModule,
