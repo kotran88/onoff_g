@@ -11,6 +11,7 @@ import { ParkingPage } from '../parking/parking';
 import { UtilsProvider } from '../../providers/utils/utils';
 import { DirectorpagePage } from '../directorpage/directorpage';
 import { AccountPage } from '../account/account';
+import { InfoPage } from '../info/info';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -151,7 +152,10 @@ export class LoginpagePage {
               }else if(type == "account"){
 
                this.navCtrl.push(AccountPage);
-              }
+              }else if(type == "info"){
+
+                this.navCtrl.push(InfoPage);
+               }
               });
               
               // console.log("rr")

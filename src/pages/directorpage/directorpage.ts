@@ -28,7 +28,6 @@ export class DirectorpagePage {
   openclose(){
     console.log("open and cloe");
     this.menuCtrl.open();
-
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad DirectorpagePage');
