@@ -1,4 +1,4 @@
-page-parking {
+page-directorpage {
 
     .header {
         position: absolute;
@@ -10,13 +10,11 @@ page-parking {
         padding:0px !important;
         margin-top:0px !important;
     }
-    .header-parking {
-        position: absolute;
-        height: 50px;
-        width: 50px;
+    .header-parking { 
         text-align: center;
-        top: 0px;
-        left: 30px;
+        width: 100%;
+        height: 100px;
+        margin-top: 10px;
     }
     .looping{
         width: 100% !important;
@@ -39,11 +37,8 @@ page-parking {
         font-size: 15px;
         font-weight: bold;
     }
-
-    .header-parking-hr {
-        width: 50px;
-        background-color: white;
-        font-weight: bold;
+    .button-inner{
+        color:white;
     }
     .box {
         height: 100%;
@@ -200,11 +195,33 @@ page-parking {
         padding-bottom: 0px;
         padding-top: 0px;
     }
+    .toolbar-background{
+        background: rgb(59, 56, 56);
+    }
+    .toolbar{
+        text-align: center;
+    }
+    .logo{
+        width:50px;
+    }
+    .header-parking-hr{
 
+    margin-top: 80px;
+    width: 100%;
+    color: red;
+    background: red;
+    }
     .accordion > div {
         width: 50%;
     }
+    .header_btn{
 
+    height: 50px;
+    background: transparent;
+    color: white;
+    border: solid 1px;
+    width: 100px;
+    }
     .active, .accordion:hover {
         background-color: black;
     }
@@ -263,5 +280,4 @@ page-parking {
         right: 10%;
         bottom: 5%;
     }
-
 }

@@ -8,6 +8,9 @@ import * as $ from "jquery";
 
 import { SignupPage } from '../signup/signup';
 import { ParkingPage } from '../parking/parking';
+import { UtilsProvider } from '../../providers/utils/utils';
+import { DirectorpagePage } from '../directorpage/directorpage';
+import { AccountPage } from '../account/account';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -26,15 +29,21 @@ export class LoginpagePage {
   password:any;
   check=false;
   version='1.0';
-
+  name:any;
   loading:any;
   firemain = firebase.database().ref();
   constructor(public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
     var flag = localStorage.getItem("loginflag");
+    console.log(flag);
     this.check = Boolean(flag);
+    console.log("login flag : "+this.check);
     setTimeout(()=>{
       if(this.check==true){
         $("#checked").prop('checked', true);
+        this.id = localStorage.getItem("id");
+        this.password = localStorage.getItem("password");
+        this.name = localStorage.getItem("name");
+        this.login();
       }else{
         $("#checked").prop('checked', false);
       }
@@ -60,7 +69,6 @@ export class LoginpagePage {
     console.log(this.firemain);
     // this.firebaseAuth.auth.creat eUserWithEmailAndPassword("황지성82@naver.com", "000000").then( (data)=> {})
   }
-
   find_admin(){
     // this.navCtrl.push(FindAccountPage);
   }
@@ -71,8 +79,6 @@ export class LoginpagePage {
     this.firemain.child('users').child(this.id).update({'login_flag':String(this.check)})
   }
   login(){
-    this.navCtrl.push(ParkingPage);
-    return;
     if(this.id==undefined||this.password==undefined){
 
       window.alert("아이디비번을 입력해주세요")
@@ -95,8 +101,17 @@ export class LoginpagePage {
       else{
         console.log(this.id);
         this.firemain.child("users").child(this.id).once("value",(snap)=>{
-          console.log("r")
-          console.log(snap.val())
+          console.log("rrr")
+          console.log(snap.val()["name"])
+          this.name=snap.val()["name"];
+          var approved=snap.val()["approved"];
+          if(approved==false){
+            window.alert("승인대기중입니다. 관리자에게 문의하세요")
+
+          this.loading.dismiss();
+            return;
+          }else{
+          }
           console.log(snap.numChildren());
           var length=snap.numChildren();
           console.log(snap.val()==null)
@@ -115,15 +130,30 @@ export class LoginpagePage {
               window.alert("아이디 및 비밀번호를 확인해주세요")
             }
             else{
-              console.log(snap.val())
+              this.firemain.child("company").child(snap.val().company).once("value",(snap2)=>{
+                console.log(snap2.val())
+                console.log(snap.val())
               localStorage.setItem('id',this.id.split('@')[0]);
+              localStorage.setItem('name',this.name);
               localStorage.setItem('password',this.password);
               localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
               this.login_flag_update();
               var type = snap.val().type;
+              var price = snap2.val().price;
+              localStorage.setItem("price",price)
+              console.log("gogo type is : "+type);
               if(type == "park"){
-                window.alert("주차로 이동합니다.. ");
+
+    this.navCtrl.push(ParkingPage);
+              }else if(type == "director"){
+
+                this.navCtrl.push(DirectorpagePage);
+              }else if(type == "account"){
+
+               this.navCtrl.push(AccountPage);
               }
+              });
+              
               // console.log("rr")
 
               // this.fire.auth.signInWithEmailAndPassword(this.id+"@naver.com", this.password).then( (data)=> {

@@ -18,7 +18,7 @@
       <ion-input style="
       color: white;
     font-size: 20px;
-      float: right;" class="input-box" placeholder="성명+생년 (예: 홍길동80) " [(ngModel)]="id" type="text"></ion-input>
+      float: right;" class="input-box" placeholder="아이디를 입력해주세요 " [(ngModel)]="id" type="text"></ion-input>
     </div>
 
     <div style="width: 100%; height:100px;">
@@ -26,7 +26,7 @@
       <ion-input style="
       color: white;
     font-size: 20px;
-      float: right;" class="input-box" placeholder="비밀번호(6~12자 입력)" [(ngModel)]="password" type="text"></ion-input>
+      float: right;" class="input-box" placeholder="비밀번호를 입력해주세요" [(ngModel)]="password" type="text"></ion-input>
     </div>
 
     <div style="width: 100%; height:100px;">
@@ -34,7 +34,7 @@
       <ion-input style="
       color: white;
     font-size: 20px;
-      float: right;" class="input-box" placeholder="비밀번호(6~12자 입력)" [(ngModel)]="password2" type="text"></ion-input>
+      float: right;" class="input-box" placeholder="비밀번호를 입력해주세요" [(ngModel)]="password2" type="text"></ion-input>
     </div>
 
     <div style="width: 100%; height:100px;">
@@ -228,12 +228,19 @@ text-align: center;">조판팀을 설정해주세요. </span>
       <button (click)="selecttype(5)" class="newbtn">주차 </button>
       <button (click)="selecttype(6)" class="newbtn">밴드 </button>
     </div>
+
+    <div style="text-align:center;">
+      <button (click)="selecttype(7)" class="newbtn">입금(경리) </button>
+    </div>
   </div>
 
   <div *ngIf="stage==5">
     <div class="input-title2"><span style="font-size:30px;" >환영합니다. <br></span>
       <span *ngIf="type==1" style="font-size:30px;">
       부장을 선택하셨군요 <br> 
+
+      <button class="paybtn" (click)="uploadToServer(1);">월 2,100원 결제하기</button>
+      <span>결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
       <span *ngIf="type==2" style="font-size:30px;">
         WT 선택하셨군요 <br> 
@@ -272,7 +279,15 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <span>결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
       <span *ngIf="type==6" style="font-size:30px;">
-        관리를 선택하셨군요 <br> 
+        밴드를 선택하셨군요 <br> 
+      </span>
+      <span *ngIf="type==7" style="font-size:30px;">
+        경리(입금)를 선택하셨군요 <br> 
+
+        <br>
+        <button class="paybtn" (click)="uploadToServer(7);">월 2,100원 결제하기</button>
+        <span>결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
+
       </span>
     </div>
 
