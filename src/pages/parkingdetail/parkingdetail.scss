@@ -1,15 +1,10 @@
-page-parking {
-
+page-parkingdetail {
     .header {
         position: absolute;
         height: 80px;
         width: 100%;
-        color:white;
     }
-    .scroll-content{
-        padding:0px !important;
-        margin-top:0px !important;
-    }
+
     .header-parking {
         position: absolute;
         height: 50px;
@@ -18,22 +13,10 @@ page-parking {
         top: 0px;
         left: 30px;
     }
-    .looping{
-        width: 100% !important;
-        display: flex;
-        padding-left: 0px !important;
-        margin-left: 30px;
-    }
-    .segactive{
-        background: blue !important;
-    }
-    .segment-button {
-        color: red; // here, instead of "red" you can use sass variable if it was already defined
-    }
-    .ion-label{
-        
-    font-size: 20px;
-    font-weight: 700 ;
+
+    .scroll-content{
+        padding:0px !important;
+        margin-top:50px !important;
     }
     .header-parking-text {
         font-size: 15px;
@@ -57,8 +40,6 @@ page-parking {
         border-radius: 10px;
 
         margin: auto;
-
-    margin-top: 20px !important;
         P {
             font-size: 3em;
             font-weight: bold;
@@ -141,9 +122,7 @@ page-parking {
         position: absolute;
         left: 250px;
     }
-    .segment-md .segment-button{
-        height: auto !important;
-    }
+
     .ion-segment {
         position: absolute;
         color: white;
@@ -153,12 +132,16 @@ page-parking {
     .ion-label {
         color: white;
     }
+    input{
+        color:black;
 
+    font-size: 20px;
+    }
     .ion-label-area {
         position: absolute;
         width: 100%;
-        height: 100%;
-        top: 150px;
+        height: 100% !important;
+        top: 50px;
         background-color: black;
         height: calc(100% - 132px);
         overflow-y: scroll;
@@ -173,7 +156,13 @@ page-parking {
             color: white;
         }
     }
+    button{
 
+    width: 100px;
+    height: 80px;
+    margin: auto;
+    text-align: center;
+    }
     .ion-item-area-4 {
         color: white;
         background-color: black;
@@ -230,9 +219,7 @@ page-parking {
         columns: white;
         overflow: hidden;
     }
-    .fab .button-inner{
-        font-size:30px;
-    }
+
     .panel-4 > div {
         width: 50%;
         padding-left: 18px;
@@ -241,8 +228,6 @@ page-parking {
         span {
             display: block;
             margin: 5px;
-            text-align: left;
-            font-size:20px;
         }
         br {
             display: block;

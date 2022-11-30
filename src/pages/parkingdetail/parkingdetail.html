@@ -1,0 +1,137 @@
+<!--
+  Generated template for the ParkingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+  <ion-navbar>
+    <ion-title></ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding style="background: black; color: white;">
+  <div class="header">
+    <div class="header-parking">
+      <p style="
+      font-size: 24px;
+      text-decoration: underline;" class="header-parking-text">{{title}}</p>
+      <hr class="header-parking-hr">
+    </div>
+  </div>
+
+  <div  class="ion-label-area">
+    <div>
+      <p style=" 
+      width: 50%;
+      float: left;
+      text-align: center;
+      font-size: 30px;">담당자</p>
+      <p style="
+      width: 50%;
+      float: right;
+      margin-top: 30px;
+      margin-bottom: 20px;">
+      <ion-input style="
+      height: 50px;
+      border-radius: 10px;
+      background: white;
+      display: block;
+      width: 90%;" type="text" [(ngModel)]="incharge" ></ion-input>
+      </p>
+    </div>
+    <hr style="width: 90%; height: 1px; background-color: white;">
+    <div>
+      <p style=" 
+      width: 50%;
+      float: left;
+      text-align: center;
+      font-size: 30px;">룸넘버</p>
+      <p style="
+      width: 50%;
+      float: right;
+      margin-top: 30px;
+      margin-bottom: 20px;"> <ion-input style="
+    height: 50px;
+    border-radius: 10px;
+    background: white;
+    display: block;
+    width: 90%;" type="number" [(ngModel)]="room" ></ion-input></p>
+    </div>
+
+    <hr style="width: 90%; height: 1px; background-color: white;">
+    <div *ngIf="type==1">
+      <p style=" 
+      width: 50%;
+      float: left;
+      text-align: center;
+      font-size: 30px;">차량번호</p>
+      <p style="
+      width: 50%;
+      float: right;
+      margin-top: 30px;
+      margin-bottom: 20px;"> <ion-input style="
+    height: 50px;
+    border-radius: 10px;
+    background: white;
+    display: block;
+    width: 90%;"  [(ngModel)]="carnum" ></ion-input></p>
+    </div>
+    <div *ngIf="type!=1">
+      <p style=" 
+      width: 50%;
+      float: left;
+      text-align: center;
+      font-size: 30px;">목적지</p>
+      <p style="
+      width: 50%;
+      float: right;
+      margin-top: 30px;
+      margin-bottom: 20px;"> <ion-input style="
+    height: 50px;
+    border-radius: 10px;
+    background: white;
+    display: block;
+    width: 90%;" type="text" [(ngModel)]="destination" ></ion-input></p>
+    </div>
+
+    <hr style="width: 90%; height: 1px; background-color: white;">
+
+
+    <div style="
+    margin-top: 200px;">
+      <p style=" 
+      width: 50%;
+      float: left;
+      text-align: center;
+      font-size: 30px;">금액</p>
+      <p style="
+      width: 50%;
+      float: right;
+      margin-top: 30px;
+      margin-bottom: 20px;"> <ion-input style="
+    height: 50px;
+    border-radius: 10px;
+    background: white;
+    display: block;
+    width: 90%;" type="number" [(ngModel)]="price" ></ion-input></p>
+    </div>
+   <div style="    border-top: solid 1px;
+    border-bottom: solid 1px;
+   display: inline-block;
+   width: 90%;
+   margin: auto;
+   text-align: center;
+   margin-left: 10px;">
+    <button (click)="saving()" style="
+    width: 100px;
+    height: 50px;
+    display: block;
+    background: black;
+    color: white;
+    font-size: 24px;">저장</button>
+   </div>
+    
+  </div>
+
+</ion-content>

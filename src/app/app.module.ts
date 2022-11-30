@@ -29,6 +29,11 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ExpandableComponent } from '../components/expandable/expandable';
+import { ParkingdetailPage } from '../pages/parkingdetail/parkingdetail';
+import { TestpagePage } from '../pages/testpage/testpage';
+import { UtilsProvider } from '../providers/utils/utils';
+import { DirectorpagePage } from '../pages/directorpage/directorpage';
+import { AccountPage } from '../pages/account/account';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -47,7 +52,11 @@ initializeApp(firebaseConfig);
     MyApp,
     LoginpagePage,
     SignupPage,
+    TestpagePage,
+    AccountPage,
+    DirectorpagePage,
     ParkingPage,
+    ParkingdetailPage,
     ReceiptPage,
     ExpandableComponent,
   ],
@@ -67,8 +76,12 @@ initializeApp(firebaseConfig);
   entryComponents: [
     MyApp,
     LoginpagePage,
+    AccountPage,
     SignupPage,
+    ParkingdetailPage,
     ParkingPage,
+    DirectorpagePage,
+    TestpagePage,
     ReceiptPage,
     // ChatroomlistPage,
   ],
@@ -81,10 +94,11 @@ initializeApp(firebaseConfig);
     AngularFireAuth,
     DatePicker,
     PhotoViewer,
+    UtilsProvider,
     Keyboard,
     UniqueDeviceID,
     Geolocation,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })
 export class AppModule {}

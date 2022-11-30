@@ -40,6 +40,89 @@
 // }
 
 page-loginpage {
+.box {
+        height: 100%;
+    }
+
+    .box-1 {
+        color: black;
+        background-color: rgb(225, 226, 142);
+        width: 90%;
+        height: 10%;
+        border-radius: 20px;
+
+        P {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: start;
+            padding-top: 3%;
+            padding-left: 3%;
+        }
+    }
+
+    .box-2 {
+        color: black;
+        background-color: rgb(242, 168, 120);
+        width: 90%;
+        height: 10%;
+        border-radius: 20px;
+
+        P {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: start;
+            padding-top: 3%;
+            padding-left: 3%;
+        }
+    }
+
+    .box-3 {
+        color: white;
+        background-color: rgb(26, 0, 58);
+        width: 90%;
+        height: 10%;
+        border-radius: 20px;
+
+        P {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: start;
+            padding-top: 3%;
+            padding-left: 3%;
+        }
+    }
+
+    .box-4 {
+        color: white;
+        background-color: rgb(116, 116, 116);
+        width: 90%;
+        height: 10%;
+        border-radius: 20px;
+
+        P {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: start;
+            padding-top: 3%;
+            padding-left: 3%;
+        }
+    }
+
+    .box-5 {
+        color: white;
+        background-color: rgb(15, 15, 15);
+        width: 90%;
+        height: 10%;
+        border-radius: 20px;
+
+        P {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: start;
+            padding-top: 3%;
+            padding-left: 3%;
+        }
+    }
     .toolbar-background-md{
       background:white !important;
     }

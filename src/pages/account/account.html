@@ -1,0 +1,58 @@
+
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons style=" 
+      position: absolute;
+      left: 0;
+      z-index: 9999;
+      color: white;" start>
+        <button (click)="openclose();" menuToggle ion-button icon-only color="royal">
+          <img style="
+          width: 30px" class="logo" src="assets/img/hamburger.png" />
+        </button>
+      </ion-buttons>
+       
+      <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
+   
+      <ion-buttons end>
+        <button  style="color:white;"ion-button icon-only color="royal">
+          <ion-icon name="person"></ion-icon>
+          <span>{{name}}</span>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-menu [content]="mycontent">
+    <ion-content>
+      <ion-list>
+        <ion-item>주차파트</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>인포파트</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>출근부</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>초이스</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>공지</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>알림</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>누적내역</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>입금내역</ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  
+  <ion-nav #mycontent [root]="rootPage"></ion-nav>
+<ion-content style="
+background: black; margin-top:45px;" padding>
+
+</ion-content>

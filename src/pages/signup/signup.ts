@@ -70,6 +70,15 @@ export class SignupPage {
   gotonext3(){
     console.log(this.youngup);
     console.log(this.jopanteam);
+    if(this.youngup==undefined){
+      window.alert("영업팀을 선택해주세요 ");
+      return;
+    }
+
+    if(this.jopanteam==undefined){
+      window.alert("조판팀을 선택해주세요 ");
+      return;
+    }
     this.stage=4;
   }
   ionViewDidLoad() {
@@ -107,22 +116,59 @@ export class SignupPage {
     console.log(this.id);
     if(value==1){
       console.log("부장 승인 요청 ")
-      console.log("info 승인 요청 ")
+      // window.alert("주차제외 가입 준비중.")
+      // return;
       var nowdate=this.format_date(new Date())
-      this.firemain.child("users").child(this.id).update({"type":"director","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
-  
+      this.firemain.child("users").child(this.id).update({"type":"director","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
     }else if(value==2){
       console.log("WT 승인 요청 ")
        console.log("info 승인 요청 ")
+       window.alert("주차제외 가입 준비중.")
+       return;
       var nowdate=this.format_date(new Date())
       this.firemain.child("users").child(this.id).update({"type":"wt","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
   
     }else if(value==3){
       console.log("아가씨 승인 요청 ")
+      window.alert("주차제외 가입 준비중.")
+
+      var data = {
+        pay_method: 'card',
+        merchant_uid: 'mid_' + new Date().getTime(),
+        name: '게임/게임기 대여',
+        amount: "2000",
+        app_scheme: 'ionickcp',
+        buyer_email: '',
+        buyer_tel: '010-1234-5678',
+        buyer_addr: '서울특별시 강남구 삼성동',
+        buyer_postcode: '123-456'
+      };
+  
+      var PaymentObject = {
+        userCode: "imp58611631",
+        data: data,
+        callback: (response) => {
+          console.log(response);
+          if (response.imp_success == "true") {
+      
+          }
+        }
+      }
+
+      IamportCordova.payment(PaymentObject)
+      .then((response) => {
+        window.alert("success"+'\n'+JSON.stringify(response))
+      })
+      .catch((err) => {
+        window.alert('error : '+err)
+      });
+      return;
       var nowdate=this.format_date(new Date())
       this.firemain.child("users").child(this.id).update({"type":"agasi","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
     }else if(value==4){
+      window.alert("주차제외 가입 준비중.")
       console.log("info 승인 요청 ")
+      return;
       var nowdate=this.format_date(new Date())
       this.firemain.child("users").child(this.id).update({"type":"info","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
     }else if(value==5){
@@ -131,6 +177,21 @@ export class SignupPage {
       console.log(this.youngup);
       console.log(this.jopanteam)
       this.firemain.child("users").child(this.id).update({"type":"park","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+    }else if(value==6){
+      console.log("주차 승인 요청 ")
+      var nowdate=this.format_date(new Date())
+      console.log(this.youngup);
+      console.log(this.jopanteam)
+      this.firemain.child("users").child(this.id).update({"type":"park","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+    }else if(value==7){
+      console.log("입금 승인 요청 ")
+      var nowdate=this.format_date(new Date())
+      console.log(this.youngup);
+      console.log(this.jopanteam)
+      this.firemain.child("users").child(this.id).update({"type":"account","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+    }else{
+
+      window.alert("주차제외 가입 준비중.")
     }
   }
   checker_roop(n1,n2,val){
@@ -160,24 +221,26 @@ export class SignupPage {
       console.log(value);
       if(this.companies[i].name==value.name){
         console.log(this.companies[i]);
-        var newyoung = this.companies[i].younglist.split(",");
-        var newjopan = this.companies[i].jopanlist.split(",");
-        console.log(newyoung)
-        console.log(newyoung.length);
-        for(var b in newyoung){
-          console.log(newyoung[b])
-          if(newyoung[b]!=""){
-
-            this.young.push(newyoung[b])
-          }
+        console.log(this.companies[i].younglist)
+        console.log(this.companies[i].jopanlist);
+        
+        for(var b in this.companies[i].younglist){
+          console.log(this.companies[i].younglist[b].name)
+          this.young.push(this.companies[i].younglist[b].name);
         }
-        for(var b in newjopan){
-          console.log(newjopan[b])
-          if(newjopan[b]!=""){
 
-            this.jopan.push(newjopan[b])
-          }
+
+        for(var b in this.companies[i].jopanlist){
+          console.log(this.companies[i].jopanlist[b].name)
+          this.jopan.push(this.companies[i].jopanlist[b].name);
         }
+        // for(var b in this.companies[i].jopanlist){
+        //   console.log(newjopan[b])
+        //   if(newjopan[b]!=""){
+
+        //     this.jopan.push(newjopan[b])
+        //   }
+        // }
       }
     }
     console.log(this.young);
