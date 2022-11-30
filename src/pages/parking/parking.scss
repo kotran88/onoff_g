@@ -4,14 +4,12 @@ page-parking {
         position: absolute;
         height: 80px;
         width: 100%;
-        background-color: red;
     }
 
     .header-parking {
         position: absolute;
         height: 50px;
         width: 50px;
-        // background-color: blue;
         text-align: center;
         top: 0px;
         left: 30px;
@@ -32,4 +30,121 @@ page-parking {
         position: absolute;
         left: 250px;
     }
+
+    .ion-segment {
+        position: absolute;
+        color: white;
+        top: 90px;
+    }
+
+    .ion-label {
+        color: white;
+    }
+
+    .ion-label-area {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 130px;
+        background-color: black;
+        height: calc(100% - 132px);
+        overflow-y: scroll;
+    }
+
+    .ion-item-area-1 {
+        color: white;
+        background-color: black;
+        padding: 3%;
+
+        p {
+            color: white;
+        }
+    }
+
+    .ion-item-area-4 {
+        color: white;
+        background-color: black;
+        padding-left: 2%;
+        padding-right: 2%;
+
+        p {
+            color: white;
+        }
+    }
+
+    .accordion {
+        background-color: black;
+        color: white;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+        display: flex;
+        padding-bottom: 0px;
+        padding-top: 0px;
+    }
+
+    .accordion > div {
+        width: 50%;
+    }
+
+    .active, .accordion:hover {
+        background-color: black;
+    }
+
+    .panel-1 {
+        padding: 0px 18px;
+        display: none;
+        columns: white;
+        overflow: hidden;
+    }
+
+    .panel-1 > div {
+        // width: 50%;
+        padding-left: 18px;
+        // margin-left: 45%;
+        min-width: 56%;
+        float: right;
+    }
+
+    .panel-4 {
+        padding: 0px 18px;
+        display: none;
+        columns: white;
+        overflow: hidden;
+    }
+
+    .panel-4 > div {
+        width: 50%;
+        padding-left: 18px;
+        float: left;
+
+        span {
+            display: block;
+            margin: 5px;
+        }
+        br {
+            display: block;
+            height: 3px;
+        }
+    }
+
+    .panel-4 > div:first-child {
+        padding-left: 0px;
+    }
+
+    .panel-4 > div:nth-child(n + 2) {
+        text-align: end;
+    }
+
+    .foot-menu {
+        position: fixed;
+        right: 10%;
+        bottom: 5%;
+    }
+
 }

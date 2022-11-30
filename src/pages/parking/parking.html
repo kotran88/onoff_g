@@ -4,10 +4,9 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-
 <ion-content padding style="background: black; color: white;">
-	<div class="header">
-		<div class="header-parking">
+  <div class="header">
+    <div class="header-parking">
       <p class="header-parking-text">주차</p>
       <hr class="header-parking-hr">
     </div>
@@ -15,12 +14,79 @@
       <p class="header-total-text">알계: 80건</p>
       <p class="header-total-text">합계: ₩ 120,000건</p>
     </div>
-	</div>
-  <ion-tabs selectedIndex="3">
-    <ion-tab><ion-icon name="car"></ion-icon></ion-tab>
-    <ion-tab><ion-icon name="chatboxes"></ion-icon></ion-tab>
-    <ion-tab><ion-icon name="home"></ion-icon></ion-tab>
-    <ion-tab><ion-icon name="list-box"></ion-icon></ion-tab>
-    <ion-tab><ion-icon name="contact"></ion-icon></ion-tab>
-  </ion-tabs>
+  </div>
+  <ion-segment class="ion-segment" value="1" (ionChange)="screenSwitch($event)">
+    <ion-segment-button value="1">
+      <ion-label class="ion-label">주차현황</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="2">
+      <ion-label class="ion-label">일주차</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="3">
+      <ion-label class="ion-label">월주차</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="4">
+      <ion-label class="ion-label">주차내역</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div class="ion-label-area">
+    <div id="ion-label-area-1">
+      <div *ngFor="let i of count; let j = index;">
+        <button (click)="extendedAccordion(1, i)" class="accordion" id="accordion-{{i}}">
+          <div>
+            <p>2022.10.{{i}}</p>
+            <p>오후 08:41</p>
+            <p>입력자:김주차</p>
+          </div>
+          <div>
+            <p>101 추신수 ₩20,000</p>
+            <p>발렛 2대</p>
+            <img src="assets/img/bottomarrow.png" style="height: 20px; width: 20px;">
+          </div>
+        </button>
+        <div class="panel-1" id="panel-1-{{j + 1}}">
+          <div>
+            <p>1. 발렛 5885</p>
+            <p>2. 발렛 3050</p>
+          </div>
+        </div>
+        <hr style="width: 90%; height: 1px; background-color: white;">
+      </div>
+      <img (click)="goToReceiptPage()" src="assets/img/plusbutton.png" class="foot-menu">
+    </div>
+    <div id="ion-label-area-2" style="display: none;">
+      two
+    </div>
+    <div id="ion-label-area-3" style="display: none;">
+      three
+    </div>
+    <div id="ion-label-area-4" style="display: none;">
+      <div *ngFor="let i of count; let j = index;">
+        <button (click)="extendedAccordion(4, i)" class="accordion" id="accordion-{{i}}">
+          <p style="flex: 1;">2022.10.{{j + 1}}</p>
+          <p style="margin-top: 10px; flex: 1;"><img src="assets/img/bottomarrow.png"
+              style="height: 20px; width: 20px;"></p>
+
+          <p style="flex: 4; text-align: end;">일계:80 합계:120</p>
+        </button>
+        <div class="panel-4" id="panel-4-{{j + 1}}">
+          <div>
+            <span>2022.10.{{i}}</span>
+            <span>오후 08:41</span>
+            <span>입력자:김주차</span>
+          </div>
+          <div>
+            <span>101 추신수 ₩20,000</span>
+            <span>발렛 2대</span>
+          </div>
+          <div>
+            <span>1. 발렛 5885</span>
+            <span>2. 발렛 3050</span>
+          </div>
+        </div>
+        <hr style="width: 90%; height: 1px; background-color: white; margin-top: 0px;">
+      </div>
+    </div>
+  </div>
 </ion-content>
