@@ -41,7 +41,7 @@ export class MyApp {
     }
     else{
       this.id=localStorage.getItem('id');
-      
+
     }
   }
 

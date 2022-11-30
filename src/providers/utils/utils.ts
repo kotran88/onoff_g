@@ -24,5 +24,5 @@ export class UtilsProvider {
         str[1] = str[1].replace(/(\d{3})/g, '$1 ');
     }
     return str.join('.');
-}
+  }
 }

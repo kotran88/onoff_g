@@ -25,8 +25,8 @@ import { AccountPage } from '../account/account';
 export class LoginpagePage {
 
   ValidateFlag:any=false;
-  id:any;
-  password:any;
+  id:any = "accounting";
+  password:any = "qjqjqj";
   check=false;
   version='1.0';
   name:any;
@@ -104,6 +104,9 @@ export class LoginpagePage {
           console.log("rrr")
           console.log(snap.val()["name"])
           this.name=snap.val()["name"];
+
+          localStorage.setItem("login_data",JSON.stringify(snap.val()))
+
           var approved=snap.val()["approved"];
           if(approved==false){
             window.alert("승인대기중입니다. 관리자에게 문의하세요")
@@ -133,27 +136,27 @@ export class LoginpagePage {
               this.firemain.child("company").child(snap.val().company).once("value",(snap2)=>{
                 console.log(snap2.val())
                 console.log(snap.val())
-              localStorage.setItem('id',this.id.split('@')[0]);
-              localStorage.setItem('name',this.name);
-              localStorage.setItem('password',this.password);
-              localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
-              this.login_flag_update();
-              var type = snap.val().type;
-              var price = snap2.val().price;
-              localStorage.setItem("price",price)
-              console.log("gogo type is : "+type);
-              if(type == "park"){
+                localStorage.setItem('id',this.id.split('@')[0]);
+                localStorage.setItem('name',this.name);
+                localStorage.setItem('password',this.password);
+                localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
+                this.login_flag_update();
+                var type = snap.val().type;
+                var price = snap2.val().price;
+                localStorage.setItem("price",price)
+                console.log("gogo type is : "+type);
+                if(type == "park"){
 
-    this.navCtrl.push(ParkingPage);
-              }else if(type == "director"){
+                  this.navCtrl.push(ParkingPage);
+                }else if(type == "director"){
 
-                this.navCtrl.push(DirectorpagePage);
-              }else if(type == "account"){
+                  this.navCtrl.push(DirectorpagePage);
+                }else if(type == "account"){
 
-               this.navCtrl.push(AccountPage);
-              }
+                this.navCtrl.push(AccountPage);
+                }
               });
-              
+
               // console.log("rr")
 
               // this.fire.auth.signInWithEmailAndPassword(this.id+"@naver.com", this.password).then( (data)=> {

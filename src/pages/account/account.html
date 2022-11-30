@@ -1,7 +1,7 @@
 
   <ion-header>
     <ion-toolbar>
-      <ion-buttons style=" 
+      <ion-buttons style="
       position: absolute;
       left: 0;
       z-index: 9999;
@@ -11,9 +11,9 @@
           width: 30px" class="logo" src="assets/img/hamburger.png" />
         </button>
       </ion-buttons>
-       
+
       <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
-   
+
       <ion-buttons end>
         <button  style="color:white;"ion-button icon-only color="royal">
           <ion-icon name="person"></ion-icon>
@@ -50,9 +50,40 @@
       </ion-list>
     </ion-content>
   </ion-menu>
-  
-  <ion-nav #mycontent [root]="rootPage"></ion-nav>
-<ion-content style="
-background: black; margin-top:45px;" padding>
 
+  <ion-nav #mycontent [root]="rootPage"></ion-nav>
+<ion-content style="background: black; margin-top:45px;" padding>
+
+  <div class="option-title" *ngIf="option_title_ch < 2">
+    <div></div>
+    <span>{{option_title[option_title_ch]}}</span>
+  </div>
+
+  <div *ngIf="option_title_ch == 0" class="users-div">
+    <div *ngFor="let item of view_list" (click)="get_charge_person(item.name)">{{item.name}}</div>
+    <div class="disable" *ngFor="let item of sort_temp_list"></div>
+  </div>
+
+  <div *ngIf="option_title_ch == 1" class="users-div">
+    <div *ngFor="let item of view_list" (click)="get_money_data()">{{item.name}}</div>
+    <div class="disable" *ngFor="let item of sort_temp_list"></div>
+  </div>
+
+  <div *ngIf="option_title_ch == 2" class="sssss">
+    <div class="top-bar">
+      <div class="synthesis">
+        <div class="over">과입금액 200 출금하기</div>
+        <div class="syn">
+          <span>누적미수금액 5,000,000</span>
+          <span>입금하실금액 500,000</span>
+          <span>입금하신금액 500,000</span>
+        </div>
+      </div>
+      <div class="months">
+        <span class="active">1월</span><span>2월</span><span>3월</span><span>4월</span>
+        <span>5월</span><span>6월</span><span>7월</span><span>8월</span>
+        <span>9월</span><span>10월</span><span>11월</span><span>12월</span>
+      </div>
+    </div>
+  </div>
 </ion-content>
