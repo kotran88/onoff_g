@@ -264,6 +264,12 @@ text-align: center;">조판팀을 설정해주세요. </span>
       </span>
       <span *ngIf="type==4" style="font-size:30px;">
         인포를 선택하셨군요 <br> 
+        <br>
+        한달간 무료로 이용해보시고 마음에<br>
+        안드시면 언제든 탈퇴 가능합니다. .
+
+        <button class="paybtn" (click)="uploadToServer(4);">월 2,100원 결제하기</button>
+        <span>결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
       <span *ngIf="type==5" style="font-size:30px;">
         주차를 선택하셨군요 <br> 

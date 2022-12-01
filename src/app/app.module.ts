@@ -34,6 +34,7 @@ import { TestpagePage } from '../pages/testpage/testpage';
 import { UtilsProvider } from '../providers/utils/utils';
 import { DirectorpagePage } from '../pages/directorpage/directorpage';
 import { AccountPage } from '../pages/account/account';
+import { InfoPage } from '../pages/info/info';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -54,6 +55,7 @@ initializeApp(firebaseConfig);
     SignupPage,
     TestpagePage,
     AccountPage,
+    InfoPage,
     DirectorpagePage,
     ParkingPage,
     ParkingdetailPage,
@@ -82,6 +84,7 @@ initializeApp(firebaseConfig);
     ParkingPage,
     DirectorpagePage,
     TestpagePage,
+    InfoPage,
     ReceiptPage,
     // ChatroomlistPage,
   ],

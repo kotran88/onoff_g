@@ -1,4 +1,4 @@
-page-account {
+page-info {
 
     .header {
         position: absolute;
@@ -10,7 +10,7 @@ page-account {
         padding:0px !important;
         margin-top:0px !important;
     }
-    .header-parking {
+    .header-parking { 
         text-align: center;
         width: 100%;
         height: 100px;
@@ -29,7 +29,7 @@ page-account {
         color: red; // here, instead of "red" you can use sass variable if it was already defined
     }
     .ion-label{
-
+        
     font-size: 20px;
     font-weight: 700 ;
     }
@@ -280,184 +280,4 @@ page-account {
         right: 10%;
         bottom: 5%;
     }
-
-  ion-content
-  {
-    .option-title
-    {
-      text-align: center;
-      background-color: rgb(255,240,200);
-      width: 80%;
-      height: 70px;
-      border-radius: 15px;
-      margin: 10% 10%;
-      position: relative;
-      align-items: baseline;
-      padding-top: 10px;
-      div
-      {
-        display: inline-block;
-        width: 30px;
-        height: 30px;
-        background-color: rgb(233,114,53);
-        margin-right: 10px;
-        transform: translateY(25%);
-      }
-      span
-      {
-        display: inline-block;
-        color: rgb(60, 74, 94);
-        font-size: 20px;
-      }
-    }
-
-    .users-div
-    {
-      display: flex;
-      flex-wrap: wrap; // 화면을 넘었을때 줄바꿈
-      justify-content: space-evenly; //가로 일정간격 띄우기
-      align-content: space-evenly; //세로 일정간격 띄우기
-      div
-      {
-        background-color: rgb(242, 168, 125);
-        width: 30%;
-        margin-top: 10px;
-        padding: 4%;
-      }
-
-      .disable
-      {
-        background-color: transparent;
-      }
-    }
-
-    .sssss
-    {
-      margin-top: 5%;
-      padding: 10px;
-      .top-bar
-      {
-        display: flex;
-        flex-wrap: wrap;
-        >div{width: 50%;}
-
-        .synthesis
-        {
-          text-align: center;
-          .over
-          {
-            border: solid 1px white;
-            border-bottom: none;
-            color: green;
-            padding: 10px 0;
-          }
-          .syn
-          {
-            padding: 10px 0 0;
-            display: flex;
-            flex-direction: column;
-            border: solid 1px white;
-            span{display: inline-block; margin-bottom: 10px;}
-            span:nth-child(1){color: white;}
-            span:nth-child(2){color: red;}
-            span:nth-child(3){color: blue;}
-          }
-        }
-        .months
-        {
-          color: white;
-          display: flex;
-          justify-content: space-evenly;
-          flex-wrap: wrap;
-          padding-left: 10px;
-          text-align: center;
-          span
-          {
-            display: block; width: 25%;
-            padding-top: 6%;
-            border: solid 1px transparent;
-          }
-          .active
-          {
-            border: solid 1px red;
-          }
-        }
-      }
-    }
-
-    .calendar-main
-    {
-      width:90%;
-      height: auto;
-      margin: 0;
-      padding: 0;
-      display: inline-block;
-      margin:5%;
-      border: solid 1px black;
-      margin-top: 2%;
-      border-radius: 10px;
-      background-color: white;
-      text-align: center;
-
-      .calendar-header
-      {
-        ion-col:nth-child(2n+1)
-        {
-          color: #E74371;
-          font-weight: bolder;
-        }
-      }
-
-      .calendar-body
-      {
-        .weeks, .dates
-        {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-evenly;
-          span
-          {
-            display: inline-block;
-            width: calc(100% / 7);
-          }
-        }
-
-        .weeks
-        {
-          padding: 10px 0;
-          margin: 10px 0;
-          span:first-child{color: red;}
-          span:last-child{color: blue;}
-          border-top: solid 1px black;
-          border-bottom: solid 1px black;
-        }
-
-        .dates
-        {
-          .last-month, .next-month
-          {
-            color: grey;
-          }
-          span
-          {
-            height: 50px;
-          }
-        }
-
-        // .calendar-date
-        // {
-        //   .last-month, .next-month
-        //   {
-        //     color: grey;
-        //   }
-
-        //   ion-col
-        //   {
-        //     width: calc(100% / 7);
-        //     flex: 20;
-        //   }
-        // }
-      }
-    }
-  }
 }

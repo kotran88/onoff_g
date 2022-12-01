@@ -166,9 +166,9 @@ export class SignupPage {
       var nowdate=this.format_date(new Date())
       this.firemain.child("users").child(this.id).update({"type":"agasi","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
     }else if(value==4){
-      window.alert("주차제외 가입 준비중.")
-      console.log("info 승인 요청 ")
-      return;
+      // window.alert("주차제외 가입 준비중.")
+      // console.log("info 승인 요청 ")
+      // return;
       var nowdate=this.format_date(new Date())
       this.firemain.child("users").child(this.id).update({"type":"info","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
     }else if(value==5){
@@ -176,7 +176,7 @@ export class SignupPage {
       var nowdate=this.format_date(new Date())
       console.log(this.youngup);
       console.log(this.jopanteam)
-      this.firemain.child("users").child(this.id).update({"type":"park","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"info","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
     }else if(value==6){
       console.log("주차 승인 요청 ")
       var nowdate=this.format_date(new Date())
