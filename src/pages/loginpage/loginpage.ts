@@ -146,15 +146,21 @@ export class LoginpagePage {
                 var price = snap2.val().price;
                 localStorage.setItem("price",price)
                 console.log("gogo type is : "+type);
-                if(type == "park"){
-
+                if(type == "park")
+                {
                   this.navCtrl.push(ParkingPage);
-                }else if(type == "director"){
-
+                }
+                else if(type == "director")
+                {
                   this.navCtrl.push(DirectorpagePage);
-                }else if(type == "account"){
-
-                this.navCtrl.push(AccountPage);
+                }
+                else if(type == "account")
+                {
+                  this.navCtrl.push(AccountPage);
+                }
+                else if(type == 'info')
+                {
+                  this.navCtrl.push(InfoPage)
                 }
               });
 

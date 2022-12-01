@@ -1,7 +1,7 @@
 
   <ion-header>
     <ion-toolbar>
-      <ion-buttons style=" 
+      <ion-buttons style="
       position: absolute;
       left: 0;
       z-index: 9999;
@@ -11,9 +11,9 @@
           width: 30px" class="logo" src="assets/img/hamburger.png" />
         </button>
       </ion-buttons>
-       
+
       <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
-   
+
       <ion-buttons end>
         <button  style="color:white;"ion-button icon-only color="royal">
           <ion-icon name="person-add"></ion-icon>
@@ -50,9 +50,103 @@
       </ion-list>
     </ion-content>
   </ion-menu>
-  
-  <ion-nav #mycontent [root]="rootPage"></ion-nav>
-<ion-content style="
-background: black; margin-top:45px;" padding>
 
+  <ion-nav #mycontent [root]="rootPage"></ion-nav>
+<ion-content class="contents" padding>
+  <div class="room-current">
+    <div class="title-div">
+      <ion-icon class="square" name="square"></ion-icon>
+      <span class="text">룸 현황</span>
+    </div>
+
+    <div class="chart-div">
+      <div class="name-keys">
+        <span>룸NO</span>
+        <span>담당자</span>
+        <span>산태</span>
+        <span>인원</span>
+        <span>WT</span>
+        <span>입실T</span>
+        <span>퇴실T</span>
+      </div>
+      <div class="datas">
+        <span>126</span>
+        <span>추신수</span>
+        <span>완료</span>
+        <span>2인</span>
+        <span>이수</span>
+        <span>18:00</span>
+        <span>21:00</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="vacancy-current">
+    <div class="title-div">
+      <ion-icon class="square" name="square"></ion-icon>
+      <span class="text">공실 현황</span>
+    </div>
+    <div class="chart-div">
+      <div class="flex-div small-div">
+        <div class="chart-name">
+          <span>소 [1인 ~ 2인]</span>
+          <span></span><span></span>
+        </div>
+      </div>
+      <div class="chart-datas">
+        <span>101</span>
+        <span>102</span>
+        <span>103</span>
+        <span>104</span>
+        <span>105</span>
+        <span>106</span>
+        <span>107</span>
+        <span>108</span>
+        <span>109</span>
+        <span>110</span>
+        <span>111</span>
+        <span>112</span>
+      </div>
+      <div class="flex-div medium-div">
+        <div class="chart-name">
+          <span>중 [3인 ~ 4인]</span>
+          <span></span><span></span>
+        </div>
+      </div>
+      <div class="chart-datas">
+        <span>101</span>
+        <span>102</span>
+        <span>103</span>
+        <span>104</span>
+        <span>105</span>
+        <span>106</span>
+        <span>107</span>
+        <span>108</span>
+        <span>109</span>
+        <span>110</span>
+        <span>111</span>
+        <span>112</span>
+      </div>
+      <div class="flex-div large-div">
+        <div class="chart-name">
+          <span>대 [5인 ~ 6인]</span>
+          <span></span><span></span>
+        </div>
+      </div>
+      <div class="chart-datas">
+        <span>101</span>
+        <span>102</span>
+        <span>103</span>
+        <span>104</span>
+        <span>105</span>
+        <span>106</span>
+        <span>107</span>
+        <span>108</span>
+        <span>109</span>
+        <span>110</span>
+        <span>111</span>
+        <span>112</span>
+      </div>
+    </div>
+  </div>
 </ion-content>

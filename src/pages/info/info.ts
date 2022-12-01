@@ -8,7 +8,6 @@ import { IonicPage, NavController, NavParams,MenuController } from 'ionic-angula
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-info',
   templateUrl: 'info.html',
