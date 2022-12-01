@@ -36,8 +36,9 @@ export class LoginpagePage {
   constructor(public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
     var flag = localStorage.getItem("loginflag");
     console.log(flag);
-    this.check = Boolean(flag);
+    this.check = (flag === 'true');
     console.log("login flag : "+this.check);
+    
     setTimeout(()=>{
       if(this.check==true){
         $("#checked").prop('checked', true);
@@ -155,6 +156,8 @@ export class LoginpagePage {
                 }else if(type == "account"){
 
                 this.navCtrl.push(AccountPage);
+                }else if(type=="info"){
+                  this.navCtrl.push(InfoPage)
                 }
               });
 

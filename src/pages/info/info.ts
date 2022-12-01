@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,MenuController } from 'ionic-angular';
+import { LoginpagePage } from '../loginpage/loginpage';
 
 /**
  * Generated class for the InfoPage page.
@@ -23,6 +24,10 @@ export class InfoPage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfoPage');
+  }
+  logout(){
+      localStorage.setItem("loginflag", "false" )
+      this.navCtrl.setRoot(LoginpagePage)
   }
 
 }

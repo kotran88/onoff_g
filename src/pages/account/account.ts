@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import firebase from 'firebase';
 import { NavController, NavParams } from 'ionic-angular';
+import { LoginpagePage } from '../loginpage/loginpage';
 
 /**
  * Generated class for the AccountPage page.
@@ -68,6 +69,10 @@ export class AccountPage {
     })
   }
 
+  logout(){
+    localStorage.setItem("loginflag", "false" )
+    this.navCtrl.setRoot(LoginpagePage)
+}
   get_charge_person(team)
   {
     console.log(team);
