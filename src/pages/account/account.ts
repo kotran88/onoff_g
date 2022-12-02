@@ -25,7 +25,7 @@ export class AccountPage {
   name:any="";
   login_data:any = {};
 
-  option_title_ch = 2; // 0 팀, 1 담당자, 2 달력
+  option_title_ch = 0; // 0 팀, 1 담당자, 2 달력
   option_title = ["팀을 선택해주세요.", "담당자를 선택해주세요."];
 
   today:Date; // 오늘 날짜

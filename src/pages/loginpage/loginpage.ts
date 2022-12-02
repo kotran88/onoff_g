@@ -26,8 +26,8 @@ import { InfoPage } from '../info/info';
 export class LoginpagePage {
 
   ValidateFlag:any=false;
-  id:any = "accounting";
-  password:any = "qjqjqj";
+  id:any = "";
+  password:any = "";
   check=false;
   version='1.0';
   name:any;
