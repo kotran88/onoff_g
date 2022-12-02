@@ -10,6 +10,7 @@ import  firebase from 'firebase';
  */
 
  import { MenuController } from 'ionic-angular';
+import { LoginpagePage } from '../loginpage/loginpage';
 @Component({
   selector: 'page-directorpage',
   templateUrl: 'directorpage.html',
@@ -29,6 +30,10 @@ export class DirectorpagePage {
     console.log("open and cloe");
     this.menuCtrl.open();
   }
+  logout(){
+    localStorage.setItem("loginflag", "false" )
+    this.navCtrl.setRoot(LoginpagePage)
+}
   ionViewDidLoad() {
     console.log('ionViewDidLoad DirectorpagePage');
 

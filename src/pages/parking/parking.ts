@@ -4,6 +4,7 @@ import { ParkingdetailPage } from '../parkingdetail/parkingdetail';
 import { ReceiptPage } from './../receipt/receipt';
 
 import  firebase from 'firebase';
+import { LoginpagePage } from '../loginpage/loginpage';
 /**
  * Generated class for the ParkingPage page.
  *
@@ -22,6 +23,8 @@ export class ParkingPage {
   mainlist=[];
   allmainlist=[];
   obj = [];
+
+  plusactivated=false;
   activeclass='1';
   firemain = firebase.database().ref();
   count : number[] = new Array();
@@ -30,6 +33,32 @@ export class ParkingPage {
     for (let i = 1; i <= 10; i++) {
       this.count.push(i);
     }
+  }
+  logout(){
+    localStorage.setItem("loginflag", "false" )
+    this.plusactivated=true;
+    this.navCtrl.setRoot(LoginpagePage)
+}
+  released(i, j){
+    console.log(this.plusactivated);
+    if(!this.plusactivated){
+      console.log("released......")
+    console.log("mmmmm");
+    this.plusactivated=!this.plusactivated;
+    console.log(this.mainlist);
+    console.log(this.mainlist[j])
+    this.navCtrl.push(ParkingdetailPage,{"flag":"modify","content":this.mainlist[j]}).then(() => {
+      this.navCtrl.getActive().onDidDismiss(data => {
+        console.log("ondiddismiss...")
+        this.plusactivated=false;
+        console.log(data);
+      });
+    });
+
+    }else{
+      console.log("plusactivated true");
+    }
+    
   }
   back(){
     window.alert("back")
@@ -131,7 +160,7 @@ export class ParkingPage {
   goToReceiptPage()  {
     console.log("goToReceiptPage")
     this.zone.run(() => { 
-
+      this.plusactivated=true;
       this.showplus=true;
     });
     // this.navCtrl.push(ReceiptPage);

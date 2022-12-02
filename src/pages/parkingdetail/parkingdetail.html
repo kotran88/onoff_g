@@ -123,13 +123,21 @@
    margin: auto;
    text-align: center;
    margin-left: 10px;">
-    <button (click)="saving()" style="
+    <button *ngIf="flag=='modify'" (click)="saving(2)" style="
     width: 100px;
     height: 50px;
     display: block;
     background: black;
     color: white;
-    font-size: 24px;">저장</button>
+    font-size: 24px;">수정</button>
+
+<button *ngIf="flag=='insert'" (click)="saving(1)" style="
+width: 100px;
+height: 50px;
+display: block;
+background: black;
+color: white;
+font-size: 24px;">저장</button>
    </div>
     
   </div>

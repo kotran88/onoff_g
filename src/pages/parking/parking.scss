@@ -1,6 +1,6 @@
 page-parking {
 
-    .header {
+    .header2 {
         position: absolute;
         height: 80px;
         width: 100%;
@@ -10,13 +10,26 @@ page-parking {
         padding:0px !important;
         margin-top:0px !important;
     }
-    .header-parking {
+    .header-parking2 {
         position: absolute;
         height: 50px;
         width: 50px;
         text-align: center;
         top: 0px;
         left: 30px;
+    }
+    .toolbar-background {
+        background: #3b3838 !important;
+    }
+    .logo{
+        width:50px;
+    }
+    .toolbar {
+        text-align: center;
+    }
+    .toolbar-background-md {
+        border-color: #b2b2b2;
+        background: #f8f8f8;
     }
     .looping{
         width: 100% !important;
@@ -35,7 +48,7 @@ page-parking {
     font-size: 20px;
     font-weight: 700 ;
     }
-    .header-parking-text {
+    .header-parking-text2 {
         font-size: 15px;
         font-weight: bold;
     }
@@ -137,7 +150,7 @@ page-parking {
             padding-left: 3%;
         }
     }
-    .header-total {
+    .header-total2 {
         position: absolute;
         left: 250px;
     }

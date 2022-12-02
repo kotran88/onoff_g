@@ -80,6 +80,15 @@ export class LoginpagePage {
   login_flag_update(){
     this.firemain.child('users').child(this.id).update({'login_flag':String(this.check)})
   }
+  pressed(){
+    console.log("pressed");
+  }
+  active(){
+    console.log("active");
+  }
+  released(){
+    console.log("released...")
+  }
   login(){
     if(this.id==undefined||this.password==undefined){
 
@@ -149,7 +158,13 @@ export class LoginpagePage {
                 console.log("gogo type is : "+type);
                 if(type == "park")
                 {
-                  this.navCtrl.push(ParkingPage);
+                  this.navCtrl.push(ParkingPage).then(() => {
+                    this.navCtrl.getActive().onDidDismiss(data => {
+                      console.log("login ondiddismiss...")
+                      this.check=false;
+                      localStorage.setItem("loginflag","false")
+                    });
+                  });
                 }
                 else if(type == "director")
                 {

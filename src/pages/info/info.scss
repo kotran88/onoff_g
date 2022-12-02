@@ -363,7 +363,8 @@ page-info {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-evenly;
-            background-color: green;
+            background-color: white;
+            border:solid 1px;
             span:nth-child(n+2)
             {
               border-left: solid 1px white;
@@ -384,6 +385,8 @@ page-info {
             justify-content: space-evenly;
             background-color: rgb(255,240,200);
             span{
+              height: 50px;
+              line-height: 50px;
               text-align: center;
               display: inline-block;
               width: calc(100% / 6);

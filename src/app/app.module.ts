@@ -23,7 +23,7 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { SignupPage } from '../pages/signup/signup';
 import { ParkingPage } from '../pages/parking/parking';
 import { ReceiptPage } from '../pages/receipt/receipt';
-
+import { LongPressModule } from 'ionic-long-press';
 
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
@@ -35,6 +35,8 @@ import { UtilsProvider } from '../providers/utils/utils';
 import { DirectorpagePage } from '../pages/directorpage/directorpage';
 import { AccountPage } from '../pages/account/account';
 import { InfoPage } from '../pages/info/info';
+import { InfomodalPage } from '../pages/infomodal/infomodal';
+import { EditingroomPage } from '../pages/editingroom/editingroom';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -55,6 +57,8 @@ initializeApp(firebaseConfig);
     SignupPage,
     TestpagePage,
     AccountPage,
+    InfomodalPage,
+    EditingroomPage,
     InfoPage,
     DirectorpagePage,
     ParkingPage,
@@ -65,6 +69,7 @@ initializeApp(firebaseConfig);
   imports: [
     BrowserModule,
     StarRatingModule,
+    LongPressModule,
     IonicModule.forRoot(MyApp,{
       monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
       monthShortNames: ['jan', 'fev', 'mar', 'avr', 'mai', 'jui', 'jui', 'aou', 'sep', 'oct', 'nov', 'dec' ],
@@ -78,8 +83,10 @@ initializeApp(firebaseConfig);
   entryComponents: [
     MyApp,
     LoginpagePage,
+    EditingroomPage,
     AccountPage,
     SignupPage,
+    InfomodalPage,
     ParkingdetailPage,
     ParkingPage,
     DirectorpagePage,

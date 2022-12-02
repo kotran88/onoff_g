@@ -1,0 +1,34 @@
+
+
+
+
+<ion-content class="main-view" style="background: transparent;
+background-color: transparent;
+height: 20%;
+top: 30%;" padding>
+
+  <div class="modal_content">
+
+        <div class="img">
+          <div style="
+          padding: 10px; width: 100%; height:70px;">
+            
+            <div  class="datas">
+              <span><input   class="input-box"  [(ngModel)]="room" type="text"/></span>
+              <span><input   class="input-box"  [(ngModel)]="incharge" type="text"/></span>
+              <span><input   class="input-box" placeholder="인원"  [(ngModel)]="numofpeople" type="text"/> </span>
+              <span><input   class="input-box"  [(ngModel)]="wt" type="text"/></span>
+              <span><input   class="input-box"  [(ngModel)]="insert_date" type="text"/></span>
+              <span><input   class="input-box" placeholder="퇴실" [(ngModel)]="end_date" type="text"/> </span>
+            </div>
+          </div>
+
+          <!-- <button class="btn" (click)="takeVideo()" ion-button>동영상</button> -->
+        <button class="btn" ion-button (click)="confirm()">수정</button>
+        <button class="btn" ion-button (click)="cancel()">취소</button>
+      </div>
+
+
+
+  </div>
+  </ion-content>
