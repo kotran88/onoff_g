@@ -76,15 +76,16 @@ min-height: 35px !important;
       }
 
       .btn{
-        border: none;
-        background: aliceblue;
-border-radius:10px;
-margin-top: 1em;
-margin-right:1em;
-width: 50px;
-border:solid 1px;
-min-height: 25px;
-      }
+        background:transparent !important;
+        color: black;
+        border: solid 1px;
+        width:100% !important;
+      margin:auto !important;
+      margin-top:12px !important;
+        
+width: 80%;
+min-height: 35px !important;
+    }
       
       button.nav{
           background-color:transparent;

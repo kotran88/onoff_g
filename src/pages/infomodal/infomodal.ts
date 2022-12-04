@@ -27,6 +27,11 @@ export class InfomodalPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfomodalPage');
   }
+
+  cancel(){
+
+    this.view.dismiss();
+  }
   confirm(){
 
     var date = new Date();

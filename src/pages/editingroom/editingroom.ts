@@ -42,6 +42,21 @@ export class EditingroomPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditingroomPage');
   }
+  clicking(v){
+    if(v==1){
+      this.status="entered";
+    }
+    if(v==2){
+      this.status="clean";
+    }
+    if(v==3){
+      this.status="fin";
+    }
+    if(v==4){
+      this.status="reserved";
+    }
+
+  }
   cancel(){
 
     this.view.dismiss();

@@ -38,6 +38,7 @@ export class InfoPage {
       }
     });
   }
+  
   editing(a){
     console.log("editing...")
     console.log(a);

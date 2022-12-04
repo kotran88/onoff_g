@@ -37,6 +37,13 @@ import { AccountPage } from '../pages/account/account';
 import { InfoPage } from '../pages/info/info';
 import { InfomodalPage } from '../pages/infomodal/infomodal';
 import { EditingroomPage } from '../pages/editingroom/editingroom';
+import { AccountingmodalPage } from '../pages/accountingmodal/accountingmodal';
+import { OrderPage } from '../pages/order/order';
+import { OrderdetailPage } from '../pages/orderdetail/orderdetail';
+import { AgasiPage } from '../pages/agasi/agasi';
+import { ChoicePage } from '../pages/choice/choice';
+import { AgasichoicePage } from '../pages/agasichoice/agasichoice';
+import { AttendancePage } from '../pages/attendance/attendance';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -60,10 +67,17 @@ initializeApp(firebaseConfig);
     InfomodalPage,
     EditingroomPage,
     InfoPage,
+    AccountingmodalPage,
     DirectorpagePage,
+    OrderdetailPage,
     ParkingPage,
     ParkingdetailPage,
     ReceiptPage,
+    AgasiPage,
+    ChoicePage,
+    OrderPage,
+    AgasichoicePage,
+    AttendancePage,
     ExpandableComponent,
   ],
   imports: [
@@ -83,8 +97,16 @@ initializeApp(firebaseConfig);
   entryComponents: [
     MyApp,
     LoginpagePage,
+    ChoicePage,
+    AgasiPage,
+    AgasichoicePage,
     EditingroomPage,
+    OrderPage,
+    AttendancePage,
+    AccountingmodalPage,
+    OrderdetailPage,
     AccountPage,
+    AttendancePage,
     SignupPage,
     InfomodalPage,
     ParkingdetailPage,

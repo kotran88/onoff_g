@@ -1,0 +1,143 @@
+
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons style="
+      position: absolute;
+      left: 0;
+      z-index: 9999;
+      color: white;" start>
+        <button (click)="openclose();" menuToggle ion-button icon-only color="royal">
+          <img style="
+          width: 30px" class="logo" src="assets/img/hamburger.png" />
+        </button>
+      </ion-buttons>
+
+      <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
+
+      <ion-buttons end>
+        <button  style="color:white;"ion-button icon-only color="royal">
+          <ion-icon name="person-add"></ion-icon>
+          <span>{{name}}</span>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-menu [content]="mycontent">
+    <ion-content>
+      <ion-list>
+        <ion-item>주차파트</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>인포파트</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>출근부</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>초이스</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>공지</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>알림</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>누적내역</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item>입금내역</ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-item (click)="logout();">로그아웃</ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-nav #mycontent [root]="rootPage"></ion-nav>
+<ion-content class="contents" padding>
+
+  <ion-segment style="
+  margin-top: 40px;" class="ion-segment" value="1" (ionChange)="screenSwitch($event)">
+    <ion-segment-button [ngClass]="activeclass=='1' ? 'segactive' : 'segactiveno'" value="1">
+      <ion-label class="ion-label">출근</ion-label>
+    </ion-segment-button>
+    <ion-segment-button [ngClass]="activeclass=='2' ? 'segactive' : 'segactiveno'" value="2">
+      <ion-label class="ion-label">내역</ion-label>
+    </ion-segment-button>
+    <ion-segment-button [ngClass]="activeclass==3 ? 'segactive' : 'segactiveno'" value="3">
+      <ion-label class="ion-label">정산</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div  class="ion-label-area">
+    <div class="area" id="ion-label-area-1">
+
+      <div class="room-current">
+        <div class="title-div">
+          <ion-icon class="square" name="square"></ion-icon>
+          <span class="text">룸 현황</span>
+        </div>
+    
+        <div class="chart-div">
+          <div class="name-keys">
+            <span>팀</span>
+            <span>아가씨</span>
+            <span>개수</span>
+            <span>TC</span>
+            <span>상태</span>
+          </div>
+          <div (click)="editing(a);" *ngFor="let a of mainlist" class="datas">
+            <span>{{a.team}}</span>
+            <span>{{a.name}}</span>
+            <span >0  </span>
+            <span>0</span>
+            <span *ngIf="a.status=='attend'">출근</span>
+            <span *ngIf="a.status=='noattend'">퇴근</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="area" id="ion-label-area-2">
+     222
+    </div>
+
+    <div class="area" id="ion-label-area-3">
+      333
+    </div>
+
+  </div>
+  <!-- <div class="room-current">
+    <div class="title-div">
+      <ion-icon class="square" name="square"></ion-icon>
+      <span class="text">룸 현황</span>
+    </div>
+
+    <div class="chart-div">
+      <div class="name-keys">
+        <span>룸NO</span>
+        <span>담당자</span>
+        <span>산태</span>
+        <span>인원</span>
+        <span>WT</span>
+        <span>입실T</span>
+        <span>퇴실T</span>
+      </div>
+      <div (click)="editing(a);" *ngFor="let a of mainlist" class="datas">
+        <span>{{a.room}}</span>
+        <span>{{a.incharge}}</span>
+        <span *ngIf="a.status=='reserved'"> 예약중 </span>
+        <span *ngIf="a.status=='entered'"> 입실 </span>
+        <span *ngIf="a.status=='clean'"> 정리중 </span>
+        <span *ngIf="a.status=='fin'">완료  </span>
+        <span>0 인 </span>
+        <span>{{a.wt}}</span>
+        <span>{{a.insert_date}}</span>
+        <span></span>
+      </div>
+    </div>
+  </div> -->
+
+</ion-content>

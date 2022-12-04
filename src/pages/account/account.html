@@ -120,7 +120,7 @@
         </div>
         <div class="dates">
           <span *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</span>
-          <span *ngFor="let day of daysInThisMonth">{{day}}</span>
+          <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span>
           <span *ngFor="let nextDay of daysInNextMonth" class="last-month" (click)="goToNextMonth()">{{nextDay}}</span>
         </div>
         <!-- <ion-grid>

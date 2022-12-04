@@ -139,6 +139,43 @@
 
   <div *ngIf="stage==3">
 
+    <div class="input-title2"><span style="font-size:30px;" >환영합니다. <br></span>
+      <span style="font-size:30px;">
+      선택하신 회사는 {{selectedCompany.name}}입니다.<br> 
+      위치는 {{selectedCompany.address}} <br>
+      </span>
+      <span style="font-size:30px;"> 
+        희망부서를 선택하세요 
+      </span>
+    </div>
+
+    <div style="text-align:center;">
+      <button (click)="selecttype(1)" class="newbtn">부장 </button>
+      <button (click)="selecttype(2)" class="newbtn"> WT </button>
+      
+    </div>
+    <div style="text-align:center;">
+      <button (click)="selecttype(3)" class="newbtn">아가씨 </button>
+      <button (click)="selecttype(4)" class="newbtn">인포 </button>
+    </div>
+    <div style="text-align:center;">
+      <button (click)="selecttype(5)" class="newbtn">주차 </button>
+      <button (click)="selecttype(6)" class="newbtn">밴드 </button>
+    </div>
+
+    <div style="text-align:center;">
+      <button (click)="selecttype(7)" class="newbtn">입금(경리) </button>
+    </div>
+    
+  </div>
+
+  
+
+
+
+  <div *ngIf="stage==4">
+   
+  
     <div class="center">
 
       <span style="
@@ -150,24 +187,16 @@
 
     </div>
 
-    <!-- <ion-list>
-      <ion-item>
-        <ion-select   cancelText="Nah" okText="Okay!">
-          <ion-option selected="true" value="선택하세요 " >선택하세요</ion-option>
-          <ion-option *ngFor="let a of young" value="a" >{{a}}</ion-option>
-        </ion-select>
-      </ion-item>
-    </ion-list> -->
     <div style="
     margin-top: 100px;">
 
-      <span style="
+      <span *ngIf="type!='3'" style="
       color: white;
       width: 100%;
       font-size: 20px;
-      text-align: center;">영업팀을 설정해주세요. </span>
+      text-align: center;">영업팀을 설정해주세요.{{type}} </span>
 
-<ion-list style=" 
+<ion-list *ngIf="type!='3'" style=" 
 margin-top: 20px;">
   <ion-item>
     <ion-label>영업팀</ion-label>
@@ -199,51 +228,20 @@ text-align: center;">조판팀을 설정해주세요. </span>
     <button class="paybtn" (click)="gotonext3();">시작하기</button>
   </div>
 
-  
-
-
-
-  <div *ngIf="stage==4">
-   
-    <div class="input-title2"><span style="font-size:30px;" >환영합니다. <br></span>
-      <span style="font-size:30px;">
-      선택하신 회사는 {{selectedCompany.name}}입니다.<br> 
-      위치는 {{selectedCompany.address}} <br>
-      </span>
-      <span style="font-size:30px;"> 
-        희망부서를 선택하세요 
-      </span>
-    </div>
-
-    <div style="text-align:center;">
-      <button (click)="selecttype(1)" class="newbtn">부장 </button>
-      <button (click)="selecttype(2)" class="newbtn"> WT </button>
-      
-    </div>
-    <div style="text-align:center;">
-      <button (click)="selecttype(3)" class="newbtn">아가씨 </button>
-      <button (click)="selecttype(4)" class="newbtn">인포 </button>
-    </div>
-    <div style="text-align:center;">
-      <button (click)="selecttype(5)" class="newbtn">주차 </button>
-      <button (click)="selecttype(6)" class="newbtn">밴드 </button>
-    </div>
-
-    <div style="text-align:center;">
-      <button (click)="selecttype(7)" class="newbtn">입금(경리) </button>
-    </div>
-  </div>
-
   <div *ngIf="stage==5">
     <div class="input-title2"><span style="font-size:30px;" >환영합니다. <br></span>
       <span *ngIf="type==1" style="font-size:30px;">
       부장을 선택하셨군요 <br> 
 
-      <button class="paybtn" (click)="uploadToServer(1);">월 2,100원 결제하기</button>
-      <span>결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
+      <button *ngIf="approved" class="paybtn" (click)="uploadToServer(1);">월 2,100원 결제하기</button>
+        <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
+        <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
       <span *ngIf="type==2" style="font-size:30px;">
         WT 선택하셨군요 <br> 
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(2);">월 2,100원 결제하기</button>
+        <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
+        <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
       <span *ngIf="type==3" style="font-size:30px;">
         아가씨를 선택하셨군요 <br> 
@@ -259,7 +257,8 @@ text-align: center;">조판팀을 설정해주세요. </span>
         한달간 무료로 이용해보시고 마음에<br>
         안드시면 언제든 탈퇴 가능합니다. .
 
-        <button class="paybtn" (click)="uploadToServer(3);">월 2,100원 결제하기</button>
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(3);">월 2,100원 결제하기</button>
+        <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span>결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
       <span *ngIf="type==4" style="font-size:30px;">
@@ -268,8 +267,9 @@ text-align: center;">조판팀을 설정해주세요. </span>
         한달간 무료로 이용해보시고 마음에<br>
         안드시면 언제든 탈퇴 가능합니다. .
 
-        <button class="paybtn" (click)="uploadToServer(4);">월 2,100원 결제하기</button>
-        <span>결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(4);">월 2,100원 결제하기</button>
+        <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
+        <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
       <span *ngIf="type==5" style="font-size:30px;">
         주차를 선택하셨군요 <br> 
@@ -281,8 +281,9 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <br>
         <br>
         <br>
-        <button class="paybtn" (click)="uploadToServer(5);">월 2,100원 결제하기</button>
-        <span>결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(5);">월 2,100원 결제하기</button>
+        <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
+        <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
       <span *ngIf="type==6" style="font-size:30px;">
         밴드를 선택하셨군요 <br> 
@@ -291,8 +292,9 @@ text-align: center;">조판팀을 설정해주세요. </span>
         경리(입금)를 선택하셨군요 <br> 
 
         <br>
-        <button class="paybtn" (click)="uploadToServer(7);">월 2,100원 결제하기</button>
-        <span>결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(7);">월 2,100원 결제하기</button>
+        <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
+        <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
 
       </span>
     </div>

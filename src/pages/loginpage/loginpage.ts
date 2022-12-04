@@ -12,6 +12,10 @@ import { UtilsProvider } from '../../providers/utils/utils';
 import { DirectorpagePage } from '../directorpage/directorpage';
 import { AccountPage } from '../account/account';
 import { InfoPage } from '../info/info';
+import { OrderPage } from '../order/order';
+import { AgasiPage } from '../agasi/agasi';
+import { ChoicePage } from '../choice/choice';
+import { AttendancePage } from '../attendance/attendance';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -75,7 +79,11 @@ export class LoginpagePage {
     // this.navCtrl.push(FindAccountPage);
   }
   signup(){
-    this.navCtrl.push(SignupPage);
+    var approved = localStorage.getItem("approved");
+    var id = localStorage.getItem("id");
+    console.log(approved);
+    console.log(id);
+    this.navCtrl.push(SignupPage,{"approved":approved,"id":id});
   }
   login_flag_update(){
     this.firemain.child('users').child(this.id).update({'login_flag':String(this.check)})
@@ -119,8 +127,18 @@ export class LoginpagePage {
           localStorage.setItem("login_data",JSON.stringify(snap.val()))
 
           var approved=snap.val()["approved"];
-          if(approved==false){
+
+          var payment=snap.val()["payment"];
+          console.log(approved+",,"+payment)
+          if(approved==false||approved==undefined){
             window.alert("승인대기중입니다. 관리자에게 문의하세요")
+
+          this.loading.dismiss();
+            return;
+          }else{
+          }
+          if(payment==false||payment==undefined){
+            window.alert("결재대기중입니다. 관리자에게 문의하세요")
 
           this.loading.dismiss();
             return;
@@ -174,6 +192,8 @@ export class LoginpagePage {
                 this.navCtrl.push(AccountPage);
                 }else if(type=="info"){
                   this.navCtrl.push(InfoPage)
+                }else if(type=="agasi"){
+                  this.navCtrl.push(AttendancePage)
                 }
               });
 

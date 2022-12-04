@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import firebase from 'firebase';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, ModalController,NavParams } from 'ionic-angular';
+import { AccountingmodalPage } from '../accountingmodal/accountingmodal';
 import { LoginpagePage } from '../loginpage/loginpage';
 
 /**
@@ -39,15 +40,35 @@ export class AccountPage {
   currentMonth:number = 0; // 현재 월
   currentDate:number = 0; // 현재 일
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public modal:ModalController,public navCtrl: NavController, public navParams: NavParams) {
     this.name = localStorage.getItem("name");
     this.login_data = JSON.parse(localStorage.getItem("login_data"));
 
     this.get_team_list();
-
+    
     this.goToday();
-  }
 
+ 
+    // let modal2 = this.modal.create(AccountingmodalPage,{"a":"a"});
+    // modal2.onDidDismiss(url => {
+    //   console.log("dismiss second!");
+    // });
+
+    // modal2.present();
+    
+  }
+  openmodal(v){
+    console.log(v);
+
+
+    let modal = this.modal.create(AccountingmodalPage,{"a":"a"});
+    modal.onDidDismiss(url => {
+      console.log("dismiss second!");
+    });
+
+    modal.present();
+    
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad AccountPage');
   }

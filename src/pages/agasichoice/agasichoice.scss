@@ -1,4 +1,4 @@
-page-editingroom {
+page-agasichoice {
     .image{
         width: 35%;
         height: 100%;
@@ -6,7 +6,7 @@ page-editingroom {
         float: left;
     }
     .content_main{
-        width: 90%;
+        width: 80%;
         text-align: center;
         height: 20%;
         margin-left: auto;
@@ -74,40 +74,19 @@ min-height: 35px !important;
           padding:0;
           width: 25%;
       }
+
       .btn{
-        border: none;
-        background: aliceblue;
-border-radius:10px;
-margin-top: 1em;
-margin-right:1em;
-width: 50px !important;
-border:solid 1px;
-min-height: 25px;
-      }
-      .newspan{
-        line-height: 25px;
-              margin: auto;
-              width: 50px;
-              margin-left: 15px;
-      }
-      input{
-        width:60px !important;
-      }
-      .datas{
-        background-color: #f0f0f0;
-        border-bottom: solid 1px #b0b0b0;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
-        span{
-          display: inline-block;
-          width: calc(100% / 7);
-        }
-        span:nth-child(n+1)
-        {
-          border-left: solid 1px white;
-        }
-      }
+        background:transparent !important;
+        color: black;
+        border: solid 1px;
+        width:100% !important;
+      margin:auto !important;
+      margin-top:12px !important;
+        
+width: 80%;
+min-height: 35px !important;
+    }
+      
       button.nav{
           background-color:transparent;
         color:#000;
@@ -120,7 +99,7 @@ min-height: 25px;
           top: calc(20% - (40%/2));
           left: 0;
           right: 0;
-          width: 95%;
+          width: 80%;
           height: 100%;
           padding: 10px;
           z-index: 100;
