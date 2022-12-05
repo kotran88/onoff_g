@@ -415,6 +415,52 @@ page-attendance {
       }
     }
 
+    .top-bar
+      {
+        background-color: black;
+        display: flex;
+        flex-wrap: wrap;
+        // height: 0px;
+        padding-bottom: 20px;
+        // >div{width: 50%;}
+
+        .synthesis
+        {
+          text-align: center;
+          font-size: 30px;
+          position: relative;
+          flex: 3;
+          span
+          {
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+          }
+        }
+        .months
+        {
+          flex: 7;
+          color: white;
+          display: flex;
+          justify-content: space-evenly;
+          flex-wrap: wrap;
+          padding-left: 10px;
+          text-align: center;
+          span
+          {
+            display: block;
+            width: calc(100% / 6);
+            padding: 10px;
+            border: solid 1px transparent;
+          }
+          .active
+          {
+            border: solid 1px red;
+          }
+        }
+      }
     .calendar-main
     {
       width:90%;

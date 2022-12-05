@@ -106,6 +106,12 @@ export class AttendancePage {
   currentMonth:number = 0; // 현재 월
   currentDate:number = 0; // 현재 일
 
+  set_month(num)
+  {
+    this.date.setMonth(num-1);
+    this.getDaysOfMonth();
+  }
+
   getDaysOfMonth() {
     this.daysInThisMonth = [];
     this.daysInLastMonth = [];

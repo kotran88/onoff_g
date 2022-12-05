@@ -102,6 +102,26 @@
 
     <div class="area" id="ion-label-area-2">
 
+      <div class="top-bar">
+        <div class="synthesis">
+          <span>{{currentYear}}</span>
+        </div>
+        <div class="months">
+          <span [ngClass]="currentMonth==1 ? 'active' : ''" (click)="set_month(1)">1월</span>
+          <span [ngClass]="currentMonth==2 ? 'active' : ''" (click)="set_month(2)">2월</span>
+          <span [ngClass]="currentMonth==3 ? 'active' : ''" (click)="set_month(3)">3월</span>
+          <span [ngClass]="currentMonth==4 ? 'active' : ''" (click)="set_month(4)">4월</span>
+          <span [ngClass]="currentMonth==5 ? 'active' : ''" (click)="set_month(5)">5월</span>
+          <span [ngClass]="currentMonth==6 ? 'active' : ''" (click)="set_month(6)">6월</span>
+          <span [ngClass]="currentMonth==7 ? 'active' : ''" (click)="set_month(7)">7월</span>
+          <span [ngClass]="currentMonth==8 ? 'active' : ''" (click)="set_month(8)">8월</span>
+          <span [ngClass]="currentMonth==9 ? 'active' : ''" (click)="set_month(9)">9월</span>
+          <span [ngClass]="currentMonth==10 ? 'active' : ''" (click)="set_month(10)">10월</span>
+          <span [ngClass]="currentMonth==11 ? 'active' : ''" (click)="set_month(11)">11월</span>
+          <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span>
+        </div>
+      </div>
+
       <div class="calendar-main" style="">
         <ion-row class="calendar-header">
           <ion-col col-2 (click)="goToLastMonth()">
@@ -140,6 +160,26 @@
     </div>
 
     <div class="area" id="ion-label-area-3">
+
+      <div class="top-bar">
+        <div class="synthesis">
+          <span>{{currentYear}}</span>
+        </div>
+        <div class="months">
+          <span [ngClass]="currentMonth==1 ? 'active' : ''" (click)="set_month(1)">1월</span>
+          <span [ngClass]="currentMonth==2 ? 'active' : ''" (click)="set_month(2)">2월</span>
+          <span [ngClass]="currentMonth==3 ? 'active' : ''" (click)="set_month(3)">3월</span>
+          <span [ngClass]="currentMonth==4 ? 'active' : ''" (click)="set_month(4)">4월</span>
+          <span [ngClass]="currentMonth==5 ? 'active' : ''" (click)="set_month(5)">5월</span>
+          <span [ngClass]="currentMonth==6 ? 'active' : ''" (click)="set_month(6)">6월</span>
+          <span [ngClass]="currentMonth==7 ? 'active' : ''" (click)="set_month(7)">7월</span>
+          <span [ngClass]="currentMonth==8 ? 'active' : ''" (click)="set_month(8)">8월</span>
+          <span [ngClass]="currentMonth==9 ? 'active' : ''" (click)="set_month(9)">9월</span>
+          <span [ngClass]="currentMonth==10 ? 'active' : ''" (click)="set_month(10)">10월</span>
+          <span [ngClass]="currentMonth==11 ? 'active' : ''" (click)="set_month(11)">11월</span>
+          <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span>
+        </div>
+      </div>
 
       <div class="calendar-main" style="">
         <ion-row class="calendar-header">
