@@ -414,4 +414,70 @@ page-agasi {
         }
       }
     }
+
+
+    .calendar-main
+    {
+      width:90%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      display: inline-block;
+      margin:5%;
+      border: solid 1px black;
+      margin-top: 2%;
+      border-radius: 10px;
+      background-color: white;
+      text-align: center;
+
+      .calendar-header
+      {
+        ion-col:nth-child(2n+1)
+        {
+          color: #E74371;
+          font-weight: bolder;
+        }
+        ion-icon
+        {
+          font-size: 1.5em;
+        }
+      }
+
+      .calendar-body
+      {
+        .weeks, .dates
+        {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-evenly;
+          span
+          {
+            display: inline-block;
+            width: calc(100% / 7);
+          }
+        }
+
+        .weeks
+        {
+          padding: 10px 0;
+          margin: 10px 0;
+          span:first-child{color: red;}
+          span:last-child{color: blue;}
+          border-top: solid 1px black;
+          border-bottom: solid 1px black;
+        }
+
+        .dates
+        {
+          .last-month, .next-month
+          {
+            color: grey;
+          }
+          span
+          {
+            height: 50px;
+          }
+        }
+      }
+    }
 }

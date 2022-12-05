@@ -45,17 +45,17 @@ export class AccountPage {
     this.login_data = JSON.parse(localStorage.getItem("login_data"));
 
     this.get_team_list();
-    
+
     this.goToday();
 
- 
+
     // let modal2 = this.modal.create(AccountingmodalPage,{"a":"a"});
     // modal2.onDidDismiss(url => {
     //   console.log("dismiss second!");
     // });
 
     // modal2.present();
-    
+
   }
   openmodal(v){
     console.log(v);
@@ -67,7 +67,7 @@ export class AccountPage {
     });
 
     modal.present();
-    
+
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad AccountPage');
@@ -119,6 +119,11 @@ export class AccountPage {
     console.log(name);
   }
 
+  set_month(num)
+  {
+    this.date.setMonth(num-1);
+    this.getDaysOfMonth();
+  }
 
   getDaysOfMonth() {
     this.daysInThisMonth = [];

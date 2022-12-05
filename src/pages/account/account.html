@@ -84,9 +84,18 @@
         </div>
       </div>
       <div class="months">
-        <span class="active">1월</span><span>2월</span><span>3월</span><span>4월</span>
-        <span>5월</span><span>6월</span><span>7월</span><span>8월</span>
-        <span>9월</span><span>10월</span><span>11월</span><span>12월</span>
+        <span [ngClass]="currentMonth==1 ? 'active' : ''" (click)="set_month(1)">1월</span>
+        <span [ngClass]="currentMonth==2 ? 'active' : ''" (click)="set_month(2)">2월</span>
+        <span [ngClass]="currentMonth==3 ? 'active' : ''" (click)="set_month(3)">3월</span>
+        <span [ngClass]="currentMonth==4 ? 'active' : ''" (click)="set_month(4)">4월</span>
+        <span [ngClass]="currentMonth==5 ? 'active' : ''" (click)="set_month(5)">5월</span>
+        <span [ngClass]="currentMonth==6 ? 'active' : ''" (click)="set_month(6)">6월</span>
+        <span [ngClass]="currentMonth==7 ? 'active' : ''" (click)="set_month(7)">7월</span>
+        <span [ngClass]="currentMonth==8 ? 'active' : ''" (click)="set_month(8)">8월</span>
+        <span [ngClass]="currentMonth==9 ? 'active' : ''" (click)="set_month(9)">9월</span>
+        <span [ngClass]="currentMonth==10 ? 'active' : ''" (click)="set_month(10)">10월</span>
+        <span [ngClass]="currentMonth==11 ? 'active' : ''" (click)="set_month(11)">11월</span>
+        <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span>
       </div>
     </div>
 
@@ -123,32 +132,6 @@
           <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span>
           <span *ngFor="let nextDay of daysInNextMonth" class="last-month" (click)="goToNextMonth()">{{nextDay}}</span>
         </div>
-        <!-- <ion-grid>
-          <ion-row class="calendar-weekday">
-              <ion-col>일</ion-col>
-              <ion-col>월</ion-col>
-              <ion-col>화</ion-col>
-              <ion-col>수</ion-col>
-              <ion-col>목</ion-col>
-              <ion-col>금</ion-col>
-              <ion-col>토</ion-col>
-          </ion-row>
-
-          <ion-row class="calendar-date">
-              <ion-col col-1 *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</ion-col>
-              <ion-col col-1 *ngFor="let day of daysInThisMonth" >
-                  <span (click)="gotocalendardetail(day)" class="currentDate" *ngIf="(
-                  currentDate === day &&
-                  today.getMonth()+1 === currentMonth &&
-                  today.getFullYear() === currentYear
-                  ); else otherDate">{{day}}</span>
-                  <ng-template #otherDate class="otherDate">
-                      <span (click)="gotocalendardetail(day)">{{day}}</span>
-                  </ng-template>
-              </ion-col>
-              <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month" (click)="goToNextMonth()">{{nextDay}}</ion-col>
-          </ion-row>
-        </ion-grid> -->
       </div>
     </div>
   </div>

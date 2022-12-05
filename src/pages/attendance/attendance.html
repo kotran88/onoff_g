@@ -79,7 +79,7 @@
           <ion-icon class="square" name="square"></ion-icon>
           <span class="text">룸 현황</span>
         </div>
-    
+
         <div class="chart-div">
           <div class="name-keys">
             <span>팀</span>
@@ -101,11 +101,81 @@
     </div>
 
     <div class="area" id="ion-label-area-2">
-     222
+
+      <div class="calendar-main" style="">
+        <ion-row class="calendar-header">
+          <ion-col col-2 (click)="goToLastMonth()">
+            <ion-icon name="arrow-back">
+            </ion-icon>
+          </ion-col>
+
+          <ion-col
+          style="font-size: 18px;" col-8
+          (click)="goToday()">
+            {{currentYear}}년 {{currentMonth}}월
+          </ion-col>
+
+          <ion-col col-2 (click)="goToNextMonth()">
+            <ion-icon name="arrow-forward"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        <div class="calendar-body">
+          <div class="weeks">
+            <span>일</span>
+            <span>월</span>
+            <span>화</span>
+            <span>수</span>
+            <span>목</span>
+            <span>금</span>
+            <span>토</span>
+          </div>
+          <div class="dates">
+            <span *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</span>
+            <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span>
+            <span *ngFor="let nextDay of daysInNextMonth" class="last-month" (click)="goToNextMonth()">{{nextDay}}</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="area" id="ion-label-area-3">
-      333
+
+      <div class="calendar-main" style="">
+        <ion-row class="calendar-header">
+          <ion-col col-2 (click)="goToLastMonth()">
+            <ion-icon name="arrow-back">
+            </ion-icon>
+          </ion-col>
+
+          <ion-col
+          style="font-size: 18px;" col-8
+          (click)="goToday()">
+            {{currentYear}}년 {{currentMonth}}월
+          </ion-col>
+
+          <ion-col col-2 (click)="goToNextMonth()">
+            <ion-icon name="arrow-forward"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        <div class="calendar-body">
+          <div class="weeks">
+            <span>일</span>
+            <span>월</span>
+            <span>화</span>
+            <span>수</span>
+            <span>목</span>
+            <span>금</span>
+            <span>토</span>
+          </div>
+          <div class="dates">
+            <span *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</span>
+            <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span>
+            <span *ngFor="let nextDay of daysInNextMonth" class="last-month" (click)="goToNextMonth()">{{nextDay}}</span>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
