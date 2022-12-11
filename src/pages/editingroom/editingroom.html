@@ -15,7 +15,7 @@ top: 30%;" padding>
             
             <div  class="datas">
               <span style="
-              width: 30px;"><input   class="input-box"  [(ngModel)]="room" type="text"/></span>
+              width: 30px;"><input disabled  class="input-box"  [(ngModel)]="room" type="text"/></span>
               <span><input   class="input-box"  [(ngModel)]="incharge" type="text"/></span>
               <span (click)="clicking(1);" class="newspan" *ngIf="status=='reserved'" > 예약중 </span>
               <span (click)="clicking(2);" class="newspan" *ngIf="status=='entered'" > 입실 </span>

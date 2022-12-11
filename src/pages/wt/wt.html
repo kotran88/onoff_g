@@ -1,0 +1,153 @@
+<!--
+  Generated template for the ParkingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.  
+-->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons style=" 
+    position: absolute;
+    left: 0;
+    z-index: 9999;
+    color: white;" start>
+      <button (click)="openclose();" menuToggle ion-button icon-only color="royal">
+        <img style="
+        width: 30px" class="logo" src="assets/img/hamburger.png" />
+      </button>
+    </ion-buttons>
+     
+    <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
+ 
+    <ion-buttons end>
+      <button  style="color:white;"ion-button icon-only color="royal">
+        <ion-icon name="person-add"></ion-icon>
+        <span>{{name}}</span>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-menu [content]="mycontent">
+  <ion-content>
+
+    <ion-list (click)="orderpage();">
+      <ion-item>주문 </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>주차파트</ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>인포파트</ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>출근부</ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>초이스</ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>공지</ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>알림</ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>누적내역</ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>입금내역</ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item (click)="logout();">로그아웃</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav #mycontent [root]="rootPage"></ion-nav>
+<ion-content style="
+background: black; margin-top:45px;" padding>
+<div class="header">
+<div class="header-parking">
+  <button style="
+  float: left;
+  margin-left: 20px;
+  margin-top: 10px;" class="header_btn">입금하실금액 </button>
+
+  <button style="
+  float: right;
+  margin-right: 20px;
+  margin-top: 10px;" class="header_btn">$1,900,000 </button>
+</div>
+</div>
+
+<hr class="header-parking-hr">
+
+<!--
+
+
+<div  class="ion-label-area">
+  <div id="ion-label-area-1">
+    <div  *ngFor="let i of mainlist; let j = index;">
+      <button (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
+        <div>
+          <p>{{i.date}}</p>
+          <p>{{i.time}}</p>
+          <p>입력자 : {{i.receiver}}</p>
+        </div>
+        <div>
+          <p>{{i.room}} {{i.incharge}} ₩{{i.price.toLocaleString() }}</p>
+          <p>{{i.type}}</p>
+          <img src="assets/img/bottomarrow.png" style="height: 20px; width: 20px;">
+        </div>
+      </button>
+      <div style="color:white;" class="panel-1" id="panel-1-{{j}}">
+        <div>
+          <p *ngIf="i.type=='발렛'">{{i.carnum}}</p>
+          <p *ngIf="i.type=='대리'||i.type=='픽업'">{{i.destination}}</p>
+        </div>
+      </div>
+      <hr style="width: 90%; height: 1px; background-color: white;">
+    </div>
+  </div>
+  <div id="ion-label-area-2" style="display: none;">
+    two
+  </div>
+  <div id="ion-label-area-3" style="display: none;">
+    three
+  </div>
+  <div id="ion-label-area-4" style="display: none;">
+    <div *ngFor="let i of allmainlist let j = index">
+     
+      <button (click)="extendedAccordion(4, j)" class="accordion" id="accordion-{{i}}">
+        <p style="font-size:20px; width:150px;">{{i.a[0].date}}</p>
+        <p style="margin-top: 20px;;"><img src="assets/img/bottomarrow.png"
+            style="height: 20px; width: 20px;"></p>
+
+        <p style="flex: 4; 
+        font-size: 20px; text-align: end;">일계:{{i.count}} 합계:{{i.price.toLocaleString()}}</p>
+      </button>
+      <div style="
+      color: white;" class="panel-4" id="panel-4-{{j}}">
+        <div class="looping" *ngFor="let b of i.a">
+          <div>
+            <span>{{b.date}}</span>
+            <span>{{b.time}}</span>
+            <span>입력자: {{b.receiver}}</span>
+          </div>
+          <div style="margin-left:20px;">
+            <span>{{b.room}} {{b.incharge}} ₩{{b.price.toLocaleString()}}</span>
+            <span>{{b.type}}</span>
+            <span *ngIf="b.type=='발렛'">{{b.carnum}}</span>
+            <span *ngIf="b.type=='대리'||b.type=='픽업'">{{b.destination}}</span>
+          </div>
+        </div>
+        
+      </div>
+      <hr style="width: 90%; height: 1px; background-color: white; margin-top: 0px;">
+    </div>
+  </div>
+</div> -->
+
+</ion-content>

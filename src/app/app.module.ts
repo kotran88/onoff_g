@@ -44,6 +44,9 @@ import { AgasiPage } from '../pages/agasi/agasi';
 import { ChoicePage } from '../pages/choice/choice';
 import { AgasichoicePage } from '../pages/agasichoice/agasichoice';
 import { AttendancePage } from '../pages/attendance/attendance';
+import { WtPage } from '../pages/wt/wt';
+import { BandPage } from '../pages/band/band';
+import { ChoicemodalPage } from '../pages/choicemodal/choicemodal';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -77,6 +80,9 @@ initializeApp(firebaseConfig);
     ChoicePage,
     OrderPage,
     AgasichoicePage,
+    WtPage,
+    ChoicemodalPage,
+    BandPage,
     AttendancePage,
     ExpandableComponent,
   ],
@@ -97,6 +103,7 @@ initializeApp(firebaseConfig);
   entryComponents: [
     MyApp,
     LoginpagePage,
+    ChoicemodalPage,
     ChoicePage,
     AgasiPage,
     AgasichoicePage,
@@ -105,6 +112,8 @@ initializeApp(firebaseConfig);
     AttendancePage,
     AccountingmodalPage,
     OrderdetailPage,
+    WtPage,
+    BandPage,
     AccountPage,
     AttendancePage,
     SignupPage,

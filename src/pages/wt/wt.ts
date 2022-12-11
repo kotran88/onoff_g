@@ -3,11 +3,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import  firebase from 'firebase';
 import { MenuController } from 'ionic-angular';
 import { LoginpagePage } from '../loginpage/loginpage';
+import { OrderPage } from '../order/order';
 @Component({
-  selector: 'page-directorpage',
-  templateUrl: 'directorpage.html',
+  selector: 'page-wt',
+  templateUrl: 'wt.html',
 })
-export class DirectorpagePage {
+export class WtPage {
+
   name:any="";
   mainlist=[];
   allmainlist=[];
@@ -25,6 +27,10 @@ export class DirectorpagePage {
   logout(){
     localStorage.setItem("loginflag", "false" )
     this.navCtrl.setRoot(LoginpagePage)
+}
+orderpage(){
+  console.log("come to order page");
+  this.navCtrl.push(OrderPage);
 }
   ionViewDidLoad() {
     console.log('ionViewDidLoad DirectorpagePage');
@@ -77,5 +83,4 @@ export class DirectorpagePage {
     });
 
   }
-
 }

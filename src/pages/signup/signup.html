@@ -76,7 +76,7 @@
       </span>
     </div>
       <div style="text-align:center;" class="center">
-        <button *ngFor="let a of companies" (click)="selectcompany(a)" class="newbtn">{{a.name}}</button>
+        <button *ngFor="let a of companies" (click)="selectcompany(a)" class="newbtn2">{{a.name}}</button>
      
       </div>
       
@@ -152,19 +152,21 @@
     <div style="text-align:center;">
       <button (click)="selecttype(1)" class="newbtn">부장 </button>
       <button (click)="selecttype(2)" class="newbtn"> WT </button>
+      <button (click)="selecttype(3)" class="newbtn">아가씨 </button>
       
     </div>
     <div style="text-align:center;">
-      <button (click)="selecttype(3)" class="newbtn">아가씨 </button>
-      <button (click)="selecttype(4)" class="newbtn">인포 </button>
+      <button (click)="selecttype(4)" class="newbtn">입금(경리) </button>
+      <button (click)="selecttype(5)" class="newbtn">인포 </button>
+      <button (click)="selecttype(6)" class="newbtn">주차 </button>
     </div>
     <div style="text-align:center;">
-      <button (click)="selecttype(5)" class="newbtn">주차 </button>
-      <button (click)="selecttype(6)" class="newbtn">밴드 </button>
+      <button (click)="selecttype(7)" class="newbtn"> 밴드</button>
+      <button (click)="selecttype(8)" class="newbtn">관리 </button>
+      <!-- <button (click)="selecttype(9)" class="newbtn"> </button> -->
     </div>
 
     <div style="text-align:center;">
-      <button (click)="selecttype(7)" class="newbtn">입금(경리) </button>
     </div>
     
   </div>
@@ -259,10 +261,10 @@ text-align: center;">조판팀을 설정해주세요. </span>
 
         <button *ngIf="approved" class="paybtn" (click)="uploadToServer(3);">월 2,100원 결제하기</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
-        <span>결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
+        <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
       <span *ngIf="type==4" style="font-size:30px;">
-        인포를 선택하셨군요 <br> 
+        경리를 선택하셨군요 <br> 
         <br>
         한달간 무료로 이용해보시고 마음에<br>
         안드시면 언제든 탈퇴 가능합니다. .
@@ -272,6 +274,16 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
       <span *ngIf="type==5" style="font-size:30px;">
+        인포를 선택하셨군요 <br> 
+        <br>
+        한달간 무료로 이용해보시고 마음에<br>
+        안드시면 언제든 탈퇴 가능합니다. .
+
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(5);">월 2,100원 결제하기</button>
+        <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
+        <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
+      </span>
+      <span *ngIf="type==6" style="font-size:30px;">
         주차를 선택하셨군요 <br> 
         손님을 제일 먼저 맞이하고 제일 마지막까지 모시는  <br>
         {{name}} 님께 조그마한 도움을 <br>
@@ -281,20 +293,39 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <br>
         <br>
         <br>
-        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(5);">월 2,100원 결제하기</button>
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(6);">월 2,100원 결제하기</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
-      <span *ngIf="type==6" style="font-size:30px;">
-        밴드를 선택하셨군요 <br> 
-      </span>
       <span *ngIf="type==7" style="font-size:30px;">
-        경리(입금)를 선택하셨군요 <br> 
-
+        밴드를 선택하셨군요 <br> 
+        손님을 제일 먼저 맞이하고 제일 마지막까지 모시는  <br>
+        {{name}} 님께 조그마한 도움을 <br>
+        드리고자 WAD가 왔습니다<br>
+        이제 발렛비 등등 요금청구라면 하나도 놓치지 않고 책임질께요! 
+        <br>
+        <br>
+        <br>
         <br>
         <button *ngIf="approved" class="paybtn" (click)="uploadToServer(7);">월 2,100원 결제하기</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
-        <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
+        <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>면 다음달 이용시 요금이 청구됩니다.
+
+      </span>
+
+      <span *ngIf="type==8" style="font-size:30px;">
+        관리를  선택하셨군요 <br> 
+        손님을 제일 먼저 맞이하고 제일 마지막까지 모시는  <br>
+        {{name}} 님께 조그마한 도움을 <br>
+        드리고자 WAD가 왔습니다<br>
+        이제 발렛비 등등 요금청구라면 하나도 놓치지 않고 책임질께요! 
+        <br>
+        <br>
+        <br>
+        <br>
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(7);">월 2,100원 결제하기</button>
+        <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
+        <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>면 다음달 이용시 요금이 청구됩니다.
 
       </span>
     </div>

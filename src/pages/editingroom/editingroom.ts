@@ -22,17 +22,22 @@ export class EditingroomPage {
   status:any;
   wt:any;
   key:any;
-  numofpeople:any;
-  end_date:any;
+  numofpeople:any="";
+  end_date:any="";
   date:any;
   firemain = firebase.database().ref();
+  company:any;
   constructor(public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
      this.a = this.navParams.get("a");
-    console.log(this.a+"///"+this.a.room);
-    this.room = this.a.room
+     this.company = localStorage.getItem("company");
+
+    console.log(this.a);
+    this.room = this.a.name
     this.key=this.a.key;
     this.status = this.a.status;
     this.date=this.a.date;
+    this.numofpeople = this.a.numofpeople;
+    this.end_date=this.a.end_date;
     this.incharge=this.a.incharge;
     this.wt=this.a.wt;
     this.insert_date=this.a.insert_date;
@@ -62,8 +67,8 @@ export class EditingroomPage {
     this.view.dismiss();
   }
   confirm(){
-    this.firemain.child("rooms").child(this.date).child(this.key).update({
-      "room":this.room,
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.a.key).update({
+      "name":this.room,
       "wt":this.wt,
       "insert_date":this.insert_date,
       "end_date":this.end_date,

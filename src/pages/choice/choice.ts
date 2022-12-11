@@ -10,6 +10,7 @@ import { IonicPage,ViewController,ModalController, NavController, NavParams } fr
 
  import  firebase from 'firebase';
 import { AgasichoicePage } from '../agasichoice/agasichoice';
+import { ChoicemodalPage } from '../choicemodal/choicemodal';
 @Component({
   selector: 'page-choice',
   templateUrl: 'choice.html',
@@ -19,23 +20,38 @@ export class ChoicePage {
   mainlist:any = [];
   firemain = firebase.database().ref();
   activeclass='1';
+  company:any="";
   constructor(public modal:ModalController,public zone:NgZone,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
+    this.company = localStorage.getItem("company");
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChoicePage');
-    this.firemain.child('rooms').once('value').then((snap)=>{
-      console.log(snap.val())
+
+    this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
       for(var a in snap.val()){
         console.log("mmmm")
-        for(var b in snap.val()[a]){
-          console.log(snap.val()[a][b]);
-          this.mainlist.push(snap.val()[a][b]);
+        console.log(snap.val()[a].roomhistory)
+        for(var b in snap.val()[a].roomhistory){
+          console.log(snap.val()[a].roomhistory[b]);
+          this.mainlist.push(snap.val()[a].roomhistory[b]);
         }
       }
+      console.log(this.mainlist)
     });
   }
+  gotodetail(a){
+    console.log("gotodetail...")
+    console.log(a);
+    let modal = this.modal.create(ChoicemodalPage,{"a":a});
+    modal.onDidDismiss(url => {
+      console.log("dismiss !");
+      //regenerate  
+    });
 
+    modal.present();
+  };
 
   editing(a){
     console.log("editing...")

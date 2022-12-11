@@ -19,10 +19,14 @@ export class InfomodalPage {
   incharge:any="";
   in:any="";
   room:any;
+  company:any;
   firemain = firebase.database().ref();
   constructor(public navCtrl: NavController,public view:ViewController, public navParams: NavParams) {
    this.room= this.navParams.get("room");
-  }
+   this.company = localStorage.getItem("company");
+   console.log("room",this.room);
+   console.log(this.company)
+     }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfomodalPage');
@@ -44,7 +48,23 @@ export class InfomodalPage {
 
     var fulldate = year+"-"+month+"-"+day;
     var key = this.firemain.child('rooms').child(fulldate).push().key;
-    this.firemain.child("rooms").child(fulldate).child(key).update({"status":"reserved", "incharge":this.incharge,"in":this.in,"wt":this.wt,"room":this.room,"insert_date":hour+":"+min,"key":key,"date":fulldate})
+    // this.firemain.child("rooms").child(fulldate).child(key).update({"status":"reserved", "incharge":this.incharge,"in":this.in,"wt":this.wt,"room":this.room,"insert_date":hour+":"+min,"key":key,"date":fulldate})
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(key).update({"name":this.room.name,"status":"reserved", "incharge":this.incharge,"in":this.in,"wt":this.wt,"insert_date":hour+":"+min,"key":key,"date":fulldate})
+    
+    
+    // this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+    //   console.log(snap.val());
+    //   for(var a in snap.val()){
+    //     console.log(snap.val()[a].name);
+    //     console.log(this.room.name);
+    //     if(snap.val()[a].name == this.room.name){
+    //       console.log("같다");
+    //       console.log(this.room.name);
+    //       console.log(snap.val()[a].name);
+    //          }
+    //   }
+    // });
+   
     this.view.dismiss();
   }
 }

@@ -4,10 +4,11 @@ import  firebase from 'firebase';
 import { MenuController } from 'ionic-angular';
 import { LoginpagePage } from '../loginpage/loginpage';
 @Component({
-  selector: 'page-directorpage',
-  templateUrl: 'directorpage.html',
+  selector: 'page-band',
+  templateUrl: 'band.html',
 })
-export class DirectorpagePage {
+export class BandPage {
+
   name:any="";
   mainlist=[];
   allmainlist=[];
@@ -77,5 +78,4 @@ export class DirectorpagePage {
     });
 
   }
-
 }

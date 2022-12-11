@@ -65,17 +65,20 @@ export class SignupPage {
       }
       this.id = localStorage.getItem("id");
       this.type = Number(localStorage.getItem("type"));
-      this.firemain.child("users").child(this.id).once('value').then((snap)=>{
-        console.log(snap.val().approved);
-        this.approved=snap.val().approved;
-        if(this.approved==false){
-          this.stage=5;
-          
-        }else{
-          this.stage=5;
-          
-        }
-      });
+      if(this.id!=null||this.id!=undefined){
+        this.firemain.child("users").child(this.id).once('value').then((snap)=>{
+          console.log(snap.val().approved);
+          this.approved=snap.val().approved;
+          if(this.approved==false){
+            this.stage=5;
+            
+          }else{
+            this.stage=5;
+            
+          }
+        });
+      }
+     
     
     });
 
@@ -104,6 +107,7 @@ export class SignupPage {
     var nowdate=this.format_date(new Date())
    localStorage.setItem("type",value+"");
    localStorage.setItem("id",this.id);
+   window.alert(value);
     if(value==1){
       console.log("부장 승인 요청 ")
       // window.alert("주차제외 가입 준비중.")
@@ -113,18 +117,12 @@ export class SignupPage {
     }else if(value==2){
       console.log("WT 승인 요청 ")
        console.log("info 승인 요청 ")
-       window.alert("주차제외 가입 준비중.")
-       return;
-       this.firemain.child("users").child(this.id).update({"type":"wt","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+       this.firemain.child("users").child(this.id).update({"type":"wt","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
 
     
     }else if(value==3){
       console.log("아가씨 승인 요청 ")
 
-      // window.alert("주차제외 가입 준비중.")
-      this.firemain.child("users").child(this.id).update({"type":"agasi","jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
-     
-      // return;
       var nowdate=this.format_date(new Date())
       this.firemain.child("users").child(this.id).update({"type":"agasi","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
     }else if(value==4){
@@ -132,7 +130,7 @@ export class SignupPage {
       // console.log("info 승인 요청 ")
       // return;
       var nowdate=this.format_date(new Date())
-      this.firemain.child("users").child(this.id).update({"type":"info","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"kyungri","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
     }else if(value==5){
       console.log("주차 승인 요청 ")
       var nowdate=this.format_date(new Date())
@@ -150,10 +148,16 @@ export class SignupPage {
       var nowdate=this.format_date(new Date())
       console.log(this.youngup);
       console.log(this.jopanteam)
-      this.firemain.child("users").child(this.id).update({"type":"account","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"band","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+    }else if(value==8){
+      console.log("관리  승인 요청 ")
+      var nowdate=this.format_date(new Date())
+      console.log(this.youngup);
+      console.log(this.jopanteam)
+      this.firemain.child("users").child(this.id).update({"type":"admin","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
     }else{
 
-      window.alert("주차제외 가입 준비중.")
+      window.alert("else 주차제외 가입 준비중.")
     }
 
 
@@ -193,45 +197,46 @@ export class SignupPage {
 }
   uploadToServer(value){
     console.log(value)
+    console.log("uploadtoServer come");
     console.log(this.id);
- var data = {
-        pay_method: 'card',
-        merchant_uid: 'mid_' + new Date().getTime(),
-        name: '게임/게임기 대여',
-        amount: "500",
-        app_scheme: 'ionickcp',
-        buyer_email: '',
-        buyer_tel: '010-1234-5678',
-        buyer_addr: '서울특별시 강남구 삼성동',
-        buyer_postcode: '123-456'
-      };
+//  var data = {
+//         pay_method: 'card',
+//         merchant_uid: 'mid_' + new Date().getTime(),
+//         name: '게임/게임기 대여',
+//         amount: "500",
+//         app_scheme: 'ionickcp',
+//         buyer_email: '',
+//         buyer_tel: '010-1234-5678',
+//         buyer_addr: '서울특별시 강남구 삼성동',
+//         buyer_postcode: '123-456'
+//       };
   
-      var PaymentObject = {
-        userCode: "imp58611631",
-        data: data,
-        callback: (response) => {
-          console.log(response);
-          if (response.imp_success == "true") {
+//       var PaymentObject = {
+//         userCode: "imp58611631",
+//         data: data,
+//         callback: (response) => {
+//           console.log(response);
+//           if (response.imp_success == "true") {
       
-          }
-        }
-      }
+//           }
+//         }
+//       }
 
-      IamportCordova.payment(PaymentObject)
-      .then((response) => {
-        window.alert("success"+'\n'+JSON.stringify(response))
-this.firemain.child("users").child(this.id).update({
-  "payment":true
-});
+//       IamportCordova.payment(PaymentObject)
+//       .then((response) => {
+//         window.alert("success"+'\n'+JSON.stringify(response))
+// this.firemain.child("users").child(this.id).update({
+//   "payment":true
+// });
 
-      })
-      .catch((err) => {
-        window.alert('error : '+err)
-        this.firemain.child("users").child(this.id).update({
-          "payment":false
-        });
+//       })
+//       .catch((err) => {
+//         window.alert('error : '+err)
+//         this.firemain.child("users").child(this.id).update({
+//           "payment":false
+//         });
         
-      });
+//       });
 
     
   }

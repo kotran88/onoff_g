@@ -18,8 +18,13 @@ import { EditingroomPage } from '../editingroom/editingroom';
 })
 export class InfoPage {
   mainlist:any = [];
+  smallroom=[];
+  midroom=[];
+  bigroom=[];
+  company:any="";
   firemain = firebase.database().ref();
   constructor(public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
+    this.company=  localStorage.getItem("company");
   }
   openclose(){
     console.log("open and cloe");
@@ -27,15 +32,39 @@ export class InfoPage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfoPage');
-    this.firemain.child('rooms').once('value').then((snap)=>{
-      console.log(snap.val())
+    this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+      console.log(snap.val());
+      console.log(snap.val().category)
+      for(var a in snap.val()){
+       var cat =  snap.val()[a].category;
+       var name = snap.val()[a].name;
+       console.log(cat);
+       if(cat=="소"){
+         this.smallroom.push({"name":name,"category":cat});
+       }
+       if(cat=="중"){
+        this.midroom.push({"name":name,"category":cat});
+      }
+      if(cat=="대"){
+        this.bigroom.push({"name":name,"category":cat});
+      }
+      }
+      console.log(this.smallroom);
+    });
+    this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
       for(var a in snap.val()){
         console.log("mmmm")
-        for(var b in snap.val()[a]){
-          console.log(snap.val()[a][b]);
-          this.mainlist.push(snap.val()[a][b]);
+        console.log(snap.val()[a].roomhistory)
+        for(var b in snap.val()[a].roomhistory){
+          console.log(snap.val()[a].roomhistory[b]);
+          this.mainlist.push(snap.val()[a].roomhistory[b]);
         }
+        // for(var b in snap.val()[a]){
+        //   console.log(snap.val()[a][b]);
+        //   this.mainlist.push(snap.val()[a][b]);
+        // }
       }
+      console.log(this.mainlist)
     });
   }
   
@@ -45,6 +74,23 @@ export class InfoPage {
     let modal = this.modal.create(EditingroomPage,{"a":a});
     modal.onDidDismiss(url => {
       console.log("dismiss second!");
+      this.mainlist=[];
+      this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+        for(var a in snap.val()){
+          console.log("mmmm")
+          console.log(snap.val()[a].roomhistory)
+          for(var b in snap.val()[a].roomhistory){
+            console.log(snap.val()[a].roomhistory[b]);
+            this.mainlist.push(snap.val()[a].roomhistory[b]);
+          }
+          // for(var b in snap.val()[a]){
+          //   console.log(snap.val()[a][b]);
+          //   this.mainlist.push(snap.val()[a][b]);
+          // }
+        }
+        console.log(this.mainlist)
+      });
+
     });
 
     modal.present();
@@ -55,6 +101,7 @@ export class InfoPage {
   }
   addRoom(room){
     console.log("ad room come");
+    console.log(room);
     let modal = this.modal.create(InfomodalPage,{"room":room});
     modal.onDidDismiss(url => {
       console.log("dismiss!");

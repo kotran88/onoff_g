@@ -16,6 +16,8 @@ import { OrderPage } from '../order/order';
 import { AgasiPage } from '../agasi/agasi';
 import { ChoicePage } from '../choice/choice';
 import { AttendancePage } from '../attendance/attendance';
+import { BandPage } from '../band/band';
+import { WtPage } from '../wt/wt';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -138,7 +140,7 @@ export class LoginpagePage {
           }else{
           }
           if(payment==false||payment==undefined){
-            window.alert("결재대기중입니다. 관리자에게 문의하세요")
+            window.alert("아직 결제하지 않았습니다. 회원가입버튼을 통해 결제를 해주세요.")
 
           this.loading.dismiss();
             return;
@@ -168,6 +170,7 @@ export class LoginpagePage {
                 localStorage.setItem('id',this.id.split('@')[0]);
                 localStorage.setItem('name',this.name);
                 localStorage.setItem('password',this.password);
+                localStorage.setItem('company',snap.val().company);
                 localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
                 this.login_flag_update();
                 var type = snap.val().type;
@@ -176,6 +179,7 @@ export class LoginpagePage {
                 console.log("gogo type is : "+type);
                 if(type == "park")
                 {
+                  //주차
                   this.navCtrl.push(ParkingPage).then(() => {
                     this.navCtrl.getActive().onDidDismiss(data => {
                       console.log("login ondiddismiss...")
@@ -186,14 +190,23 @@ export class LoginpagePage {
                 }
                 else if(type == "director")
                 {
+                  //부장 
                   this.navCtrl.push(DirectorpagePage);
                 }else if(type == "account"){
-
+                  //경리 
                 this.navCtrl.push(AccountPage);
                 }else if(type=="info"){
-                  this.navCtrl.push(InfoPage)
-                }else if(type=="agasi"){
+                  //인포  
                   this.navCtrl.push(AttendancePage)
+                }else if(type=="agasi"){
+                  //아가씨 
+                  this.navCtrl.push(AgasiPage)
+                }else if(type=="band"){
+                  //band 
+                  this.navCtrl.push(BandPage)
+                }else if(type=="wt"){
+                  //wt 
+                  this.navCtrl.push(WtPage)
                 }
               });
 
