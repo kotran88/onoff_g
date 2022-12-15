@@ -80,7 +80,7 @@ export class AgasiPage {
     this.menuCtrl.open();
   }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InfoPage');
+    console.log('ionViewDidLoad AgasiPage');
     this.goToday();
 
     for (let i = 1; i <= 3; i++) { document.getElementById("ion-label-area-" + i).style.display = "none"; }
@@ -165,6 +165,12 @@ export class AgasiPage {
   currentYear:number = 0; // 현재 년
   currentMonth:number = 0; // 현재 월
   currentDate:number = 0; // 현재 일
+
+  set_month(num)
+  {
+    this.date.setMonth(num-1);
+    this.getDaysOfMonth();
+  }
 
   getDaysOfMonth() {
     this.daysInThisMonth = [];

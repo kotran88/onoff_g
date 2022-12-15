@@ -415,67 +415,120 @@ page-agasi {
       }
     }
 
-
-    .calendar-main
+    .area1
     {
-      width:90%;
-      height: auto;
-      margin: 0;
-      padding: 0;
-      display: inline-block;
-      margin:5%;
-      border: solid 1px black;
-      margin-top: 2%;
-      border-radius: 10px;
-      background-color: white;
-      text-align: center;
-
-      .calendar-header
+      background-color: black;
+      .top-bar
       {
-        ion-col:nth-child(2n+1)
+        padding-top: 15px;
+        color: white;
+        display: flex;
+        .info
         {
-          color: #E74371;
-          font-weight: bolder;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          div
+          {
+            border-radius: 10px;
+            padding: 10px;
+            flex: 1;
+            text-align: start;
+            font-size: 18px;
+          }
+          div:nth-child(1)
+          {
+            color: black;
+            background-color: rgb(255,240,200);
+          }
+          div:nth-child(2)
+          {
+            background-color: rgb(70, 2, 69);
+          }
         }
-        ion-icon
+        .months
         {
-          font-size: 1.5em;
+          flex: 1;
+          color: white;
+          display: flex;
+          justify-content: space-evenly;
+          flex-wrap: wrap;
+          padding-left: 10px;
+          text-align: center;
+          span
+          {
+            display: block;
+            width: calc(100% / 4);
+            padding: 5px 0;
+            border: solid 1px transparent;
+          }
+          .active
+          {
+            border: solid 1px red;
+          }
         }
       }
-
-      .calendar-body
+      .calendar-main
       {
-        .weeks, .dates
+        width:90%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        margin:5%;
+        border: solid 1px black;
+        margin-top: 2%;
+        border-radius: 10px;
+        background-color: white;
+        text-align: center;
+
+        .calendar-header
         {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-evenly;
-          span
+          ion-col:nth-child(2n+1)
           {
-            display: inline-block;
-            width: calc(100% / 7);
+            color: #E74371;
+            font-weight: bolder;
+          }
+          ion-icon
+          {
+            font-size: 1.5em;
           }
         }
 
-        .weeks
+        .calendar-body
         {
-          padding: 10px 0;
-          margin: 10px 0;
-          span:first-child{color: red;}
-          span:last-child{color: blue;}
-          border-top: solid 1px black;
-          border-bottom: solid 1px black;
-        }
-
-        .dates
-        {
-          .last-month, .next-month
+          .weeks, .dates
           {
-            color: grey;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            span
+            {
+              display: inline-block;
+              width: calc(100% / 7);
+            }
           }
-          span
+
+          .weeks
           {
-            height: 50px;
+            padding: 10px 0;
+            margin: 10px 0;
+            span:first-child{color: red;}
+            span:last-child{color: blue;}
+            border-top: solid 1px black;
+            border-bottom: solid 1px black;
+          }
+
+          .dates
+          {
+            .last-month, .next-month
+            {
+              color: grey;
+            }
+            span
+            {
+              height: 50px;
+            }
           }
         }
       }
