@@ -24,20 +24,20 @@
   </ion-header>
   <ion-menu [content]="mycontent">
     <ion-content>
-      <ion-list>
+      <ion-list (click)="gotolink(1)">
         <ion-item>주차파트</ion-item>
       </ion-list>
-      <ion-list>
+      <ion-list (click)="gotolink(2)">
         <ion-item>인포파트</ion-item>
       </ion-list>
-      <ion-list>
+      <ion-list (click)="gotolink(3)">
         <ion-item>출근부</ion-item>
       </ion-list>
-      <ion-list>
+      <ion-list (click)="gotolink(4)">
         <ion-item>초이스</ion-item>
       </ion-list>
       <ion-list>
-        <ion-item>공지</ion-item>
+        <ion-item (click)="gotolink(5)">공지</ion-item>
       </ion-list>
       <ion-list>
         <ion-item>알림</ion-item>
@@ -82,16 +82,17 @@
         <span>입실T</span>
         <span>완료</span>
       </div>
-      <div  (click)="gotodetail(a);" *ngFor="let a of mainlist let j = index" class="datas">
-        <div class="main">
+      <div   *ngFor="let a of mainlist let j = index" class="datas">
+        <div (click)="gotodetail(a);" class="main">
           <span>{{j+1}}</span>
           <span>{{a.name}}</span>
-        <span>{{a.incharge}}</span>
+       <span>{{a.incharge}}</span>
        
-        <span>{{a.numofpeople}} 인 </span>
-        <span>{{a.agasi.length}} 인</span>
+        <span>인 </span> 
+        <span *ngIf="a.agasi!=undefined">{{a.agasi.length}} 인</span>
+        
         <span>{{a.wt}}</span>
-        <span>{{a.insert_date}}</span>
+        <span>{{a.insert_date}}</span> 
         <span></span>
 
         </div>
@@ -100,7 +101,7 @@
             <div>
               <span style="width:45px;">{{b.name}}</span>
               <span style="width:45px;">{{b.date.split(" ")[1]}}</span>
-              <button style="
+              <button (click)="end(b,a.name)" style="
               width: 45px;
               background: grey;
               border: solid 1px;
@@ -112,7 +113,7 @@
             <span style="
             font-size: 14px;
             font-weight: 500;">총 3개</span>
-            <button style="
+            <button (click)="endall(a,a.name)"  style="
             width: 80px;
             background: orange;
             border: solid 1px;
@@ -127,7 +128,62 @@
     </div>
 
     <div class="area" id="ion-label-area-2">
-2222
+       
+    <div class="chart-div">
+      <div class="name-keys">
+
+        <span>순3번</span>
+        <span>룸NO</span>
+        <span>담당자</span>
+        <span>인원</span>
+        <span>입장</span>
+        <span>WT</span>
+        <span>입실T</span>
+        <span>완료</span>
+      </div>
+      <div   *ngFor="let a of mainlist_finished let j = index" class="datas">
+        <div (click)="gotodetail(a);" class="main">
+          <span>{{j+1}}</span>
+          <span>{{a.name}}</span>
+       <span>{{a.incharge}}</span>
+       
+        <span>인 </span> 
+        <span *ngIf="a.agasi!=undefined">{{a.agasi.length}} 인</span>
+        
+        <span>{{a.wt}}</span>
+        <span>{{a.insert_date}}</span> 
+        <span></span>
+
+        </div>
+        <div *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
+          <div *ngFor="let b of a.agasi" class="looping" >
+            <div>
+              <span style="width:45px;">{{b.name}}</span>
+              <span style="width:45px;">{{b.date.split(" ")[1]}}</span>
+              <!-- <button (click)="end(b,a.name)" style="
+              width: 45px;
+              background: grey;
+              border: solid 1px;
+              color: white;
+              height: 30px; ">종료</button> -->
+            </div>
+          </div>
+          <div class="b">
+            <span style="
+            font-size: 14px;
+            font-weight: 500;">총 ??? 개</span>
+            <!-- <button (click)="endall(a,a.name)"  style="
+            width: 80px;
+            background: orange;
+            border: solid 1px;
+            color: black;
+            margin-left:20px;
+            height: 30px; ">전체종료</button> -->
+          </div>
+        </div>
+        
+      </div>
+    </div>
     </div>
     </div>
 </ion-content>

@@ -1,136 +1,20 @@
-page-agasi {
-  $dynamic-colour: var(--dynamic-colour);
-  :root{
-    --dynamic-colour: red;
- }
- body{
-  background-color: red;
- }
+page-ordermain {
+
     .header {
         position: absolute;
-        height: 60px;
+        height: 80px;
         width: 100%;
-        
-  color: $dynamic-colour;
+        color:white;
     }
     .scroll-content{
         padding:0px !important;
         margin-top:0px !important;
     }
-    body {
-      background-color: #222;
-    }
-    .c_fill{
-      font-size: 24px;
-    }
-    .load {
-      fill: none;
-      stroke: #e8f6fd;
-      stroke-width: 5;
-      stroke-dasharray: 300 300;
-      transform: rotate(270deg);
-      transform-origin: 50px 50px;
-      animation: progress 1s linear reverse;
-    }
-    .c_fill{
-      position: absolute;
-      left: 41%;
-      top: 25%;
-      border: solid 1px;
-      border-radius: 80px;
-      height: 80px;
-      width: 80px;
-      line-height: 80px;
-      padding-left: 5px;
-      box-shadow: 0 0 10px;
-
-    font-size: 16px;
-    }
-    .roomno{
-
-    position: absolute;
-    left: 10%;
-    font-size: 20px;
-    }
-    .time{
-      position: absolute;
-      width: 100%;
-    left: 10%;
-    font-size: 18px;
-    font-weight: 600;
-    top:40%;
-    p{
-      margin: 0px !important;
-    }
-    }
-    .circle_progress_wrap {
-      position: relative;
-      width: 120px;
-      height: 120px;
-    }
-    .bar{
-      stroke-dasharray: 339.292;
-      stroke-dashoffset: 300.646;
-    }
-    .circle_progress { transform: rotate(-90deg); }
-    .frame, .bar { fill: none; }
-    .frame { stroke: #e6e6e6; }
-    .bar {
-      stroke: #03c75a;
-      stroke-linecap: round;
-    }
-    .value {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      top: 0;
-      text-align: center;
-      color: #888;
-      font-size: 16px;
-      line-height: 120px;
-    }
-    .moving-circle {
-      stroke-dasharray: 100;
-      stroke-dashoffset: 50; 
-      animation: ani 5s linear infinite;
-    }
-    
-    // @keyframes ani {
-    //   0% {
-    //     stroke-dashoffset: 500; 
-    //   }
-    //   50% {
-    //     stroke-dashoffset: 0;  
-    //   }
-    //   100% {
-    //     stroke-dashoffset: 500;
-    //   }
-    // }
-    .spesial {
-      stroke: red;
-      stroke-dasharray: 180 360;
-      transform: rotate(360deg);
-      animation: circpro 1s linear;
-    }
- 
-    
     .header-parking {
         text-align: center;
         width: 100%;
         height: 100px;
         margin-top: 10px;
-    }
-    .segactive{
-        background: blue !important;
-    }
-    .area{
-        height: 100%;
-        background-color: white;
-        
-    }
-    .segment-button {
-        color: red; // here, instead of "red" you can use sass variable if it was already defined
     }
     .looping{
         width: 100% !important;
@@ -140,6 +24,9 @@ page-agasi {
     }
     .segactive{
         background: blue !important;
+    }
+    .segment-button {
+        color: red; // here, instead of "red" you can use sass variable if it was already defined
     }
     .ion-label{
 
@@ -250,23 +137,23 @@ page-agasi {
         left: 250px;
     }
     .segment-md .segment-button{
-        height: 40px !important;
+        height: auto !important;
     }
     .ion-segment {
         position: absolute;
         color: white;
+        top: 90px;
     }
 
     .ion-label {
         color: white;
-        margin:0px !important;
     }
 
     .ion-label-area {
         position: absolute;
         width: 100%;
         height: 100%;
-        top: 90px;
+        top: 150px;
         background-color: black;
         height: calc(100% - 132px);
         overflow-y: scroll;
@@ -515,127 +402,6 @@ page-agasi {
             span:nth-child(n+7)
             {
               border-top: solid 1px rgb(117,117,117);
-            }
-          }
-        }
-      }
-    }
-
-    .area1
-    {
-      background-color: black;
-      .top-bar
-      {
-        padding-top: 15px;
-        color: white;
-        display: flex;
-        .info
-        {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          div
-          {
-            border-radius: 10px;
-            padding: 10px;
-            flex: 1;
-            text-align: start;
-            font-size: 18px;
-          }
-          div:nth-child(1)
-          {
-            color: black;
-            background-color: rgb(255,240,200);
-          }
-          div:nth-child(2)
-          {
-            background-color: rgb(70, 2, 69);
-          }
-        }
-        .months
-        {
-          flex: 1;
-          color: white;
-          display: flex;
-          justify-content: space-evenly;
-          flex-wrap: wrap;
-          padding-left: 10px;
-          text-align: center;
-          span
-          {
-            display: block;
-            width: calc(100% / 4);
-            padding: 5px 0;
-            border: solid 1px transparent;
-          }
-          .active
-          {
-            border: solid 1px red;
-          }
-        }
-      }
-      .calendar-main
-      {
-        width:90%;
-        height: auto;
-        margin: 0;
-        padding: 0;
-        display: inline-block;
-        margin:5%;
-        border: solid 1px black;
-        margin-top: 2%;
-        border-radius: 10px;
-        background-color: white;
-        text-align: center;
-
-        .calendar-header
-        {
-          ion-col:nth-child(2n+1)
-          {
-            color: #E74371;
-            font-weight: bolder;
-          }
-          ion-icon
-          {
-            font-size: 1.5em;
-          }
-        }
-
-        .calendar-body
-        {
-          .weeks, .dates
-          {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            span
-            {
-              display: inline-block;
-              width: calc(100% / 7);
-    font-size: 14px;
-    width: 45px;
-            }
-          }
-
-          .weeks
-          {
-            padding: 10px 0;
-            margin: 10px 0;
-            span:first-child{color: red;}
-            span:last-child{color: blue;}
-            border-top: solid 1px black;
-            border-bottom: solid 1px black;
-          }
-
-          .dates
-          {
-            .last-month, .next-month
-            {
-              color: grey;
-            }
-            span
-            {
-              height: 50px;
             }
           }
         }

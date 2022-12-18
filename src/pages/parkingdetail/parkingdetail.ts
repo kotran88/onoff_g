@@ -28,19 +28,26 @@ export class ParkingdetailPage {
   hour:any="";
   min:any="";
    newdate:any;
+   currentstartday:any="";
+   currentstart:any="";
   type:any="";
   newtype:any="";
   id:any="";
   title:any="발렛";
   flag:any="insert";
   key:any="";
+  company:any="";
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.company = localStorage.getItem("company");
     var date = new Date();
     this.type = this.navParams.get("type");
     this.id=localStorage.getItem("name");
     this.price=localStorage.getItem("price");
     var content = this.navParams.get("content");
     console.log(content);
+
+    this.currentstart=localStorage.getItem("start");
+    this.currentstartday=localStorage.getItem("startDate");
     if(content==undefined){
 
     }else{
@@ -100,18 +107,18 @@ export class ParkingdetailPage {
     var fulldate = this.year+"-"+this.month+"-"+this.day;
     if(this.flag=="modify"){
       if(this.type==1){
-        this.firemain.child('park').child(this.newdate).child(this.key).update({"key":this.key, "receiver":this.id,"price":this.price,"date":fulldate, "time":this.hour+":"+this.min,"type":this.title,"incharge":this.incharge,"room":this.room,"carnum":this.carnum})
+        this.firemain.child("company").child(this.company).child('park').child(this.currentstartday).child(this.key).update({"key":this.key, "receiver":this.id,"price":this.price,"date":fulldate, "time":this.hour+":"+this.min,"type":this.title,"incharge":this.incharge,"room":this.room,"carnum":this.carnum})
       }else if(this.type==2||this.type==3){
-        this.firemain.child('park').child(this.newdate).child(this.key).update({"key":this.key, "receiver":this.id,"price":this.price,"date":fulldate, "time":this.hour+":"+this.min,"type":this.title,"incharge":this.incharge,"room":this.room,"destination":this.destination})
+        this.firemain.child("company").child(this.company).child('park').child(this.currentstartday).child(this.key).update({"key":this.key, "receiver":this.id,"price":this.price,"date":fulldate, "time":this.hour+":"+this.min,"type":this.title,"incharge":this.incharge,"room":this.room,"destination":this.destination})
       }
       this.navCtrl.setRoot(ParkingPage)
     }else{
 
     var key = this.firemain.child('park').child(fulldate).push().key;
     if(this.type==1){
-      this.firemain.child('park').child(fulldate).child(key).update({"key":key, "receiver":this.id,"price":this.price,"date":fulldate, "time":this.hour+":"+this.min,"type":this.title,"incharge":this.incharge,"room":this.room,"carnum":this.carnum})
+      this.firemain.child("company").child(this.company).child('park').child(this.currentstartday).child(key).update({"key":key, "receiver":this.id,"price":this.price,"date":fulldate, "time":this.hour+":"+this.min,"type":this.title,"incharge":this.incharge,"room":this.room,"carnum":this.carnum})
     }else if(this.type==2||this.type==3){
-      this.firemain.child('park').child(fulldate).child(key).update({"key":key, "receiver":this.id,"price":this.price,"date":fulldate, "time":this.hour+":"+this.min,"type":this.title,"incharge":this.incharge,"room":this.room,"destination":this.destination})
+      this.firemain.child("company").child(this.company).child('park').child(this.currentstartday).child(key).update({"key":key, "receiver":this.id,"price":this.price,"date":fulldate, "time":this.hour+":"+this.min,"type":this.title,"incharge":this.incharge,"room":this.room,"destination":this.destination})
     }
     this.navCtrl.setRoot(ParkingPage)
     }

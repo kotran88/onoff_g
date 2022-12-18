@@ -39,14 +39,20 @@ export class ChoicemodalPage {
   company:any = "";
   agasilist=[];
   text2:any="";
+  name:any="";
   text3:any="";
   text4:any="";
   text5:any="";
+  currentstartday:any="";
+  currentstart:any="";
   text6:any="";
   constructor(public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
    this.a =  this.navParams.get("a");
     console.log(this.a);
     this.company = localStorage.getItem("company");
+    this.name = localStorage.getItem("name");
+    this.currentstart=localStorage.getItem("start");
+    this.currentstartday=localStorage.getItem("startDate");
 
   }
   onKeyPressed(event){
@@ -103,7 +109,7 @@ export class ChoicemodalPage {
     console.log("confirm");
     if(this.text.length>=2){
       
-    this.agasilist.push({ "name":this.text,
+    this.agasilist.push({  "name":this.text,
     "date": year+"-"+month+"-"+day +" "+hour+":"+min})
     }
     if(this.text2.length>=2){
@@ -131,7 +137,41 @@ export class ChoicemodalPage {
     this.agasilist.push({ "name":this.text6,
     "date": year+"-"+month+"-"+day +" "+hour+":"+min})
     }
-    this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.a.key).child("agasi").update(this.agasilist);
+    console.log(this.a);
+    console.log(this.name);
+    this.firemain.child("users").once("value",snap=>{
+      for(var b in snap.val()){
+        console.log(b);
+        if(snap.val()[b].type=="agasi"){
+
+          for(var a in this.agasilist){
+            console.log(this.agasilist[a].name);
+            console.log(this.agasilist[a].date);
+            console.log("ㅡ므믐")
+            console.log(this.agasilist[a].name)
+            console.log(snap.val()[b].name)
+            if(this.agasilist[a].name.trim() == snap.val()[b].name.trim()){
+              console.log("match");
+              console.log(snap.val()[b].id)
+              var dte = new Date();
+              console.log(dte);
+              // console.log(dte.getHours());
+              dte.setHours(dte.getHours()+9);
+              
+              console.log(dte);
+              this.firemain.child("users").child(snap.val()[b].id).child("current").update({"room":this.a.name,"enter_date":dte})
+              this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).update(this.a);
+              this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).update({"enter_date_full":dte})
+            }else{
+              window.alert("no match");
+            }
+          }
+        }
+      }
+    
+  });
+  //   this.firemain.child("users").child(this.name).child("roomhistory").
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").update(this.agasilist);
    this.view.dismiss();
   }
   

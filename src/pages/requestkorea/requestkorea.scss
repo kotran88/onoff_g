@@ -1,0 +1,109 @@
+page-requestkorea {
+    .item-has-focus ion-label {
+        color: black !important;
+
+      }
+      .item-has-focus.label-floating.sc-ion-label-md-h,
+.item-has-placeholder .label-floating.sc-ion-label-md-h {
+
+    color: black
+}
+.item-input-has-focus .label-md[stacked]{
+    color: black !important;
+    }
+.input-has-focus .label-md[stacked]{
+    color: black !important;
+    }
+.item-input-has-focus .label-md[floating]{
+    color: black !important;
+    }
+.input-has-focus .label-md[floating]
+{
+    
+color: black !important;
+}
+
+
+.im{
+    width: 50%;
+    margin: auto;
+    margin-top: 2rem;
+    display: table;
+ }
+ .keyword{
+   border: solid 1px;
+   display: -webkit-box;
+   top: 2rem;
+   position: relative;
+ }
+ ion-scroll {
+  white-space: nowrap;
+  height: 70px;
+}
+.imagereservation{
+  width:100px; height:100px;
+  margin-top: 10px;
+  border-radius: 50px;
+}
+ion-scroll {
+  white-space: nowrap;
+  height: 70px;
+}
+.nameclass{
+  width: 100%;
+  height: 30px;
+  margin-top: -1em;
+  margin-right: 6em;
+  margin-left: 1.2em;
+}
+.imagereservation2{
+  height: 150px;
+  width:100px; 
+  float:left;
+}
+.imagedesign{
+  width:150px; height:150px;
+  margin-top: 10px;
+}
+.back-button.show-back-button{
+  display:none !important;
+
+}
+.scrollspan{
+  float: left;
+margin-top: 1em;
+margin-left: 0.5em;
+}
+
+.mybtn{
+  color: black;
+  width: 20%;
+  height: 2.8rem;
+  font-size: 7px;
+  background: transparent;
+  box-shadow: none !important;
+}
+.scrolltest .scroll-content{
+  margin-top:0px;
+  margin-bottom:0px;
+}
+.button-md:hover:not(.disable-hover){
+  background:transparent !important;
+
+}
+.mybtnclicked{
+  color: black;
+  width: 22%;
+  height: 2.8rem;
+  font-size: 9px;
+  border-bottom:solid green 2px;
+  background: transparent;
+  box-shadow: none !important;
+}
+.imagedesign{
+  width:150px; height:150px;
+  margin-top: 10px;
+}
+
+
+}

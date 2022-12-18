@@ -1,2 +1,7 @@
 @import '../theme/fonts/_fonts.scss';
 // global
+$dynamic-colour: var(--dynamic-colour);
+
+:root{
+    --dynamic-colour: 90
+ }

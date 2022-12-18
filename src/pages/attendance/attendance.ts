@@ -23,9 +23,13 @@ export class AttendancePage {
   hour:any="";
   min:any="";
 
+  currentstartday:any="";
+  currentstart:any="";
   constructor(public zone:NgZone,public navCtrl: NavController, public navParams: NavParams) {
     var date = new Date();
 
+    this.currentstart=localStorage.getItem("start");
+    this.currentstartday=localStorage.getItem("startDate");
     this.year=date.getFullYear();
     this.month=date.getMonth()+1;
     this.day = date.getDate();
@@ -47,10 +51,9 @@ export class AttendancePage {
     this.firemain.child('attendance').once('value').then((snap)=>{
       console.log(snap.val())
 
-    var fulldate = this.year+"-"+this.month+"-"+this.day;
       for(var a in snap.val()){
         console.log(a)
-        if(a==fulldate){
+        if(a==this.currentstartday){
           console.log("mmmm")
           for(var b in snap.val()[a]){
             console.log(b);

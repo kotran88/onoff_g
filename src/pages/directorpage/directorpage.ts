@@ -3,6 +3,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import  firebase from 'firebase';
 import { MenuController } from 'ionic-angular';
 import { LoginpagePage } from '../loginpage/loginpage';
+import { ParkingPage } from '../parking/parking';
+import { InfoPage } from '../info/info';
+import { AttendancePage } from '../attendance/attendance';
+import { ChoicePage } from '../choice/choice';
+import { GongjiPage } from '../gongji/gongji';
 @Component({
   selector: 'page-directorpage',
   templateUrl: 'directorpage.html',
@@ -14,10 +19,31 @@ export class DirectorpagePage {
   obj = [];
   firemain = firebase.database().ref();
   count : number[] = new Array();
+
+  company:any;
   constructor(public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
     this.name= localStorage.getItem("name");
-  }
+    this.company=localStorage.getItem("company");
 
+  }
+  
+  gotolink(value){
+    if(value == 1){
+    this.navCtrl.push(ParkingPage);
+    }else if(value==2){
+      this.navCtrl.push(InfoPage);
+    }else if(value==3){
+      this.navCtrl.push(AttendancePage);
+    }else if(value==4){
+      this.navCtrl.push(ChoicePage);
+    }else if(value==5){
+      this.navCtrl.push(GongjiPage);
+    }else if(value==6){
+      this.navCtrl.push(InfoPage);
+    }else if(value==7){
+      this.navCtrl.push(InfoPage);
+    }
+  }
   openclose(){
     console.log("open and cloe");
     this.menuCtrl.open();

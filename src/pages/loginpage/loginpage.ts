@@ -18,6 +18,7 @@ import { ChoicePage } from '../choice/choice';
 import { AttendancePage } from '../attendance/attendance';
 import { BandPage } from '../band/band';
 import { WtPage } from '../wt/wt';
+import { GongjiPage } from '../gongji/gongji';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -58,14 +59,9 @@ export class LoginpagePage {
     },1000)
     // this.version='7.6';
     localStorage.setItem('version',this.version)
-    var a=new Date();
-    a.setMonth(1);
-    console.log(new Date());
-    console.log(a);
 
     console.log(localStorage.getItem("loginflag"));
 
-    // this.firemain.child('user').once('value').then((snap)=>{
     //   for(var i in snap.val()){
     //     if(i==='admin'){}
     //     else{
@@ -73,8 +69,6 @@ export class LoginpagePage {
     //     }
     //   }
     // })
-    this.firemain.child("test").update({"a":"b"})
-    console.log(this.firemain);
     // this.firebaseAuth.auth.creat eUserWithEmailAndPassword("황지성82@naver.com", "000000").then( (data)=> {})
   }
   find_admin(){
@@ -171,7 +165,14 @@ export class LoginpagePage {
                 localStorage.setItem('name',this.name);
                 localStorage.setItem('password',this.password);
                 localStorage.setItem('company',snap.val().company);
+                this.firemain.child("company").child(snap.val().company).child('openandclose').once('value').then((snap)=>{
+                  console.log(snap.val().start)
+                  localStorage.setItem("startDate",snap.val().startDate)
+                  localStorage.setItem("start",snap.val().start);
+                  localStorage.setItem("flag",snap.val().flag);
+                });
                 localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
+                localStorage.setItem("type",snap.val().type);
                 this.login_flag_update();
                 var type = snap.val().type;
                 var price = snap2.val().price;
@@ -197,7 +198,7 @@ export class LoginpagePage {
                 this.navCtrl.push(AccountPage);
                 }else if(type=="info"){
                   //인포  
-                  this.navCtrl.push(AttendancePage)
+                  this.navCtrl.push(InfoPage)
                 }else if(type=="agasi"){
                   //아가씨 
                   this.navCtrl.push(AgasiPage)

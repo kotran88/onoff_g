@@ -47,6 +47,8 @@ import { AttendancePage } from '../pages/attendance/attendance';
 import { WtPage } from '../pages/wt/wt';
 import { BandPage } from '../pages/band/band';
 import { ChoicemodalPage } from '../pages/choicemodal/choicemodal';
+import { GongjiPage } from '../pages/gongji/gongji';
+import { GongjiwritePage } from '../pages/gongjiwrite/gongjiwrite';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -65,6 +67,7 @@ initializeApp(firebaseConfig);
     MyApp,
     LoginpagePage,
     SignupPage,
+    GongjiPage,
     TestpagePage,
     AccountPage,
     InfomodalPage,
@@ -79,6 +82,7 @@ initializeApp(firebaseConfig);
     AgasiPage,
     ChoicePage,
     OrderPage,
+    GongjiwritePage,
     AgasichoicePage,
     WtPage,
     ChoicemodalPage,
@@ -104,7 +108,9 @@ initializeApp(firebaseConfig);
     MyApp,
     LoginpagePage,
     ChoicemodalPage,
+    GongjiwritePage,
     ChoicePage,
+    GongjiPage,
     AgasiPage,
     AgasichoicePage,
     EditingroomPage,

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ParkingdetailPage } from '../parkingdetail/parkingdetail';
 import { ReceiptPage } from './../receipt/receipt';
 
+import { MenuController } from 'ionic-angular';
 import  firebase from 'firebase';
 import { LoginpagePage } from '../loginpage/loginpage';
 /**
@@ -23,21 +24,38 @@ export class ParkingPage {
   mainlist=[];
   allmainlist=[];
   obj = [];
-
+  company:any="";
   plusactivated=false;
+  currentstartday:any="";
+  currentstart:any="";
   activeclass='1';
   firemain = firebase.database().ref();
+  showflag=false;
+  position:any;
   count : number[] = new Array();
-  constructor(public zone:NgZone,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public menuCtrl: MenuController ,public zone:NgZone,public navCtrl: NavController, public navParams: NavParams) {
     console.log("parking come");
+    this.company = localStorage.getItem("company");
+    this.currentstart=localStorage.getItem("start");
+    this.currentstartday=localStorage.getItem("startDate");
     for (let i = 1; i <= 10; i++) {
       this.count.push(i);
+    }
+    this.position = localStorage.getItem("type");
+    if(this.position=="park"){
+      this.showflag=true;
+    }else{
+      this.showflag=false;
     }
   }
   logout(){
     localStorage.setItem("loginflag", "false" )
     this.plusactivated=true;
     this.navCtrl.setRoot(LoginpagePage)
+}
+openclose(){
+  console.log("open and cloe");
+  this.menuCtrl.open();
 }
   released(i, j){
     console.log(this.plusactivated);
@@ -71,22 +89,28 @@ export class ParkingPage {
     var day = date.getDate();
     var hour = date.getHours();
     var min = date.getMinutes();
-    this.firemain.child('park').once('value').then((snap)=>{
-      
+    this.firemain.child("company").child(this.company).child('park').once('value').then((snap)=>{
+      console.log(snap.val())
       for(var a in snap.val()){
         console.log("a is :"+a);
         var todaylist=[];
         var countingvalue=0;
         var countingprice =0;
+
+        // this.mainlist.push(snap.val()[a]);
+        // todaylist.push({"carnum":snap.val()[a].carnum,"date":snap.val()[a].date,"incharge":snap.val()[a].incharge,"key":snap.val()[a].key,"price":snap.val()[a].price,"receiver":snap.val()[a].receiver,"room":snap.val()[a].room,"time":snap.val()[a].time,"type":snap.val()[a].type});
         for(var b in snap.val()[a]){
+          console.log(b);
           console.log(snap.val()[a][b]);
+
           todaylist.push(snap.val()[a][b]);
-          countingvalue++;
-          countingprice+=Number(snap.val()[a][b].price);
+        countingvalue++;
+        countingprice+=Number(snap.val()[a][b].price);
           if(year+"-"+month+"-"+day==snap.val()[a][b].date){
             this.totalcount++;
             this.totalprice+=Number(snap.val()[a][b].price);
             this.mainlist.push(snap.val()[a][b]);
+
           }
 
           // this.allmainlist.push(snap.val()[a][b]);
@@ -95,7 +119,8 @@ export class ParkingPage {
         this.obj[a] = todaylist
 
         this.allmainlist.push({a:todaylist,"count":countingvalue,"price":countingprice})
-
+        console.log(this.allmainlist)
+        console.log(this.mainlist)
 
       }
 

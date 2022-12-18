@@ -3,6 +3,10 @@ import { IonicPage,ModalController, NavController, NavParams,MenuController } fr
 import { InfomodalPage } from '../infomodal/infomodal';
 import { LoginpagePage } from '../loginpage/loginpage';
 
+import { ParkingPage } from '../parking/parking';
+import { AttendancePage } from '../attendance/attendance';
+import { ChoicePage } from '../choice/choice';
+import { GongjiPage } from '../gongji/gongji';
 import  firebase from 'firebase';
 import { EditingroomPage } from '../editingroom/editingroom';
 /**
@@ -18,6 +22,8 @@ import { EditingroomPage } from '../editingroom/editingroom';
 })
 export class InfoPage {
   mainlist:any = [];
+  currentstartday:any="";
+  currentstart:any="";
   smallroom=[];
   midroom=[];
   bigroom=[];
@@ -25,40 +31,70 @@ export class InfoPage {
   firemain = firebase.database().ref();
   constructor(public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
     this.company=  localStorage.getItem("company");
+    this.currentstart=localStorage.getItem("start");
+    this.currentstartday=localStorage.getItem("startDate");
   }
   openclose(){
     console.log("open and cloe");
     this.menuCtrl.open();
   }
+  gotolink(value){
+    if(value == 1){
+    this.navCtrl.push(ParkingPage);
+    }else if(value==2){
+      this.navCtrl.push(InfoPage);
+    }else if(value==3){
+      this.navCtrl.push(AttendancePage);
+    }else if(value==4){
+      this.navCtrl.push(ChoicePage);
+    }else if(value==5){
+      this.navCtrl.push(GongjiPage);
+    }else if(value==6){
+      this.navCtrl.push(InfoPage);
+    }else if(value==7){
+      this.navCtrl.push(InfoPage);
+    }
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfoPage');
     this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
       console.log(snap.val());
-      console.log(snap.val().category)
-      for(var a in snap.val()){
-       var cat =  snap.val()[a].category;
-       var name = snap.val()[a].name;
-       console.log(cat);
-       if(cat=="소"){
-         this.smallroom.push({"name":name,"category":cat});
-       }
-       if(cat=="중"){
-        this.midroom.push({"name":name,"category":cat});
+      if(snap.val()==null){
+
+      }else{
+        console.log(snap.val().category)
+        for(var a in snap.val()){
+         var cat =  snap.val()[a].category;
+         var name = snap.val()[a].name;
+         console.log(cat);
+         if(cat=="소"){
+           this.smallroom.push({"name":name,"category":cat});
+         }
+         if(cat=="중"){
+          this.midroom.push({"name":name,"category":cat});
+        }
+        if(cat=="대"){
+          this.bigroom.push({"name":name,"category":cat});
+        }
+        }
+        console.log(this.smallroom);
       }
-      if(cat=="대"){
-        this.bigroom.push({"name":name,"category":cat});
-      }
-      }
-      console.log(this.smallroom);
+  
     });
+
     this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
       for(var a in snap.val()){
         console.log("mmmm")
+        console.log(snap.val()[a]);
         console.log(snap.val()[a].roomhistory)
-        for(var b in snap.val()[a].roomhistory){
-          console.log(snap.val()[a].roomhistory[b]);
-          this.mainlist.push(snap.val()[a].roomhistory[b]);
+        if(snap.val()[a].roomhistory!=undefined){
+          console.log(snap.val()[a].roomhistory[this.currentstartday])
+          for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+            console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+            this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+          }
         }
+       
         // for(var b in snap.val()[a]){
         //   console.log(snap.val()[a][b]);
         //   this.mainlist.push(snap.val()[a][b]);
@@ -79,9 +115,12 @@ export class InfoPage {
         for(var a in snap.val()){
           console.log("mmmm")
           console.log(snap.val()[a].roomhistory)
-          for(var b in snap.val()[a].roomhistory){
-            console.log(snap.val()[a].roomhistory[b]);
-            this.mainlist.push(snap.val()[a].roomhistory[b]);
+          if(snap.val()[a].roomhistory!=undefined){
+            console.log(snap.val()[a].roomhistory[this.currentstartday])
+            for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+              console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+              this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+            }
           }
           // for(var b in snap.val()[a]){
           //   console.log(snap.val()[a][b]);
@@ -105,6 +144,30 @@ export class InfoPage {
     let modal = this.modal.create(InfomodalPage,{"room":room});
     modal.onDidDismiss(url => {
       console.log("dismiss!");
+
+
+      this.mainlist=[];
+
+    this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+      for(var a in snap.val()){
+        console.log("mmmm")
+        console.log(snap.val()[a].roomhistory)
+
+        if(snap.val()[a].roomhistory!=undefined){
+          console.log(snap.val()[a].roomhistory[this.currentstartday])
+          for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+            console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+            this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+          }
+        }
+        // for(var b in snap.val()[a]){
+        //   console.log(snap.val()[a][b]);
+        //   this.mainlist.push(snap.val()[a][b]);
+        // }
+      }
+      console.log(this.mainlist)
+    });
+
     });
 
     modal.present();

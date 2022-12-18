@@ -113,6 +113,7 @@ background: black; margin-top:45px;" padding>
   </div>
   <div *ngIf="!showplus" class="ion-label-area">
     <div id="ion-label-area-1">
+      afsdf
       <div  *ngFor="let i of mainlist; let j = index;">
         <button  ion-long-press [interval]="800"  (pressEnded)="released(i , j)" (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
           <div>
@@ -143,7 +144,7 @@ background: black; margin-top:45px;" padding>
     </div>
     <div id="ion-label-area-4" style="display: none;">
       <div *ngFor="let i of allmainlist let j = index">
-       
+      
         <button (click)="extendedAccordion(4, j)" class="accordion" id="accordion-{{i}}">
           <p style="font-size:20px; width:150px;">{{i.a[0].date}}</p>
           <p style="margin-top: 20px;;"><img src="assets/img/bottomarrow.png"
@@ -160,12 +161,12 @@ background: black; margin-top:45px;" padding>
               <span>{{b.time}}</span>
               <span>입력자: {{b.receiver}}</span>
             </div>
-            <div style="margin-left:20px;">
+            <!-- <div style="margin-left:20px;">
               <span>{{b.room}} {{b.incharge}} ₩{{b.price.toLocaleString()}}</span>
               <span>{{b.type}}</span>
               <span *ngIf="b.type=='발렛'">{{b.carnum}}</span>
               <span *ngIf="b.type=='대리'||b.type=='픽업'">{{b.destination}}</span>
-            </div>
+            </div> -->
           </div>
         </div>
         <hr style="width: 90%; height: 1px; background-color: white; margin-top: 0px;">
@@ -173,7 +174,7 @@ background: black; margin-top:45px;" padding>
     </div>
   </div>
 
-      <ion-fab *ngIf="!showplus" style="
+      <ion-fab *ngIf="!showplus && showflag" style="
       right: 10%;
       bottom: 10%;">
         <button (click)="goToReceiptPage()" ion-fab>+</button>

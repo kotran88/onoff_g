@@ -130,7 +130,36 @@
           </div>
           <div class="dates">
             <span *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</span>
-            <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span>
+            <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth" > 
+              <span (click)="gotocalendardetail(day)" class="currentDate" *ngIf="(
+                currentDate === day &&
+                today.getMonth()+1 === currentMonth &&
+                today.getFullYear() === currentYear
+                ); else otherDate">{{day}}</span><br>
+                <div (click)="gotocalendardetail(day)" style="width: 7px;
+                    height: 7px;
+                    color: #E74371 ;
+                    background: #E74371 ;
+                    border-radius: 20px;
+    margin-left: 20px;
+    margin-top: -20px;" class="event-bullet" *ngIf="(
+                currentDate === day &&
+                today.getMonth()+1 === currentMonth &&
+                today.getFullYear() === currentYear
+                ) && checkEvent2(day)" >
+                    </div>
+                <ng-template #otherDate class="otherDate">
+                    <span (click)="gotocalendardetail(day)">{{day}}</span> <br>
+                    <div (click)="gotocalendardetail(day)" style="width: 7px;
+                    height: 7px;
+                    color: #E74371 ;
+                    background: #E74371 ;
+                    border-radius: 20px;
+    margin-left: 20px;
+    margin-top: -20px;" class="event-bullet" *ngIf="checkEvent(day)" >
+                    </div>
+                </ng-template>  
+            </span>
             <span *ngFor="let nextDay of daysInNextMonth" class="last-month" (click)="goToNextMonth()">{{nextDay}}</span>
           </div>
         </div>
@@ -138,35 +167,60 @@
     </div>
 
     <div class="area" id="ion-label-area-2">
+      <div style="    width: 100%; color:black;
+      text-align: center;" class="title-div">
+        <span style=" color:black; 
+        font-size: 24px;
+        margin-top: 20px;
+        display: inline-flex;" class="text">오늘의 TC : {{totaltcofday.toLocaleString()}} </span>
+      </div>
       <p style="    text-align: center;
-      font-size:20px;
-      padding-top: 20px;">Completion List</p>
-
+      font-size:24px;">Completion List</p>
+      <div *ngIf="currentRoom!=undefined" class="no">
+        <div class="roomno">No.{{currentRoom}}</div>
+      <div style="margin-top:20px !important;" class="time">
+        <p>시작시간 {{currentStart}}</p>
+        <!-- <p>종료시간 </p> -->
+        <p style="    float: right;
+        right: 20%;
+        position: absolute;
+        top: 20%;">TC : {{tctotal}}개 </p>
+      </div>
+          <div class="c_fill">{{diffMin}}분 경과</div>
+          <div style="
+          text-align: center;" class="center">
+            <svg class="circle_progress" width="200" height="200" viewBox="0 0 120 120">
+              <circle class="frame" cx="60" cy="60" r="54" stroke-width="12" />
+              <circle id="bar" class="bar" cx="60" cy="60" r="54" stroke-width="12" />
+            </svg>
+          </div>
+      </div>
+      
+     
       <div class="room-current">
-        <div class="title-div">
-          <ion-icon class="square" name="square"></ion-icon>
-          <span class="text">룸 현황</span>
-        </div>
+       
 
         <div class="chart-div">
           <div class="name-keys">
-            <span>이름</span>
+            <span>이름..</span>
             <span>룸No.</span>
             <span>입실T</span>
             <span>퇴실T</span>
             <span>담당자</span>
             <span>TC</span>
+            <span>TC(원)</span>
           </div>
           <div (click)="editing(a);" *ngFor="let a of mainlist" class="datas">
-            <span>{{a.room}}</span>
-            <span>{{a.incharge}}</span>
-            <span *ngIf="a.status=='reserved'"> 예약중 </span>
-            <span *ngIf="a.status=='entered'"> 입실 </span>
-            <span *ngIf="a.status=='clean'"> 정리중 </span>
-            <span *ngIf="a.status=='fin'">완료  </span>
-            <span>0 인 </span>
-            <span>{{a.wt}}</span>
-            <span>{{a.insert_date}}</span>
+            <span>{{name}}</span>
+            <span>{{a.name}}</span>
+            
+            <span >{{a.enter_date_full.split('T')[0]}} {{a.enter_date_full.split('T')[1].split(":")[0]}} : {{a.enter_date_full.split('T')[1].split(":")[1]}}   </span>
+            <span *ngIf="a.end_date_full!=undefined" >{{a.end_date_full.split('T')[0]}} {{a.end_date_full.split('T')[1].split(":")[0]}} : {{a.end_date_full.split('T')[1].split(":")[1]}}   </span>
+            <span *ngIf="a.end_date_full==undefined" > -  </span>
+            
+            <span >{{a.incharge}}  </span>
+            <span>{{a.tctotal}}</span>
+            <span>{{a.money}}만원</span>
           </div>
         </div>
       </div>
