@@ -43,25 +43,29 @@ export class ChoicePage {
     this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
       for(var a in snap.val()){
         console.log("mmmm")
-        console.log(snap.val()[a].roomhistory[this.currentstartday])
-        for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-          console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-          console.log(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full)
-          if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
-            this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
-          }else{
-            this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
-            this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+        if(snap.val()[a].roomhistory!=undefined){
+          console.log(snap.val()[a].roomhistory[this.currentstartday])
+          for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+            console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+            console.log(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full)
+            if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
+              this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+            }else{
+              this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+              this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+            }
+            
           }
-          
         }
+        
       }
       console.log(this.mainlist)
     });
   }
   openclose(){
     console.log("open and cloe");
-    this.menuCtrl.open();
+    // this.menuCtrl.open();
+    this.view.dismiss();
   }
   gotodetail(a){
     console.log("gotodetail...")
@@ -74,16 +78,22 @@ export class ChoicePage {
         console.log(snap.val())
         for(var a in snap.val()){
           console.log("mmmm")
-          for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-            console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-            console.log(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full)
-            if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
-              this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
-            }else{
-              this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+          if(snap.val()[a].roomhistory!=undefined){
+            console.log(snap.val()[a].roomhistory);
+            console.log(snap.val()[a].roomhistory[this.currentstartday]);
+            for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+              console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+              console.log(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full)
+              if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
+                this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+              }else{
+                this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+              }
+              
             }
-            
           }
+          
         }
         console.log(this.mainlist)
       });
@@ -115,16 +125,21 @@ export class ChoicePage {
         if(snap.val()[b].type=="agasi"){
 
             console.log("mmmm")
-            if(c.name == snap.val()[b].name){
-              this.firemain.child("users").child(snap.val()[b].id).child("current").remove();
-             
+            for(var d in c.agasi){
+              console.log(c.agasi[d].name);
+              if(c.agasi[d].name.trim() == snap.val()[b].name.trim()){
+                this.firemain.child("users").child(snap.val()[b].id).child("current").remove();
+                this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(room).child(this.currentstartday).child(c.key).update({"end_date":hour+":"+min,"end_date_full":dte})
+                
+              }
             }
+            
           }
       }
     
   });
   this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(c.key).update({"end_date":hour+":"+min,"end_date_full":dte})
-
+  this.firemain.child("company").child(this.company).child("roomlist").child(room).update({"flag":false,"lastupdated":dte});
 
   //refresh 
   this.mainlist=[];
@@ -132,17 +147,21 @@ export class ChoicePage {
   this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
     for(var a in snap.val()){
       console.log("mmmm")
-      console.log(snap.val()[a].roomhistory[this.currentstartday])
-      for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-        console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-        console.log(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full)
-        if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
-          this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
-        }else{
-          this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+      console.log(snap.val()[a].roomhistory)
+      if(snap.val()[a].roomhistory!=undefined){
+        for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+          console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+          console.log(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full)
+          if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
+            this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+          }else{
+            this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+            this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+          }
+          
         }
-        
       }
+      
     }
     console.log(this.mainlist)
   });
@@ -178,6 +197,7 @@ export class ChoicePage {
   }
 
   gotolink(value){
+    console.log("gotolink "+value);
     if(value == 1){
     this.navCtrl.push(ParkingPage);
     }else if(value==2){

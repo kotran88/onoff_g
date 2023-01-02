@@ -6,9 +6,9 @@
       left: 0;
       z-index: 9999;
       color: white;" start>
-        <button (click)="openclose();" menuToggle ion-button icon-only color="royal">
+        <button (click)="openclose();"  ion-button icon-only color="royal">
           <img style="
-          width: 30px" class="logo" src="assets/img/hamburger.png" />
+          width: 30px" class="logo" src="assets/img/back1.png" />
         </button>
       </ion-buttons>
 
@@ -88,12 +88,12 @@
           <span>{{a.name}}</span>
        <span>{{a.incharge}}</span>
        
-        <span>인 </span> 
+        <span>{{a.numofpeople}}인 </span> 
         <span *ngIf="a.agasi!=undefined">{{a.agasi.length}} 인</span>
         
         <span>{{a.wt}}</span>
         <span>{{a.insert_date}}</span> 
-        <span></span>
+        <span *ngIf="a.end_date!=undefined">완료/{{a.end_date}}</span>
 
         </div>
         <div *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
@@ -110,9 +110,9 @@
             </div>
           </div>
           <div class="b">
-            <span style="
+            <!-- <span style="
             font-size: 14px;
-            font-weight: 500;">총 3개</span>
+            font-weight: 500;">총 3개</span> -->
             <button (click)="endall(a,a.name)"  style="
             width: 80px;
             background: orange;
@@ -147,7 +147,7 @@
           <span>{{a.name}}</span>
        <span>{{a.incharge}}</span>
        
-        <span>인 </span> 
+        <span>{{a.numofpeople}} 인 </span> 
         <span *ngIf="a.agasi!=undefined">{{a.agasi.length}} 인</span>
         
         <span>{{a.wt}}</span>
@@ -169,9 +169,9 @@
             </div>
           </div>
           <div class="b">
-            <span style="
+            <!-- <span style="
             font-size: 14px;
-            font-weight: 500;">총 ??? 개</span>
+            font-weight: 500;">총 ??? 개</span> -->
             <!-- <button (click)="endall(a,a.name)"  style="
             width: 80px;
             background: orange;

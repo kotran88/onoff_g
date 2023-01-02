@@ -3,6 +3,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ParkingdetailPage } from '../parkingdetail/parkingdetail';
 import { ReceiptPage } from './../receipt/receipt';
 
+import { AttendancePage } from '../attendance/attendance';
+import { ChoicePage } from '../choice/choice';
+import { GongjiPage } from '../gongji/gongji';
+import { EditingroomPage } from '../editingroom/editingroom';
+import { InfoPage } from '../info/info';
 import { MenuController } from 'ionic-angular';
 import  firebase from 'firebase';
 import { LoginpagePage } from '../loginpage/loginpage';
@@ -57,6 +62,24 @@ openclose(){
   console.log("open and cloe");
   this.menuCtrl.open();
 }
+
+gotolink(value){
+  if(value == 1){
+  this.navCtrl.push(ParkingPage);
+  }else if(value==2){
+    this.navCtrl.push(InfoPage);
+  }else if(value==3){
+    this.navCtrl.push(AttendancePage);
+  }else if(value==4){
+    this.navCtrl.push(ChoicePage);
+  }else if(value==5){
+    this.navCtrl.push(GongjiPage);
+  }else if(value==6){
+    this.navCtrl.push(InfoPage);
+  }else if(value==7){
+    this.navCtrl.push(InfoPage);
+  }
+}
   released(i, j){
     console.log(this.plusactivated);
     if(!this.plusactivated){
@@ -90,23 +113,23 @@ openclose(){
     var hour = date.getHours();
     var min = date.getMinutes();
     this.firemain.child("company").child(this.company).child('park').once('value').then((snap)=>{
-      console.log(snap.val())
       for(var a in snap.val()){
-        console.log("a is :"+a);
         var todaylist=[];
         var countingvalue=0;
         var countingprice =0;
-
+        console.log(a);
         // this.mainlist.push(snap.val()[a]);
         // todaylist.push({"carnum":snap.val()[a].carnum,"date":snap.val()[a].date,"incharge":snap.val()[a].incharge,"key":snap.val()[a].key,"price":snap.val()[a].price,"receiver":snap.val()[a].receiver,"room":snap.val()[a].room,"time":snap.val()[a].time,"type":snap.val()[a].type});
         for(var b in snap.val()[a]){
           console.log(b);
-          console.log(snap.val()[a][b]);
-
           todaylist.push(snap.val()[a][b]);
         countingvalue++;
         countingprice+=Number(snap.val()[a][b].price);
-          if(year+"-"+month+"-"+day==snap.val()[a][b].date){
+
+        console.log(this.currentstartday);
+        console.log(snap.val()[a][b]);
+          if(this.currentstartday==a){
+            console.log("added...");
             this.totalcount++;
             this.totalprice+=Number(snap.val()[a][b].price);
             this.mainlist.push(snap.val()[a][b]);

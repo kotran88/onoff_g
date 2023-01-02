@@ -49,6 +49,7 @@ import { BandPage } from '../pages/band/band';
 import { ChoicemodalPage } from '../pages/choicemodal/choicemodal';
 import { GongjiPage } from '../pages/gongji/gongji';
 import { GongjiwritePage } from '../pages/gongjiwrite/gongjiwrite';
+import { OrdermainPage } from '../pages/ordermain/ordermain';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -71,6 +72,7 @@ initializeApp(firebaseConfig);
     TestpagePage,
     AccountPage,
     InfomodalPage,
+    OrdermainPage,
     EditingroomPage,
     InfoPage,
     AccountingmodalPage,
@@ -107,6 +109,7 @@ initializeApp(firebaseConfig);
   entryComponents: [
     MyApp,
     LoginpagePage,
+    OrdermainPage,
     ChoicemodalPage,
     GongjiwritePage,
     ChoicePage,

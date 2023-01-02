@@ -266,7 +266,11 @@ page-directorpage {
             height: 3px;
         }
     }
-
+    .c{
+        p{
+            margin:0px !important;
+        }
+    }
     .panel-4 > div:first-child {
         padding-left: 0px;
     }

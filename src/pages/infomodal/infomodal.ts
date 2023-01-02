@@ -58,7 +58,7 @@ export class InfomodalPage {
     var key = this.firemain.child('rooms').child(fulldate).push().key;
     // this.firemain.child("rooms").child(fulldate).child(key).update({"status":"reserved", "incharge":this.incharge,"in":this.in,"wt":this.wt,"room":this.room,"insert_date":hour+":"+min,"key":key,"date":fulldate})
     this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday).child(key).update({"name":this.room.name,"status":"reserved", "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte, "key":key,"date":fulldate})
-    
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).update({"flag":true,"lastupdated":dte})
     
     // this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
     //   console.log(snap.val());

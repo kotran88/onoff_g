@@ -139,6 +139,8 @@ export class ChoicemodalPage {
     }
     console.log(this.a);
     console.log(this.name);
+
+    var key=this.firemain.child("list").push().key;
     this.firemain.child("users").once("value",snap=>{
       for(var b in snap.val()){
         console.log(b);
@@ -157,11 +159,10 @@ export class ChoicemodalPage {
               console.log(dte);
               // console.log(dte.getHours());
               dte.setHours(dte.getHours()+9);
-              
               console.log(dte);
               this.firemain.child("users").child(snap.val()[b].id).child("current").update({"room":this.a.name,"enter_date":dte})
-              this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).update(this.a);
-              this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).update({"enter_date_full":dte})
+              this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update(this.a);
+              this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update({"enter_date_full":dte})
             }else{
               window.alert("no match");
             }

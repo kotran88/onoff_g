@@ -4,6 +4,7 @@ import  firebase from 'firebase';
 import { MenuController } from 'ionic-angular';
 import { LoginpagePage } from '../loginpage/loginpage';
 import { OrderPage } from '../order/order';
+import { OrdermainPage } from '../ordermain/ordermain';
 @Component({
   selector: 'page-wt',
   templateUrl: 'wt.html',
@@ -30,7 +31,7 @@ export class WtPage {
 }
 orderpage(){
   console.log("come to order page");
-  this.navCtrl.push(OrderPage);
+  this.navCtrl.push(OrdermainPage);
 }
   ionViewDidLoad() {
     console.log('ionViewDidLoad DirectorpagePage');

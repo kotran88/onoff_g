@@ -74,12 +74,45 @@ background: black; margin-top:45px;" padding>
     <button style="
     float: right;
     margin-right: 20px;
-    margin-top: 10px;" class="header_btn">$1,900,000 </button>
+    margin-top: 10px;" class="header_btn">xxx </button>
   </div>
 </div>
 
 <hr class="header-parking-hr">
 
+
+<div style="    padding: 20px;" class="c">
+  <div style="color:white;" *ngFor="let i of orderlist; let j = index;">
+    <p *ngIf="j==0"> 룸 넘버 : {{i.roomno}}</p>
+    <p *ngIf="j==0"> 주문일 : {{i.orderDate}}</p>
+    <p>{{i.value.name}}, {{i.value.num}}, {{i.value.price}}</p>
+    <!-- <p></p>
+    <p>주문일자 : {{i.date}}</p> -->
+  </div>
+</div>
+<hr style="width: 90%; height: 1px; background-color: white;">
+
+<div  *ngFor="let i of mainlist; let j = index;">
+  <button  ion-long-press [interval]="800"  (pressEnded)="released(i , j)" (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
+    <div>
+      <p>{{i.date}}</p>
+      <p>{{i.time}}</p>
+      <p>입력자 : {{i.receiver}}</p>
+    </div>
+    <div>
+      <p>{{i.room}} {{i.incharge}} ₩{{i.price.toLocaleString() }}</p>
+      <p>{{i.type}}</p>
+      <img src="assets/img/bottomarrow.png" style="height: 20px; width: 20px;">
+    </div>
+  </button>
+  <div style="color:white;" class="panel-1" id="panel-1-{{j}}">
+    <div>
+      <p *ngIf="i.type=='발렛'">{{i.carnum}}</p>
+      <p *ngIf="i.type=='대리'||i.type=='픽업'">{{i.destination}}</p>
+    </div>
+  </div>
+  <hr style="width: 90%; height: 1px; background-color: white;">
+</div>
   <!--
  
 

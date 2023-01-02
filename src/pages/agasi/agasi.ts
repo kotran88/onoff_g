@@ -3,8 +3,13 @@ import { IonicPage,ModalController, NavController, NavParams,MenuController } fr
 import { InfomodalPage } from '../infomodal/infomodal';
 import { LoginpagePage } from '../loginpage/loginpage';
 
+import { ParkingPage } from '../parking/parking';
+import { AttendancePage } from '../attendance/attendance';
+import { ChoicePage } from '../choice/choice';
+import { GongjiPage } from '../gongji/gongji';
 import  firebase from 'firebase';
 import { EditingroomPage } from '../editingroom/editingroom';
+import { InfoPage } from '../info/info';
 /**
  * Generated class for the AgasiPage page.
  *
@@ -18,7 +23,8 @@ import { EditingroomPage } from '../editingroom/editingroom';
 })
 
 export class AgasiPage {
-
+  todaymoney:any;
+  attendcount:any = 0;
   currentstartday:any="";
   currentstart:any="";
   totaltcofday:any =0;
@@ -27,6 +33,7 @@ export class AgasiPage {
   currentStart:any;
   max: number = 50;
   stroke: number = 15;
+  thismonthmainlist=[];
   radius: number = 125;
   semicircle: boolean = false;
   rounded: boolean = false;
@@ -39,6 +46,7 @@ export class AgasiPage {
   animationDelay: number = 0;
   animations: string[] = [];
   gradient: boolean = false;
+  tcday=[];
   realCurrent: number = 0;
   rate:number;
   currentRoom:any;
@@ -73,7 +81,10 @@ export class AgasiPage {
     this.day = date.getDate();
     this.hour = date.getHours();
     this.min = date.getMinutes();
-
+    //:290000,"2022-12-25":310000
+    // this.tcday.push({"date": "2022-12-4","day":4, "value": 90000});
+    // this.tcday.push({"date": "2022-12-5","day":5, "value": 110000});
+    // this.tcday.push({"date": "2022-12-16","day":16, "value": 310000});
     this.firemain.child("users").child(this.id).child("attendance").child(this.currentstartday).once('value').then((snap)=>{
 
 
@@ -92,15 +103,39 @@ export class AgasiPage {
 
     });
   }
+
+  gotolink(value){
+    if(value == 1){
+    this.navCtrl.push(ParkingPage);
+    }else if(value==2){
+      this.navCtrl.push(InfoPage);
+    }else if(value==3){
+      this.navCtrl.push(AttendancePage);
+    }else if(value==4){
+      this.navCtrl.push(ChoicePage);
+    }else if(value==5){
+      this.navCtrl.push(GongjiPage);
+    }else if(value==6){
+      this.navCtrl.push(InfoPage);
+    }else if(value==7){
+      this.navCtrl.push(InfoPage);
+    }
+  }
   myChange(v){
     console.log(v);
     console.log(this.booleanValue)
     if(this.booleanValue){
-
+      console.log(this.id);
+      console.log(this.currentstartday)
+      console.log("team"+this.team+"name"+this.id+"date"+this.currentstartday+ "flag"+"attend"+"time"+this.hour+":"+this.min);
       this.firemain.child("users").child(this.id).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
       this.firemain.child("users").child(this.id).child("attendance").child(this.currentstartday).child("attend").update({ "team":this.team,"name":this.id,"date":this.currentstartday, "flag":"attend","time":this.hour+":"+this.min})
     this.firemain.child("attendance").child(this.currentstartday).child(this.id).child("attend").update({ "team":this.team,"name":this.id,"flag":"attend","date":this.currentstartday, "time":this.hour+":"+this.min})
-    }else{
+      //calendar refresh...
+
+  
+      this.generatecal();
+  }else{
 
       this.firemain.child("users").child(this.id).child("attendance").child(this.currentstartday).update({"currentStatus":"noattend"})
       this.firemain.child("users").child(this.id).child("attendance").child(this.currentstartday).child("noattend").update({ "flag":"noattend","date":this.currentstartday,"time":this.hour+":"+this.min})
@@ -116,7 +151,8 @@ export class AgasiPage {
     for(var a in this.attendance){
      
       if(this.attendance[a].day!=undefined){
-      if(day == this.attendance[a].day.split("-")[2]){
+      if(day == this.attendance[a].day.split("-")[2] && this.currentMonth == this.attendance[a].day.split("-")[1]){
+        
         return true;
       }
       }
@@ -135,28 +171,34 @@ export class AgasiPage {
       
     }
   }
-  
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AgasiPage');
-    this.goToday();
-
-    for (let i = 1; i <= 3; i++) { document.getElementById("ion-label-area-" + i).style.display = "none"; }
-
-    document.getElementById("ion-label-area-1").style.display = "";
-    this.zone.run(()=>{
-      this.activeclass='1'
-    })
-    setTimeout(()=>{
-
-
-//       document.documentElement.style.setProperty('--dynamic-colour', 180+"");
-    },5000)
+  generatecal(){
+    this.attendcount=0;
+    this.totaltcofday=0;
     this.firemain.child("users").child(this.id).once('value').then((snap)=>{
       console.log(snap.val());
 
       this.team = snap.val().jopan;
+      window.alert(this.team)
       for(var a in snap.val().attendance){
+        console.log(snap.val().attendance[a])
+
+      
         this.attendance.push({day:snap.val().attendance[a].attend.date});
+      }
+      console.log(this.attendance);
+      for(var a in this.attendance){
+     
+        if(this.attendance[a].day!=undefined){
+          for(var b in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31])
+        if(b == this.attendance[a].day.split("-")[2]){
+          console.log(this.currentMonth+"////"+ this.attendance[a].day.split("-")[1]);
+          if(this.currentMonth == this.attendance[a].day.split("-")[1]){
+            this.attendcount++;
+          }
+         
+        }
+        }
+        
       }
       console.log(snap.val().current)
       if(snap.val().current!=undefined){
@@ -205,18 +247,107 @@ export class AgasiPage {
       
      
 
+      console.log(snap.val().roomhistory)
       for(var a in snap.val().roomhistory){
-        var end = snap.val().roomhistory[a].end_date_full
-        var start = snap.val().roomhistory[a].insert_date_full;
+        console.log(snap.val().roomhistory[a])
+        for(var b in snap.val().roomhistory[a]){
+          console.log(snap.val().roomhistory[a][b])
+
+          for(var c in snap.val().roomhistory[a][b]){
+            console.log(snap.val().roomhistory[a][b][c])
+
+
+
+
+            var end = snap.val().roomhistory[a][b][c].end_date_full
+        var start = snap.val().roomhistory[a][b][c].enter_date_full;
+        console.log(end);
+        console.log(start);
+
         var enddate = new Date(end);
         var startdate = new Date(start);
-        var tctotal=0;
+        console.log(enddate);
+        console.log(startdate);
+        console.log(this.currentMonth+"????"+(Number(enddate.getMonth())+1)+"/"+(Number(startdate.getMonth())+1) +"start end");
+        if(Number(enddate.getMonth())+1==this.currentMonth||Number(startdate.getMonth())+1==this.currentMonth){
+          console.log("ok");
+          var tctotal=0;
         var totalmoney=0;
+        console.log(snap.val().roomhistory[a])
+        console.log(end);
         if(end==undefined){
 
         }else{
+          console.log(this.currentstartday)
+          console.log(snap.val().roomhistory[a][b][c]);
+          console.log(snap.val().roomhistory[a][b][c].end_date_full);
+          if(snap.val().roomhistory[a][b][c].end_date_full.split("T")[0].trim()==this.currentstartday){
+            
 
-        console.log(end);
+
+            console.log(end);
+        console.log("enddate"+enddate);
+        var diff = enddate.getTime() - startdate.getTime();
+        console.log(diff);
+        var diffDays = Math.ceil(diff / (1000) / 3600 * 60 );
+        console.log(enddate);
+        console.log(startdate);
+        console.log(diffDays)
+
+
+        tctotal = diffDays/60;
+        console.log(tctotal);
+        console.log(Math.floor(tctotal))
+        var mok = Math.floor(tctotal);
+        var nameoji = tctotal -Math.floor(tctotal);
+        console.log(nameoji)
+        // 10분 -> 0.17 
+        // 15분 -> 0.25
+        // 20분 -> 0.33 - 3만원
+        //30분 - > 0.5
+        // 40분 -> 0.67 - 6만원
+        // 1시간 -> 1 - 13만원 
+        
+        // 1시간 30분 -> 1.5
+        // 2시간 -> 2 - 26만원
+        // 2시간 20분 -> 26만원 + 3만원 = 29만원
+        var moneyvalue = mok*13;
+        var restofmoney=0;
+        //if 2.5 
+        if(nameoji<=0.17){
+          //nothing
+        }else if(nameoji>0.17 &&nameoji<=0.33){
+          //3마ㄴ원
+          restofmoney = 3;
+        }else if(nameoji>0.33 &&nameoji<=0.67){
+          //6만원
+          restofmoney = 6;
+        }else{
+          //13만원 
+
+          restofmoney = 13;
+        }
+
+       totalmoney = Number(moneyvalue)+Number(restofmoney);
+        // this.tcday.push({"date":start.split("T")[0],"day":start.split("T")[0].split("-")[2],"value":32000})
+        this.mainlist.push({ "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].start_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney})
+           
+
+          }else{
+            //오늘이 아닌것의 값을 저장하도록. 
+
+
+
+            var end = snap.val().roomhistory[a][b][c].end_date_full
+            var start = snap.val().roomhistory[a][b][c].enter_date_full;
+            console.log(end);
+            console.log(start);
+    
+            var enddate = new Date(end);
+            var startdate = new Date(start);
+            console.log(enddate);
+            console.log(startdate);
+            console.log(end);
         console.log("enddate"+enddate);
         var diff = enddate.getTime() - startdate.getTime();
         console.log(diff);
@@ -259,9 +390,18 @@ export class AgasiPage {
           restofmoney = 13;
         }
        totalmoney = Number(moneyvalue)+Number(restofmoney);
-        this.totaltcofday += Number(totalmoney);
+          }
+
+          this.thismonthmainlist.push({ "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].start_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney*10000})
+    
         }
-        this.mainlist.push({"end_date_full":snap.val().roomhistory[a].end_date_full,"enter_date_full":snap.val().roomhistory[a].enter_date_full,"name":snap.val().roomhistory[a].name,"room":snap.val().roomhistory[a].room,"start_date_full":snap.val().roomhistory[a].start_date_full,"incharge":snap.val().roomhistory[a].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney})
+        
+          }
+      this.totaltcofday += Number(totalmoney);
+        }
+        
+        
+        }
         
         // this.tctotal = this.tctotal.toFixed(2);
         
@@ -270,18 +410,57 @@ export class AgasiPage {
       console.log(this.attendance)
       console.log("team is "+this.team);
       console.log(this.mainlist);
+      console.log(this.thismonthmainlist)
+      for(var b in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]){
+        var tc=0;
+        var dayy="";
+        for(var ab in this.thismonthmainlist){
+          console.log(this.thismonthmainlist[ab]);
+          console.log(this.thismonthmainlist[ab].enter_date_full.split("T")[0]);
+          var day = this.thismonthmainlist[ab].enter_date_full.split("T")[0].split("-")[2];
+          console.log("day and b : "+day+" "+b);
+          if(b==day){
+            tc+=Number(this.thismonthmainlist[ab].money);
+            console.log("tc is "+tc);
+            dayy=this.thismonthmainlist[ab].enter_date_full.split("T")[0];
+          }
+         
+          //      }
+      }
+
+console.log(b+",,,"+this.currentstartday);
+      if(this.currentYear+"-"+this.currentMonth+"-"+b==this.currentstartday){
+       this.todaymoney=tc;
+      }
+      this.tcday.push({"date":dayy,"day":b,"value":tc});
+   
+    }
+  
+      console.log(this.tcday);
 
     });
+  }
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad AgasiPage');
+    this.goToday();
+
+    for (let i = 1; i <= 3; i++) { document.getElementById("ion-label-area-" + i).style.display = "none"; }
+
+    document.getElementById("ion-label-area-1").style.display = "";
+    this.zone.run(()=>{
+      this.activeclass='1'
+    })
+    this.generatecal();
     console.log(this.company)
     this.firemain.child("company").child(this.company).child('roomlist').once('value').then((snap)=>{
       for(var a in snap.val()){
         console.log(snap.val()[a])
         if(snap.val()[a].roomhistory!=undefined){
-          for(var b in snap.val()[a].roomhistory){
-            if(snap.val()[a].roomhistory[b]!=undefined){
-              console.log(snap.val()[a].roomhistory[b])
-              for(var c in snap.val()[a].roomhistory[b]){
-                console.log(snap.val()[a].roomhistory[b][c].agasi)
+          for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+            if(snap.val()[a].roomhistory[this.currentstartday][b]!=undefined){
+              console.log(snap.val()[a].roomhistory[this.currentstartday][b])
+              for(var c in snap.val()[a].roomhistory[this.currentstartday][b]){
+                console.log(snap.val()[a].roomhistory[this.currentstartday][b][c].agasi)
                 // if(snap.val()[a].roomhistory[b].agasi[c])
               }
               // this.attendance.push({day:snap.val()[a].roomhistory[b].date});
@@ -354,8 +533,17 @@ export class AgasiPage {
 
   set_month(num)
   {
+    console.log("setmonth : "+num);
+    this.zone.run(()=>{
+
     this.date.setMonth(num-1);
     this.getDaysOfMonth();
+
+    this.date.setMonth(num-1);
+    this.getDaysOfMonth();
+
+    this.generatecal();
+    });
   }
 
   getDaysOfMonth() {

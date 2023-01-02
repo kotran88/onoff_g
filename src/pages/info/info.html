@@ -73,6 +73,9 @@
         <span>입실T</span>
         <span>퇴실T</span>
       </div>
+      <div (click)="editing(a);" *ngIf="mainlist.length==0" class="datas">
+        <span style="width:100%;">현재 활성화된 방이 없습니다 </span>
+      </div>
       <div (click)="editing(a);" *ngFor="let a of mainlist" class="datas">
         <span>{{a.name}}</span>
         <span>{{a.incharge}}</span>

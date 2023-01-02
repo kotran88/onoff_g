@@ -124,13 +124,13 @@ export class SignupPage {
       console.log("아가씨 승인 요청 ")
 
       var nowdate=this.format_date(new Date())
-      this.firemain.child("users").child(this.id).update({"type":"agasi","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"agasi","id":this.id,"jopan":this.jopanteam,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
     }else if(value==4){
       // window.alert("주차제외 가입 준비중.")
       // console.log("info 승인 요청 ")
       // return;
       var nowdate=this.format_date(new Date())
-      this.firemain.child("users").child(this.id).update({"type":"kyungri","id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"kyungri","id":this.id,"jopan":this.jopanteam,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
     }else if(value==5){
       console.log("주차 승인 요청 ")
       var nowdate=this.format_date(new Date())

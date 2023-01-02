@@ -6,10 +6,87 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>orderdetail</ion-title>
+    <ion-title>신규주문</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content style="
+height: 80%;
+background: black;" padding>
+  <p style="
+  color: white;
+  font-size: 24px;">주종을 선택해주세요 </p>
+  <div class="t" *ngFor="let a of unique">
+    <p style="
+    color: white;
+    font-size: 15px;">{{a}}</p>
+    <hr style="
+    background-color: white;
+">
+<!-- [ngClass]="b.selected ? 'active' : 'notactive'" -->
+<div class="horizon">
+  <div class="tt" *ngFor="let b of sullist">
+    <button   (click)="clicked(b);" class="btn" *ngIf="b.subcategory == a" >{{b.name}}</button>
+    </div>
+</div>
+    
+  </div>
+  
+  <p style="
+  color: white;
+  font-size: 24px;">안주을 선택해주세요 </p>
+  <div class="t" *ngFor="let a of uniqueanju">
+    
+    <p style="
+    color: white;
+    font-size: 15px;">{{a}}</p>
+    <hr style="
+    background-color: white;
+">
+<div class="horizon">
+    <div class="tt" *ngFor="let b of anjulist">
+      <button (click)="clicked(b);" class="btn" *ngIf="b.subcategory == a" >{{b.name}}</button>
+      </div>
+    </div>
+  </div>
+  <p style="
+  color: white;
+  font-size: 24px;">음료를 선택해주세요 </p>
+  <div class="t" *ngFor="let a of uniquedrink">
+    
+    <p style="
+    color: white;
+    font-size: 15px;">{{a}}</p>
+    <hr style="
+    background-color: white;
+">
 
-</ion-content>
+<div class="horizon">
+    <div class="tt" *ngFor="let b of drinklist">
+      <button (click)="clicked(b);" class="btn" *ngIf="b.subcategory == a" >{{b.name}}</button>
+      </div>
+  </div>
+  </div>
+
+ </ion-content>
+
+ <div style="    text-align: center;
+ position: fixed;
+ bottom: 0;
+ width: 100%;
+ height: 180px;
+ background-color: red;
+ " class="bott">
+
+  <ion-list style="
+  overflow-y: scroll;
+  height: 130px;">
+    <ion-item *ngFor="let a of selectedList">{{a.name}} , {{a.num}} , {{a.price*a.num}}</ion-item>
+  </ion-list>
+  <button style="    background-color: yellow;
+  border: solid 1px;
+  height: 40px;
+  width: 100px;
+  margin-top: -10px;" (click)="completed();">주문완료 </button>
+
+</div>

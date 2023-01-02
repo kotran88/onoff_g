@@ -67,7 +67,7 @@
   </div>
 
   <div *ngIf="stage==2">
-      <div class="input-title2"><span style="font-size:30px;" >환영합니다. <br></span>
+      <div class="input-title2"><span style="font-size:30px;" >환영합니다.{{stage}} <br></span>
       <span style="font-size:30px;">
       WAD를 이용해주시는 {{name}} 님께 <br>진심으로 감사드립니다. 
       </span>
@@ -139,7 +139,7 @@
 
   <div *ngIf="stage==3">
 
-    <div class="input-title2"><span style="font-size:30px;" >환영합니다. <br></span>
+    <div class="input-title2"><span style="font-size:30px;" >환영합니다. {{stage}}<br></span>
       <span style="font-size:30px;">
       선택하신 회사는 {{selectedCompany.name}}입니다.<br> 
       위치는 {{selectedCompany.address}} <br>

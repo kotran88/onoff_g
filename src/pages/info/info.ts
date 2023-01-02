@@ -66,15 +66,32 @@ export class InfoPage {
         for(var a in snap.val()){
          var cat =  snap.val()[a].category;
          var name = snap.val()[a].name;
-         console.log(cat);
+         var flag = snap.val()[a].flag;
+         console.log(flag+"/"+name+"/"+cat);
+         
          if(cat=="소"){
-           this.smallroom.push({"name":name,"category":cat});
+          if(flag){
+            console.log(flag+"small not add")
+          }else{
+            console.log("small add")
+            this.smallroom.push({"name":name,"category":cat,"flag":flag});
+          }
+           
          }
          if(cat=="중"){
-          this.midroom.push({"name":name,"category":cat});
+          if(flag){
+            
+          }else{
+            this.midroom.push({"name":name,"category":cat,"flag":flag});
+          }
         }
         if(cat=="대"){
-          this.bigroom.push({"name":name,"category":cat});
+          if(flag){
+            
+          }else{
+            this.bigroom.push({"name":name,"category":cat,"flag":flag});
+          }
+          
         }
         }
         console.log(this.smallroom);
@@ -86,14 +103,20 @@ export class InfoPage {
       for(var a in snap.val()){
         console.log("mmmm")
         console.log(snap.val()[a]);
-        console.log(snap.val()[a].roomhistory)
-        if(snap.val()[a].roomhistory!=undefined){
-          console.log(snap.val()[a].roomhistory[this.currentstartday])
-          for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-            console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-            this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+        console.log(snap.val()[a].flag);
+        if(snap.val()[a].flag==true){
+          console.log(snap.val()[a].roomhistory)
+          if(snap.val()[a].roomhistory!=undefined){
+            console.log(snap.val()[a].roomhistory[this.currentstartday])
+            for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+              console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+              this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+            }
           }
+        }else{
+        
         }
+        
        
         // for(var b in snap.val()[a]){
         //   console.log(snap.val()[a][b]);
@@ -115,6 +138,9 @@ export class InfoPage {
         for(var a in snap.val()){
           console.log("mmmm")
           console.log(snap.val()[a].roomhistory)
+
+        console.log(snap.val()[a].flag);
+        if(snap.val()[a].flag==true){
           if(snap.val()[a].roomhistory!=undefined){
             console.log(snap.val()[a].roomhistory[this.currentstartday])
             for(var b in snap.val()[a].roomhistory[this.currentstartday]){
@@ -122,6 +148,10 @@ export class InfoPage {
               this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
             }
           }
+        }else{
+
+        }
+         
           // for(var b in snap.val()[a]){
           //   console.log(snap.val()[a][b]);
           //   this.mainlist.push(snap.val()[a][b]);
@@ -153,6 +183,8 @@ export class InfoPage {
         console.log("mmmm")
         console.log(snap.val()[a].roomhistory)
 
+        console.log(snap.val()[a].flag);
+        if(snap.val()[a].flag==true){
         if(snap.val()[a].roomhistory!=undefined){
           console.log(snap.val()[a].roomhistory[this.currentstartday])
           for(var b in snap.val()[a].roomhistory[this.currentstartday]){
@@ -160,6 +192,9 @@ export class InfoPage {
             this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
           }
         }
+      }else{
+        
+      }
         // for(var b in snap.val()[a]){
         //   console.log(snap.val()[a][b]);
         //   this.mainlist.push(snap.val()[a][b]);

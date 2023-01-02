@@ -19,6 +19,7 @@ import { AttendancePage } from '../attendance/attendance';
 import { BandPage } from '../band/band';
 import { WtPage } from '../wt/wt';
 import { GongjiPage } from '../gongji/gongji';
+import { OrdermainPage } from '../ordermain/ordermain';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -165,50 +166,58 @@ export class LoginpagePage {
                 localStorage.setItem('name',this.name);
                 localStorage.setItem('password',this.password);
                 localStorage.setItem('company',snap.val().company);
-                this.firemain.child("company").child(snap.val().company).child('openandclose').once('value').then((snap)=>{
-                  console.log(snap.val().start)
-                  localStorage.setItem("startDate",snap.val().startDate)
-                  localStorage.setItem("start",snap.val().start);
-                  localStorage.setItem("flag",snap.val().flag);
-                });
+
                 localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
                 localStorage.setItem("type",snap.val().type);
-                this.login_flag_update();
-                var type = snap.val().type;
-                var price = snap2.val().price;
-                localStorage.setItem("price",price)
-                console.log("gogo type is : "+type);
-                if(type == "park")
-                {
-                  //주차
-                  this.navCtrl.push(ParkingPage).then(() => {
-                    this.navCtrl.getActive().onDidDismiss(data => {
-                      console.log("login ondiddismiss...")
-                      this.check=false;
-                      localStorage.setItem("loginflag","false")
-                    });
-                  });
-                }
-                else if(type == "director")
-                {
-                  //부장 
-                  this.navCtrl.push(DirectorpagePage);
-                }else if(type == "account"){
-                  //경리 
-                this.navCtrl.push(AccountPage);
-                }else if(type=="info"){
-                  //인포  
-                  this.navCtrl.push(InfoPage)
-                }else if(type=="agasi"){
-                  //아가씨 
-                  this.navCtrl.push(AgasiPage)
-                }else if(type=="band"){
-                  //band 
-                  this.navCtrl.push(BandPage)
-                }else if(type=="wt"){
-                  //wt 
-                  this.navCtrl.push(WtPage)
-                }
+               
+                this.firemain.child("company").child(snap.val().company).child('openandclose').once('value').then((snap3)=>{
+                  console.log(snap3.val().start)
+                  
+                  localStorage.setItem("flag",snap3.val().flag);
+                  if(snap3.val().flag==true){
+                    localStorage.setItem("startDate",snap3.val().startDate)
+                    localStorage.setItem("start",snap3.val().start);
+
+                    this.login_flag_update();
+                    var type = snap.val().type;
+                    var price = snap2.val().price;
+                    localStorage.setItem("price",price)
+                    console.log("gogo type is : "+type);
+                    if(type == "park")
+                    {
+                      //주차
+                      this.navCtrl.push(ParkingPage).then(() => {
+                        this.navCtrl.getActive().onDidDismiss(data => {
+                          console.log("login ondiddismiss...")
+                          this.check=false;
+                          localStorage.setItem("loginflag","false")
+                        });
+                      });
+                    }
+                    else if(type == "director")
+                    {
+                      //부장 
+                      this.navCtrl.push(DirectorpagePage);
+                    }else if(type == "account"){
+                      //경리 
+                    this.navCtrl.push(AccountPage);
+                    }else if(type=="info"){
+                      //인포  
+                      this.navCtrl.push(InfoPage)
+                    }else if(type=="agasi"){
+                      //아가씨 
+                      this.navCtrl.push(AgasiPage)
+                    }else if(type=="band"){
+                      //band 
+                      this.navCtrl.push(BandPage)
+                    }else if(type=="wt"){
+                      //wt 
+                      this.navCtrl.push(WtPage)
+                    }
+                  }else{
+                    window.alert("업장 개시하지 않았습니다 매니저에게 문의하세요")
+                  }
+                });
               });
 
               // console.log("rr")

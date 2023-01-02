@@ -24,20 +24,20 @@
   </ion-header>
   <ion-menu [content]="mycontent">
     <ion-content>
-      <ion-list>
+      <ion-list (click)="gotolink(1)">
         <ion-item>주차파트</ion-item>
       </ion-list>
-      <ion-list>
+      <ion-list (click)="gotolink(2)">
         <ion-item>인포파트</ion-item>
       </ion-list>
-      <ion-list>
+      <ion-list (click)="gotolink(3)">
         <ion-item>출근부</ion-item>
       </ion-list>
-      <ion-list>
+      <ion-list (click)="gotolink(4)">
         <ion-item>초이스</ion-item>
       </ion-list>
       <ion-list>
-        <ion-item>공지</ion-item>
+        <ion-item (click)="gotolink(5)">공지</ion-item>
       </ion-list>
       <ion-list>
         <ion-item>알림</ion-item>
@@ -81,8 +81,8 @@
 
       <div class="top-bar">
         <div class="info">
-          <div>▶월간 출근일수: </div>
-          <div>■ 누적TC: ￦ </div>
+          <div>▶월간 출근일수: {{attendcount}} </div>
+          <div>■ 누적TC: ￦{{totaltcofday.toLocaleString()}} </div>
         </div>
         <div class="months">
           <span [ngClass]="currentMonth==1 ? 'active' : ''" (click)="set_month(1)">1월</span>
@@ -142,11 +142,18 @@
                     background: #E74371 ;
                     border-radius: 20px;
     margin-left: 20px;
-    margin-top: -20px;" class="event-bullet" *ngIf="(
+    margin-top: -40px;" class="event-bullet" *ngIf="(
                 currentDate === day &&
                 today.getMonth()+1 === currentMonth &&
                 today.getFullYear() === currentYear
                 ) && checkEvent2(day)" >
+                <p *ngFor="let a of tcday">
+                  <span style=" 
+                  font-size: 10px;
+                  margin-top: 10px;
+                  position: fixed;
+                  margin-left: -20px;" *ngIf="a.day==day&&  (a.date.split('-')[1] == currentMonth && a.date.split('-')[2] == day)"> {{a.value}}</span>
+                </p>
                     </div>
                 <ng-template #otherDate class="otherDate">
                     <span (click)="gotocalendardetail(day)">{{day}}</span> <br>
@@ -156,7 +163,14 @@
                     background: #E74371 ;
                     border-radius: 20px;
     margin-left: 20px;
-    margin-top: -20px;" class="event-bullet" *ngIf="checkEvent(day)" >
+    margin-top: -40px;" class="event-bullet" *ngIf="checkEvent(day)" >
+    <p *ngFor="let a of tcday">
+      <span style=" 
+      font-size: 10px;
+      margin-top: 10px;
+      position: fixed;
+      margin-left: -20px;" *ngIf="a.day==day&&  (a.date.split('-')[1] == currentMonth && a.date.split('-')[2] == day)"> {{a.value}}</span>
+    </p>
                     </div>
                 </ng-template>  
             </span>
@@ -172,11 +186,12 @@
         <span style=" color:black; 
         font-size: 24px;
         margin-top: 20px;
-        display: inline-flex;" class="text">오늘의 TC : {{totaltcofday.toLocaleString()}} </span>
+        display: inline-flex;" class="text">오늘의 TC : {{todaymoney}} </span>
       </div>
-      <p style="    text-align: center;
-      font-size:24px;">Completion List</p>
+     
       <div *ngIf="currentRoom!=undefined" class="no">
+        <p style="    text-align: center;
+        font-size:24px;">진행중 </p>
         <div class="roomno">No.{{currentRoom}}</div>
       <div style="margin-top:20px !important;" class="time">
         <p>시작시간 {{currentStart}}</p>
@@ -184,7 +199,7 @@
         <p style="    float: right;
         right: 20%;
         position: absolute;
-        top: 20%;">TC : {{tctotal}}개 </p>
+        top: 10%;">TC : {{tctotal}}개 </p>
       </div>
           <div class="c_fill">{{diffMin}}분 경과</div>
           <div style="
@@ -199,6 +214,8 @@
      
       <div class="room-current">
        
+      <p style="    text-align: center;
+      font-size:24px;">Completion List</p>
 
         <div class="chart-div">
           <div class="name-keys">
