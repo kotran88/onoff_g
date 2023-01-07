@@ -54,6 +54,7 @@ export class AgasiPage {
   activeclass='1';
   booleanValue:any = false;
   showplus=false;
+  mainlist2=[];
   id:any;
   firemain = firebase.database().ref();
   year:any="";
@@ -85,8 +86,9 @@ export class AgasiPage {
     // this.tcday.push({"date": "2022-12-4","day":4, "value": 90000});
     // this.tcday.push({"date": "2022-12-5","day":5, "value": 110000});
     // this.tcday.push({"date": "2022-12-16","day":16, "value": 310000});
+    console.log("id is : "+this.id);
     this.firemain.child("users").child(this.id).child("attendance").child(this.currentstartday).once('value').then((snap)=>{
-
+      console.log("inside id");
 
       if(snap.val()!=undefined){
         console.log(snap.val())
@@ -129,8 +131,8 @@ export class AgasiPage {
       console.log(this.currentstartday)
       console.log("team"+this.team+"name"+this.id+"date"+this.currentstartday+ "flag"+"attend"+"time"+this.hour+":"+this.min);
       this.firemain.child("users").child(this.id).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
-      this.firemain.child("users").child(this.id).child("attendance").child(this.currentstartday).child("attend").update({ "team":this.team,"name":this.id,"date":this.currentstartday, "flag":"attend","time":this.hour+":"+this.min})
-    this.firemain.child("attendance").child(this.currentstartday).child(this.id).child("attend").update({ "team":this.team,"name":this.id,"flag":"attend","date":this.currentstartday, "time":this.hour+":"+this.min})
+      this.firemain.child("users").child(this.id).child("attendance").child(this.currentstartday).child("attend").update({ "team":this.team,"name":this.name,"date":this.currentstartday, "flag":"attend","time":this.hour+":"+this.min})
+    this.firemain.child("attendance").child(this.currentstartday).child(this.id).child("attend").update({ "team":this.team,"name":this.name,"flag":"attend","date":this.currentstartday, "time":this.hour+":"+this.min})
       //calendar refresh...
 
   
@@ -178,7 +180,6 @@ export class AgasiPage {
       console.log(snap.val());
 
       this.team = snap.val().jopan;
-      window.alert(this.team)
       for(var a in snap.val().attendance){
         console.log(snap.val().attendance[a])
 
@@ -254,6 +255,10 @@ export class AgasiPage {
           console.log(snap.val().roomhistory[a][b])
 
           for(var c in snap.val().roomhistory[a][b]){
+            console.log(snap.val().roomhistory[a][b][c].length)
+            if(snap.val().roomhistory[a][b][c].length==1){
+              return;
+            }
             console.log(snap.val().roomhistory[a][b][c])
 
 
@@ -267,6 +272,7 @@ export class AgasiPage {
         var enddate = new Date(end);
         var startdate = new Date(start);
         console.log(enddate);
+        console.log(enddate.getMonth())
         console.log(startdate);
         console.log(this.currentMonth+"????"+(Number(enddate.getMonth())+1)+"/"+(Number(startdate.getMonth())+1) +"start end");
         if(Number(enddate.getMonth())+1==this.currentMonth||Number(startdate.getMonth())+1==this.currentMonth){
@@ -281,123 +287,127 @@ export class AgasiPage {
           console.log(this.currentstartday)
           console.log(snap.val().roomhistory[a][b][c]);
           console.log(snap.val().roomhistory[a][b][c].end_date_full);
-          if(snap.val().roomhistory[a][b][c].end_date_full.split("T")[0].trim()==this.currentstartday){
-            
+          var fullyear=snap.val().roomhistory[a][b][c].end_date_full.split("T")[0];
+          fullyear = fullyear.split("-")[0]+"-"+Number(fullyear.split("-")[1])+"-"+Number(fullyear.split("-")[2]);
+          console.log(fullyear)
+          if(snap.val().roomhistory[a][b][c].date.trim()==this.currentstartday){
+            //영업일 오늘의 TC
+           
 
 
             console.log(end);
-        console.log("enddate"+enddate);
-        var diff = enddate.getTime() - startdate.getTime();
-        console.log(diff);
-        var diffDays = Math.ceil(diff / (1000) / 3600 * 60 );
-        console.log(enddate);
-        console.log(startdate);
-        console.log(diffDays)
+            console.log("enddate"+enddate);
+            var diff = enddate.getTime() - startdate.getTime();
+            console.log(diff);
+            var diffDays = Math.ceil(diff / (1000) / 3600 * 60 );
+            console.log(enddate);
+            console.log(startdate);
+            console.log(diffDays)
 
 
-        tctotal = diffDays/60;
-        console.log(tctotal);
-        console.log(Math.floor(tctotal))
-        var mok = Math.floor(tctotal);
-        var nameoji = tctotal -Math.floor(tctotal);
-        console.log(nameoji)
-        // 10분 -> 0.17 
-        // 15분 -> 0.25
-        // 20분 -> 0.33 - 3만원
-        //30분 - > 0.5
-        // 40분 -> 0.67 - 6만원
-        // 1시간 -> 1 - 13만원 
-        
-        // 1시간 30분 -> 1.5
-        // 2시간 -> 2 - 26만원
-        // 2시간 20분 -> 26만원 + 3만원 = 29만원
-        var moneyvalue = mok*13;
-        var restofmoney=0;
-        //if 2.5 
-        if(nameoji<=0.17){
-          //nothing
-        }else if(nameoji>0.17 &&nameoji<=0.33){
-          //3마ㄴ원
-          restofmoney = 3;
-        }else if(nameoji>0.33 &&nameoji<=0.67){
-          //6만원
-          restofmoney = 6;
-        }else{
-          //13만원 
+            tctotal = diffDays/60;
+            console.log(tctotal);
+            console.log(Math.floor(tctotal))
+            var mok = Math.floor(tctotal);
+            var nameoji = tctotal -Math.floor(tctotal);
+            console.log(nameoji)
+            // 10분 -> 0.17 
+            // 15분 -> 0.25
+            // 20분 -> 0.33 - 3만원
+            //30분 - > 0.5
+            // 40분 -> 0.67 - 6만원
+            // 1시간 -> 1 - 13만원 
+            
+            // 1시간 30분 -> 1.5
+            // 2시간 -> 2 - 26만원
+            // 2시간 20분 -> 26만원 + 3만원 = 29만원
+            var moneyvalue = mok*13;
+            var restofmoney=0;
+            //if 2.5 
+            if(nameoji<=0.17){
+              //nothing
+            }else if(nameoji>0.17 &&nameoji<=0.33){
+              //3마ㄴ원
+              restofmoney = 3;
+            }else if(nameoji>0.33 &&nameoji<=0.67){
+              //6만원
+              restofmoney = 6;
+            }else{
+              //13만원 
 
-          restofmoney = 13;
-        }
+              restofmoney = 13;
+            }
 
-       totalmoney = Number(moneyvalue)+Number(restofmoney);
-        // this.tcday.push({"date":start.split("T")[0],"day":start.split("T")[0].split("-")[2],"value":32000})
-        this.mainlist.push({ "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].start_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney})
-           
-
+          totalmoney = Number(moneyvalue)+Number(restofmoney);
+            // this.tcday.push({"date":start.split("T")[0],"day":start.split("T")[0].split("-")[2],"value":32000})
+            this.mainlist.push({ "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].start_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney})
+           console.log("today total : "+totalmoney);
+           console.log(this.mainlist)
           }else{
             //오늘이 아닌것의 값을 저장하도록. 
 
 
-
+            console.log(snap.val().roomhistory[a][b][c])
             var end = snap.val().roomhistory[a][b][c].end_date_full
             var start = snap.val().roomhistory[a][b][c].enter_date_full;
-            console.log(end);
-            console.log(start);
     
             var enddate = new Date(end);
             var startdate = new Date(start);
+            var diff = enddate.getTime() - startdate.getTime();
+            var diffDays = Math.ceil(diff / (1000) / 3600 * 60 );
+            console.log("diff calc");
             console.log(enddate);
             console.log(startdate);
-            console.log(end);
-        console.log("enddate"+enddate);
-        var diff = enddate.getTime() - startdate.getTime();
-        console.log(diff);
-        var diffDays = Math.ceil(diff / (1000) / 3600 * 60 );
-        console.log(enddate);
-        console.log(startdate);
-        console.log(diffDays)
+            console.log(diffDays)
 
 
-        tctotal = diffDays/60;
-        console.log(tctotal);
-        console.log(Math.floor(tctotal))
-        var mok = Math.floor(tctotal);
-        var nameoji = tctotal -Math.floor(tctotal);
-        console.log(nameoji)
-        // 10분 -> 0.17 
-        // 15분 -> 0.25
-        // 20분 -> 0.33 - 3만원
-        //30분 - > 0.5
-        // 40분 -> 0.67 - 6만원
-        // 1시간 -> 1 - 13만원 
-        
-        // 1시간 30분 -> 1.5
-        // 2시간 -> 2 - 26만원
-        // 2시간 20분 -> 26만원 + 3만원 = 29만원
-        var moneyvalue = mok*13;
-        var restofmoney=0;
-        //if 2.5 
-        if(nameoji<=0.17){
-          //nothing
-        }else if(nameoji>0.17 &&nameoji<=0.33){
-          //3마ㄴ원
-          restofmoney = 3;
-        }else if(nameoji>0.33 &&nameoji<=0.67){
-          //6만원
-          restofmoney = 6;
-        }else{
-          //13만원 
+            tctotal = diffDays/60;
+            console.log(tctotal);
+            console.log(Math.floor(tctotal))
+            var mok = Math.floor(tctotal);
+            var nameoji = tctotal -Math.floor(tctotal);
+            console.log(nameoji)
+            // 10분 -> 0.17 
+            // 15분 -> 0.25
+            // 20분 -> 0.33 - 3만원
+            //30분 - > 0.5
+            // 40분 -> 0.67 - 6만원
+            // 1시간 -> 1 - 13만원 
+            
+            // 1시간 30분 -> 1.5
+            // 2시간 -> 2 - 26만원
+            // 2시간 20분 -> 26만원 + 3만원 = 29만원
+            var moneyvalue = mok*13;
+            var restofmoney=0;
+            //if 2.5 
+            if(nameoji<=0.17){
+              //nothing
+            }else if(nameoji>0.17 &&nameoji<=0.33){
+              //3마ㄴ원
+              restofmoney = 3;
+            }else if(nameoji>0.33 &&nameoji<=0.67){
+              //6만원
+              restofmoney = 6;
+            }else{
+              //13만원 
 
-          restofmoney = 13;
-        }
-       totalmoney = Number(moneyvalue)+Number(restofmoney);
+              restofmoney = 13;
+            }
+            totalmoney = Number(moneyvalue)+Number(restofmoney);
+            console.log("diff calc:"+totalmoney);
           }
 
-          this.thismonthmainlist.push({ "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].start_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney*10000})
+          this.thismonthmainlist.push({"date":snap.val().roomhistory[a][b][c].date, "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney*10000})
     
         }
         
           }
+          console.log(totalmoney)
+          if(totalmoney==undefined){
+            totalmoney=0;
+          }
       this.totaltcofday += Number(totalmoney);
+      console.log("totaltcofday:"+this.totaltcofday);
         }
         
         
@@ -405,6 +415,10 @@ export class AgasiPage {
         
         // this.tctotal = this.tctotal.toFixed(2);
         
+      }
+      console.log("totaltcofday:"+this.totaltcofday);
+      if(this.totaltcofday==NaN||this.totaltcofday=="NaN"){
+        this.totaltcofday=0;
       }
       this.totaltcofday = this.totaltcofday*10000
       console.log(this.attendance)
@@ -416,21 +430,30 @@ export class AgasiPage {
         var dayy="";
         for(var ab in this.thismonthmainlist){
           console.log(this.thismonthmainlist[ab]);
-          console.log(this.thismonthmainlist[ab].enter_date_full.split("T")[0]);
-          var day = this.thismonthmainlist[ab].enter_date_full.split("T")[0].split("-")[2];
+          console.log(this.thismonthmainlist[ab].date.split("T")[0]);
+          var day = this.thismonthmainlist[ab].date.split("T")[0].split("-")[2];
           console.log("day and b : "+day+" "+b);
-          if(b==day){
+          if(Number(b)==Number(day)){
             tc+=Number(this.thismonthmainlist[ab].money);
             console.log("tc is "+tc);
-            dayy=this.thismonthmainlist[ab].enter_date_full.split("T")[0];
+            dayy=this.thismonthmainlist[ab].date;
+         
+         
           }
          
           //      }
       }
-
-console.log(b+",,,"+this.currentstartday);
+      console.log(this.currentYear+"-"+this.currentMonth+"-"+b);
+      console.log(this.currentstartday)
       if(this.currentYear+"-"+this.currentMonth+"-"+b==this.currentstartday){
        this.todaymoney=tc;
+
+console.log(b+",,,"+this.currentstartday);
+console.log(this.tctotal);
+console.log(this.todaymoney)
+this.todaymoney+=Number(this.tctotal);
+console.log("totaltcofday:"+this.totaltcofday)
+console.log(tc);
       }
       this.tcday.push({"date":dayy,"day":b,"value":tc});
    
@@ -454,20 +477,46 @@ console.log(b+",,,"+this.currentstartday);
     console.log(this.company)
     this.firemain.child("company").child(this.company).child('roomlist').once('value').then((snap)=>{
       for(var a in snap.val()){
-        console.log(snap.val()[a])
-        if(snap.val()[a].roomhistory!=undefined){
-          for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-            if(snap.val()[a].roomhistory[this.currentstartday][b]!=undefined){
-              console.log(snap.val()[a].roomhistory[this.currentstartday][b])
-              for(var c in snap.val()[a].roomhistory[this.currentstartday][b]){
-                console.log(snap.val()[a].roomhistory[this.currentstartday][b][c].agasi)
-                // if(snap.val()[a].roomhistory[b].agasi[c])
+
+        console.log("mmmm")
+        var flag = false;
+        for(var b in snap.val()[a].roomhistory){
+          console.log(b)
+          console.log(this.currentstartday);
+          if(b==this.currentstartday){
+
+            console.log(snap.val()[a].roomhistory[b])
+            console.log(snap.val()[a].roomhistory[b].flag)
+            flag=snap.val()[a].roomhistory[b].flag
+          }
+        }
+        if(flag==true){
+
+          if(snap.val()[a].roomhistory!=undefined){
+            console.log(snap.val()[a].roomhistory[this.currentstartday])
+            for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+              console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+              console.log(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full)
+              if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
+                if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+                  this.mainlist2.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                }
+                
+              }else{
+
+                // if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+                //   this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                // this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                // }
+                
               }
-              // this.attendance.push({day:snap.val()[a].roomhistory[b].date});
+              
             }
           }
         }
       }
+      console.log(this.mainlist)
+      console.log(this.mainlist2)
     });
 
   }
@@ -506,6 +555,8 @@ console.log(b+",,,"+this.currentstartday);
     modal.present();
   }
   logout(){
+    localStorage.setItem("id", "" )
+    localStorage.setItem("type", "" )
       localStorage.setItem("loginflag", "false" )
       this.navCtrl.setRoot(LoginpagePage)
   }

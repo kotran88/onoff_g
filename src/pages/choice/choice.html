@@ -93,7 +93,7 @@
         
         <span>{{a.wt}}</span>
         <span>{{a.insert_date}}</span> 
-        <span *ngIf="a.end_date!=undefined">완료/{{a.end_date}}</span>
+        <span *ngIf="a.end_date!=undefined">{{a.end_date}}</span>
 
         </div>
         <div *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
@@ -101,19 +101,20 @@
             <div>
               <span style="width:45px;">{{b.name}}</span>
               <span style="width:45px;">{{b.date.split(" ")[1]}}</span>
-              <button (click)="end(b,a.name)" style="
+              <button (click)="end(b,a.name,a)" style="
               width: 45px;
               background: grey;
               border: solid 1px;
               color: white;
               height: 30px; ">종료</button>
+               <span *ngIf="b.findate!=undefined" style="width:45px;">종료: {{b.findate.split(" ")[1]}}</span>
             </div>
           </div>
           <div class="b">
             <!-- <span style="
             font-size: 14px;
             font-weight: 500;">총 3개</span> -->
-            <button (click)="endall(a,a.name)"  style="
+            <button (click)="endall(a,a.name,a)"  style="
             width: 80px;
             background: orange;
             border: solid 1px;
@@ -152,7 +153,7 @@
         
         <span>{{a.wt}}</span>
         <span>{{a.insert_date}}</span> 
-        <span></span>
+        <span *ngIf="a.end_date!=undefined">{{a.end_date}}</span>
 
         </div>
         <div *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">

@@ -20,7 +20,7 @@ top: 30%;" padding>
               <span (click)="clicking(1);" class="newspan" *ngIf="status=='reserved'" > 예약중 </span>
               <span (click)="clicking(2);" class="newspan" *ngIf="status=='entered'" > 입실 </span>
               <span (click)="clicking(3);" class="newspan" *ngIf="status=='clean'" > 정리중 </span>
-              <!-- <span (click)="clicking(4);" class="newspan" *ngIf="status=='fin'" > 종료 </span> -->
+              <span (click)="clicking(4);" class="newspan" *ngIf="status=='fin'" > 종료 </span>
               
               <span><input   class="input-box" placeholder="인원"  [(ngModel)]="numofpeople" type="text"/> </span>
               <span><input   class="input-box"  [(ngModel)]="wt" type="text"/></span>

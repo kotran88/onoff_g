@@ -65,7 +65,8 @@ export class SignupPage {
       }
       this.id = localStorage.getItem("id");
       this.type = Number(localStorage.getItem("type"));
-      if(this.id!=null||this.id!=undefined){
+      console.log(this.id)
+      if(this.id!=null&&this.id!=undefined&&this.id.length!=0){
         this.firemain.child("users").child(this.id).once('value').then((snap)=>{
           console.log(snap.val().approved);
           this.approved=snap.val().approved;
@@ -77,6 +78,8 @@ export class SignupPage {
             
           }
         });
+      }else{
+        console.log("else come")
       }
      
     
@@ -107,7 +110,6 @@ export class SignupPage {
     var nowdate=this.format_date(new Date())
    localStorage.setItem("type",value+"");
    localStorage.setItem("id",this.id);
-   window.alert(value);
     if(value==1){
       console.log("부장 승인 요청 ")
       // window.alert("주차제외 가입 준비중.")

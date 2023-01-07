@@ -1,16 +1,28 @@
 
   <ion-header>
     <ion-toolbar>
-      <ion-buttons style="
-      position: absolute;
-      left: 0;
-      z-index: 9999;
-      color: white;" start>
-        <button (click)="openclose();" menuToggle ion-button icon-only color="royal">
-          <img style="
-          width: 30px" class="logo" src="assets/img/hamburger.png" />
-        </button>
-      </ion-buttons>
+      
+    <ion-buttons  *ngIf="!firstflag||firstflag==undefined"  style="
+    position: absolute;
+    left: 0;
+    z-index: 9999;
+    ;" start>
+      <button (click)="openclose();" menuToggle ion-button icon-only color="royal">
+        <img style="
+        width: 30px" class="logo" src="assets/img/hamburger.png" />
+      </button>
+    </ion-buttons>
+
+    <ion-buttons *ngIf="firstflag" style="
+    position: absolute;
+    left: 0;
+    z-index: 9999;
+    color: white;" start>
+      <button (click)="close();"  ion-button icon-only color="royal">
+        <img style="
+        width: 30px" class="logo" src="assets/img/back1.png" />
+      </button>
+    </ion-buttons>
 
       <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
 

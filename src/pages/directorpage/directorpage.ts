@@ -8,6 +8,7 @@ import { InfoPage } from '../info/info';
 import { AttendancePage } from '../attendance/attendance';
 import { ChoicePage } from '../choice/choice';
 import { GongjiPage } from '../gongji/gongji';
+import { AccountPage } from '../account/account';
 @Component({
   selector: 'page-directorpage',
   templateUrl: 'directorpage.html',
@@ -35,17 +36,18 @@ export class DirectorpagePage {
   
   gotolink(value){
     if(value == 1){
-    this.navCtrl.push(ParkingPage);
+    this.navCtrl.push(ParkingPage,{flag:true});
     }else if(value==2){
-      this.navCtrl.push(InfoPage);
+      this.navCtrl.push(InfoPage,{flag:true});
     }else if(value==3){
-      this.navCtrl.push(AttendancePage);
+      this.navCtrl.push(AttendancePage,{flag:true});
     }else if(value==4){
-      this.navCtrl.push(ChoicePage);
+      this.navCtrl.push(ChoicePage,{flag:true});
     }else if(value==5){
-      this.navCtrl.push(GongjiPage);
+      this.navCtrl.push(GongjiPage,{flag:true});
     }else if(value==6){
-      this.navCtrl.push(InfoPage);
+      window.alert("6")
+      this.navCtrl.push(AccountPage,{flag:true});
     }else if(value==7){
       this.navCtrl.push(InfoPage);
     }
@@ -55,6 +57,8 @@ export class DirectorpagePage {
     this.menuCtrl.open();
   }
   logout(){
+    localStorage.setItem("id", "" )
+    localStorage.setItem("type", "" )
     localStorage.setItem("loginflag", "false" )
     this.navCtrl.setRoot(LoginpagePage)
 }
@@ -79,12 +83,18 @@ export class DirectorpagePage {
             console.log(snap.val()[a].roomhistory[b]);
             for(var c in snap.val()[a].roomhistory[b]){
               if(snap.val()[a].roomhistory[b][c].orderlist!=undefined){
-                console.log(snap.val()[a].roomhistory[b][c].orderlist);
-                console.log(snap.val()[a].roomhistory[b][c].orderlist.roomno);
-                for(var d in snap.val()[a].roomhistory[b][c].orderlist.orderlist){
+                console.log(date);
+                console.log(this.currentstartday);
+                console.log(snap.val()[a].roomhistory[b][c].date);
+                if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){
                   console.log(snap.val()[a].roomhistory[b][c].orderlist);
-                  this.orderlist.push({"date":snap.val()[a].roomhistory[b][c].orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":snap.val()[a].roomhistory[b][c].orderlist.orderlist[d]});
+                  console.log(snap.val()[a].roomhistory[b][c].orderlist.roomno);
+                  for(var d in snap.val()[a].roomhistory[b][c].orderlist.orderlist){
+                    console.log(snap.val()[a].roomhistory[b][c].orderlist);
+                    this.orderlist.push({"date":snap.val()[a].roomhistory[b][c].orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":snap.val()[a].roomhistory[b][c].orderlist.orderlist[d]});
+                  }
                 }
+               
                 
               }
              

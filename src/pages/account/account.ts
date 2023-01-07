@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import firebase from 'firebase';
-import { NavController, ModalController,NavParams } from 'ionic-angular';
+import { NavController,ViewController, ModalController,NavParams } from 'ionic-angular';
 import { AccountingmodalPage } from '../accountingmodal/accountingmodal';
 import { LoginpagePage } from '../loginpage/loginpage';
 
@@ -40,10 +40,12 @@ export class AccountPage {
   currentMonth:number = 0; // 현재 월
   currentDate:number = 0; // 현재 일
 
-  constructor(public modal:ModalController,public navCtrl: NavController, public navParams: NavParams) {
+  firstflag=false;
+  constructor(public view:ViewController,public modal:ModalController,public navCtrl: NavController, public navParams: NavParams) {
     this.name = localStorage.getItem("name");
     this.login_data = JSON.parse(localStorage.getItem("login_data"));
 
+    this.firstflag = this.navParams.get("flag");
     this.get_team_list();
 
     this.goToday();
@@ -57,6 +59,9 @@ export class AccountPage {
     // modal2.present();
 
   }
+  close(){
+    this.view.dismiss();
+}
   openmodal(v){
     console.log(v);
 
@@ -91,6 +96,8 @@ export class AccountPage {
   }
 
   logout(){
+    localStorage.setItem("id", "" )
+    localStorage.setItem("type", "" )
     localStorage.setItem("loginflag", "false" )
     this.navCtrl.setRoot(LoginpagePage)
 }

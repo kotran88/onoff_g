@@ -1,16 +1,27 @@
 
   <ion-header>
     <ion-toolbar>
-      <ion-buttons style="
-      position: absolute;
-      left: 0;
-      z-index: 9999;
-      color: white;" start>
-        <button (click)="openclose();" menuToggle ion-button icon-only color="royal">
-          <img style="
-          width: 30px" class="logo" src="assets/img/hamburger.png" />
-        </button>
-      </ion-buttons>
+      <ion-buttons  *ngIf="!firstflag||firstflag==undefined"  style="
+    position: absolute;
+    left: 0;
+    z-index: 9999;
+    ;" start>
+      <button (click)="openclose();" menuToggle ion-button icon-only color="royal">
+        <img style="
+        width: 30px" class="logo" src="assets/img/hamburger.png" />
+      </button>
+    </ion-buttons>
+
+    <ion-buttons *ngIf="firstflag" style="
+    position: absolute;
+    left: 0;
+    z-index: 9999;
+    color: white;" start>
+      <button (click)="close();"  ion-button icon-only color="royal">
+        <img style="
+        width: 30px" class="logo" src="assets/img/back1.png" />
+      </button>
+    </ion-buttons>
 
       <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
 
@@ -27,9 +38,6 @@
       <ion-list (click)="gotolink(1)">
         <ion-item>주차파트</ion-item>
       </ion-list>
-      <ion-list (click)="gotolink(2)">
-        <ion-item>인포파트</ion-item>
-      </ion-list>
       <ion-list (click)="gotolink(3)">
         <ion-item>출근부</ion-item>
       </ion-list>
@@ -39,16 +47,6 @@
       <ion-list>
         <ion-item (click)="gotolink(5)">공지</ion-item>
       </ion-list>
-      <ion-list>
-        <ion-item>알림</ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>누적내역</ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>입금내역</ion-item>
-      </ion-list>
-
       <ion-list>
         <ion-item (click)="logout();">로그아웃</ion-item>
       </ion-list>
@@ -100,10 +98,11 @@
       <div class="flex-div small-div">
         <div class="chart-name">
           <span>소 [1인 ~ 2인]</span>
-          <span></span><span></span>
         </div>
       </div>
       <div style="display: inline;" class="chart-datas">
+        <span  style="background:wheat; width:100%;"  *ngIf="smallroom.length==0"> 공실이 없습니다. </span>
+       
         <span (click)="addRoom(a);" style="
         border: solid 0.5px; background:wheat"  *ngFor="let a of smallroom">{{a.name}}</span>
        
@@ -111,10 +110,11 @@
       <div class="flex-div medium-div">
         <div class="chart-name">
           <span>중 [3인 ~ 4인]</span>
-          <span></span><span></span>
         </div>
       </div>
       <div style="display: inline;" class="chart-datas">
+        <span  style="background:wheat; width:100%;"  *ngIf="midroom.length==0"> 현재 공실이 없습니다. </span>
+       
         <span (click)="addRoom(a);" style="
         border: solid 0.5px; background:wheat"  *ngFor="let a of midroom">{{a.name}}</span>
        
@@ -122,10 +122,11 @@
       <div class="flex-div large-div">
         <div class="chart-name">
           <span>대 [5인 ~ 6인]</span>
-          <span></span><span></span>
         </div>
       </div>
       <div style="display: inline;" class="chart-datas">
+        <span  style="background:wheat; width:100%;"  *ngIf="bigroom.length==0"> 현재 공실이 없습니다. </span>
+       
         <span (click)="addRoom(a);" style="
         border: solid 0.5px; background:wheat"  *ngFor="let a of bigroom">{{a.name}}</span>
        

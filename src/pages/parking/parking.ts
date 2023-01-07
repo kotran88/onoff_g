@@ -1,5 +1,5 @@
 import { Component,NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ParkingdetailPage } from '../parkingdetail/parkingdetail';
 import { ReceiptPage } from './../receipt/receipt';
 
@@ -36,13 +36,15 @@ export class ParkingPage {
   activeclass='1';
   firemain = firebase.database().ref();
   showflag=false;
+  firstflag=false;
   position:any;
   count : number[] = new Array();
-  constructor(public menuCtrl: MenuController ,public zone:NgZone,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public view:ViewController, public menuCtrl: MenuController ,public param:NavParams, public zone:NgZone,public navCtrl: NavController, public navParams: NavParams) {
     console.log("parking come");
     this.company = localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
+    this.firstflag = this.param.get("flag");
     for (let i = 1; i <= 10; i++) {
       this.count.push(i);
     }
@@ -54,6 +56,8 @@ export class ParkingPage {
     }
   }
   logout(){
+    localStorage.setItem("id", "" )
+    localStorage.setItem("type", "" )
     localStorage.setItem("loginflag", "false" )
     this.plusactivated=true;
     this.navCtrl.setRoot(LoginpagePage)
@@ -62,7 +66,9 @@ openclose(){
   console.log("open and cloe");
   this.menuCtrl.open();
 }
-
+close(){
+    this.view.dismiss();
+}
 gotolink(value){
   if(value == 1){
   this.navCtrl.push(ParkingPage);

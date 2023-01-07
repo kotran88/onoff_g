@@ -20,7 +20,7 @@ export class GongjiPage {
   list=[];
   company:any;
   firemain = firebase.database().ref();
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     
     this.company = localStorage.getItem("company");
 
@@ -30,10 +30,34 @@ export class GongjiPage {
         console.log(snap.val()[a]);
         this.list.push(snap.val()[a]);
       }
+      console.log(this.list);
+       this.list.sort((a, b) => {
+        console.log(a.date);
+        console.log(b.date);
+        return a.date - b.date;
+      });
+      this.list.reverse();
+      console.log(this.list);
     });
   }
+  close(){
+    console.log("close gongji")
+    // this.menuCtrl.open();
+    this.view.dismiss();
+}
   gotogongji(){
-    this.navCtrl.push(GongjiwritePage);
+    this.navCtrl.push(GongjiwritePage).then(() => {
+      this.navCtrl.getActive().onDidDismiss(data => {
+        this.list=[];
+        this.firemain.child("company").child(this.company).child("gongji").once('value').then((snap)=>{
+          console.log(snap.val());
+          for(var a in snap.val()){
+            console.log(snap.val()[a]);
+            this.list.push(snap.val()[a]);
+          }
+        });
+      });
+    });
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad GongjiPage');

@@ -6,9 +6,9 @@
       left: 0;
       z-index: 9999;
       color: white;" start>
-        <button (click)="openclose();" menuToggle ion-button icon-only color="royal">
+        <button (click)="openclose();"  ion-button icon-only color="royal">
           <img style="
-          width: 30px" class="logo" src="assets/img/hamburger.png" />
+          width: 30px" class="logo" src="assets/img/back1.png" />
         </button>
       </ion-buttons>
 
@@ -77,7 +77,7 @@
       <div class="room-current">
         <div class="title-div">
           <ion-icon class="square" name="square"></ion-icon>
-          <span class="text">룸 현황</span>
+          <span style="color:black;" class="text">출근 현황</span>
         </div>
 
         <div class="chart-div">
@@ -95,6 +95,49 @@
             <span>0</span>
             <span *ngIf="a.status=='attend'">출근</span>
             <span *ngIf="a.status=='noattend'">퇴근</span>
+          </div>
+        </div>
+
+
+
+        <div class="title-div">
+          <ion-icon class="square" name="square"></ion-icon>
+          <span style="color:black;" class="text">퇴근 현황</span>
+        </div>
+
+        <div class="chart-div">
+          <div class="name-keys">
+            <span>팀</span>
+            <span>아가씨</span>
+            <span>개수</span>
+            <span>TC</span>
+            <span>상태</span>
+          </div>
+          <div (click)="editing(a);" *ngFor="let a of mainlist_no" class="datas">
+            <span>{{a.team}}</span>
+            <span>{{a.name}}</span>
+            <span >0  </span>
+            <span>0</span>
+            <span >퇴근</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="room-current">
+
+        <div style="
+        position: fixed;
+        bottom: 10%;
+        width: 95%;
+    " class="chart-div">
+          <div class="name-keys">
+            <span style="width:50%;">총 출근</span>
+            <span style="width:50%;">{{totalin}}명 </span>
+          </div>
+          <div class="datas">
+            <span style="width:50%;">총 퇴근  </span>
+            <span style="width:50%;">{{totalout}}명 </span>
+           
           </div>
         </div>
       </div>

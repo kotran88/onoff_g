@@ -22,6 +22,7 @@ export class OrderdetailPage {
   firemain = firebase.database().ref();
   company:any="";
   currentstartday:any="";
+  name:any="";
   currentstart:any="";
   newarray=[];
   sullist=[];
@@ -34,6 +35,7 @@ export class OrderdetailPage {
   flag:any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.a=this.navParams.get("a");
+    this.name = localStorage.getItem("name");
     console.log(this.a);
     this.flag=this.navParams.get("flag");
     this.company=  localStorage.getItem("company");
@@ -80,7 +82,10 @@ export class OrderdetailPage {
     var min = date.getMinutes();
     var sec = date.getSeconds();
     console.log(this.company+"/"+this.a.name+"/"+this.currentstartday+"/"+this.a.key+"/"+hour+":"+min+":"+sec);
-    this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+
+    window.alert("주문이 완료되었습니다.");
+    this.navCtrl.pop();
   }
   clicked(b){
     console.log(b);

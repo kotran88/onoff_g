@@ -68,15 +68,13 @@ export class OrdermainPage {
           for(var b in snap.val()[a].roomhistory[this.currentstartday]){
             console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
             if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
-              this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+              if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+                this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+              }
+             
             }
           }
         }
-       
-        // for(var b in snap.val()[a]){
-        //   console.log(snap.val()[a][b]);
-        //   this.mainlist.push(snap.val()[a][b]);
-        // }
       }
       console.log(this.mainlist)
     });
@@ -90,26 +88,51 @@ export class OrdermainPage {
       this.navCtrl.getActive().onDidDismiss(url => {
       console.log("dismiss second!");
       this.mainlist=[];
-      this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
-        for(var a in snap.val()){
-          console.log("mmmm")
-          console.log(snap.val()[a]);
-          console.log(snap.val()[a].roomhistory)
-          if(snap.val()[a].roomhistory!=undefined){
-            console.log(snap.val()[a].roomhistory[this.currentstartday])
-            for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-              console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-              this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+
+
+    this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+      for(var a in snap.val()){
+        console.log("mmmm")
+        console.log(snap.val()[a]);
+        console.log(snap.val()[a].roomhistory)
+        if(snap.val()[a].roomhistory!=undefined){
+          console.log(snap.val()[a].roomhistory[this.currentstartday])
+          for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+            console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+            if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
+              if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+                this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+              }
+             
             }
           }
-         
-          // for(var b in snap.val()[a]){
-          //   console.log(snap.val()[a][b]);
-          //   this.mainlist.push(snap.val()[a][b]);
-          // }
         }
-        console.log(this.mainlist)
-      });
+      }
+      console.log(this.mainlist)
+    });
+      // this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+      //   for(var a in snap.val()){
+      //     console.log("mmmm")
+      //     console.log(snap.val()[a]);
+      //     console.log(snap.val()[a].roomhistory)
+      //     if(snap.val()[a].roomhistory!=undefined){
+      //       console.log(snap.val()[a].roomhistory[this.currentstartday])
+      //       for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+      //         console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+      //         if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+      //           this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+      //         }
+              
+      //       }
+      //     }
+         
+      //     // for(var b in snap.val()[a]){
+      //     //   console.log(snap.val()[a][b]);
+      //     //   this.mainlist.push(snap.val()[a][b]);
+      //     // }
+      //   }
+      //   console.log(this.mainlist)
+      // });
 
     });
 

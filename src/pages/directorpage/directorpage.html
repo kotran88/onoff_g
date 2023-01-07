@@ -45,14 +45,9 @@
       <ion-list>
         <ion-item (click)="gotolink(5)">공지</ion-item>
       </ion-list>
+     
       <ion-list>
-        <ion-item>알림</ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>누적내역</ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>입금내역</ion-item>
+        <ion-item (click)="gotolink(6)">입금</ion-item>
       </ion-list>
 
       <ion-list>
@@ -62,6 +57,7 @@
   </ion-menu>
   
   <ion-nav #mycontent [root]="rootPage"></ion-nav>
+  
 <ion-content style="
 background: black; margin-top:45px;" padding>
  <div class="header">

@@ -1,5 +1,5 @@
 import { Component,NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController,ViewController, NavParams } from 'ionic-angular';
 import  firebase from 'firebase';
 /**
  * Generated class for the AttendancePage page.
@@ -14,9 +14,11 @@ import  firebase from 'firebase';
 export class AttendancePage {
 
   mainlist:any = [];
+  mainlist_no:any = [];
   firemain = firebase.database().ref();
   activeclass='1';
-
+  totalin:any=0;
+  totalout:any=0;
   year:any="";
   month:any="";
   day:any="";
@@ -25,7 +27,7 @@ export class AttendancePage {
 
   currentstartday:any="";
   currentstart:any="";
-  constructor(public zone:NgZone,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public zone:NgZone,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     var date = new Date();
 
     this.currentstart=localStorage.getItem("start");
@@ -53,26 +55,33 @@ export class AttendancePage {
 
       for(var a in snap.val()){
         console.log(a)
+        console.log(snap.val()[a])
         if(a==this.currentstartday){
           console.log("mmmm")
           for(var b in snap.val()[a]){
-            console.log(b);
             console.log(snap.val()[a][b]);
             console.log(snap.val()[a][b].attend.flag);
             if(snap.val()[a][b].attend!=undefined){
-              this.mainlist.push({"name":b,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team});
+              this.mainlist.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team});
+              this.totalin++;
             }
             if(snap.val()[a][b].noattend!=undefined){
-              this.mainlist.push({"name":b,"status":snap.val()[a][b].noattend.flag,"team":snap.val()[a][b].noattend.team});
+              this.totalout++;
+              this.mainlist_no.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].noattend.flag,"team":snap.val()[a][b].noattend.team});
             }
 
           }
         }
 
       }
+      console.log(this.mainlist)
     });
   }
-
+  openclose(){
+    console.log("open and cloe");
+    // this.menuCtrl.open();
+    this.view.dismiss();
+  }
     /** 탭바 영역 클리시 호출되는 함수) 화면이 바뀐다. */
     screenSwitch(e : any) : void {
       if(e.value==3){

@@ -118,6 +118,12 @@ export class LoginpagePage {
         console.log(this.id);
         this.firemain.child("users").child(this.id).once("value",(snap)=>{
           console.log("rrr")
+          if(snap.val()==null){
+            window.alert("아이디가 존재하지 않습니다.")
+
+          this.loading.dismiss();
+            return;
+          }
           console.log(snap.val()["name"])
           this.name=snap.val()["name"];
 

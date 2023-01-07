@@ -52,6 +52,41 @@ page-agasi {
     left: 10%;
     font-size: 20px;
     }
+    .main{
+      width: 100%;
+      display: flex;
+    }
+    .chart-div
+    {
+      color: black;
+      text-align: center;
+      .name-keys, .datas{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        span{
+          display: inline-block;
+          width: calc(100% / 8);
+        }
+        span:nth-child(n+1)
+        {
+          border-left: solid 1px white;
+        }
+      }
+      .name-keys
+      {
+        background-color: rgb(255,240,200);
+        border-bottom: solid 1px black;
+      }
+      .datas
+      {
+        background-color: rgb(240, 240, 240);
+        border-bottom: solid 1px rgb(176, 176, 176);
+      }
+      span{
+        font-size:8px;
+      }
+    }
     .time{
       position: absolute;
       width: 100%;
@@ -132,10 +167,11 @@ page-agasi {
         color: red; // here, instead of "red" you can use sass variable if it was already defined
     }
     .looping{
-        width: 100% !important;
-        display: flex;
-        padding-left: 0px !important;
-        margin-left: 30px;
+      padding-left:0px; 
+      padding-right:0px;
+      padding-bottom: 5px;
+      padding-top:5px;
+      text-align: center;
     }
     .segactive{
         background: blue !important;
@@ -354,38 +390,36 @@ page-agasi {
     }
 
     .panel-4 {
-        padding: 0px 18px;
-        display: none;
-        columns: white;
-        overflow: hidden;
-    }
-    .fab .button-inner{
-        font-size:30px;
-    }
-    .panel-4 > div {
-        width: 50%;
-        padding-left: 18px;
-        float: left;
+      columns: white;
+      width:100%;
+      overflow: hidden;
+      padding-top: 10px;
+      padding-bottom: 10px;
+  }
+  .fab .button-inner{
+      font-size:30px;
+  }
+  .panel-4 > div {
+      width: 100%;
 
-        span {
-            display: block;
-            margin: 5px;
-            text-align: left;
-            font-size:20px;
-        }
-        br {
-            display: block;
-            height: 3px;
-        }
-    }
+      span {
+          display: block;
+          margin: 5px;
+          text-align: left;
+          font-size:12px;
+      }
+      br {
+          display: block;
+          height: 3px;
+      }
+  }
 
-    .panel-4 > div:first-child {
-        padding-left: 0px;
-    }
+  .panel-4 > div:first-child {
+      padding-left: 0px;
+  }
 
-    .panel-4 > div:nth-child(n + 2) {
-        text-align: end;
-    }
+  .panel-4 > div:nth-child(n + 2) {
+  }
 
     .foot-menu {
         position: fixed;

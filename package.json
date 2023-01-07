@@ -27,6 +27,7 @@
         "@ionic-native/date-picker": "^5.22.0",
         "@ionic-native/geolocation": "^5.24.0",
         "@ionic-native/iamport-cordova": "^5.23.0",
+        "@ionic-native/image-picker": "^5.36.0",
         "@ionic-native/in-app-browser": "^5.22.0",
         "@ionic-native/keyboard": "^5.24.0",
         "@ionic-native/photo-viewer": "^5.23.0",

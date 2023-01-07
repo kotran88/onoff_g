@@ -53,7 +53,17 @@ export class ChoicemodalPage {
     this.name = localStorage.getItem("name");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
-
+    var agasi = this.a.agasi;
+    for(var a in agasi){
+      console.log(agasi[a].name)
+      this.agasilist.push({ "name":agasi[a].name,
+      "date":agasi[a].date})
+      if(this.agasilist.length==1){
+        this.text=this.agasilist[0].name;
+      }
+    }
+    console.log("current agasi : ");
+    console.log(this.agasilist);
   }
   onKeyPressed(event){
     console.log(event.key) ;
@@ -141,6 +151,11 @@ export class ChoicemodalPage {
     console.log(this.name);
 
     var key=this.firemain.child("list").push().key;
+    console.log(this.agasilist)
+    var clean = this.agasilist.filter((arr, index, self) =>
+    index === self.findIndex((t) => (t.name === arr.name)))
+    console.log(clean)
+    this.agasilist=clean;
     this.firemain.child("users").once("value",snap=>{
       for(var b in snap.val()){
         console.log(b);
@@ -149,29 +164,29 @@ export class ChoicemodalPage {
           for(var a in this.agasilist){
             console.log(this.agasilist[a].name);
             console.log(this.agasilist[a].date);
-            console.log("ㅡ므믐")
-            console.log(this.agasilist[a].name)
-            console.log(snap.val()[b].name)
             if(this.agasilist[a].name.trim() == snap.val()[b].name.trim()){
-              console.log("match");
-              console.log(snap.val()[b].id)
+              console.log("match"+snap.val()[b].name.trim());
               var dte = new Date();
-              console.log(dte);
               // console.log(dte.getHours());
               dte.setHours(dte.getHours()+9);
-              console.log(dte);
-              this.firemain.child("users").child(snap.val()[b].id).child("current").update({"room":this.a.name,"enter_date":dte})
+              console.log("dte : "+dte);
+              console.log(this.agasilist[a].date);
+              var agasidate = new Date(this.agasilist[a].date);
+              agasidate.setHours(agasidate.getHours()+9);
+              console.log(agasidate);
+              this.firemain.child("users").child(snap.val()[b].id).child("current").update({"room":this.a.name,"enter_date":agasidate})
               this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update(this.a);
-              this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update({"enter_date_full":dte})
+              this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update({"enter_date_full":agasidate})
             }else{
-              window.alert("no match");
+              console.log("no match");
             }
           }
         }
       }
     
   });
-  //   this.firemain.child("users").child(this.name).child("roomhistory").
+  console.log("agasilist to put in company node");
+  console.log(this.agasilist);
     this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").update(this.agasilist);
    this.view.dismiss();
   }

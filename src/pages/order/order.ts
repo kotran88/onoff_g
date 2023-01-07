@@ -30,6 +30,7 @@ export class OrderPage {
     this.navCtrl.push(OrderdetailPage,{"a":this.a,"flag":"more"});
   }
   cancelorder(){
-    this.navCtrl.push(OrderdetailPage,{"a":this.a,"flag":"cancel"});
+    window.alert("준비중입니다.");
+    // this.navCtrl.push(OrderdetailPage,{"a":this.a,"flag":"cancel"});
   }
 }
