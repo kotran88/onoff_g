@@ -16,7 +16,6 @@ import { AccountPage } from '../account/account';
   templateUrl: 'wt.html',
 })
 export class WtPage {
-
   name:any="";
   mainlist=[];
   allmainlist=[];
@@ -36,17 +35,11 @@ export class WtPage {
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
   }
-
-  openclose(){
-    console.log("open and cloe");
-    this.menuCtrl.open();
-  }
-
+  
   gotolink(value){
     if(value == 0){
       this.navCtrl.push(OrdermainPage,{flag:true});
-      }
-    if(value == 1){
+    }else if(value == 1){
     this.navCtrl.push(ParkingPage,{flag:true});
     }else if(value==2){
       this.navCtrl.push(InfoPage,{flag:true});
@@ -63,15 +56,15 @@ export class WtPage {
       this.navCtrl.push(InfoPage);
     }
   }
+  openclose(){
+    console.log("open and cloe");
+    this.menuCtrl.open();
+  }
   logout(){
     localStorage.setItem("id", "" )
     localStorage.setItem("type", "" )
     localStorage.setItem("loginflag", "false" )
     this.navCtrl.setRoot(LoginpagePage)
-}
-orderpage(){
-  console.log("come to order page");
-  this.navCtrl.push(OrdermainPage);
 }
   ionViewDidLoad() {
     console.log('ionViewDidLoad DirectorpagePage');
@@ -100,10 +93,13 @@ orderpage(){
                 if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){
                   console.log(snap.val()[a].roomhistory[b][c].orderlist);
                   console.log(snap.val()[a].roomhistory[b][c].orderlist.roomno);
+                  var orderl=[];
                   for(var d in snap.val()[a].roomhistory[b][c].orderlist.orderlist){
+                    orderl.push(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d])
                     console.log(snap.val()[a].roomhistory[b][c].orderlist);
-                    this.orderlist.push({"date":snap.val()[a].roomhistory[b][c].orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":snap.val()[a].roomhistory[b][c].orderlist.orderlist[d]});
+                    console.log(snap.val()[a].roomhistory[b][c].orderlist.orderDate);
                   }
+                  this.orderlist.push({"wt":snap.val()[a].roomhistory[b][c].orderlist.wt,"date":snap.val()[a].roomhistory[b][c].orderlist.orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":orderl});
                 }
                
                 
@@ -112,6 +108,9 @@ orderpage(){
             }
           }
         }
+      }
+      for(var cc in this.orderlist){
+        console.log(this.orderlist[cc].value);
       }
       
       console.log(this.orderlist)
@@ -152,6 +151,6 @@ orderpage(){
       console.log(this.mainlist)
     });
 
-
   }
+
 }

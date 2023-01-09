@@ -5,6 +5,7 @@ import  firebase from 'firebase';
 
 import {IamportCordova} from '@ionic-native/iamport-cordova'
 import { T } from '@angular/core/src/render3';
+import { LoginpagePage } from '../loginpage/loginpage';
 /**
  * Generated class for the SignupPage page.
  *
@@ -198,9 +199,22 @@ export class SignupPage {
     return str;
 }
   uploadToServer(value){
+    //결제하기
     console.log(value)
     console.log("uploadtoServer come");
     console.log(this.id);
+
+    this.firemain.child('users').child(this.id.trim()).update({
+      payment:true
+    }).then(()=>{
+
+    localStorage.setItem("id", "" )
+    localStorage.setItem("type", "" )
+      localStorage.setItem("loginflag", "false" )
+      window.alert("임시 결제처리완료");
+      this.navCtrl.setRoot(LoginpagePage)
+    })
+
 //  var data = {
 //         pay_method: 'card',
 //         merchant_uid: 'mid_' + new Date().getTime(),

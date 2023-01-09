@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage,ModalController, NavController, NavParams,MenuController } from 'ionic-angular';
+import { IonicPage,ModalController,ViewController, NavController, NavParams,MenuController } from 'ionic-angular';
 import { InfomodalPage } from '../infomodal/infomodal';
 import { LoginpagePage } from '../loginpage/loginpage';
 
@@ -26,16 +26,23 @@ export class OrdermainPage {
   midroom=[];
   bigroom=[];
   company:any="";
+  name:any="";
   firemain = firebase.database().ref();
-  constructor(public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
     this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
+    this.name= localStorage.getItem("name");
     this.currentstartday=localStorage.getItem("startDate");
   }
   openclose(){
     console.log("open and cloe");
     this.menuCtrl.open();
   }
+  close(){
+    console.log("close gongji")
+    // this.menuCtrl.open();
+    this.view.dismiss();
+}
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfoPage');
     this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage,ViewController, NavController, NavParams } from 'ionic-angular';
 
 import  firebase from 'firebase';
 /**
@@ -33,7 +33,7 @@ export class OrderdetailPage {
   anjulist=[];
   drinklist=[];
   flag:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     this.a=this.navParams.get("a");
     this.name = localStorage.getItem("name");
     console.log(this.a);
@@ -68,6 +68,11 @@ export class OrderdetailPage {
     }
    
   }
+  close(){
+    console.log("close gongji")
+    // this.menuCtrl.open();
+    this.view.dismiss();
+}
   onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
   }

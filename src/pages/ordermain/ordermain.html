@@ -1,25 +1,27 @@
 
   <ion-header>
-    <ion-toolbar>
-      <ion-buttons style="
-      position: absolute;
-      left: 0;
-      z-index: 9999;
-      color: white;" start>
-        <button (click)="openclose();" menuToggle ion-button icon-only color="royal">
-          <img style="
-          width: 30px" class="logo" src="assets/img/hamburger.png" />
-        </button>
-      </ion-buttons>
-
-      <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
-
-      <ion-buttons end>
-        <button  style="color:white;"ion-button icon-only color="royal">
-          <ion-icon name="person-add"></ion-icon>
-          <span>{{name}}</span>
-        </button>
-      </ion-buttons>
+    
+  <ion-toolbar>
+    
+    <ion-buttons  style="
+    position: absolute;
+    left: 0;
+    z-index: 9999;
+    color: white;" start>
+      <button (click)="close();"  ion-button icon-only color="royal">
+        <img style="
+        width: 30px" class="logo" src="assets/img/back1.png" />
+      </button>
+    </ion-buttons>
+     
+    <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
+ 
+    <ion-buttons end>
+      <button  style="color:white;"ion-button icon-only color="royal">
+        <ion-icon name="person-add"></ion-icon>
+        <span>{{name}}</span>
+      </button>
+    </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-menu [content]="mycontent">

@@ -129,6 +129,7 @@ export class InfoPage {
       }else{
         console.log(snap.val().category)
         for(var a in snap.val()){
+          console.log(snap.val()[a])
          var cat =  snap.val()[a].category;
          var name = snap.val()[a].name;
          var flag = snap.val()[a].flag;

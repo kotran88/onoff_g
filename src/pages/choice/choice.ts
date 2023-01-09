@@ -205,7 +205,7 @@ export class ChoicePage {
 
 
   }
-  async getIdOfagaci (name,totalmoney,room,key,number,tctotal){
+  async getIdOfagaci (name,totalmoney,room,key,number,tctotal,wt){
     this.firemain.child("users").once("value",snap=>{
       var returnvalue="";
           for(var b in snap.val()){
@@ -228,7 +228,7 @@ export class ChoicePage {
           this.firemain.child("users").child(returnvalue).child("current").remove();
           this.firemain.child("users").child(returnvalue).child("roomhistory").child(room).child(this.currentstartday).child(key).update({"end_date":hour+":"+min,"end_date_full":dte})
             
-          this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(key).child("agasi").child(number).update({"findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"money":totalmoney})
+          this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(key).child("agasi").child(number).update({"findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"money":totalmoney,"wt":wt})
 
 
   this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(key).update({"end_date":hour+":"+min,"end_date_full":dte})
@@ -271,7 +271,7 @@ export class ChoicePage {
             totalmoney=Number(this.getTC(snap2.val().agasi[f]).split(",")[0]);
             var tctotal=Number(this.getTC(snap2.val().agasi[f]).split(",")[1]);
             console.log("totalmoney : "+totalmoney)
-             this.getIdOfagaci(c.agasi[d].name,totalmoney,room,c.key,f,tctotal)+"";
+             this.getIdOfagaci(c.agasi[d].name,totalmoney,room,c.key,f,tctotal,mainlist.wt)+"";
             
 
           }
@@ -279,6 +279,7 @@ export class ChoicePage {
         }
        
       }
+      this.refreshChoice();
     });
     
 
@@ -356,7 +357,7 @@ export class ChoicePage {
      this.firemain.child("users").child(selectedid).child("current").remove();
      console.log(mainlist.key)
               this.firemain.child("users").child(selectedid).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"end_date":hour+":"+min,"end_date_full":dte})
-                    this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(d).update({"findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"money":totalmoney})
+                    this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(d).update({"findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"money":totalmoney,"wt":mainlist.wt})
                   }
                 }
                 console.log(snap.val().agasi)

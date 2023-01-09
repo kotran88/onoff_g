@@ -46,7 +46,6 @@ export class DirectorpagePage {
     }else if(value==5){
       this.navCtrl.push(GongjiPage,{flag:true});
     }else if(value==6){
-      window.alert("6")
       this.navCtrl.push(AccountPage,{flag:true});
     }else if(value==7){
       this.navCtrl.push(InfoPage);
@@ -89,10 +88,13 @@ export class DirectorpagePage {
                 if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){
                   console.log(snap.val()[a].roomhistory[b][c].orderlist);
                   console.log(snap.val()[a].roomhistory[b][c].orderlist.roomno);
+                  var orderl=[];
                   for(var d in snap.val()[a].roomhistory[b][c].orderlist.orderlist){
+                    orderl.push(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d])
                     console.log(snap.val()[a].roomhistory[b][c].orderlist);
-                    this.orderlist.push({"date":snap.val()[a].roomhistory[b][c].orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":snap.val()[a].roomhistory[b][c].orderlist.orderlist[d]});
+                    console.log(snap.val()[a].roomhistory[b][c].orderlist.orderDate);
                   }
+                  this.orderlist.push({"wt":snap.val()[a].roomhistory[b][c].orderlist.wt,"date":snap.val()[a].roomhistory[b][c].orderlist.orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":orderl});
                 }
                
                 
@@ -101,6 +103,9 @@ export class DirectorpagePage {
             }
           }
         }
+      }
+      for(var cc in this.orderlist){
+        console.log(this.orderlist[cc].value);
       }
       
       console.log(this.orderlist)

@@ -125,27 +125,27 @@ export class ChoicemodalPage {
     if(this.text2.length>=2){
       
     this.agasilist.push({ "name":this.text2,
-    "date": year+"-"+month+"-"+day +" "+hour+":"+min})
+    "date":  year+"-"+month+"-"+day +" "+hour+":"+min})
     }
     if(this.text3.length>=2){
       
     this.agasilist.push({ "name":this.text3,
-    "date": year+"-"+month+"-"+day +" "+hour+":"+min})
+    "date":  year+"-"+month+"-"+day +" "+hour+":"+min})
     }
     if(this.text4.length>=2){
       
     this.agasilist.push({ "name":this.text4,
-    "date": year+"-"+month+"-"+day +" "+hour+":"+min})
+    "date": this.currentstartday +" "+hour+":"+min})
     }
     if(this.text5.length>=2){
       
     this.agasilist.push({ "name":this.text5,
-    "date": year+"-"+month+"-"+day +" "+hour+":"+min})
+    "date": this.currentstartday +" "+hour+":"+min})
     }
     if(this.text6.length>=2){
       
     this.agasilist.push({ "name":this.text6,
-    "date": year+"-"+month+"-"+day +" "+hour+":"+min})
+    "date": this.currentstartday +" "+hour+":"+min})
     }
     console.log(this.a);
     console.log(this.name);

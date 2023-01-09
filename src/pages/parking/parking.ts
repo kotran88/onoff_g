@@ -87,7 +87,10 @@ gotolink(value){
   }
 }
   released(i, j){
-    console.log(this.plusactivated);
+    if(this.firstflag){
+
+    }else{
+      console.log(this.plusactivated);
     if(!this.plusactivated){
       console.log("released......")
     console.log("mmmmm");
@@ -105,6 +108,8 @@ gotolink(value){
     }else{
       console.log("plusactivated true");
     }
+    }
+    
     
   }
   back(){

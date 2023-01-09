@@ -78,18 +78,26 @@ background: black; margin-top:45px;" padding>
 
 
 <div style="    padding: 20px;" class="c">
-  <div style="color:white;" *ngFor="let i of orderlist; let j = index;">
-    <p *ngIf="j==0"> 룸 넘버 : {{i.roomno}}</p>
-    <p *ngIf="j==0"> 주문일 : {{i.orderDate}}</p>
-    <p>{{i.value.name}}, {{i.value.num}}, {{i.value.price}}</p>
+  <div class="orderlisting" style="color:white;" *ngFor="let i of orderlist; let j = index;">
+    <p > 룸 넘버 : {{i.roomno}}</p>
+    <p > 주문일 : {{i.date}}</p>
+    <p > 웨이터 : {{i.wt}}</p>
+    <span *ngFor="let j of i.value">
+      {{j.name}} 
+      {{j.num}} 
+      {{j.price}}
+      <br>
+    </span>
+    
     <!-- <p></p>
     <p>주문일자 : {{i.date}}</p> -->
+    <hr>
   </div>
 </div>
 <hr style="width: 90%; height: 1px; background-color: white;">
 
 <div  *ngFor="let i of mainlist; let j = index;">
-  <button  ion-long-press [interval]="800"  (pressEnded)="released(i , j)" (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
+  <button  (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
     <div>
       <p>{{i.date}}</p>
       <p>{{i.time}}</p>

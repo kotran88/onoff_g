@@ -176,6 +176,15 @@ export class AgasiPage {
   generatecal(){
     this.attendcount=0;
     this.totaltcofday=0;
+    this.attendance=[];
+    this.attendcount=0;
+    this.tctotal=0;
+    this.totaltcofday=0;
+    this.todaymoney=0;
+    this.thismonthmainlist=[];
+    this.mainlist=[];
+    this.mainlist2=[];
+
     this.firemain.child("users").child(this.id).once('value').then((snap)=>{
       console.log(snap.val());
 
@@ -249,174 +258,175 @@ export class AgasiPage {
      
 
       console.log(snap.val().roomhistory)
-      for(var a in snap.val().roomhistory){
-        console.log(snap.val().roomhistory[a])
-        for(var b in snap.val().roomhistory[a]){
-          console.log(snap.val().roomhistory[a][b])
+      if(snap.val().roomhistory!=undefined){
+        for(var a in snap.val().roomhistory){
 
-          for(var c in snap.val().roomhistory[a][b]){
-            console.log(snap.val().roomhistory[a][b][c].length)
-            if(snap.val().roomhistory[a][b][c].length==1){
-              return;
-            }
-            console.log(snap.val().roomhistory[a][b][c])
-
-
-
-
-            var end = snap.val().roomhistory[a][b][c].end_date_full
-        var start = snap.val().roomhistory[a][b][c].enter_date_full;
-        console.log(end);
-        console.log(start);
-
-        var enddate = new Date(end);
-        var startdate = new Date(start);
-        console.log(enddate);
-        console.log(enddate.getMonth())
-        console.log(startdate);
-        console.log(this.currentMonth+"????"+(Number(enddate.getMonth())+1)+"/"+(Number(startdate.getMonth())+1) +"start end");
-        if(Number(enddate.getMonth())+1==this.currentMonth||Number(startdate.getMonth())+1==this.currentMonth){
-          console.log("ok");
-          var tctotal=0;
-        var totalmoney=0;
-        console.log(snap.val().roomhistory[a])
-        console.log(end);
-        if(end==undefined){
-
-        }else{
-          console.log(this.currentstartday)
-          console.log(snap.val().roomhistory[a][b][c]);
-          console.log(snap.val().roomhistory[a][b][c].end_date_full);
-          var fullyear=snap.val().roomhistory[a][b][c].end_date_full.split("T")[0];
-          fullyear = fullyear.split("-")[0]+"-"+Number(fullyear.split("-")[1])+"-"+Number(fullyear.split("-")[2]);
-          console.log(fullyear)
-          if(snap.val().roomhistory[a][b][c].date.trim()==this.currentstartday){
-            //영업일 오늘의 TC
-           
-
-
-            console.log(end);
-            console.log("enddate"+enddate);
-            var diff = enddate.getTime() - startdate.getTime();
-            console.log(diff);
-            var diffDays = Math.ceil(diff / (1000) / 3600 * 60 );
-            console.log(enddate);
-            console.log(startdate);
-            console.log(diffDays)
-
-
-            tctotal = diffDays/60;
-            console.log(tctotal);
-            console.log(Math.floor(tctotal))
-            var mok = Math.floor(tctotal);
-            var nameoji = tctotal -Math.floor(tctotal);
-            console.log(nameoji)
-            // 10분 -> 0.17 
-            // 15분 -> 0.25
-            // 20분 -> 0.33 - 3만원
-            //30분 - > 0.5
-            // 40분 -> 0.67 - 6만원
-            // 1시간 -> 1 - 13만원 
-            
-            // 1시간 30분 -> 1.5
-            // 2시간 -> 2 - 26만원
-            // 2시간 20분 -> 26만원 + 3만원 = 29만원
-            var moneyvalue = mok*13;
-            var restofmoney=0;
-            //if 2.5 
-            if(nameoji<=0.17){
-              //nothing
-            }else if(nameoji>0.17 &&nameoji<=0.33){
-              //3마ㄴ원
-              restofmoney = 3;
-            }else if(nameoji>0.33 &&nameoji<=0.67){
-              //6만원
-              restofmoney = 6;
+          console.log(a)
+          console.log(snap.val().roomhistory[a])
+  
+          for(var b in snap.val().roomhistory[a]){
+            if((b=="end_date")||(b=="end_date_full") ){
+              console.log("b is : "+b +"so pass")
             }else{
-              //13만원 
-
-              restofmoney = 13;
+              console.log(b);
+              console.log(snap.val().roomhistory[a][b])
+  
+              for(var c in snap.val().roomhistory[a][b]){
+  
+                var end = snap.val().roomhistory[a][b][c].end_date_full
+                var start = snap.val().roomhistory[a][b][c].enter_date_full;
+                console.log(end);
+                console.log(start);
+  
+                var enddate = new Date(end);
+                var startdate = new Date(start);
+                console.log(enddate);
+                console.log(enddate.getMonth())
+                console.log(startdate);
+                console.log(this.currentMonth+"????"+(Number(enddate.getMonth())+1)+"/"+(Number(startdate.getMonth())+1) +"start end");
+                if(Number(enddate.getMonth())+1==this.currentMonth||Number(startdate.getMonth())+1==this.currentMonth){
+                  console.log("ok");
+                  var tctotal=0;
+                var totalmoney=0;
+                console.log(snap.val().roomhistory[a])
+                console.log(end);
+                      if(end==undefined){
+  
+                      }else{
+                        var fullyear=snap.val().roomhistory[a][b][c].end_date_full.split("T")[0];
+                        fullyear = fullyear.split("-")[0]+"-"+Number(fullyear.split("-")[1])+"-"+Number(fullyear.split("-")[2]);
+                        console.log("290")
+                        console.log(fullyear)
+                        console.log(snap.val().roomhistory[a][b][c]);
+                        console.log(snap.val().roomhistory[a][b][c].date)
+                        console.log(this.currentstartday)
+                        if(snap.val().roomhistory[a][b][c].date.trim()==this.currentstartday){
+                          //영업일 오늘의 TC
+                        
+  
+  
+                          console.log(end);
+                          console.log("enddate"+enddate);
+                          var diff = enddate.getTime() - startdate.getTime();
+                          console.log(diff);
+                          var diffDays = Math.ceil(diff / (1000) / 3600 * 60 );
+                          console.log(enddate);
+                          console.log(startdate);
+                          console.log(diffDays)
+  
+  
+                          tctotal = diffDays/60;
+                          console.log(tctotal);
+                          console.log(Math.floor(tctotal))
+                          var mok = Math.floor(tctotal);
+                          var nameoji = tctotal -Math.floor(tctotal);
+                          console.log(nameoji)
+                          // 10분 -> 0.17 
+                          // 15분 -> 0.25
+                          // 20분 -> 0.33 - 3만원
+                          //30분 - > 0.5
+                          // 40분 -> 0.67 - 6만원
+                          // 1시간 -> 1 - 13만원 
+                          
+                          // 1시간 30분 -> 1.5
+                          // 2시간 -> 2 - 26만원
+                          // 2시간 20분 -> 26만원 + 3만원 = 29만원
+                          var moneyvalue = mok*13;
+                          var restofmoney=0;
+                          //if 2.5 
+                          if(nameoji<=0.17){
+                            //nothing
+                          }else if(nameoji>0.17 &&nameoji<=0.33){
+                            //3마ㄴ원
+                            restofmoney = 3;
+                          }else if(nameoji>0.33 &&nameoji<=0.67){
+                            //6만원
+                            restofmoney = 6;
+                          }else{
+                            //13만원 
+  
+                            restofmoney = 13;
+                          }
+  
+                        totalmoney = Number(moneyvalue)+Number(restofmoney);
+                          // this.tcday.push({"date":start.split("T")[0],"day":start.split("T")[0].split("-")[2],"value":32000})
+                          this.mainlist.push({ "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].start_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney})
+                        console.log("today total : "+totalmoney);
+                        console.log(this.mainlist)
+                        }else{
+                          //오늘이 아닌것의 값을 저장하도록. 
+  
+  
+                          console.log(snap.val().roomhistory[a][b][c])
+                          var end = snap.val().roomhistory[a][b][c].end_date_full
+                          var start = snap.val().roomhistory[a][b][c].enter_date_full;
+                  
+                          var enddate = new Date(end);
+                          var startdate = new Date(start);
+                          var diff = enddate.getTime() - startdate.getTime();
+                          var diffDays = Math.ceil(diff / (1000) / 3600 * 60 );
+                          console.log("diff calc");
+                          console.log(enddate);
+                          console.log(startdate);
+                          console.log(diffDays)
+  
+  
+                          tctotal = diffDays/60;
+                          console.log(tctotal);
+                          console.log(Math.floor(tctotal))
+                          var mok = Math.floor(tctotal);
+                          var nameoji = tctotal -Math.floor(tctotal);
+                          console.log(nameoji)
+                          // 10분 -> 0.17 
+                          // 15분 -> 0.25
+                          // 20분 -> 0.33 - 3만원
+                          //30분 - > 0.5
+                          // 40분 -> 0.67 - 6만원
+                          // 1시간 -> 1 - 13만원 
+                          
+                          // 1시간 30분 -> 1.5
+                          // 2시간 -> 2 - 26만원
+                          // 2시간 20분 -> 26만원 + 3만원 = 29만원
+                          var moneyvalue = mok*13;
+                          var restofmoney=0;
+                          //if 2.5 
+                          if(nameoji<=0.17){
+                            //nothing
+                          }else if(nameoji>0.17 &&nameoji<=0.33){
+                            //3마ㄴ원
+                            restofmoney = 3;
+                          }else if(nameoji>0.33 &&nameoji<=0.67){
+                            //6만원
+                            restofmoney = 6;
+                          }else{
+                            //13만원 
+  
+                            restofmoney = 13;
+                          }
+                          totalmoney = Number(moneyvalue)+Number(restofmoney);
+                          console.log("diff calc:"+totalmoney);
+                        }
+  
+                        this.thismonthmainlist.push({"date":snap.val().roomhistory[a][b][c].date, "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney*10000})
+                  
+                      }
+  
+  
+  
+  
             }
-
-          totalmoney = Number(moneyvalue)+Number(restofmoney);
-            // this.tcday.push({"date":start.split("T")[0],"day":start.split("T")[0].split("-")[2],"value":32000})
-            this.mainlist.push({ "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].start_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney})
-           console.log("today total : "+totalmoney);
-           console.log(this.mainlist)
-          }else{
-            //오늘이 아닌것의 값을 저장하도록. 
-
-
-            console.log(snap.val().roomhistory[a][b][c])
-            var end = snap.val().roomhistory[a][b][c].end_date_full
-            var start = snap.val().roomhistory[a][b][c].enter_date_full;
-    
-            var enddate = new Date(end);
-            var startdate = new Date(start);
-            var diff = enddate.getTime() - startdate.getTime();
-            var diffDays = Math.ceil(diff / (1000) / 3600 * 60 );
-            console.log("diff calc");
-            console.log(enddate);
-            console.log(startdate);
-            console.log(diffDays)
-
-
-            tctotal = diffDays/60;
-            console.log(tctotal);
-            console.log(Math.floor(tctotal))
-            var mok = Math.floor(tctotal);
-            var nameoji = tctotal -Math.floor(tctotal);
-            console.log(nameoji)
-            // 10분 -> 0.17 
-            // 15분 -> 0.25
-            // 20분 -> 0.33 - 3만원
-            //30분 - > 0.5
-            // 40분 -> 0.67 - 6만원
-            // 1시간 -> 1 - 13만원 
-            
-            // 1시간 30분 -> 1.5
-            // 2시간 -> 2 - 26만원
-            // 2시간 20분 -> 26만원 + 3만원 = 29만원
-            var moneyvalue = mok*13;
-            var restofmoney=0;
-            //if 2.5 
-            if(nameoji<=0.17){
-              //nothing
-            }else if(nameoji>0.17 &&nameoji<=0.33){
-              //3마ㄴ원
-              restofmoney = 3;
-            }else if(nameoji>0.33 &&nameoji<=0.67){
-              //6만원
-              restofmoney = 6;
-            }else{
-              //13만원 
-
-              restofmoney = 13;
-            }
-            totalmoney = Number(moneyvalue)+Number(restofmoney);
-            console.log("diff calc:"+totalmoney);
           }
-
-          this.thismonthmainlist.push({"date":snap.val().roomhistory[a][b][c].date, "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney*10000})
-    
         }
-        
+  
           }
-          console.log(totalmoney)
-          if(totalmoney==undefined){
-            totalmoney=0;
-          }
-      this.totaltcofday += Number(totalmoney);
-      console.log("totaltcofday:"+this.totaltcofday);
+  
+          
         }
-        
-        
-        }
-        
-        // this.tctotal = this.tctotal.toFixed(2);
-        
       }
-      console.log("totaltcofday:"+this.totaltcofday);
+      
+
+
+
       if(this.totaltcofday==NaN||this.totaltcofday=="NaN"){
         this.totaltcofday=0;
       }
@@ -445,6 +455,7 @@ export class AgasiPage {
       }
       console.log(this.currentYear+"-"+this.currentMonth+"-"+b);
       console.log(this.currentstartday)
+      
       if(this.currentYear+"-"+this.currentMonth+"-"+b==this.currentstartday){
        this.todaymoney=tc;
 
@@ -456,12 +467,22 @@ console.log("totaltcofday:"+this.totaltcofday)
 console.log(tc);
       }
       this.tcday.push({"date":dayy,"day":b,"value":tc});
-   
+
     }
-  
+    console.log(this.todaymoney);
+
+
+
+
+    for(var ab in this.thismonthmainlist){
+      console.log(this.thismonthmainlist[ab]);
+      console.log("add is "+this.thismonthmainlist[ab].money);
+      this.totaltcofday+=Number(this.thismonthmainlist[ab].money);
+    };
+      });
+      
       console.log(this.tcday);
 
-    });
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad AgasiPage');
