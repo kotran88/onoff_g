@@ -37,7 +37,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230109 v1.1';
+  version='20230126 v1.6';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -124,6 +124,11 @@ export class LoginpagePage {
           this.loading.dismiss();
             return;
           }
+          if(snap.val().type=="kyungri"){
+            window.alert("경리는 웹페이지를 이용해주세요 .")
+            this.loading.dismiss();
+            return;
+          }
           console.log(snap.val()["name"])
           this.name=snap.val()["name"];
 
@@ -177,6 +182,7 @@ export class LoginpagePage {
                 localStorage.setItem("type",snap.val().type);
                
                 this.firemain.child("company").child(snap.val().company).child('openandclose').once('value').then((snap3)=>{
+                  
                   console.log(snap3.val().start)
                   
                   localStorage.setItem("flag",snap3.val().flag);

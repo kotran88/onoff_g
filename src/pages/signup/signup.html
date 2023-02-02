@@ -26,7 +26,7 @@
       <ion-input style="
       color: white;
     font-size: 20px;
-      float: right;" class="input-box" placeholder="비밀번호를 입력해주세요" [(ngModel)]="password" type="text"></ion-input>
+      float: right;" class="input-box" placeholder="비밀번호를 입력해주세요" [(ngModel)]="password" type="password"></ion-input>
     </div>
 
     <div style="width: 100%; height:100px;">
@@ -34,7 +34,7 @@
       <ion-input style="
       color: white;
     font-size: 20px;
-      float: right;" class="input-box" placeholder="비밀번호를 입력해주세요" [(ngModel)]="password2" type="text"></ion-input>
+      float: right;" class="input-box" placeholder="비밀번호를 입력해주세요" [(ngModel)]="password2" type="password"></ion-input>
     </div>
 
     <div style="width: 100%; height:100px;">
@@ -150,19 +150,19 @@
     </div>
 
     <div style="text-align:center;">
-      <button (click)="selecttype(1)" class="newbtn">부장 </button>
+      <button (click)="selecttype(1)" class="newbtn">영업진 </button>
       <button (click)="selecttype(2)" class="newbtn"> WT </button>
       <button (click)="selecttype(3)" class="newbtn">아가씨 </button>
       
     </div>
     <div style="text-align:center;">
-      <button (click)="selecttype(4)" class="newbtn">입금(경리) </button>
+      <button (click)="selecttype(4)" class="newbtn">경리</button>
       <button (click)="selecttype(5)" class="newbtn">인포 </button>
       <button (click)="selecttype(6)" class="newbtn">주차 </button>
+
     </div>
     <div style="text-align:center;">
-      <button (click)="selecttype(7)" class="newbtn"> 밴드</button>
-      <button (click)="selecttype(8)" class="newbtn">관리 </button>
+      <!-- <button (click)="selecttype(7)" class="newbtn"> 밴드</button> -->
       <!-- <button (click)="selecttype(9)" class="newbtn"> </button> -->
     </div>
 
@@ -233,7 +233,7 @@ text-align: center;">조판팀을 설정해주세요. </span>
   <div *ngIf="stage==5">
     <div class="input-title2"><span style="font-size:30px;" >환영합니다. <br></span>
       <span *ngIf="type==1" style="font-size:30px;">
-      부장을 선택하셨군요 <br> 
+      영업진을 선택하셨군요 <br> 
 
       <button *ngIf="approved" class="paybtn" (click)="uploadToServer(1);">월 2,100원 결제하기</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>

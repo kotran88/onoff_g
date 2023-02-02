@@ -29,13 +29,15 @@ export class InfoPage {
   bigroom=[];
   firstflag=false;
   company:any="";
+  name:any="";
   firemain = firebase.database().ref();
   constructor(public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
     this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
-
+    this.name = localStorage.getItem("name");
     this.firstflag = this.navParams.get("flag");
+    
   }
   openclose(){
     console.log("open and cloe");

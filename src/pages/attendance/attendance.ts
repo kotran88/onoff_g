@@ -24,12 +24,13 @@ export class AttendancePage {
   day:any="";
   hour:any="";
   min:any="";
-
+  totalagasi:any=[];
   currentstartday:any="";
   currentstart:any="";
+  company:any="";
   constructor(public zone:NgZone,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     var date = new Date();
-
+    this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
     this.year=date.getFullYear();
@@ -50,6 +51,22 @@ export class AttendancePage {
 
           this.activeclass='1'
         })
+
+    this.firemain.child('users').once('value').then((snap)=>{
+      for(var a in snap.val()){
+        if(snap.val()[a].name!=undefined){
+
+        console.log(a)
+        console.log(snap.val()[a])
+        if(snap.val()[a].type=="agasi"){
+          if(this.company == snap.val()[a].company){
+
+            this.totalagasi.push({"name":snap.val()[a].name,"id":a});
+          }
+        }
+        }
+      }
+    });
     this.firemain.child('attendance').once('value').then((snap)=>{
       console.log(snap.val())
 

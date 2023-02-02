@@ -19,12 +19,14 @@ import { LoginpagePage } from '../loginpage/loginpage';
 })
 export class SignupPage {
   firemain = firebase.database().ref();
-  name='추신수';
+  name='';
   stage=1;
   youngup:any;
   jopanteam:any;
   gaming:any="";
   approvedflag:any = false;
+  payment:any=false;
+  approved:any=true;
   cellcert:any;dsfs
   residence='';
   sex='';
@@ -47,7 +49,6 @@ export class SignupPage {
   id_checker=false;
   password_checker=false;
   phone_checker=null;
-  approved:any;
   companies=[];
   constructor(public zone:NgZone,public viewCtrl:ViewController,
     public alertCtrl:AlertController,public navCtrl: NavController, public navParams: NavParams) {
@@ -68,9 +69,12 @@ export class SignupPage {
       this.type = Number(localStorage.getItem("type"));
       console.log(this.id)
       if(this.id!=null&&this.id!=undefined&&this.id.length!=0){
+        try{
+
         this.firemain.child("users").child(this.id).once('value').then((snap)=>{
           console.log(snap.val().approved);
-          this.approved=snap.val().approved;
+          // this.approved=snap.val().approved;
+          var payment=snap.val().payment;
           if(this.approved==false){
             this.stage=5;
             
@@ -78,7 +82,15 @@ export class SignupPage {
             this.stage=5;
             
           }
+          if(this.approved==true&&payment==true){
+            this.stage=1;
+          }
         });
+        }catch(e){
+          window.alert("error:"+e);
+          localStorage.setItem("id","");
+          this.navCtrl.pop();
+        }
       }else{
         console.log("else come")
       }
@@ -92,6 +104,8 @@ export class SignupPage {
   gotonext3(){
     console.log(this.youngup);
     console.log(this.jopanteam);
+    this.approved=false;
+    this.payment=false;
     if(this.type!=3){
       if(this.youngup==undefined){
         window.alert("영업팀을 선택해주세요 ");
@@ -107,7 +121,7 @@ export class SignupPage {
 
     var value = this.type;
 
-    this.stage=5;
+    // this.stage=5;
     var nowdate=this.format_date(new Date())
    localStorage.setItem("type",value+"");
    localStorage.setItem("id",this.id);
@@ -116,52 +130,52 @@ export class SignupPage {
       // window.alert("주차제외 가입 준비중.")
       // return;
       var nowdate=this.format_date(new Date())
-      this.firemain.child("users").child(this.id).update({"type":"director","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"director","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
     }else if(value==2){
       console.log("WT 승인 요청 ")
-       console.log("info 승인 요청 ")
-       this.firemain.child("users").child(this.id).update({"type":"wt","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+       this.firemain.child("users").child(this.id).update({"type":"wt","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
 
     
     }else if(value==3){
       console.log("아가씨 승인 요청 ")
-
       var nowdate=this.format_date(new Date())
-      this.firemain.child("users").child(this.id).update({"type":"agasi","id":this.id,"jopan":this.jopanteam,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"agasi","id":this.id,"jopan":this.jopanteam,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
     }else if(value==4){
       // window.alert("주차제외 가입 준비중.")
-      // console.log("info 승인 요청 ")
+      console.log("경리 승인 요청 ")
       // return;
       var nowdate=this.format_date(new Date())
-      this.firemain.child("users").child(this.id).update({"type":"kyungri","id":this.id,"jopan":this.jopanteam,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"kyungri","id":this.id,"jopan":this.jopanteam,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
     }else if(value==5){
       console.log("주차 승인 요청 ")
       var nowdate=this.format_date(new Date())
       console.log(this.youngup);
       console.log(this.jopanteam)
-      this.firemain.child("users").child(this.id).update({"type":"info","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"info","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
     }else if(value==6){
       console.log("주차 승인 요청 ")
       var nowdate=this.format_date(new Date())
       console.log(this.youngup);
       console.log(this.jopanteam)
-      this.firemain.child("users").child(this.id).update({"type":"park","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"park","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
     }else if(value==7){
-      console.log("입금 승인 요청 ")
+      console.log("경리 승인 요청 ")
       var nowdate=this.format_date(new Date())
       console.log(this.youngup);
       console.log(this.jopanteam)
-      this.firemain.child("users").child(this.id).update({"type":"band","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"band","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
     }else if(value==8){
       console.log("관리  승인 요청 ")
       var nowdate=this.format_date(new Date())
       console.log(this.youngup);
       console.log(this.jopanteam)
-      this.firemain.child("users").child(this.id).update({"type":"admin","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":false,"company":this.selectedCompany["name"]})
+      this.firemain.child("users").child(this.id).update({"type":"admin","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
     }else{
 
       window.alert("else 주차제외 가입 준비중.")
     }
+    window.alert("회원가입이 완료되었습니다.");
+    this.navCtrl.setRoot(LoginpagePage);
 
 
 

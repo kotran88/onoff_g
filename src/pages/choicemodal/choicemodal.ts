@@ -46,6 +46,7 @@ export class ChoicemodalPage {
   currentstartday:any="";
   currentstart:any="";
   text6:any="";
+  text7:any="";
   constructor(public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
    this.a =  this.navParams.get("a");
     console.log(this.a);
@@ -56,12 +57,66 @@ export class ChoicemodalPage {
     var agasi = this.a.agasi;
     for(var a in agasi){
       console.log(agasi[a].name)
-      this.agasilist.push({ "name":agasi[a].name,
-      "date":agasi[a].date})
+      if(agasi[a].findate==undefined){
+        this.agasilist.push({ "name":agasi[a].name,
+     
+      "date":agasi[a].date,
+    })
+      }else{
+        this.agasilist.push({ "name":agasi[a].name,
+      "findate":agasi[a].findate,
+      "date":agasi[a].date,
+      "money":agasi[a].money,
+      "roomno":agasi[a].roomno,
+      "wt":agasi[a].wt,
+      "tc":agasi[a].tc})
+      }
+      
       if(this.agasilist.length==1){
         this.text=this.agasilist[0].name;
       }
+      if(this.agasilist.length==2){
+        this.text=this.agasilist[0].name;
+        this.text2=this.agasilist[1].name;
+      }
+      if(this.agasilist.length==3){
+        this.text=this.agasilist[0].name;
+        this.text2=this.agasilist[1].name;
+        this.text3=this.agasilist[2].name;
+      }
+      if(this.agasilist.length==4){
+        this.text=this.agasilist[0].name;
+        this.text2=this.agasilist[1].name;
+        this.text3=this.agasilist[2].name;
+        this.text4=this.agasilist[3].name;
+      }
+      if(this.agasilist.length==5){
+        this.text=this.agasilist[0].name;
+        this.text2=this.agasilist[1].name;
+        this.text3=this.agasilist[2].name;
+        this.text4=this.agasilist[3].name;
+        this.text5=this.agasilist[4].name;
+      }
+      if(this.agasilist.length==6){
+        this.text=this.agasilist[0].name;
+        this.text2=this.agasilist[1].name;
+        this.text3=this.agasilist[2].name;
+        this.text4=this.agasilist[3].name;
+        this.text5=this.agasilist[4].name;
+        this.text6=this.agasilist[5].name;
+      }
+      if(this.agasilist.length==7){
+        this.text=this.agasilist[0].name;
+        this.text2=this.agasilist[1].name;
+        this.text3=this.agasilist[2].name;
+        this.text4=this.agasilist[3].name;
+        this.text5=this.agasilist[4].name;
+        this.text6=this.agasilist[5].name;
+        this.text7=this.agasilist[6].name;
+      }
+
     }
+
     console.log("current agasi : ");
     console.log(this.agasilist);
   }
@@ -175,8 +230,12 @@ export class ChoicemodalPage {
               agasidate.setHours(agasidate.getHours()+9);
               console.log(agasidate);
               this.firemain.child("users").child(snap.val()[b].id).child("current").update({"room":this.a.name,"enter_date":agasidate})
-              this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update(this.a);
-              this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update({"enter_date_full":agasidate})
+              console.log(this.a.name);
+              console.log(this.currentstartday)
+              console.log(this.a.key);
+              console.log(this.a);
+              // this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update(this.a);
+              // this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update({"enter_date_full":agasidate})
             }else{
               console.log("no match");
             }

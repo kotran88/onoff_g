@@ -84,17 +84,28 @@ background: black; margin-top:45px;" padding>
 
 
 <div style="    padding: 20px;" class="c">
+  <div class="orderlisting" style="
+  text-align: center; color:white;" *ngIf="orderlist.length==0">
+    <p > 본 영업일에 주문처리된 내역이 없습니다. </p>
+ 
+    </div>
 <div class="orderlisting" style="color:white;" *ngFor="let i of orderlist; let j = index;">
-  <p > 룸 넘버 : {{i.roomno}}</p>
-  <p > 주문일 : {{i.date}}</p>
-  <p > 웨이터 : {{i.wt}}</p>
+  <p style="
+  margin: 0;"> 룸 번호 : {{i.roomno}}T</p>
+  <p style="
+  margin: 0;"> 주문일 : {{i.date}}</p>
+  <p style="
+  margin: 0;"> Wt : {{i.wt}}</p>
   <span *ngFor="let j of i.value">
-    {{j.name}} 
-    {{j.num}} 
-    {{j.price}}
-    <br>
+    
+    <p style="
+    margin: 0;" *ngIf="j.category=='주류'">{{j.name}} , {{j.num}}병, {{j.price.toLocaleString()}}원</p>
+    <p style="
+    margin: 0;"  *ngIf="j.category!='주류'">{{j.name}} , {{j.num}}개, {{j.price.toLocaleString()}}원</p>
   </span>
-  
+  <p style="
+  margin: 0;">TC : {{i.tc}}개 , {{i.money.toLocaleString()}}원</p>
+  <p>합계 : {{(i.tp+i.money).toLocaleString()}}</p>
   <!-- <p></p>
   <p>주문일자 : {{i.date}}</p> -->
   <hr>
@@ -102,6 +113,13 @@ background: black; margin-top:45px;" padding>
 </div>
 <hr style="width: 90%; height: 1px; background-color: white;">
 
+<div style="    padding: 20px;" class="c">
+  <div class="orderlisting" style="
+  text-align: center; color:white;" *ngIf="mainlist.length==0">
+    <p > 본 영업일에 주차처리된 내역이 없습니다. </p>
+ 
+    </div>
+  </div>
 <div  *ngFor="let i of mainlist; let j = index;">
 <button  ion-long-press [interval]="800"  (pressEnded)="released(i , j)" (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
   <div>

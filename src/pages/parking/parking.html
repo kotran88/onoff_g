@@ -101,7 +101,7 @@ background: black; margin-top:45px;" padding>
   </div>
   <div *ngIf="!showplus" class="ion-label-area">
     <div id="ion-label-area-1">
-      afsdf
+      
       <div  *ngFor="let i of mainlist; let j = index;">
         <button  ion-long-press [interval]="800"  (pressEnded)="released(i , j)" (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
           <div>

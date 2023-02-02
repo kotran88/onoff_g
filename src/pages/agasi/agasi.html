@@ -181,7 +181,7 @@ top: 3.5%;">ON</span>
       font-size: 10px;
       margin-top: 10px;
       position: fixed;
-      margin-left: -20px;" *ngIf="a.day==day&&  (a.date.split('-')[1] == currentMonth && a.date.split('-')[2] == day)"> {{a.value}}</span>
+      margin-left: -20px;" *ngIf="a.day==day"> {{a.value}}</span>
     </p>
                     </div>
                 </ng-template>  
@@ -246,7 +246,7 @@ top: 3.5%;">ON</span>
             <span>{{name}}</span>
             <span>{{a.name}}</span>
             
-            <span >{{a.enter_date_full.split('T')[0]}} {{a.enter_date_full.split('T')[1].split(":")[0]}} : {{a.enter_date_full.split('T')[1].split(":")[1]}}   </span>
+            <span >{{a.enter_date_full}} </span>
             <span *ngIf="a.end_date_full!=undefined" >{{a.end_date_full.split('T')[0]}} {{a.end_date_full.split('T')[1].split(":")[0]}} : {{a.end_date_full.split('T')[1].split(":")[1]}}   </span>
             <span *ngIf="a.end_date_full==undefined" > -  </span>
             

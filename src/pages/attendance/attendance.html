@@ -88,6 +88,10 @@
             <span>TC</span>
             <span>상태</span>
           </div>
+          <div  *ngIf="mainlist.length==0" class="datas">
+            <span style="    width: 100%;">출근 데이터가없습니다.</span>
+           
+          </div>
           <div (click)="editing(a);" *ngFor="let a of mainlist" class="datas">
             <span>{{a.team}}</span>
             <span>{{a.name}}</span>
@@ -113,6 +117,10 @@
             <span>TC</span>
             <span>상태</span>
           </div>
+          <div  *ngIf="mainlist_no.length==0" class="datas">
+            <span style="    width: 100%;">퇴근 데이터가없습니다.</span>
+           
+          </div>
           <div (click)="editing(a);" *ngFor="let a of mainlist_no" class="datas">
             <span>{{a.team}}</span>
             <span>{{a.name}}</span>
@@ -130,6 +138,10 @@
         bottom: 10%;
         width: 95%;
     " class="chart-div">
+    <div class="name-keys">
+      <span style="width:50%;">총 아가씨 수</span>
+      <span style="width:50%;">{{totalagasi.length}}명 </span>
+    </div>
           <div class="name-keys">
             <span style="width:50%;">총 출근</span>
             <span style="width:50%;">{{totalin}}명 </span>

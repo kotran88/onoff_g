@@ -35,6 +35,7 @@ export class OrderdetailPage {
   flag:any;
   constructor(public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     this.a=this.navParams.get("a");
+      console.log(this.a);
     this.name = localStorage.getItem("name");
     console.log(this.a);
     this.flag=this.navParams.get("flag");
@@ -87,7 +88,7 @@ export class OrderdetailPage {
     var min = date.getMinutes();
     var sec = date.getSeconds();
     console.log(this.company+"/"+this.a.name+"/"+this.currentstartday+"/"+this.a.key+"/"+hour+":"+min+":"+sec);
-    this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
 
     window.alert("주문이 완료되었습니다.");
     this.navCtrl.pop();
@@ -128,7 +129,7 @@ export class OrderdetailPage {
 
         for(var a in snap.val()){
           console.log(snap.val()[a]);
-          if(snap.val()[a].category=="술"){
+          if(snap.val()[a].category=="주류"){
             
         this.obj.push(snap.val()[a].subcategory);
             this.sullist.push(snap.val()[a]);

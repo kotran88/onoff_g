@@ -77,110 +77,123 @@ background: black; margin-top:45px;" padding>
 <hr class="header-parking-hr">
 
 
+
 <div style="    padding: 20px;" class="c">
-  <div class="orderlisting" style="color:white;" *ngFor="let i of orderlist; let j = index;">
-    <p > 룸 넘버 : {{i.roomno}}</p>
-    <p > 주문일 : {{i.date}}</p>
-    <p > 웨이터 : {{i.wt}}</p>
-    <span *ngFor="let j of i.value">
-      {{j.name}} 
-      {{j.num}} 
-      {{j.price}}
-      <br>
-    </span>
-    
-    <!-- <p></p>
-    <p>주문일자 : {{i.date}}</p> -->
-    <hr>
-  </div>
+  <div class="orderlisting" style="
+  text-align: center; color:white;" *ngIf="orderlist.length==0">
+    <p > 본 영업일에 주문처리된 내역이 없습니다. </p>
+ 
+    </div>
+<div class="orderlisting" style="color:white;" *ngFor="let i of orderlist; let j = index;">
+  <p > 룸 넘버 : {{i.roomno}}</p>
+  <p > 주문일 : {{i.date}}</p>
+  <p > 웨이터 : {{i.wt}}</p>
+  <span *ngFor="let j of i.value">
+    {{j.name}} 
+    {{j.num}} 
+    {{j.price}}
+    <br>
+  </span>
+  
+  <!-- <p></p>
+  <p>주문일자 : {{i.date}}</p> -->
+  <hr>
+</div>
 </div>
 <hr style="width: 90%; height: 1px; background-color: white;">
 
-<div  *ngFor="let i of mainlist; let j = index;">
-  <button  (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
-    <div>
-      <p>{{i.date}}</p>
-      <p>{{i.time}}</p>
-      <p>입력자 : {{i.receiver}}</p>
-    </div>
-    <div>
-      <p>{{i.room}} {{i.incharge}} ₩{{i.price.toLocaleString() }}</p>
-      <p>{{i.type}}</p>
-      <img src="assets/img/bottomarrow.png" style="height: 20px; width: 20px;">
-    </div>
-  </button>
-  <div style="color:white;" class="panel-1" id="panel-1-{{j}}">
-    <div>
-      <p *ngIf="i.type=='발렛'">{{i.carnum}}</p>
-      <p *ngIf="i.type=='대리'||i.type=='픽업'">{{i.destination}}</p>
+<div style="    padding: 20px;" class="c">
+  <div class="orderlisting" style="
+  text-align: center; color:white;" *ngIf="mainlist.length==0">
+    <p > 본 영업일에 주차처리된 내역이 없습니다. </p>
+ 
     </div>
   </div>
-  <hr style="width: 90%; height: 1px; background-color: white;">
+<div  *ngFor="let i of mainlist; let j = index;">
+<button  ion-long-press [interval]="800"  (pressEnded)="released(i , j)" (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
+  <div>
+    <p>{{i.date}}</p>
+    <p>{{i.time}}</p>
+    <p>입력자 : {{i.receiver}}</p>
+  </div>
+  <div>
+    <p>{{i.room}} {{i.incharge}} ₩{{i.price.toLocaleString() }}</p>
+    <p>{{i.type}}</p>
+    <img src="assets/img/bottomarrow.png" style="height: 20px; width: 20px;">
+  </div>
+</button>
+<div style="color:white;" class="panel-1" id="panel-1-{{j}}">
+  <div>
+    <p *ngIf="i.type=='발렛'">{{i.carnum}}</p>
+    <p *ngIf="i.type=='대리'||i.type=='픽업'">{{i.destination}}</p>
+  </div>
 </div>
-  <!--
- 
+<hr style="width: 90%; height: 1px; background-color: white;">
+</div>
+<!--
 
-  <div  class="ion-label-area">
-    <div id="ion-label-area-1">
-      <div  *ngFor="let i of mainlist; let j = index;">
-        <button (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
+
+<div  class="ion-label-area">
+  <div id="ion-label-area-1">
+    <div  *ngFor="let i of mainlist; let j = index;">
+      <button (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
+        <div>
+          <p>{{i.date}}</p>
+          <p>{{i.time}}</p>
+          <p>입력자 : {{i.receiver}}</p>
+        </div>
+        <div>
+          <p>{{i.room}} {{i.incharge}} ₩{{i.price.toLocaleString() }}</p>
+          <p>{{i.type}}</p>
+          <img src="assets/img/bottomarrow.png" style="height: 20px; width: 20px;">
+        </div>
+      </button>
+      <div style="color:white;" class="panel-1" id="panel-1-{{j}}">
+        <div>
+          <p *ngIf="i.type=='발렛'">{{i.carnum}}</p>
+          <p *ngIf="i.type=='대리'||i.type=='픽업'">{{i.destination}}</p>
+        </div>
+      </div>
+      <hr style="width: 90%; height: 1px; background-color: white;">
+    </div>
+  </div>
+  <div id="ion-label-area-2" style="display: none;">
+    two
+  </div>
+  <div id="ion-label-area-3" style="display: none;">
+    three
+  </div>
+  <div id="ion-label-area-4" style="display: none;">
+    <div *ngFor="let i of allmainlist let j = index">
+     
+      <button (click)="extendedAccordion(4, j)" class="accordion" id="accordion-{{i}}">
+        <p style="font-size:20px; width:150px;">{{i.a[0].date}}</p>
+        <p style="margin-top: 20px;;"><img src="assets/img/bottomarrow.png"
+            style="height: 20px; width: 20px;"></p>
+
+        <p style="flex: 4; 
+        font-size: 20px; text-align: end;">일계:{{i.count}} 합계:{{i.price.toLocaleString()}}</p>
+      </button>
+      <div style="
+      color: white;" class="panel-4" id="panel-4-{{j}}">
+        <div class="looping" *ngFor="let b of i.a">
           <div>
-            <p>{{i.date}}</p>
-            <p>{{i.time}}</p>
-            <p>입력자 : {{i.receiver}}</p>
+            <span>{{b.date}}</span>
+            <span>{{b.time}}</span>
+            <span>입력자: {{b.receiver}}</span>
           </div>
-          <div>
-            <p>{{i.room}} {{i.incharge}} ₩{{i.price.toLocaleString() }}</p>
-            <p>{{i.type}}</p>
-            <img src="assets/img/bottomarrow.png" style="height: 20px; width: 20px;">
-          </div>
-        </button>
-        <div style="color:white;" class="panel-1" id="panel-1-{{j}}">
-          <div>
-            <p *ngIf="i.type=='발렛'">{{i.carnum}}</p>
-            <p *ngIf="i.type=='대리'||i.type=='픽업'">{{i.destination}}</p>
+          <div style="margin-left:20px;">
+            <span>{{b.room}} {{b.incharge}} ₩{{b.price.toLocaleString()}}</span>
+            <span>{{b.type}}</span>
+            <span *ngIf="b.type=='발렛'">{{b.carnum}}</span>
+            <span *ngIf="b.type=='대리'||b.type=='픽업'">{{b.destination}}</span>
           </div>
         </div>
-        <hr style="width: 90%; height: 1px; background-color: white;">
+        
       </div>
+      <hr style="width: 90%; height: 1px; background-color: white; margin-top: 0px;">
     </div>
-    <div id="ion-label-area-2" style="display: none;">
-      two
-    </div>
-    <div id="ion-label-area-3" style="display: none;">
-      three
-    </div>
-    <div id="ion-label-area-4" style="display: none;">
-      <div *ngFor="let i of allmainlist let j = index">
-       
-        <button (click)="extendedAccordion(4, j)" class="accordion" id="accordion-{{i}}">
-          <p style="font-size:20px; width:150px;">{{i.a[0].date}}</p>
-          <p style="margin-top: 20px;;"><img src="assets/img/bottomarrow.png"
-              style="height: 20px; width: 20px;"></p>
-
-          <p style="flex: 4; 
-          font-size: 20px; text-align: end;">일계:{{i.count}} 합계:{{i.price.toLocaleString()}}</p>
-        </button>
-        <div style="
-        color: white;" class="panel-4" id="panel-4-{{j}}">
-          <div class="looping" *ngFor="let b of i.a">
-            <div>
-              <span>{{b.date}}</span>
-              <span>{{b.time}}</span>
-              <span>입력자: {{b.receiver}}</span>
-            </div>
-            <div style="margin-left:20px;">
-              <span>{{b.room}} {{b.incharge}} ₩{{b.price.toLocaleString()}}</span>
-              <span>{{b.type}}</span>
-              <span *ngIf="b.type=='발렛'">{{b.carnum}}</span>
-              <span *ngIf="b.type=='대리'||b.type=='픽업'">{{b.destination}}</span>
-            </div>
-          </div>
-          
-        </div>
-        <hr style="width: 90%; height: 1px; background-color: white; margin-top: 0px;">
-      </div>
-    </div>
-  </div> -->
+  </div>
+</div> -->
 
 </ion-content>

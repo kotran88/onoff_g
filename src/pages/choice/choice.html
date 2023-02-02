@@ -89,7 +89,7 @@
        <span>{{a.incharge}}</span>
        
         <span>{{a.numofpeople}}인 </span> 
-        <span *ngIf="a.agasi!=undefined">{{a.agasi.length}} 인</span>
+        <span *ngIf="a.numofagasi!=undefined">{{a.numofagasi}} 인</span>
         
         <span>{{a.wt}}</span>
         <span>{{a.insert_date}}</span> 
@@ -99,15 +99,30 @@
         <div *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
           <div *ngFor="let b of a.agasi" class="looping" >
             <div>
-              <span style="width:45px;">{{b.name}}</span>
+              
+              <div *ngIf="b!=undefined" class="ab">
+                <span style="width:45px;">{{b.name}}</span>
               <span style="width:45px;">{{b.date.split(" ")[1]}}</span>
-              <button (click)="end(b,a.name,a)" style="
-              width: 45px;
-              background: grey;
-              border: solid 1px;
-              color: white;
-              height: 30px; ">종료</button>
-               <span *ngIf="b.findate!=undefined" style="width:45px;">종료: {{b.findate.split(" ")[1]}}</span>
+                <button *ngIf="b.findate==undefined" (click)="end(b,a.name,a,1)" style="
+                width: 45px;
+                background: grey;
+                border: solid 1px;
+                color: white;
+                height: 30px; ">종료4</button>
+  
+                <button (click)="reinit(b,a.name,a,1)" *ngIf="b.findate!=undefined" style="
+                  width: 55px;
+                  background: grey;
+                  border: solid 1px;
+                  color: white;
+                  margin-left: 10px;
+                  position: absolute;
+                  height: 30px;
+                  right: 5%; ">재진행</button>
+                 <span *ngIf="b.findate!=undefined" style="width:55px;">종료:{{b.findate.split(" ")[1]}}</span>
+                 <span *ngIf="b.tc!=undefined" style="width:45px;">{{b.tc}}개</span>
+              </div>
+             
             </div>
           </div>
           <div class="b">
@@ -121,6 +136,14 @@
             color: black;
             margin-left:20px;
             height: 30px; ">전체종료</button>
+
+            <button (click)="ss(a,a.name,a)"  style="
+            width: 80px;
+            background: orange;
+            border: solid 1px;
+            color: black;
+            margin-left:20px;
+            height: 30px; ">초이스ㅅㅅ</button>
           </div>
         </div>
         
@@ -149,7 +172,7 @@
        <span>{{a.incharge}}</span>
        
         <span>{{a.numofpeople}} 인 </span> 
-        <span *ngIf="a.agasi!=undefined">{{a.agasi.length}} 인</span>
+        <span *ngIf="a.agasi!=undefined">{{a.numofagasi}} 인</span>
         
         <span>{{a.wt}}</span>
         <span>{{a.insert_date}}</span> 
@@ -161,15 +184,43 @@
             <div>
               <span style="width:45px;">{{b.name}}</span>
               <span style="width:45px;">{{b.date.split(" ")[1]}}</span>
-              <!-- <button (click)="end(b,a.name)" style="
+              <button *ngIf="b.findate==undefined" (click)="end(b,a.name,a,2)" style="
               width: 45px;
               background: grey;
               border: solid 1px;
               color: white;
-              height: 30px; ">종료</button> -->
+              height: 30px; ">종료</button>
+
+              <button (click)="reinit(b,a.name,a,2)" *ngIf="b.findate!=undefined" style="
+              width: 55px;
+              background: grey;
+              border: solid 1px;
+              color: white;
+              margin-left: 10px;
+              position: absolute;
+              height: 30px;
+              right: 5%; ">재진행</button>
+               <span *ngIf="b.findate!=undefined" style="width:40px;">{{b.findate.split(" ")[1]}}</span>
+               <span *ngIf="b.tc!=undefined" style="width:45px;">{{b.tc}}개</span>
             </div>
           </div>
           <div class="b">
+
+            <button (click)="endall(a,a.name,a)"  style="
+            width: 80px;
+            background: orange;
+            border: solid 1px;
+            color: black;
+            margin-left:20px;
+            height: 30px; ">전체종료</button>
+
+            <button *ngIf="a.lack!=undefined" (click)="ss2(a,a.name,a)"  style="
+            width: 80px;
+            background: orange;
+            border: solid 1px;
+            color: black;
+            margin-left:20px;
+            height: 30px; ">빵꾸{{a.lack}}</button>
             <!-- <span style="
             font-size: 14px;
             font-weight: 500;">총 ??? 개</span> -->
