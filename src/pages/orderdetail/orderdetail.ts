@@ -35,10 +35,12 @@ export class OrderdetailPage {
   flag:any;
   constructor(public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     this.a=this.navParams.get("a");
+    console.log("a is...");
       console.log(this.a);
     this.name = localStorage.getItem("name");
     console.log(this.a);
     this.flag=this.navParams.get("flag");
+    console.log(this.flag);
     this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
@@ -54,7 +56,17 @@ export class OrderdetailPage {
               console.log(snap.val()[a][b].name);
               console.log(snap.val()[a][b].price);
               if(snap.val()[a][b].category!=undefined){
-              this.selectedList.push({num:snap.val()[a][b].num,"name":snap.val()[a][b].name,"price":snap.val()[a][b].price,"category":snap.val()[a][b].category,"subcategory":snap.val()[a][b].subcategory});
+
+                
+    var date = new Date();
+
+    var year=date.getFullYear();
+    var month=date.getMonth()+1;
+    var day = date.getDate();
+    var hour = date.getHours();
+    var min = date.getMinutes();
+    var sec = date.getSeconds();
+              this.selectedList.push({num:snap.val()[a][b].num,"name":snap.val()[a][b].name,"price":snap.val()[a][b].price,"category":snap.val()[a][b].category,"subcategory":snap.val()[a][b].subcategory,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
               }
             }
           }
@@ -88,8 +100,9 @@ export class OrderdetailPage {
     var min = date.getMinutes();
     var sec = date.getSeconds();
     console.log(this.company+"/"+this.a.name+"/"+this.currentstartday+"/"+this.a.key+"/"+hour+":"+min+":"+sec);
+    console.log(this.a);
     this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
-
+    this.firemain.child("users").child(this.a.directorId).child("incentive").child(this.currentstartday).child(this.a.key).update({"bu":this.a.bu, "roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
     window.alert("주문이 완료되었습니다.");
     this.navCtrl.pop();
   }
@@ -113,10 +126,20 @@ export class OrderdetailPage {
         flag=true;
       }
     }
+    var date = new Date();
+
+    var year=date.getFullYear();
+    var month=date.getMonth()+1;
+    var day = date.getDate();
+    var hour = date.getHours();
+    var min = date.getMinutes();
+    var sec = date.getSeconds();
+     
+
     if(flag){
-      this.selectedList.push({num:num,"name":b.name,"price":b.price,"category":b.category,"subcategory":b.subcategory});
+      this.selectedList.push({num:num,"name":b.name,"price":b.price,"category":b.category,"subcategory":b.subcategory,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
     }else{
-      this.selectedList.push({num:num,"name":b.name,"price":b.price,"category":b.category,"subcategory":b.subcategory});
+      this.selectedList.push({num:num,"name":b.name,"price":b.price,"category":b.category,"subcategory":b.subcategory,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
     }
     console.log(this.selectedList);
   }

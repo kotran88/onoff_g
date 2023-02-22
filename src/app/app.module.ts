@@ -50,6 +50,8 @@ import { ChoicemodalPage } from '../pages/choicemodal/choicemodal';
 import { GongjiPage } from '../pages/gongji/gongji';
 import { GongjiwritePage } from '../pages/gongjiwrite/gongjiwrite';
 import { OrdermainPage } from '../pages/ordermain/ordermain';
+import { Choicemodal2Page } from '../pages/choicemodal2/choicemodal2';
+import { Choicemodal3Page } from '../pages/choicemodal3/choicemodal3';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -91,6 +93,8 @@ initializeApp(firebaseConfig);
     BandPage,
     AttendancePage,
     ExpandableComponent,
+    Choicemodal2Page,
+    Choicemodal3Page,
   ],
   imports: [
     BrowserModule,
@@ -111,6 +115,8 @@ initializeApp(firebaseConfig);
     LoginpagePage,
     OrdermainPage,
     ChoicemodalPage,
+    Choicemodal3Page,
+    Choicemodal2Page,
     GongjiwritePage,
     ChoicePage,
     GongjiPage,

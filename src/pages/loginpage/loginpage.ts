@@ -37,7 +37,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230126 v1.6';
+  version='20230221 v2.3';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -116,6 +116,7 @@ export class LoginpagePage {
       }
       else{
         console.log(this.id);
+        
         this.firemain.child("users").child(this.id).once("value",(snap)=>{
           console.log("rrr")
           if(snap.val()==null){
@@ -209,7 +210,7 @@ export class LoginpagePage {
                     else if(type == "director")
                     {
                       //부장 
-                      this.navCtrl.push(DirectorpagePage);
+                      this.navCtrl.push(AttendancePage);
                     }else if(type == "account"){
                       //경리 
                     this.navCtrl.push(AccountPage);

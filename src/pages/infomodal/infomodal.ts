@@ -22,9 +22,11 @@ export class InfomodalPage {
   currentstart:any="";
   room:any;
   company:any;
+  bu:any=0;
   firemain = firebase.database().ref();
   constructor(public navCtrl: NavController,public view:ViewController, public navParams: NavParams) {
    this.room= this.navParams.get("room");
+    this.bu= this.navParams.get("bu");
    this.company = localStorage.getItem("company");
    this.currentstart=localStorage.getItem("start");
    this.currentstartday=localStorage.getItem("startDate");
@@ -57,8 +59,30 @@ export class InfomodalPage {
     var fulldate = this.currentstartday;
     var key = this.firemain.child('rooms').child(fulldate).push().key;
     // this.firemain.child("rooms").child(fulldate).child(key).update({"status":"reserved", "incharge":this.incharge,"in":this.in,"wt":this.wt,"room":this.room,"insert_date":hour+":"+min,"key":key,"date":fulldate})
-    this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday).child(key).update({"name":this.room.name,"status":"reserved", "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte, "key":key,"date":fulldate})
-    this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday+"").update({"flag":true,"lastupdated":dte})
+    var bujangid ="noname";
+    this.firemain.child("users").once("value",snap=>{
+      for(var b in snap.val()){
+        if(snap.val()[b].type=="director"){
+          console.log(snap.val()[b].name.trim()+",,,"+this.incharge.trim())
+            if(snap.val()[b].name.trim()==this.incharge.trim()){
+              
+              bujangid=snap.val()[b].id;
+            }
+        }
+      }
+      if(bujangid=="noname"){
+        window.alert("없는담당자입니다. 담당자명을 확인하세요.")
+
+    this.view.dismiss();
+        return;
+      }
+
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday).child(key).update({"name":this.room.name,"status":"reserved","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte, "key":key,"date":fulldate})
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday+"").child(key).update({"directorId":bujangid, "flag":true,"lastupdated":dte})
+    
+    this.view.dismiss();
+    });
+
     
     // this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
     //   console.log(snap.val());
@@ -73,6 +97,5 @@ export class InfomodalPage {
     //   }
     // });
    
-    this.view.dismiss();
   }
 }

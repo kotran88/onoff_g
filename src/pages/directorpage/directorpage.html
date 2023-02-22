@@ -89,12 +89,16 @@ background: black; margin-top:45px;" padding>
   <p > 주문일 : {{i.date}}</p>
   <p > 웨이터 : {{i.wt}}</p>
   <span *ngFor="let j of i.value">
-    {{j.name}} 
-    {{j.num}} 
-    {{j.price}}
+    <p style="
+    margin: 0;" *ngIf="j.category=='주류'">{{j.name}} , {{j.num}}병, {{j.price.toLocaleString()}}원</p>
+    <p style="
+    margin: 0;"  *ngIf="j.category!='주류'">{{j.name}} , {{j.num}}개, {{j.price.toLocaleString()}}원</p>
     <br>
   </span>
   
+  <p style="
+  margin: 0;">TC : {{i.tc}}개 , {{i.money.toLocaleString()}}원</p>
+  <p>합계 : {{(i.tp+i.money).toLocaleString()}}</p>
   <!-- <p></p>
   <p>주문일자 : {{i.date}}</p> -->
   <hr>

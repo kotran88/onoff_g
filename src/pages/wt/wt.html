@@ -103,6 +103,7 @@ background: black; margin-top:45px;" padding>
     <p style="
     margin: 0;"  *ngIf="j.category!='주류'">{{j.name}} , {{j.num}}개, {{j.price.toLocaleString()}}원</p>
   </span>
+  
   <p style="
   margin: 0;">TC : {{i.tc}}개 , {{i.money.toLocaleString()}}원</p>
   <p>합계 : {{(i.tp+i.money).toLocaleString()}}</p>

@@ -198,7 +198,7 @@ top: 3.5%;">ON</span>
         <span *ngIf="todaymoney>=0" style=" color:black; 
         font-size: 24px;
         margin-top: 20px;
-        display: inline-flex;" class="text">오늘의 TC : {{todaymoney.toLocaleString()}} </span>
+        display: inline-flex;" class="text">오늘의 TC(완료기준) : {{todaymoney.toLocaleString()}} </span>
       </div>
      
       <div *ngIf="currentRoom!=undefined" class="no">
@@ -271,6 +271,9 @@ top: 3.5%;">ON</span>
         <span>WT</span>
         <span>입실T</span>
         <span>완료</span>
+      </div>
+      <div   *ngIf="mainlist2.length==0" class="datas">
+        <p>현재 초이스 내역이 없습니다.</p>
       </div>
       <div   *ngFor="let a of mainlist2 let j = index" class="datas">
         <div (click)="gotodetail(a);" class="main">

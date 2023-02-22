@@ -240,69 +240,99 @@ export class AgasiPage {
         // this.tctotal = this.tctotal.toFixed(2);
         // var tctotal=0;
         var diffMin = this.diffMin;
-        if(diffMin<=10){
-          this.tctotal =0;
-        }else if(diffMin>=11&&diffMin<=20){
-          this.tctotal = 0.3;
-        }else if(diffMin>=21&&diffMin<=40){
-          this.tctotal = 0.6;
-        }else if(diffMin>=41&&diffMin<=60){
-          this.tctotal = 1;
-        }else if(diffMin>=61&&diffMin<=80){
-          this.tctotal = 1.3;
-        }else if(diffMin>=81&&diffMin<=100){
-          this.tctotal = 1.6;
-        }else if(diffMin>=101&&diffMin<=120){
-          this.tctotal = 2;
-        }else if(diffMin>=121&&diffMin<=140){
-          this. tctotal = 2.3;
-        }else if(diffMin>=141&&diffMin<=160){
-          this.tctotal = 2.6;
-        }else if(diffMin>=161&&diffMin<=180){
-          this.tctotal = 3;
-        }else if(diffMin>=181&&diffMin<=200){
-          this.tctotal = 3.3;
-        }else if(diffMin>=201&&diffMin<=220){
-          this.tctotal = 3.6;
-        }else if(diffMin>=221&&diffMin<=240){
-          this.tctotal = 4;
-        }else if(diffMin>=241&&diffMin<=260){
-          this.tctotal = 4.3;
-        }else if(diffMin>=261&&diffMin<=280){
-          this.tctotal = 4.6;
-        }else if(diffMin>=281&&diffMin<=300){
-          this.tctotal = 5;
-        }else if(diffMin>=301&&diffMin<=320){
-          this.tctotal = 5.3;
-        }else if(diffMin>=321&&diffMin<=340){
-          this.tctotal = 5.6;
-        }else if(diffMin>=341&&diffMin<=360){
-          this.tctotal = 6;
-        }else if(diffMin>=361&&diffMin<=380){
-          this.tctotal = 6.3;
-        }else if(diffMin>=381&&diffMin<=400){
-          this.tctotal = 6.6;
-        }else if(diffMin>=401&&diffMin<=420){
-          this.tctotal = 7;
-        }else if(diffMin>=421&&diffMin<=440){
-          this.tctotal = 7.3;
-        }else if(diffMin>=441&&diffMin<=460){
-          this.tctotal = 7.6;
-        }else if(diffMin>=461&&diffMin<=480){
-          this.tctotal = 8;
-        }else if(diffMin>=481&&diffMin<=500){
-          this.tctotal = 8.3;
-        }else if(diffMin>=501&&diffMin<=520){
-          this.tctotal = 8.6;
-        }else if(diffMin>=521&&diffMin<=540){
-          this.tctotal = 9;
-        }else if(diffMin>=541&&diffMin<=560){
-          this.tctotal = 9.3;
-        }else if(diffMin>=561&&diffMin<=580){
-          this.tctotal = 9.6;
-        }else if(diffMin>=581&&diffMin<=600){
-          this.tctotal = 10;
-        }
+        var chasam=0;
+    if(diffMin<=10){
+      tctotal =0;
+      chasam=0;
+    }else if(diffMin>=11&&diffMin<=20){
+      tctotal = 0.3;
+
+      chasam=3;
+    }else if(diffMin>=21&&diffMin<=40){
+      tctotal = 0.6;
+
+      chasam=6;
+    }else if(diffMin>=41&&diffMin<=60){
+      tctotal = 1;
+
+      chasam=13;
+    }else if(diffMin>=61&&diffMin<=80){
+      tctotal = 1.3;
+      if(diffMin>=61&&diffMin<=66){
+        chasam=14;
+      }else if(diffMin>=67&&diffMin<=80){
+        chasam=16;
+      }
+    }else if(diffMin>=81&&diffMin<=100){
+      tctotal = 1.6;
+      chasam=19;
+    }else if(diffMin>=101&&diffMin<=120){
+      tctotal = 2;
+      chasam=26;
+    }else if(diffMin>=121&&diffMin<=140){
+      tctotal = 2.3;
+      if(diffMin>=121&&diffMin<=126){
+        chasam=27;
+      }else if(diffMin>=126&&diffMin<=140){
+        chasam=29;
+      }
+    }else if(diffMin>=141&&diffMin<=160){
+      tctotal = 2.6;
+      chasam=32;
+    }else if(diffMin>=161&&diffMin<=180){
+      tctotal = 3;
+      chasam=39;
+    }else if(diffMin>=181&&diffMin<=200){
+      tctotal = 3.3;
+      if(diffMin>=181&&diffMin<=186){
+        chasam=40;
+      }else if(diffMin>=186&&diffMin<=180){
+        chasam=42;
+      }
+    }else if(diffMin>=201&&diffMin<=220){
+      tctotal = 3.6;
+      chasam=43;
+    }else if(diffMin>=221&&diffMin<=240){
+      tctotal = 4;
+      chasam=52;
+    }else if(diffMin>=241&&diffMin<=260){
+      tctotal = 4.3;
+    }else if(diffMin>=261&&diffMin<=280){
+      tctotal = 4.6;
+    }else if(diffMin>=281&&diffMin<=300){
+      tctotal = 5;
+    }else if(diffMin>=301&&diffMin<=320){
+      tctotal = 5.3;
+    }else if(diffMin>=321&&diffMin<=340){
+      tctotal = 5.6;
+    }else if(diffMin>=341&&diffMin<=360){
+      tctotal = 6;
+    }else if(diffMin>=361&&diffMin<=380){
+      tctotal = 6.3;
+    }else if(diffMin>=381&&diffMin<=400){
+      tctotal = 6.6;
+    }else if(diffMin>=401&&diffMin<=420){
+      tctotal = 7;
+    }else if(diffMin>=421&&diffMin<=440){
+      tctotal = 7.3;
+    }else if(diffMin>=441&&diffMin<=460){
+      tctotal = 7.6;
+    }else if(diffMin>=461&&diffMin<=480){
+      tctotal = 8;
+    }else if(diffMin>=481&&diffMin<=500){
+      tctotal = 8.3;
+    }else if(diffMin>=501&&diffMin<=520){
+      tctotal = 8.6;
+    }else if(diffMin>=521&&diffMin<=540){
+      tctotal = 9;
+    }else if(diffMin>=541&&diffMin<=560){
+      tctotal = 9.3;
+    }else if(diffMin>=561&&diffMin<=580){
+      tctotal = 9.6;
+    }else if(diffMin>=581&&diffMin<=600){
+      tctotal = 10;
+    }
+    this.tctotal=tctotal;
 
       var RADIUS = 54;
       var CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -500,6 +530,7 @@ export class AgasiPage {
                         if(snap.val().roomhistory[a][b][c].date!=undefined){
                           this.thismonthmainlist.push({"date":snap.val().roomhistory[a][b][c].date, "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney*10000})
                         }
+                        console.log(this.thismonthmainlist);
                       }
             }
           }
@@ -549,7 +580,7 @@ console.log(this.totaltcofday)
 console.log(b+",,,"+this.currentstartday);
 console.log(this.tctotal);
 console.log(this.todaymoney)
-this.todaymoney+=Number(this.tctotal);
+// this.todaymoney+=Number(this.tctotal);
 console.log("totaltcofday:"+this.totaltcofday)
 console.log(tc);
       }
@@ -597,31 +628,26 @@ console.log(tc);
           if(b==this.currentstartday){
 
             console.log(snap.val()[a].roomhistory[b])
-            console.log(snap.val()[a].roomhistory[b].flag)
-            flag=snap.val()[a].roomhistory[b].flag
-          }
-        }
-        if(flag==true){
-
-          if(snap.val()[a].roomhistory!=undefined){
-            console.log(snap.val()[a].roomhistory[this.currentstartday])
-            for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-              console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-              console.log(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full)
-              if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
-                if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
-                  this.mainlist2.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+            if(snap.val()[a].roomhistory!=undefined){
+              console.log(snap.val()[a].roomhistory[this.currentstartday])
+              for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+                console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+                console.log(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full)
+                if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
+                  if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+                    this.mainlist2.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                  }
+                  
+                }else{
+  
+                  // if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+                  //   this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                  // this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                  // }
+                  
                 }
                 
-              }else{
-
-                // if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
-                //   this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
-                // this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
-                // }
-                
               }
-              
             }
           }
         }

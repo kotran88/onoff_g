@@ -81,7 +81,7 @@
   </div>
 
   <div *ngIf="option_title_ch == 1" class="users-div">
-    <div *ngFor="let item of view_list" (click)="get_money_data()">{{item.name}}</div>
+    <div *ngFor="let item of view_list" (click)="get_money_data(item)">{{item.name}}</div>
     <div class="disable" *ngFor="let item of sort_temp_list"></div>
   </div>
 
@@ -145,6 +145,15 @@
           <span *ngFor="let nextDay of daysInNextMonth" class="last-month" (click)="goToNextMonth()">{{nextDay}}</span>
         </div>
       </div>
+
+   
+    </div>
+    <div class="listing">
+      <ion-list *ngFor="let a of detailarray">
+        <ion-item style="font-size:12px;" *ngIf="a.bu==0">#{{a.roomno}} {{a.orderDate}} {{a.incharge}} {{a.bottle}}병  {{a.bu}}부 인센티브 : 없음</ion-item>
+        <ion-item style="font-size:12px;" *ngIf="a.bu==1">#{{a.roomno}} {{a.orderDate}} {{a.incharge}} {{a.bottle}}병  {{a.bu}}부 인센티브 : {{a.bottle*3}만원}</ion-item>
+        <ion-item style="font-size:12px;" *ngIf="a.bu==2">#{{a.roomno}} {{a.orderDate}} {{a.incharge}} {{a.bottle}}병  {{a.bu}}부 인센티브 : {{a.bottle*2}만원}</ion-item>
+      </ion-list>
     </div>
   </div>
 </ion-content>

@@ -9,6 +9,7 @@ import { ChoicePage } from '../choice/choice';
 import { GongjiPage } from '../gongji/gongji';
 import  firebase from 'firebase';
 import { EditingroomPage } from '../editingroom/editingroom';
+import { E } from '@angular/core/src/render3';
 /**
  * Generated class for the InfoPage page.
  *
@@ -29,6 +30,7 @@ export class InfoPage {
   bigroom=[];
   firstflag=false;
   company:any="";
+  bu:any=0;
   name:any="";
   firemain = firebase.database().ref();
   constructor(public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
@@ -81,6 +83,7 @@ export class InfoPage {
             flag=snap.val()[a].roomhistory[b].flag
           }
         }
+        console.log(flag)
         if(flag==true){
           console.log(snap.val()[a].roomhistory)
           if(snap.val()[a].roomhistory!=undefined){
@@ -100,12 +103,6 @@ export class InfoPage {
         
         }
 
-        
-       
-        // for(var b in snap.val()[a]){
-        //   console.log(snap.val()[a][b]);
-        //   this.mainlist.push(snap.val()[a][b]);
-        // }
       }
       console.log(this.mainlist)
     });
@@ -124,6 +121,7 @@ export class InfoPage {
     this.smallroom=[];
     this.midroom=[];
     this.bigroom=[];
+    var roomin=[];
     this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
       console.log(snap.val());
       if(snap.val()==null){
@@ -144,30 +142,116 @@ export class InfoPage {
 
             console.log(snap.val()[a].roomhistory[b])
             console.log(snap.val()[a].roomhistory[b].flag)
-            flag=snap.val()[a].roomhistory[b].flag
+            console.log("today's flag is "+flag);
+            for(var c in snap.val()[a].roomhistory[b]){
+              if(c!="lastupdated"&&c!="flag"){
+                console.log(snap.val()[a].roomhistory[b]);
+              console.log(snap.val()[a].roomhistory[b][c]);
+              console.log(snap.val()[a].roomhistory[b][c].flag);
+              if(snap.val()[a].roomhistory[b][c].flag){
+                roomin.push(snap.val()[a].roomhistory[b][c].name);
+              }
+              
+              }
+              
+              //flase 는 종료 
+              
+            }
           }
         }
+        console.log(roomin);
          if(cat=="소"){
           if(flag){
             console.log(flag+"small not add")
           }else{
-            console.log("small add")
+
+
             this.smallroom.push({"name":name,"category":cat,"flag":flag});
+console.log(name);
+console.log(roomin);
+for(var cc in roomin){
+  console.log(roomin[cc]);
+  if(name==roomin[cc]){
+   console.log(name+"name and roomin match so delete");
+   console.log(this.smallroom);
+   var count=0;
+   for(var a in this.smallroom){
+    count++;
+      console.log(this.midroom[a]);
+      if(this.smallroom[a].name==name){
+        console.log("delete this.smallroom["+count+"]");
+        this.smallroom.splice(count-1,count);
+      }
+   }
+  }else{
+    console.log("this.smallroom push "+name+","+cat+","+flag);
+   
+  }
+}
+          
           }
-           
+           console.log(this.smallroom);
          }
          if(cat=="중"){
           if(flag){
             
           }else{
             this.midroom.push({"name":name,"category":cat,"flag":flag});
+console.log(name);
+console.log(roomin);
+for(var cc in roomin){
+  console.log(roomin[cc]);
+  if(name==roomin[cc]){
+   console.log(name+"name and roomin match so delete");
+   console.log(this.midroom);
+   var count=0;
+   for(var a in this.midroom){
+    count++;
+      console.log(this.midroom[a]);
+      if(this.midroom[a].name==name){
+        console.log("delete this.midroom["+count+"]");
+        this.midroom.splice(count-1,count);
+      }
+   }
+  }else{
+    console.log("this.midroom push "+name+","+cat+","+flag);
+   
+  }
+}
+          
           }
         }
         if(cat=="대"){
           if(flag){
             
           }else{
+
+
+
+
             this.bigroom.push({"name":name,"category":cat,"flag":flag});
+console.log(name);
+console.log(roomin);
+for(var cc in roomin){
+  console.log(roomin[cc]);
+  if(name==roomin[cc]){
+   console.log(name+"name and roomin match so delete");
+   console.log(this.bigroom);
+   var count=0;
+   for(var a in this.bigroom){
+    count++;
+      console.log(this.midroom[a]);
+      if(this.bigroom[a].name==name){
+        console.log("delete this.bigroom["+count+"]");
+        this.bigroom.splice(count-1,count);
+      }
+   }
+  }else{
+    console.log("this.bigroom push "+name+","+cat+","+flag);
+   
+  }
+}
+
           }
           
         }
@@ -179,6 +263,16 @@ export class InfoPage {
   
     });
   }
+  buchange(){
+    console.log("buchnage"+this.bu)
+    if(this.bu==0){
+      this.bu=1
+    }else if(this.bu==1){
+      this.bu=2;
+    }else{
+      this.bu=0;
+    }
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfoPage');
 
@@ -189,7 +283,7 @@ export class InfoPage {
         console.log("mmmm")
         console.log(snap.val()[a]);
         console.log(snap.val()[a].flag);
-        var flag = false;
+        var flag = snap.val()[a].flag;
         for(var b in snap.val()[a].roomhistory){
           console.log(b)
           console.log(this.currentstartday);
@@ -197,10 +291,8 @@ export class InfoPage {
 
             console.log(snap.val()[a].roomhistory[b])
             console.log(snap.val()[a].roomhistory[b].flag)
-            flag=snap.val()[a].roomhistory[b].flag
           }
         }
-        if(flag==true){
           console.log(snap.val()[a].roomhistory)
           if(snap.val()[a].roomhistory!=undefined){
             console.log(snap.val()[a].roomhistory[this.currentstartday])
@@ -208,23 +300,16 @@ export class InfoPage {
               console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
               if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
                 if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
-
-                  this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                  if(snap.val()[a].roomhistory[this.currentstartday][b].flag){
+                    this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                  }
+                  
                   }
               }
               
             }
           }
-        }else{
-        
-        }
-
-        
-       
-        // for(var b in snap.val()[a]){
-        //   console.log(snap.val()[a][b]);
-        //   this.mainlist.push(snap.val()[a][b]);
-        // }
+      
       }
       console.log(this.mainlist)
     });
@@ -240,22 +325,11 @@ export class InfoPage {
       this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
         for(var a in snap.val()){
           console.log("mmmm")
+
+          console.log(snap.val()[a]);
           console.log(snap.val()[a].roomhistory)
 
 
-
-          var flag = false;
-        for(var b in snap.val()[a].roomhistory){
-          console.log(b)
-          console.log(this.currentstartday);
-          if(b==this.currentstartday){
-
-            console.log(snap.val()[a].roomhistory[b])
-            console.log(snap.val()[a].roomhistory[b].flag)
-            flag=snap.val()[a].roomhistory[b].flag
-          }
-        }
-        if(flag==true){
 
         console.log(snap.val()[a].flag);
           if(snap.val()[a].roomhistory!=undefined){
@@ -263,17 +337,16 @@ export class InfoPage {
             for(var b in snap.val()[a].roomhistory[this.currentstartday]){
               console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
               if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
-               this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                if(snap.val()[a].roomhistory[this.currentstartday][b].flag){
+                  this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                }
+              
               }
             }
           }
         }
-          // for(var b in snap.val()[a]){
-          //   console.log(snap.val()[a][b]);
-          //   this.mainlist.push(snap.val()[a][b]);
-          // }
-        }
         console.log(this.mainlist)
+        this.generateroomcategory();
       });
 
     });
@@ -287,7 +360,7 @@ export class InfoPage {
   addRoom(room){
     console.log("ad room come");
     console.log(room);
-    let modal = this.modal.create(InfomodalPage,{"room":room});
+    let modal = this.modal.create(InfomodalPage,{"room":room,"bu":this.bu});
     modal.onDidDismiss(url => {
       console.log("dismiss!");
 
@@ -298,18 +371,6 @@ this.generateroomcategory();
       for(var a in snap.val()){
         console.log("mmmm")
         console.log(snap.val()[a].roomhistory)
-        var flag = false;
-        for(var b in snap.val()[a].roomhistory){
-          console.log(b)
-          console.log(this.currentstartday);
-          if(b==this.currentstartday){
-
-            console.log(snap.val()[a].roomhistory[b])
-            console.log(snap.val()[a].roomhistory[b].flag)
-            flag=snap.val()[a].roomhistory[b].flag
-          }
-        }
-        if(flag==true){
           console.log(snap.val()[a].flag);
           if(snap.val()[a].roomhistory!=undefined){
             console.log(snap.val()[a].roomhistory[this.currentstartday])
@@ -318,19 +379,15 @@ this.generateroomcategory();
 
               if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
                 if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
+                  if(snap.val()[a].roomhistory[this.currentstartday][b].flag){
                  this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                  }
                 }
               }
 
             }
           }
-        }
        
-     
-        // for(var b in snap.val()[a]){
-        //   console.log(snap.val()[a][b]);
-        //   this.mainlist.push(snap.val()[a][b]);
-        // }
       }
       console.log(this.mainlist)
     });

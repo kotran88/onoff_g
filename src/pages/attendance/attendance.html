@@ -158,7 +158,7 @@
     <div class="area" id="ion-label-area-2">
 
       <div class="top-bar">
-        <div class="synthesis">
+        <!-- <div class="synthesis">
           <span>{{currentYear}}</span>
         </div>
         <div class="months">
@@ -174,10 +174,10 @@
           <span [ngClass]="currentMonth==10 ? 'active' : ''" (click)="set_month(10)">10월</span>
           <span [ngClass]="currentMonth==11 ? 'active' : ''" (click)="set_month(11)">11월</span>
           <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span>
-        </div>
+        </div> -->
       </div>
 
-      <div class="calendar-main" style="">
+      <!-- <div class="calendar-main" style="">
         <ion-row class="calendar-header">
           <ion-col col-2 (click)="goToLastMonth()">
             <ion-icon name="arrow-back">
@@ -211,13 +211,18 @@
             <span *ngFor="let nextDay of daysInNextMonth" class="last-month" (click)="goToNextMonth()">{{nextDay}}</span>
           </div>
         </div>
+      </div> -->
+      <div class="listing">
+        <ion-list *ngFor="let a of agasijungsantotal">
+          <ion-item style="font-size:12px;" >아가씨 : {{a.name}} {{a.money}}만원 tc : {{a.tc}} 담당자 : {{a.incharge}}  </ion-item>
+        </ion-list>
       </div>
     </div>
 
     <div class="area" id="ion-label-area-3">
 
       <div class="top-bar">
-        <div class="synthesis">
+        <!-- <div class="synthesis">
           <span>{{currentYear}}</span>
         </div>
         <div class="months">
@@ -233,7 +238,8 @@
           <span [ngClass]="currentMonth==10 ? 'active' : ''" (click)="set_month(10)">10월</span>
           <span [ngClass]="currentMonth==11 ? 'active' : ''" (click)="set_month(11)">11월</span>
           <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span>
-        </div>
+        </div> -->
+      
       </div>
 
       <div class="calendar-main" style="">
@@ -266,12 +272,50 @@
           </div>
           <div class="dates">
             <span *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</span>
-            <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span>
+            <span  *ngFor="let day of daysInThisMonth">
+
+              <span (click)="gotocalendardetail(day)" style="    border: solid 1px;" class="currentDate" *ngIf="(
+                currentDate === day &&
+                today.getMonth()+1 === currentMonth &&
+                today.getFullYear() === currentYear
+                ); else otherDate">{{day}}</span><br>
+
+                <ng-template #otherDate class="otherDate">
+                  <span (click)="gotocalendardetail(day)">{{day}}</span> <br>
+                  <div (click)="gotocalendardetail(day)" style="width: 7px;
+                  height: 7px;
+                  color: #E74371 ;
+                  background: #E74371 ;
+                  border-radius: 20px;
+                  margin-left: 20px;
+                  margin-top: -40px;" class="event-bullet" *ngIf="checkEvent(day)" >
+                  <p *ngFor="let a of tcday">
+                    <span style=" 
+                    font-size: 10px;
+                    margin-top: 10px;
+                    position: fixed;
+                    margin-left: -20px;" *ngIf="a.day==day"> {{a.value}}</span>
+                  </p>
+                                  </div>
+                              </ng-template> 
+            </span>
             <span *ngFor="let nextDay of daysInNextMonth" class="last-month" (click)="goToNextMonth()">{{nextDay}}</span>
           </div>
         </div>
+     
+      </div>
+      <div class="listing">
+        <ion-list *ngFor="let a of agasijungsan">
+          <ion-item style="font-size:12px;" >아가씨 : {{a.name}} {{a.money}}만원 tc : {{a.tc}} 담당자 : {{a.incharge}}  </ion-item>
+        </ion-list>
       </div>
     </div>
+
+
+
+<ion-fab bottom right >
+  <button (click)="attending();" ion-fab mini><ion-icon name="add"></ion-icon></button>
+</ion-fab>
 
   </div>
   <!-- <div class="room-current">
@@ -304,5 +348,4 @@
       </div>
     </div>
   </div> -->
-
 </ion-content>

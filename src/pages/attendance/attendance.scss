@@ -521,8 +521,15 @@ page-attendance {
           span
           {
             height: 50px;
+            width:50px;
           }
         }
       }
     }
+    .list-md{
+
+    padding: 0px !important;
+    margin: 0;
+      border:solid 1px;
+  }
 }

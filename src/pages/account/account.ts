@@ -4,6 +4,7 @@ import { NavController,ViewController, ModalController,NavParams } from 'ionic-a
 import { AccountingmodalPage } from '../accountingmodal/accountingmodal';
 import { LoginpagePage } from '../loginpage/loginpage';
 
+import { MenuController } from 'ionic-angular';
 /**
  * Generated class for the AccountPage page.
  *
@@ -18,11 +19,12 @@ import { LoginpagePage } from '../loginpage/loginpage';
 export class AccountPage {
   firemain = firebase.database().ref();
 
+  bu=0;
   // 팀 리스트
   view_list = [];
   // display: flex;로 정렬된 비율 유지를 위해 빈공간 리스트
   sort_temp_list =[];
-
+  detailarray=[];
   name:any="";
   login_data:any = {};
 
@@ -41,7 +43,7 @@ export class AccountPage {
   currentDate:number = 0; // 현재 일
 
   firstflag=false;
-  constructor(public view:ViewController,public modal:ModalController,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public menuCtrl:MenuController,public view:ViewController,public modal:ModalController,public navCtrl: NavController, public navParams: NavParams) {
     this.name = localStorage.getItem("name");
     this.login_data = JSON.parse(localStorage.getItem("login_data"));
 
@@ -61,6 +63,9 @@ export class AccountPage {
   }
   close(){
     this.view.dismiss();
+}  openclose(){
+  console.log("open and cloe");
+  this.menuCtrl.open();
 }
   openmodal(v){
     console.log(v);
@@ -122,8 +127,40 @@ export class AccountPage {
 
   get_money_data(name)
   {
+    console.log("get_money_data"+name);
+    var bujangid=name.id;
     this.option_title_ch = 2;
     console.log(name);
+    this.firemain.child("users").child(bujangid).once('value').then((snap)=>{
+      console.log(snap.val());
+      console.log(snap.val().incentive);
+      for(var a in snap.val().incentive){
+        var date = a;
+        console.log(date);
+        var context = snap.val().incentive[a];
+        console.log(context);
+        for(var b in context){
+          var detail = context[b];
+          detail.bottle=0;
+          var orderlist = context[b].orderlist;
+          for(var a in orderlist){
+            console.log(orderlist[a]);
+            if(orderlist[a].category=="주류"){
+              console.log(orderlist[a].num)
+              detail.bottle+=Number(orderlist[a].num);
+            }
+          }
+          console.log(detail);
+          
+
+          this.detailarray.push(detail);
+
+
+
+        }
+      }
+
+    });
   }
 
   set_month(num)
