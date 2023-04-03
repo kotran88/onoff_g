@@ -85,7 +85,7 @@
   <div  class="ion-label-area">
     <div class="area" id="ion-label-area-1">
       <div class="selecting">
-        <ion-select style="    float: left;
+        <!-- <ion-select style="    float: left;
         color: black;
         height: 50px;
         border: solid 1px;
@@ -96,7 +96,19 @@
     " [(ngModel)]="selected" >
           <ion-option  value="1">아가씨</ion-option>
           <ion-option  value="2">팀명</ion-option>
-        </ion-select>
+        </ion-select> -->
+
+        <ion-list style="  
+        margin-left: 50px;  width: 80px;
+        float: left;">
+          <ion-item>
+            <ion-select [(ngModel)]="selected" aria-label="fruit" placeholder="선택">
+              <ion-option  value="1">아가씨</ion-option>
+              <ion-option  value="2">팀명</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+
         <ion-input  style="
         color: black;
         height: 50px;
@@ -458,7 +470,7 @@
 
 
 <ion-fab *ngIf="activeclass==1" bottom right >
-  <button (click)="attending();" ion-fab mini><ion-icon name="add"></ion-icon></button>
+  <!-- <button (click)="attending();" ion-fab mini><ion-icon name="add"></ion-icon></button> -->
 </ion-fab>
 
   </div>

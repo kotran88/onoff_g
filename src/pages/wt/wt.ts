@@ -111,7 +111,10 @@ generate(){
       var chasamarray=[];
       var yeontireason="";
       var numofpeople = snap.val()[a].roomhistory[b][c].numofpeople;
+      var logic = snap.val()[a].roomhistory[b][c].logic;
+      var inagasi = 0;
       for(var cccc in mainlist.agasi){
+        inagasi++;
         console.log(mainlist.agasi[cccc].tc)
         newtc += Math.floor(mainlist.agasi[cccc].tc)
         tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
@@ -144,14 +147,20 @@ generate(){
                 var totalsum=0;
                 var allzero=false;
                 console.log(tcarray.length)
+                if(logic){
+                  tbottle=tbottle-1;
+                  yeontireason+="중/대방로직에 따른 술병 차감 -1 , "
+                }
                 if(tcarray.length>numofpeople){
                   var minVal = Math.min.apply(null, tcarray);
                   console.log("minvalue : "+minVal);
                   var maxVal = Math.max.apply(null, tcarray);
                   console.log("maxvalue : "+maxVal);
                   firstsumofv=minVal+maxVal-tbottle
-                  yeontireason = "사람수보다 아가씨 수가 많으므로, "+maxVal+"+"+minVal+"에서 "+tbottle+"를 뺀값."
+                  yeontireason += "인원수<아가씨, 가장큰 tc"+maxVal+"+가장작은 tc"+minVal+"에서 총술병"+tbottle+"를 뺀값."
                 }
+                
+                var agasiover=false;
                 for(var abab in tcarray){
                   console.log(tcarray[abab]+",,,"+tbottle)
                   totalsum+=tcarray[abab];
@@ -160,24 +169,17 @@ generate(){
                     var v = tcarray[abab]-tbottle;
                     console.log(v);
                     firstsumofv+=v;
-                    yeontireason = "각각의 tc에서 술병값을 뺀값"
+                    agasiover=true;
                   }if(tcarray[abab]==tbottle){
                     firstsumofv+=0;
                   }else{
                     firstsumofv+=0;
                   }
                 }
+                if(agasiover){
+                  yeontireason += "각각의 tc에서 술병값을 뺀값"
+                }
                 console.log(tcarray)
-              //   if(tcarray.length==0||totalsum==0){
-              //     firstsumofv=0;
-              // }else{
-              //     if(firstsumofv==0){
-              //         firstsumofv=tbottle*numofpeople-totalsum;
-              //         //1, 2 -0
-              //     }
-              // }
-               
-                
                 console.log("firstsumofv : "+firstsumofv);
                 var yeonti=firstsumofv;
 
@@ -208,7 +210,7 @@ generate(){
                   console.log(totalmoney);
                   this.todaymoney += tp+totalmoney+Number(yeonti*10000);
                   console.log(this.todaymoney);
-                  this.orderlist.push({"reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].orderlist.wt,"date":snap.val()[a].roomhistory[b][c].orderlist.orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":orderl});
+                  this.orderlist.push({"inagasi":inagasi, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"date":snap.val()[a].roomhistory[b][c].orderlist.orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":orderl});
               }
              
               

@@ -189,11 +189,9 @@ screenSwitch(e : any) : void {
     console.log(c);
     console.log(room);
     console.log(mainlist);
-    console.log(this.mainlist);
-    console.log(this.mainlist.agasi);
-    console.log(this.mainlist[0]);
-    console.log(this.mainlist[0].agasi);
-    for(var abcd in this.mainlist.agasi){
+    console.log(mainlist);
+    console.log(mainlist.agasi);
+    for(var abcd in mainlist.agasi){
 
     }
     console.log("----------endall----------");
@@ -213,23 +211,29 @@ screenSwitch(e : any) : void {
       console.log("snap2 come...")
       // console.log(snap2.val())
       var totalsumtc="";
-      for(var f in this.mainlist[0].agasi){
+      for(var f in mainlist.agasi){
 
-
-        console.log("f is : "+f);
-        var tctotal=0;
-          console.log(this.mainlist[0].agasi[f].name)
-            var totalmoney=0;
-            console.log(this.mainlist[0].agasi[f]);
-            var id="";
-            totalmoney=Number(this.util.getTC(this.mainlist[0].agasi[f],0).split(",")[0]);
-           tctotal=(Number(this.util.getTC(this.mainlist[0].agasi[f],0).split(",")[1]) );
-           console.log(totalsumtc+"tctotal::::"+tctotal);
-           totalsumtc+=this.mainlist[0].agasi[f].name+":"+tctotal+" "
-            var bantee=Number(this.util.getTC(this.mainlist[0].agasi[f],0).split(",")[2]);
-            console.log("totalmoney : "+totalmoney)
-             this.getIdOfagaci(this.currentstartday,this.mainlist[0].agasi[f].name,totalmoney,room,c.key,f,tctotal,mainlist.wt,this.mainlist[0].incharge,this.mainlist[0],bantee)+"";
+        if(mainlist.agasi[f].findate==undefined){
+          var tctotal=0;
+          console.log(mainlist.agasi[f])
+            console.log(mainlist.agasi[f].name)
+              var totalmoney=0;
+              console.log(mainlist.agasi[f]);
+              var id="";
+              totalmoney=Number(this.util.getTC(mainlist.agasi[f],mainlist.agasi[f].pausetime).split(",")[0]);
+             tctotal=(Number(this.util.getTC(mainlist.agasi[f],mainlist.agasi[f].pausetime).split(",")[1]) );
+             console.log(totalsumtc+"tctotal::::"+tctotal);
+             totalsumtc+=mainlist.agasi[f].name+":"+tctotal+" "
+              var bantee=Number(this.util.getTC(mainlist.agasi[f],0).split(",")[2]);
+              console.log("totalmoney : "+totalmoney)
+              console.log(tctotal);
+              this.getIdOfagaci(this.currentstartday,mainlist.agasi[f].name,totalmoney,room,c.key,f,tctotal,mainlist.wt,mainlist.incharge,mainlist,bantee)+"";
             
+        }else{
+
+        }
+      
+            //  
              
          
       
@@ -240,9 +244,6 @@ screenSwitch(e : any) : void {
 
       
     this.activeclass="1";
-    if(this.lloading!=undefined){
-      this.lloading.dismiss()
-    }
 
     this.view.dismiss();
     // });
@@ -266,89 +267,88 @@ screenSwitch(e : any) : void {
     console.log(mainlist)
     console.log(f);
     console.log(room);
-    for(var a in mainlist.agasi){
-      console.log(mainlist.agasi[a].name+", "+c.name)
-      if(mainlist.agasi[a].name==c.name){
-
-        agasiname+=c.name;
-        console.log("find");
-        var num = a;
-        console.log(c.findate);
-        var date = new Date();
-        var findate = new Date(c.findate);
-        console.log(date);
-        console.log(findate);
-        //get minutes betweetn c.findate and date
-        var diff = date.getTime() - findate.getTime();
-        console.log(diff);
-        var minutes = Math.floor(diff / 1000 / 60);
-        console.log(pausetime);
-        if(pausetime==undefined){
-          pausetime=0;
-        }
-        console.log(minutes);
-        pausetime+=Number(minutes);
-        console.log(pausetime);
-        console.log(this.company+","+room+",,"+this.currentstartday+","+mainlist.key+","+num+",,,"+pausetime);
-        var postData = {
-          date: c.date,
-          money: c.money,
-          name: c.name,
-          roomno: c.roomno,
-          tc: c.tc,
-          pausetime:pausetime,
-          wt:c.wt,
-          writer:c.writer,
-        };
+    
 
     this.firemain.child("users").once("value",snapp=>{
       for(var b in snapp.val()){
         if(snapp.val()[b].name==c.name){
-          console.log("find user");
-          var user = snapp.val()[b].id;
-          console.log(snapp.val()[b].current)
-          if(snapp.val()[b].current!=undefined){
-            window.alert("이미 들어가있는 방이 존재하므로, 재진행할수없습니다.");
-            return;
+
+          for(var a in mainlist.agasi){
+            console.log(mainlist.agasi[a].name+", "+c.name)
+            if(mainlist.agasi[a].name==c.name){
+      
+              agasiname+=c.name;
+              console.log("find");
+              var num = a;
+              console.log(c.findate);
+              var date = new Date();
+              var findate = new Date(c.findate);
+              console.log(date);
+              console.log(findate);
+              //get minutes betweetn c.findate and date
+              var diff = date.getTime() - findate.getTime();
+              console.log(diff);
+              var minutes = Math.floor(diff / 1000 / 60);
+              console.log(pausetime);
+              if(pausetime==undefined){
+                pausetime=0;
+              }
+              console.log(minutes);
+              pausetime+=Number(minutes);
+              console.log(pausetime);
+              console.log(this.company+","+room+",,"+this.currentstartday+","+mainlist.key+","+num+",,,"+pausetime);
+              var postData = {
+                date: c.date,
+                money: c.money,
+                name: c.name,
+                roomno: c.roomno,
+                tc: c.tc,
+                pausetime:pausetime,
+                wt:c.wt,
+                writer:c.writer,
+              };
+
+                console.log("find user");
+                var user = snapp.val()[b].id;
+                console.log(snapp.val()[b].current)
+                if(snapp.val()[b].current!=undefined){
+                  window.alert("이미 들어가있는 방이 존재하므로, 재진행할수없습니다.");
+                  return;
+                }
+                console.log("user:"+user);
+                console.log("room:"+room+",,,"+this.currentstartday+","+mainlist.key+","+num);
+                this.firemain.child("users").child(user).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update(postData);
+
+
+                console.log(postData)
+              this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(num+"").remove();
+              this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(num+"").update(postData)
+              if(f==2){
+
+                this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"ss":true})
+              }
+
+              var dte = new Date();
+              dte.setHours(dte.getHours());
+              console.log((dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes());
+              console.log(this.name);
+              console.log(room);
+              console.log(mainlist.key);
+              var dte = new Date();
+              var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
+              this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
+              this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"재진행:"+agasiname,"type":"reinit", "uploader":this.name, "name":"system"})
+            }
           }
-          console.log("user:"+user);
-          console.log("room:"+room+",,,"+this.currentstartday+","+mainlist.key+","+num);
-          this.firemain.child("users").child(user).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update(postData);
-
-
-          console.log(postData)
-        this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(num+"").remove();
-        this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(num+"").update(postData)
-        if(f==2){
-
-          this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"ss":true})
-        }
-
-        var dte = new Date();
-        dte.setHours(dte.getHours());
-        console.log((dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes());
-        console.log(this.name);
-        console.log(room);
-        console.log(mainlist.key);
-        var dte = new Date();
-        var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
-        this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
-        this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"재진행:"+agasiname,"type":"reinit", "uploader":this.name, "name":"system"})
-        
         }
       }
+
+    console.log("loop finish in reinit")
+    this.refreshChoice2();
+    console.log("refreshchoice2 fin");
     });
         
-      }
-    }
-    this.refreshChoice2();
 
-    this.activeclass="1";
-    if(this.lloading!=undefined){
-      this.lloading.dismiss()
-    }
-
-    this.view.dismiss();
   }
 
   end(c,room,mainlist, f){
@@ -502,7 +502,7 @@ screenSwitch(e : any) : void {
 
                 this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"tc":tctotal,"bantee":bantee,"totalmoney":totalmoney, "date":endtime,"contents":"종료 "+tctotal+"개","type":"fin", "uploader":this.name,"agasi":c.name, "name":"system"})
      
-
+                console.log("501!!!")
               });
               console.log("loop finisehd");
   
@@ -519,9 +519,6 @@ screenSwitch(e : any) : void {
       
     this.refreshChoice2();
 
-    if(this.lloading!=undefined){
-      this.lloading.dismiss()
-    }
   });
   }
   refreshChoice2(){
@@ -530,24 +527,13 @@ screenSwitch(e : any) : void {
     this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
       for(var a in snap.val()){
           if(snap.val()[a].roomhistory!=undefined){
-      console.log("mmmm")
-      console.log(a+",,,,"+this.a.name);
       if(a==this.a.name){
-        console.log(a);
-      console.log(snap.val()[a].roomhistory)
             for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-              console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-              console.log(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full)
-              // if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
                 if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
-                  console.log(snap.val()[a].roomhistory[this.currentstartday][b])
-                  console.log(snap.val()[a].roomhistory[this.currentstartday][b].agasi)
                   var inagasi = 0;
               if(snap.val()[a].roomhistory[this.currentstartday][b].agasi!=undefined){
-                console.log(snap.val()[a].roomhistory[this.currentstartday][b].agasi.length);
 
                 for(var c in snap.val()[a].roomhistory[this.currentstartday][b].agasi){
-                  console.log(snap.val()[a].roomhistory[this.currentstartday][b].agasi[c].findate)
                   if(snap.val()[a].roomhistory[this.currentstartday][b].agasi[c].findate!=undefined){
                     //종료됨. 
                   }else{
@@ -561,11 +547,9 @@ screenSwitch(e : any) : void {
 
               var messages=[];
               for(var dd in snap.val()[a].roomhistory[this.currentstartday][b].message){
-                console.log(snap.val()[a].roomhistory[this.currentstartday][b].message[dd]);
                 messages.push(snap.val()[a].roomhistory[this.currentstartday][b].message[dd]);
               }
               //sort message by date
-              console.log(messages);
               messages.sort(function(a, b) {
                 var dateA = new Date("2023-" + a.date.replace(/-/g, "/"));
                   var dateB = new Date("2023-" + b.date.replace(/-/g, "/"));
@@ -579,11 +563,7 @@ screenSwitch(e : any) : void {
                     return 0; // Keep order unchanged
                   }
               });
-              console.log(messages);
-                  console.log(snap.val()[a].roomhistory[this.currentstartday][b])
                   if(snap.val()[a].roomhistory[this.currentstartday][b].ss||!snap.val()[a].roomhistory[this.currentstartday][b].flag){
-                    console.log("rr:")
-                    console.log(snap.val()[a].roomhistory[this.currentstartday][b])
                     if(snap.val()[a].roomhistory[this.currentstartday][b].status=="fin"){
                       this.mainlist_finished_status.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
                       "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
@@ -642,7 +622,6 @@ screenSwitch(e : any) : void {
                       }else{
                         orderlist=snap.val()[a].roomhistory[this.currentstartday][b].orderlist;
                       }
-                    console.log(snap.val()[a].roomhistory[this.currentstartday][b].numofpeople+",,,"+inagasi);
                     if(snap.val()[a].roomhistory[this.currentstartday][b].flag){
                       this.mainlist.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
                           "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
@@ -664,8 +643,6 @@ screenSwitch(e : any) : void {
                  
                     }
                     if(snap.val()[a].roomhistory[this.currentstartday][b].numofpeople<=inagasi){
-                      console.log("rr:")
-                      console.log(snap.val()[a].roomhistory[this.currentstartday][b])
 
                       if(snap.val()[a].roomhistory[this.currentstartday][b].status=="fin"){
                         this.mainlist_finished_status.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
@@ -737,7 +714,6 @@ screenSwitch(e : any) : void {
        
         
       }
-      console.log(this.mainlist)
       for(var c in this.mainlist){
         console.log(this.mainlist[c].agasi)
         for(var d in this.mainlist[c].agasi){
@@ -757,7 +733,6 @@ screenSwitch(e : any) : void {
       }
 
 
-      console.log(this.mainlist_finished)
       for(var c in this.mainlist_finished){
         console.log(this.mainlist_finished[c].agasi)
         for(var d in this.mainlist_finished[c].agasi){
@@ -775,12 +750,8 @@ screenSwitch(e : any) : void {
           }
         }
       }
-    });
 
 
-    console.log(this.mainlist);
-      console.log(this.mainlist_finished);
-      console.log(this.mainlist_finished_status)
       console.log("start refresh evermin")
     this.refreshforeverymin();
 
@@ -788,7 +759,15 @@ screenSwitch(e : any) : void {
       console.log(this.mainlist_finished);
       console.log(this.mainlist_finished_status)
       
-      console.log("didloaded")
+      console.log("refresh didloaded")
+      
+    if(this.lloading!=undefined){
+      this.lloading.dismiss()
+    }
+    });
+
+
+  
   }
   async getIdOfagaci (d,name,totalmoney,room,key,number,tctotal,wt,incharge,mainlist,bantee){
     console.log(d);
@@ -851,14 +830,20 @@ screenSwitch(e : any) : void {
                 console.log(mainlist.orderlist.orderlist[a])
               }
               console.log("total bottle : "+totalnum);
-              var totaltc=0;
-              for(var b in mainlist.agasi){
-                console.log(mainlist.agasi[b])
-                console.log(mainlist.agasi[b])
-                totaltc+=mainlist.agasi[b].tc;
-              }
-              var yeonti=0;
+              console.log(mainlist);
+              var newtc=0;
+              var tcarray = [];
+              var chasamarray=[];
               var yeonti_reason="";
+              var yeonti=0;
+              for(var cccc in mainlist.agasi){
+                console.log(mainlist.agasi[cccc].tc)
+                newtc += Math.floor(mainlist.agasi[cccc].tc)
+                tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
+
+                chasamarray.push( (mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
+              
+              }
               // 2 * 
               // tc갯수 >방인원수 * 술 병수 
               //   방인원수*술병수 -tc갯수 
@@ -887,10 +872,10 @@ screenSwitch(e : any) : void {
               // 2랑 나나, 다다의 tc 더한 4와 비교해서 2의 연티가 추가발생. 
 
 
-              if(totaltc>mainlist.numofpeople*totalnum){
-                yeonti = mainlist.numofpeople * totalnum -totaltc;
-                yeonti_reason=mainlist.numofpeople+"*"+totalnum+"-"+totaltc;
-                console.log(mainlist.numofpeople+"*"+totalnum+"-"+totaltc);
+              if(newtc>mainlist.numofpeople*totalnum){
+                yeonti = mainlist.numofpeople * totalnum -newtc;
+                yeonti_reason=mainlist.numofpeople+"*"+totalnum+"-"+newtc;
+                console.log(mainlist.numofpeople+"*"+totalnum+"-"+newtc);
               }else{
                 yeonti=totalnum;
                 yeonti_reason="totaltc is so great so just count totalnum";

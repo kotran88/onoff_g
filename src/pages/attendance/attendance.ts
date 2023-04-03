@@ -3,6 +3,7 @@ import { IonicPage, NavController,ModalController,ViewController, NavParams } fr
 import  firebase from 'firebase';
 import { ChoicemodalPage } from '../choicemodal/choicemodal';
 import { Choicemodal3Page } from '../choicemodal3/choicemodal3';
+import { Choicemodal2Page } from '../choicemodal2/choicemodal2';
 /**
  * Generated class for the AttendancePage page.
  *
@@ -51,11 +52,27 @@ export class AttendancePage {
     this.selectedday=this.currentstartday
     console.log(this.currentstartday);
   }
+  editing(a){
+    if(a.team=="미지정"){
+      console.log("editing...")
+    console.log(a);
 
+    let modal = this.modal.create(Choicemodal2Page,{"agasi":a,"flag":"attend","currentstartday":this.currentstartday});
+    modal.onDidDismiss(url => {
+      console.log(url);
+      this.generating();
+
+    });
+    modal.present();
+    }else{
+      window.alert("미지정만 출근처리 가능합니다");
+    }
+    
+  }
   attending(){
     console.log("attending??");
 
-    let modal = this.modal.create(Choicemodal3Page,{});
+    let modal = this.modal.create(Choicemodal3Page,{  });
     modal.onDidDismiss(url => {
 
       this.generating();

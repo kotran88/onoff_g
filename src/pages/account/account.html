@@ -184,16 +184,19 @@
 
    
     </div>
-    <div class="listing">
-      <ion-list *ngFor="let a of detailarray">
-        <ion-item style="font-size:12px;" >#{{a.roomno}} {{a.incharge}}   {{a.bu}}부 {{a.totalsumprice.toLocaleString()}}원  </ion-item>
-      </ion-list>
+    <div class="b">
+      <div class="listing">
+        <ion-list *ngFor="let a of detailarray">
+          <ion-item style="font-size:12px;" >#{{a.roomno}} {{a.incharge}}   {{a.bu}}부 {{a.totalsumprice.toLocaleString()}}원  </ion-item>
+        </ion-list>
+      </div>
+      <div class="listing">
+        <ion-list *ngFor="let a of accountmessage">
+          <ion-item style="font-size:12px;" >{{a.name}} 카드: {{a.card.toLocaleString()}}  현금: {{a.cash.toLocaleString()}} 입금입력날짜: {{a.time}}</ion-item>
+        </ion-list>
+      </div>
     </div>
-    <div class="listing">
-      <ion-list *ngFor="let a of accountmessage">
-        <ion-item style="font-size:12px;" >{{a.name}} 카드: {{a.card.toLocaleString()}}  현금: {{a.cash.toLocaleString()}} 입금입력날짜: {{a.time}}</ion-item>
-      </ion-list>
-    </div>
+    
     
   </div>
 </ion-content>

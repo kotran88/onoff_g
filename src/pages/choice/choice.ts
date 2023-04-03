@@ -177,7 +177,7 @@ export class ChoicePage {
                 console.log("inagasi and totalagasi");
                 console.log(inagasi);
                 console.log(totalagasi);
-                console.log(snap.val()[a].roomhistory[this.currentstartday][b].numofpeople)
+                console.log(snap.val()[a].roomhistory[this.currentstartday][b].numofpeople+","+inagasi)
                 
                   if(snap.val()[a].roomhistory[this.currentstartday][b].ss||!snap.val()[a].roomhistory[this.currentstartday][b].flag){
                     console.log("ss is true and flag is not true....");
@@ -804,7 +804,8 @@ export class ChoicePage {
     console.log(mainlist);
     this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"ss":false})
 
-    this.refreshChoice();
+    this.refreshChoice2();
+    this.view.dismiss();
   }
   endall(c,room,mainlist) {
 

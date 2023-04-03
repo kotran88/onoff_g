@@ -26,17 +26,28 @@ export class Choicemodal2Page {
   currentstart:any="";
   quelist=[];
   qtd0 = 'no';
+
   qtd1 = 'no';
   qtd2 = 'no';
   qtd3 = 'no';
   qtd4 = 'no';
   qtd5 = 'no';
   qtd6 = 'no';
+  flag:any="notattend";
   qtd7 = 'no';
   qtd8 = 'no';
   constructor(public loading:LoadingController,public view:ViewController, public navCtrl: NavController, public navParams: NavParams) {
-    this.agasilist=this.navParams.get("agasi");
+    var aaa=this.navParams.get("agasi");
+    console.log(aaa);
     console.log(this.agasilist);
+    this.flag = this.navParams.get("flag");
+    if(this.flag=="attend"){
+      this.agasilist=[];
+    this.agasilist.push({"name":aaa.name})
+    }else{
+      this.agasilist=this.navParams.get("agasi");
+    }
+    
     console.log("was agasilist2")
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
@@ -47,11 +58,11 @@ export class Choicemodal2Page {
       console.log(snap.val().jopanlist);
       console.log(snap.val().jopanlist.length);
       this.jopanlist=snap.val().jopanlist;
+      this.jopanlist.push({"name":"미지정"});
       console.log(this.jopanlist);
     });
 
     console.log(this.agasilist);
-    console.log(this.agasilist.length);
   }
   confirm(){
     this.lloading = this.loading.create({
@@ -128,10 +139,19 @@ export class Choicemodal2Page {
       var agasidate = new Date(this.agasilist[cc].date);
       agasidate.setHours(agasidate.getHours()+9);
       console.log(agasidate);
-      this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
-      this.firemain.child("users").child(this.agasilist[cc].name).update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name ,"writer":this.agasilist[cc].writer})
-      this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).child("attend").update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name});
-      this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":this.quelist[count],"name":this.agasilist[cc].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
+     
+      if(this.flag=="attend"){
+        this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).child("attend").update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name});
+        this.firemain.child("users").child(this.agasilist[cc].name).update({"jopan":this.quelist[count]})
+        this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":this.quelist[count]});
+      }else{
+        this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":this.quelist[count],"name":this.agasilist[cc].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
+        this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
+        this.firemain.child("users").child(this.agasilist[cc].name).update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name ,"writer":this.agasilist[cc].writer})
+        this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).child("attend").update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name});
+      }
+      
+      
     }
 
     if(this.lloading!=undefined){

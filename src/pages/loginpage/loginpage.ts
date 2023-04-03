@@ -37,7 +37,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230401 v2.84';
+  version='20230403 v2.85';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -57,6 +57,10 @@ export class LoginpagePage {
       }else{
         $("#checked").prop('checked', false);
       }
+
+
+
+
     },1000)
     // this.version='7.6';
     localStorage.setItem('version',this.version)
@@ -95,6 +99,8 @@ export class LoginpagePage {
     console.log("released...")
   }
   login(){
+
+
     if(this.id.length==0||this.id==undefined||this.password==undefined){
 
       window.alert("아이디비번을 입력해주세요")
@@ -271,6 +277,40 @@ export class LoginpagePage {
       }
     }
 
+
+    // var data = {
+    //   pay_method: 'card',
+    //   merchant_uid: 'mid_' + new Date().getTime(),
+    //   name: 'WAD 앱 사용',
+    //   amount: "20000",
+    //   app_scheme: 'ionickcp',
+    //   buyer_email: '',
+    //   buyer_tel: '010-1234-5678',
+    //   buyer_addr: '서울특별시 강남구 삼성동',
+    //   buyer_postcode: '123-456',
+    //   customer_uid: 'cid_' + new Date().getTime()
+    // };
+
+    // var PaymentObject = {
+    //   userCode: "imp58611631",
+    //   data: data,
+    //   callback: (response) => {
+    //     console.log(response);
+    //     if (response.imp_success == "true") {
+
+    //     }
+    //   }
+    // }
+    // IamportCordova.payment(PaymentObject)
+    // .then((response) => {
+    //  console.log(response);
+
+    // })
+    // .catch((err) => {
+    //   window.alert('error : '+err)
+     
+      
+    // });
   }
 
   login_success(){

@@ -202,6 +202,8 @@ export class AccountPage {
       this.todaymoney=0;
       for(var a in snap.val().accounting){
         console.log(a);
+        console.log(this.currentstartday);
+        console.log("mkmkmk")
         if(a==this.currentstartday){
           for(var c in snap.val().accounting[a]){
             console.log(c);
@@ -411,7 +413,8 @@ export class AccountPage {
     } else {
       this.currentDate = 999;
     }
-    this.selectedDate = new Date().getDate();
+    this.selectedDate = this.currentstartday.split("-")[2];
+    window.alert(this.selectedDate);
     var firstDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
     var prevNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth(), 0).getDate();
     for(var i = prevNumOfDays-(firstDayThisMonth-1); i <= prevNumOfDays; i++) {

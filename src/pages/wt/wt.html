@@ -92,31 +92,27 @@ background: white; margin-top:45px;" padding>
  
     </div>
 <div class="orderlisting" style="color:black;" *ngFor="let i of orderlist; let j = index;">
-  <p style="
-  margin: 0;"> 룸 번호 : {{i.roomno}}T</p>
+  <p *ngIf="i.logic" style="
+  margin: 0;"> 룸 번호 : {{i.roomno}}T / 중방/대방 ON</p>
+  <p *ngIf="!i.logic" style="
+  margin: 0;"> 룸 번호 : {{i.roomno}}T 중방/대방 OFF</p>
   <p style="
   margin: 0;"> 주문일 : {{i.date}}</p>
   <p style="
-  margin: 0;"> Wt : {{i.wt}}</p>
-  <p style="
-  margin: 0;"> 방 인원 : {{i.numofpeople}}, 총 술병 : {{i.tbottle}}</p>
-  <p style="
-  margin: 0;"> 완티 : {{i.tcarray}} 차삼: {{i.chasamarray}}</p>
-  <span *ngFor="let j of i.value">
+  margin: 0;"> W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}</p>
+   <span *ngFor="let j of i.value">
     
     <p style="
     margin: 0;" *ngIf="j.category=='주류'">{{j.name}} , {{j.num}}병, {{j.price.toLocaleString()}}원</p>
     <p style="
     margin: 0;"  *ngIf="j.category!='주류'">{{j.name}} , {{j.num}}개, {{j.price.toLocaleString()}}원</p>
   </span>
-  
+ <p style="
+  margin: 0;"> 완티 : {{i.tcarray}} 차삼: {{i.chasamarray}}</p>
   <p style="
   margin: 0;">TC : {{i.tc}}개 , {{i.money.toLocaleString()}}원</p>
   <p style="
-  margin: 0;">연티 : {{i.yeonti}}</p>
-
-<p style="
-margin: 0;"> 연티원인 : {{i.reason}}</p>
+  margin: 0;">연티 : {{i.yeonti}} , 연티원인 : {{i.reason}}</p>
   <p>합계 :  {{(i.tp+i.money+(i.yeonti*10000) ).toLocaleString()}}</p>
   <!-- <p></p>
   <p>주문일자 : {{i.date}}</p> -->

@@ -240,7 +240,8 @@ export class SignupPage {
         buyer_email: '',
         buyer_tel: '010-1234-5678',
         buyer_addr: '서울특별시 강남구 삼성동',
-        buyer_postcode: '123-456'
+        buyer_postcode: '123-456',
+        customer_uid: 'cid_' + new Date().getTime()
       };
   
       var PaymentObject = {
@@ -253,7 +254,6 @@ export class SignupPage {
           }
         }
       }
-
       IamportCordova.payment(PaymentObject)
       .then((response) => {
         window.alert("success"+'\n'+JSON.stringify(response))
