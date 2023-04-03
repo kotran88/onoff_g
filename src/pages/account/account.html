@@ -68,7 +68,7 @@
   </ion-menu>
 
   <ion-nav #mycontent [root]="rootPage"></ion-nav>
-<ion-content style="background: black; margin-top:45px;" padding>
+<ion-content style="background: white; margin-top:45px;" padding>
 
   <div class="option-title" *ngIf="option_title_ch < 2">
     <div></div>
@@ -88,15 +88,15 @@
   <div *ngIf="option_title_ch == 2" class="sssss">
     <div class="top-bar">
       <div class="synthesis">
-        <div class="over">과입금액 200 출금하기</div>
+        <div class="over">과입금액 : {{(todaymoney-tomoney).toLocaleString()}} </div>
         <div class="syn">
-          <span>누적미수금액 5,000,000</span>
-          <span>입금하실금액 500,000</span>
-          <span>입금하신금액 500,000</span>
+          <span style="color:black;">누적미수금액 -</span>
+          <span>오늘입금할금액 {{tomoney.toLocaleString()}}</span>
+          <span>오늘입금하신금액 {{todaymoney.toLocaleString()}}</span>
         </div>
       </div>
       <div class="months">
-        <span [ngClass]="currentMonth==1 ? 'active' : ''" (click)="set_month(1)">1월</span>
+        <!-- <span [ngClass]="currentMonth==1 ? 'active' : ''" (click)="set_month(1)">1월</span>
         <span [ngClass]="currentMonth==2 ? 'active' : ''" (click)="set_month(2)">2월</span>
         <span [ngClass]="currentMonth==3 ? 'active' : ''" (click)="set_month(3)">3월</span>
         <span [ngClass]="currentMonth==4 ? 'active' : ''" (click)="set_month(4)">4월</span>
@@ -107,7 +107,9 @@
         <span [ngClass]="currentMonth==9 ? 'active' : ''" (click)="set_month(9)">9월</span>
         <span [ngClass]="currentMonth==10 ? 'active' : ''" (click)="set_month(10)">10월</span>
         <span [ngClass]="currentMonth==11 ? 'active' : ''" (click)="set_month(11)">11월</span>
-        <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span>
+        <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span> -->
+        
+  <button (click)="confirm()" class="newbtn">입금 </button>
       </div>
     </div>
 
@@ -141,7 +143,41 @@
         </div>
         <div class="dates">
           <span *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</span>
-          <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span>
+          <!-- <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span> -->
+          <span  *ngFor="let day of daysInThisMonth" > 
+            <span  style="
+            width: 40px;    border: solid 1px;" class="currentDate" *ngIf="(
+              currentDate === day &&
+              today.getMonth()+1 === currentMonth &&
+              today.getFullYear() === currentYear
+              ); else otherDate">{{day}}</span><br>
+              <div (click)="openmodal(day)" style="width: 7px;
+                  height: 7px;
+                  color: #E74371 ;
+                  background: #E74371 ;
+                  border-radius: 20px;
+  margin-left: 20px;
+  margin-top: -40px;" class="event-bullet" *ngIf="(
+              currentDate === day &&
+              today.getMonth()+1 === currentMonth &&
+              today.getFullYear() === currentYear
+              ) && checkEvent(day)" >
+                  </div>
+              <ng-template #otherDate class="otherDate">
+                  <span style="
+                  width: 20px;" (click)="openmodal(day)">{{day}}</span> <br>
+                  <div  style="width: 7px;
+                  height: 7px;
+                  color: #E74371 ;
+                  background: #E74371 ;
+                  border-radius: 20px;
+  margin-left: 20px;
+  margin-top: -40px;" class="event-bullet" *ngIf="checkEvent(day)" >
+
+                  </div>
+              </ng-template>  
+          </span>
+
           <span *ngFor="let nextDay of daysInNextMonth" class="last-month" (click)="goToNextMonth()">{{nextDay}}</span>
         </div>
       </div>
@@ -150,10 +186,14 @@
     </div>
     <div class="listing">
       <ion-list *ngFor="let a of detailarray">
-        <ion-item style="font-size:12px;" *ngIf="a.bu==0">#{{a.roomno}} {{a.orderDate}} {{a.incharge}} {{a.bottle}}병  {{a.bu}}부 인센티브 : 없음</ion-item>
-        <ion-item style="font-size:12px;" *ngIf="a.bu==1">#{{a.roomno}} {{a.orderDate}} {{a.incharge}} {{a.bottle}}병  {{a.bu}}부 인센티브 : {{a.bottle*3}만원}</ion-item>
-        <ion-item style="font-size:12px;" *ngIf="a.bu==2">#{{a.roomno}} {{a.orderDate}} {{a.incharge}} {{a.bottle}}병  {{a.bu}}부 인센티브 : {{a.bottle*2}만원}</ion-item>
+        <ion-item style="font-size:12px;" >#{{a.roomno}} {{a.incharge}}   {{a.bu}}부 {{a.totalsumprice.toLocaleString()}}원  </ion-item>
       </ion-list>
     </div>
+    <div class="listing">
+      <ion-list *ngFor="let a of accountmessage">
+        <ion-item style="font-size:12px;" >{{a.name}} 카드: {{a.card.toLocaleString()}}  현금: {{a.cash.toLocaleString()}} 입금입력날짜: {{a.time}}</ion-item>
+      </ion-list>
+    </div>
+    
   </div>
 </ion-content>

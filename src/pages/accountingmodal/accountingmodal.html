@@ -4,7 +4,7 @@
 
 <ion-content class="main-view" style="background: transparent;
 background-color: transparent;
-height: 35%;
+height: 40%;
 top: 30%;" padding>
 
   <div class="modal_content">
@@ -17,26 +17,6 @@ top: 30%;" padding>
             
 
           </div>
-          <div style="width: 100%; display:flex; height:50px;">
-            <span style="
-            width: 20%;
-            margin: 0px !important;
-            float: left;
-    line-height: 50px;
-    font-size: 24px;
-            " class="input-title">계좌 </span>
-            <ion-input style="
-            
-    color: white;
-    font-size: 20px;
-    float: right;
-    width: 100px;
-    margin:10px;
-    border: solid 1px black;
-    " class="input-box" placeholder=" " [(ngModel)]="in" type="text"></ion-input>
-       
-      <button class="newbtn">저장</button>
-      </div>
       <div style="width: 100%; display:flex; height:50px;">
         <span style="
         width: 20%;
@@ -46,15 +26,14 @@ line-height: 50px;
 font-size: 24px;" class="input-title">현금 </span>
         <ion-input style="
         
-color: white;
+color: black;
 font-size: 20px;
-    margin:10px;
+    margin:2px;
     border: solid 1px black;
 float: right;
 width: 100px;
-" class="input-box" placeholder=" " [(ngModel)]="in" type="text"></ion-input>
+" class="input-box" placeholder=" " [(ngModel)]="inputcash" type="text"></ion-input>
    
-  <button class="newbtn">저장</button>
   </div>
 
   <div style="width: 100%; display:flex; height:50px;">
@@ -66,19 +45,38 @@ line-height: 50px;
 font-size: 24px;" class="input-title">카드 </span>
     <ion-input style="
     
-    margin:10px;
+    margin:2px;
     border: solid 1px black;
-color: white;
+color: black;
 font-size: 20px;
 float: right;
 width: 100px;
-" class="input-box" placeholder=" " [(ngModel)]="in" type="text"></ion-input>
+" class="input-box" placeholder=" " [(ngModel)]="inputcard" type="text"></ion-input>
 
-<button class="newbtn">저장</button>
 </div>
-          <div style="bottom:10%; position:absolute; left:40%;" class="btn2">
+
+<div style="width: 100%; display:flex; height:50px;">
+  <span style="
+  width: 20%;
+  margin: 0px !important;
+  float: left;
+line-height: 50px;
+font-size: 24px;" class="input-title">입금자 </span>
+  <ion-input style="
+  
+  margin:2px;
+  border: solid 1px black;
+color: black;
+font-size: 20px;
+float: right;
+width: 100px;
+" class="input-box" placeholder=" " [(ngModel)]="inputname" type="text"></ion-input>
+
+</div>
+          <div style="bottom:5%; position:absolute; left:40%;" class="btn2">
             <!-- <button class="btn" ion-button (click)="confirm()">수정</button> -->
             <button class="btn" ion-button (click)="cancel()">취소</button>
+            <button class="btn" ion-button (click)="confirm()">저장</button>
           </div>
           <!-- <button class="btn" (click)="takeVideo()" ion-button>동영상</button> -->
       

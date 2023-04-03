@@ -102,80 +102,82 @@ export class SignupPage {
     console.log(this.companies)
   }
   gotonext3(){
-    console.log(this.youngup);
-    console.log(this.jopanteam);
-    this.approved=false;
-    this.payment=false;
-    if(this.type!=3){
-      if(this.youngup==undefined){
-        window.alert("영업팀을 선택해주세요 ");
-        return;
-      }
-    }
+    console.log("gotonext...");
+    this.uploadToServer("t");
+  //   console.log(this.youngup);
+  //   console.log(this.jopanteam);
+  //   this.approved=false;
+  //   this.payment=false;
+  //   if(this.type!=3){
+  //     if(this.youngup==undefined){
+  //       window.alert("영업팀을 선택해주세요 ");
+  //       return;
+  //     }
+  //   }
     
 
-    if(this.jopanteam==undefined){
-      window.alert("조판팀을 선택해주세요 ");
-      return;
-    }
+  //   if(this.jopanteam==undefined){
+  //     window.alert("조판팀을 선택해주세요 ");
+  //     return;
+  //   }
 
-    var value = this.type;
+  //   var value = this.type;
 
-    // this.stage=5;
-    var nowdate=this.format_date(new Date())
-   localStorage.setItem("type",value+"");
-   localStorage.setItem("id",this.id);
-    if(value==1){
-      console.log("부장 승인 요청 ")
-      // window.alert("주차제외 가입 준비중.")
-      // return;
-      var nowdate=this.format_date(new Date())
-      this.firemain.child("users").child(this.id).update({"type":"director","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
-    }else if(value==2){
-      console.log("WT 승인 요청 ")
-       this.firemain.child("users").child(this.id).update({"type":"wt","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
+  //   // this.stage=5;
+  //   var nowdate=this.format_date(new Date())
+  //  localStorage.setItem("type",value+"");
+  //  localStorage.setItem("id",this.id);
+  //   if(value==1){
+  //     console.log("부장 승인 요청 ")
+  //     // window.alert("주차제외 가입 준비중.")
+  //     // return;
+  //     var nowdate=this.format_date(new Date())
+  //     this.firemain.child("users").child(this.id).update({"type":"director","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
+  //   }else if(value==2){
+  //     console.log("WT 승인 요청 ")
+  //      this.firemain.child("users").child(this.id).update({"type":"wt","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
 
     
-    }else if(value==3){
-      console.log("아가씨 승인 요청 ")
-      var nowdate=this.format_date(new Date())
-      this.firemain.child("users").child(this.id).update({"type":"agasi","id":this.id,"jopan":this.jopanteam,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
-    }else if(value==4){
-      // window.alert("주차제외 가입 준비중.")
-      console.log("경리 승인 요청 ")
-      // return;
-      var nowdate=this.format_date(new Date())
-      this.firemain.child("users").child(this.id).update({"type":"kyungri","id":this.id,"jopan":this.jopanteam,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
-    }else if(value==5){
-      console.log("주차 승인 요청 ")
-      var nowdate=this.format_date(new Date())
-      console.log(this.youngup);
-      console.log(this.jopanteam)
-      this.firemain.child("users").child(this.id).update({"type":"info","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
-    }else if(value==6){
-      console.log("주차 승인 요청 ")
-      var nowdate=this.format_date(new Date())
-      console.log(this.youngup);
-      console.log(this.jopanteam)
-      this.firemain.child("users").child(this.id).update({"type":"park","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
-    }else if(value==7){
-      console.log("경리 승인 요청 ")
-      var nowdate=this.format_date(new Date())
-      console.log(this.youngup);
-      console.log(this.jopanteam)
-      this.firemain.child("users").child(this.id).update({"type":"band","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
-    }else if(value==8){
-      console.log("관리  승인 요청 ")
-      var nowdate=this.format_date(new Date())
-      console.log(this.youngup);
-      console.log(this.jopanteam)
-      this.firemain.child("users").child(this.id).update({"type":"admin","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
-    }else{
+  //   }else if(value==3){
+  //     console.log("아가씨 승인 요청 ")
+  //     var nowdate=this.format_date(new Date())
+  //     this.firemain.child("users").child(this.id).update({"type":"agasi","id":this.id,"jopan":this.jopanteam,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
+  //   }else if(value==4){
+  //     // window.alert("주차제외 가입 준비중.")
+  //     console.log("경리 승인 요청 ")
+  //     // return;
+  //     var nowdate=this.format_date(new Date())
+  //     this.firemain.child("users").child(this.id).update({"type":"kyungri","id":this.id,"jopan":this.jopanteam,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"approved":true,"payment":true,"company":this.selectedCompany["name"]})
+  //   }else if(value==5){
+  //     console.log("주차 승인 요청 ")
+  //     var nowdate=this.format_date(new Date())
+  //     console.log(this.youngup);
+  //     console.log(this.jopanteam)
+  //     this.firemain.child("users").child(this.id).update({"type":"info","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
+  //   }else if(value==6){
+  //     console.log("주차 승인 요청 ")
+  //     var nowdate=this.format_date(new Date())
+  //     console.log(this.youngup);
+  //     console.log(this.jopanteam)
+  //     this.firemain.child("users").child(this.id).update({"type":"park","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
+  //   }else if(value==7){
+  //     console.log("경리 승인 요청 ")
+  //     var nowdate=this.format_date(new Date())
+  //     console.log(this.youngup);
+  //     console.log(this.jopanteam)
+  //     this.firemain.child("users").child(this.id).update({"type":"band","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
+  //   }else if(value==8){
+  //     console.log("관리  승인 요청 ")
+  //     var nowdate=this.format_date(new Date())
+  //     console.log(this.youngup);
+  //     console.log(this.jopanteam)
+  //     this.firemain.child("users").child(this.id).update({"type":"admin","young":this.youngup,"jopan":this.jopanteam, "id":this.id,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"payment":true,"approved":true,"company":this.selectedCompany["name"]})
+  //   }else{
 
-      window.alert("else 주차제외 가입 준비중.")
-    }
-    window.alert("회원가입이 완료되었습니다.");
-    this.navCtrl.setRoot(LoginpagePage);
+  //     window.alert("else 주차제외 가입 준비중.")
+  //   }
+  //   window.alert("회원가입이 완료되었습니다.");
+  //   this.navCtrl.setRoot(LoginpagePage);
 
 
 
@@ -218,55 +220,55 @@ export class SignupPage {
     console.log("uploadtoServer come");
     console.log(this.id);
 
-    this.firemain.child('users').child(this.id.trim()).update({
-      payment:true
-    }).then(()=>{
+    // this.firemain.child('users').child(this.id.trim()).update({
+    //   payment:true
+    // }).then(()=>{
 
-    localStorage.setItem("id", "" )
-    localStorage.setItem("type", "" )
-      localStorage.setItem("loginflag", "false" )
-      window.alert("임시 결제처리완료");
-      this.navCtrl.setRoot(LoginpagePage)
-    })
+    // localStorage.setItem("id", "" )
+    // localStorage.setItem("type", "" )
+    //   localStorage.setItem("loginflag", "false" )
+    //   window.alert("임시 결제처리완료");
+    //   this.navCtrl.setRoot(LoginpagePage)
+    // })
 
-//  var data = {
-//         pay_method: 'card',
-//         merchant_uid: 'mid_' + new Date().getTime(),
-//         name: '게임/게임기 대여',
-//         amount: "500",
-//         app_scheme: 'ionickcp',
-//         buyer_email: '',
-//         buyer_tel: '010-1234-5678',
-//         buyer_addr: '서울특별시 강남구 삼성동',
-//         buyer_postcode: '123-456'
-//       };
+ var data = {
+        pay_method: 'card',
+        merchant_uid: 'mid_' + new Date().getTime(),
+        name: 'WAD 앱 사용',
+        amount: "20000",
+        app_scheme: 'ionickcp',
+        buyer_email: '',
+        buyer_tel: '010-1234-5678',
+        buyer_addr: '서울특별시 강남구 삼성동',
+        buyer_postcode: '123-456'
+      };
   
-//       var PaymentObject = {
-//         userCode: "imp58611631",
-//         data: data,
-//         callback: (response) => {
-//           console.log(response);
-//           if (response.imp_success == "true") {
+      var PaymentObject = {
+        userCode: "imp58611631",
+        data: data,
+        callback: (response) => {
+          console.log(response);
+          if (response.imp_success == "true") {
       
-//           }
-//         }
-//       }
+          }
+        }
+      }
 
-//       IamportCordova.payment(PaymentObject)
-//       .then((response) => {
-//         window.alert("success"+'\n'+JSON.stringify(response))
-// this.firemain.child("users").child(this.id).update({
-//   "payment":true
-// });
+      IamportCordova.payment(PaymentObject)
+      .then((response) => {
+        window.alert("success"+'\n'+JSON.stringify(response))
+this.firemain.child("users").child(this.id).update({
+  "payment":true
+});
 
-//       })
-//       .catch((err) => {
-//         window.alert('error : '+err)
-//         this.firemain.child("users").child(this.id).update({
-//           "payment":false
-//         });
+      })
+      .catch((err) => {
+        window.alert('error : '+err)
+        this.firemain.child("users").child(this.id).update({
+          "payment":false
+        });
         
-//       });
+      });
 
     
   }

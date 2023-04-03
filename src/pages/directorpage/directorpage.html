@@ -51,6 +51,9 @@
       </ion-list>
 
       <ion-list>
+        <ion-item (click)="gotolink(7)">판매내역</ion-item>
+      </ion-list>
+      <ion-list>
         <ion-item (click)="logout();">로그아웃</ion-item>
       </ion-list>
     </ion-content>
@@ -59,18 +62,20 @@
   <ion-nav #mycontent [root]="rootPage"></ion-nav>
   
 <ion-content style="
-background: black; margin-top:45px;" padding>
+background: white; margin-top:45px;" padding>
  <div class="header">
   <div class="header-parking">
     <button style="
     float: left;
     margin-left: 20px;
+  color:black;
     margin-top: 10px;" class="header_btn">입금하실금액 </button>
 
     <button style="
     float: right;
+  color:black;
     margin-right: 20px;
-    margin-top: 10px;" class="header_btn">xxx </button>
+    margin-top: 10px;" class="header_btn">{{todaymoney.toLocaleString()}} </button>
   </div>
 </div>
 
@@ -80,14 +85,16 @@ background: black; margin-top:45px;" padding>
 
 <div style="    padding: 20px;" class="c">
   <div class="orderlisting" style="
-  text-align: center; color:white;" *ngIf="orderlist.length==0">
+  text-align: center; color:black;" *ngIf="orderlist.length==0">
     <p > 본 영업일에 주문처리된 내역이 없습니다. </p>
  
     </div>
-<div class="orderlisting" style="color:white;" *ngFor="let i of orderlist; let j = index;">
+<div class="orderlisting" style="color:black;" *ngFor="let i of orderlist; let j = index;">
   <p > 룸 넘버 : {{i.roomno}}</p>
   <p > 주문일 : {{i.date}}</p>
-  <p > 웨이터 : {{i.wt}}</p>
+  <p > WT : {{i.wt}}</p>
+  <p style="
+  margin: 0;"> 방 인원 : {{i.numofpeople}}, 총 술병 : {{i.tbottle}}</p>
   <span *ngFor="let j of i.value">
     <p style="
     margin: 0;" *ngIf="j.category=='주류'">{{j.name}} , {{j.num}}병, {{j.price.toLocaleString()}}원</p>
@@ -98,17 +105,17 @@ background: black; margin-top:45px;" padding>
   
   <p style="
   margin: 0;">TC : {{i.tc}}개 , {{i.money.toLocaleString()}}원</p>
-  <p>합계 : {{(i.tp+i.money).toLocaleString()}}</p>
-  <!-- <p></p>
-  <p>주문일자 : {{i.date}}</p> -->
+  <p style="
+  margin: 0;">연티 : {{i.yeonti}}</p>
+  <p>합계 :  {{(i.tp+i.money+(i.yeonti*10000) ).toLocaleString()}}</p>
   <hr>
 </div>
 </div>
-<hr style="width: 90%; height: 1px; background-color: white;">
+<hr style="width: 90%; height: 1px; background-color: black;">
 
 <div style="    padding: 20px;" class="c">
   <div class="orderlisting" style="
-  text-align: center; color:white;" *ngIf="mainlist.length==0">
+  text-align: center; color:black;" *ngIf="mainlist.length==0">
     <p > 본 영업일에 주차처리된 내역이 없습니다. </p>
  
     </div>
@@ -132,7 +139,7 @@ background: black; margin-top:45px;" padding>
     <p *ngIf="i.type=='대리'||i.type=='픽업'">{{i.destination}}</p>
   </div>
 </div>
-<hr style="width: 90%; height: 1px; background-color: white;">
+<hr style="width: 90%; height: 1px; background-color: black;">
 </div>
 <!--
 

@@ -1,5 +1,67 @@
-page-ordermain {
+page-history {
 
+    .calendar-main
+    {
+      height: auto;
+      padding: 0;
+      display: inline-block;
+      margin:30px;
+      border: solid 1px black;
+      margin-top: 7%;
+      border-radius: 10px;
+      background-color: white;
+      text-align: center;
+
+      .calendar-header
+      {
+        ion-col:nth-child(2n+1)
+        {
+          color: #E74371;
+          font-weight: bolder;
+        }
+        ion-icon
+        {
+          font-size: 1.5em;
+        }
+      }
+
+      .calendar-body
+      {
+        .weeks, .dates
+        {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-evenly;
+          span
+          {
+            display: inline-block;
+            width: calc(100% / 7);
+          }
+        }
+
+        .weeks
+        {
+          padding: 10px 0;
+          margin: 10px 0;
+          span:first-child{color: red;}
+          span:last-child{color: blue;}
+          border-top: solid 1px black;
+          border-bottom: solid 1px black;
+        }
+
+        .dates
+        {
+          .last-month, .next-month
+          {
+            color: grey;
+          }
+          span
+          {
+            height: 50px;
+          }
+        }
+      }
+    }
     .header {
         position: absolute;
         width: 100%;
@@ -7,9 +69,9 @@ page-ordermain {
     }
     .scroll-content{
         padding:0px !important;
-        margin-top:30px !important;
+        margin-top:0px !important;
     }
-    .header-parking {
+    .header-parking { 
         text-align: center;
         width: 100%;
         height: 100px;
@@ -21,6 +83,14 @@ page-ordermain {
         padding-left: 0px !important;
         margin-left: 30px;
     }
+    .orderlisting{
+        p{
+            margin:0px !important;
+        }
+    }
+    button{
+        color:black;
+    }
     .segactive{
         background: blue !important;
     }
@@ -28,7 +98,7 @@ page-ordermain {
         color: red; // here, instead of "red" you can use sass variable if it was already defined
     }
     .ion-label{
-
+        
     font-size: 20px;
     font-weight: 700 ;
     }
@@ -153,7 +223,7 @@ page-ordermain {
         width: 100%;
         height: 100%;
         top: 150px;
-      background: #fdd734 !important;;
+        background-color: black;
         height: calc(100% - 132px);
         overflow-y: scroll;
     }
@@ -195,7 +265,7 @@ page-ordermain {
         padding-top: 0px;
     }
     .toolbar-background{
-      background: #fdd734 !important;
+        background: #fdd734;
     }
     .toolbar{
         text-align: center;
@@ -205,10 +275,9 @@ page-ordermain {
     }
     .header-parking-hr{
 
-    margin-top: 80px;
     width: 100%;
-    color: red;
-    background: red;
+    color: black;
+    background: black;
     }
     .accordion > div {
         width: 50%;
@@ -240,12 +309,6 @@ page-ordermain {
         float: right;
     }
 
-    .toolbar-background{
-      background: #fdd734 !important;
-    }
-    .toolbar{
-        text-align: center;
-    }
     .panel-4 {
         padding: 0px 18px;
         display: none;
@@ -284,142 +347,5 @@ page-ordermain {
         position: fixed;
         right: 10%;
         bottom: 5%;
-    }
-    .selecting{
-      height: 60px;
-      position: fixed;
-      width: 100%;
-    }
-    .button-inner{
-      color:black;
-    }
-    .contents
-    {
-      background: white !important;
-      margin-top:45px;
-      .room-current
-      {
-        margin-top: 15%;
-        padding: 3%;
-        .title-div
-        {
-          .square
-          {
-            color: rgb(254, 184, 45);
-          }
-          .text
-          {
-            color: black;
-            font-size: 20px;
-          }
-        }
-
-        .chart-div
-        {
-          color: black;
-          text-align: center;
-          .name-keys, .datas{
-
-            line-height: 30px;
-    height: 30px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            span{
-              display: inline-block;
-              width: calc(100% / 5);
-            }
-            span:nth-child(n+1)
-            {
-              border-left: solid 1px white;
-            }
-          }
-          .name-keys
-          {
-            background-color: rgb(255,240,200);
-            border-bottom: solid 1px black;
-          }
-          .datas
-          {
-            background-color: rgb(240, 240, 240);
-            border-bottom: solid 1px rgb(176, 176, 176);
-          }
-        }
-      }
-
-      .vacancy-current
-      {
-        margin-top: 10%;
-        padding: 3%;
-        .title-div
-        {
-          .square
-          {
-            color: rgb(254, 184, 45);
-          }
-          .text
-          {
-            color: white;
-            font-size: 20px;
-          }
-        }
-
-
-
-        .chart-div
-        {
-          border: solid 1px white;
-          .flex-div:nth-child(n+2)
-          {
-            border-top: solid 1px white;
-          }
-          .flex-div > .chart-name
-          {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            background-color: white;
-            border:solid 1px;
-            span:nth-child(n+2)
-            {
-              border-left: solid 1px white;
-              flex: 1;
-            }
-            span:first-child
-            {
-              font-size: 20px;
-              text-align: center;
-              flex: 3;
-            }
-          }
-
-          .chart-datas
-          {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            background-color: rgb(255,240,200);
-            span{
-              height: 50px;
-              line-height: 50px;
-              text-align: center;
-              display: inline-block;
-              width: calc(100% / 6);
-            }
-            span:nth-child(n+2)
-            {
-              border-left: solid 1px rgb(117,117,117);
-            }
-            span:nth-child(7n)
-            {
-              border-left: none
-            }
-            span:nth-child(n+7)
-            {
-              border-top: solid 1px rgb(117,117,117);
-            }
-          }
-        }
-      }
     }
 }

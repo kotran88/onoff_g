@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { OrderdetailPage } from '../orderdetail/orderdetail';
 
 /**
@@ -16,7 +16,7 @@ import { OrderdetailPage } from '../orderdetail/orderdetail';
 })
 export class OrderPage {
   a:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,public view:ViewController, public navParams: NavParams) {
     this.a=this.navParams.get("a");
   }
 
@@ -24,10 +24,28 @@ export class OrderPage {
     console.log('ionViewDidLoad OrderPage');
   }
   neworder(){
-    this.navCtrl.push(OrderdetailPage,{"a":this.a,"flag":"new"});
+    this.navCtrl.push(OrderdetailPage,{"a":this.a,"flag":"new"}).then(() => {
+      this.navCtrl.getActive().onDidDismiss(data => {
+        if(data.result==true){
+          this.view.dismiss();
+        }
+      })
+    });
   }
   moreorder(){
-    this.navCtrl.push(OrderdetailPage,{"a":this.a,"flag":"more"});
+    this.navCtrl.push(OrderdetailPage,{"a":this.a,"flag":"more"}).then(() => {
+      this.navCtrl.getActive().onDidDismiss(data => {
+        if(data==undefined){
+
+        }else{
+          if(data.result==true){
+            this.view.dismiss();
+          }
+        }
+        
+
+      })
+    });
   }
   cancelorder(){
     window.alert("준비중입니다.");

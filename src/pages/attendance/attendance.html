@@ -56,9 +56,9 @@
   </ion-menu>
 
   <ion-nav #mycontent [root]="rootPage"></ion-nav>
-<ion-content class="contents" padding>
+<ion-content class="contents" style=" background: white !important;" padding>
 
-  <ion-segment style="
+  <!-- <ion-segment style="
   margin-top: 40px;" class="ion-segment" value="1" (ionChange)="screenSwitch($event)">
     <ion-segment-button [ngClass]="activeclass=='1' ? 'segactive' : 'segactiveno'" value="1">
       <ion-label class="ion-label">출근</ion-label>
@@ -69,10 +69,55 @@
     <ion-segment-button [ngClass]="activeclass==3 ? 'segactive' : 'segactiveno'" value="3">
       <ion-label class="ion-label">정산</ion-label>
     </ion-segment-button>
+  </ion-segment> -->
+  <ion-segment style=" height:50px;
+  margin-top: 17px;" class="ion-segment"  (ionChange)="screenSwitch($event)">
+    <ion-segment-button [ngClass]="activeclass=='1' ? 'segactive' : 'segactiveno'" value="1">
+      <ion-label class="ion-label">출근</ion-label>
+    </ion-segment-button>
+    <ion-segment-button [ngClass]="activeclass=='2' ? 'segactive' : 'segactiveno'" value="2">
+      <ion-label class="ion-label">내역 </ion-label>
+    </ion-segment-button>
+    <ion-segment-button [ngClass]="activeclass=='3' ? 'segactive' : 'segactiveno'" value="3">
+      <ion-label class="ion-label">정산 </ion-label>
+    </ion-segment-button>
   </ion-segment>
-
   <div  class="ion-label-area">
     <div class="area" id="ion-label-area-1">
+      <div class="selecting">
+        <ion-select style="    float: left;
+        color: black;
+        height: 50px;
+        border: solid 1px;
+    font-size: 9px;
+        width: 70px;
+    margin-left: 80px;
+        line-height: 25px;
+    " [(ngModel)]="selected" >
+          <ion-option  value="1">아가씨</ion-option>
+          <ion-option  value="2">팀명</ion-option>
+        </ion-select>
+        <ion-input  style="
+        color: black;
+        height: 50px;
+        border: solid 1px;
+        margin-left: 10px;
+        line-height: 25px;
+        width: 30%;
+        float: left;" [(ngModel)]="inputtext"  placeholder="검색어 입력"></ion-input>
+        <button class="btn8" style=" 
+        margin-left: 10px;
+        margin-top: 0px;
+        height: 50px;
+        background: transparent;
+        border: solid 1px;
+        color: black !important;
+        width: 50px;" (click)="searching();" ion-button icon-only color="royal">
+          검색
+        </button>
+      </div>
+
+
 
       <div class="room-current">
         <div class="title-div">
@@ -95,8 +140,8 @@
           <div (click)="editing(a);" *ngFor="let a of mainlist" class="datas">
             <span>{{a.team}}</span>
             <span>{{a.name}}</span>
-            <span >0  </span>
-            <span>0</span>
+            <span >{{a.wantee}} </span>
+            <span>{{a.tc}}</span>
             <span *ngIf="a.status=='attend'">출근</span>
             <span *ngIf="a.status=='noattend'">퇴근</span>
           </div>
@@ -138,10 +183,10 @@
         bottom: 10%;
         width: 95%;
     " class="chart-div">
-    <div class="name-keys">
+    <!-- <div class="name-keys">
       <span style="width:50%;">총 아가씨 수</span>
       <span style="width:50%;">{{totalagasi.length}}명 </span>
-    </div>
+    </div> -->
           <div class="name-keys">
             <span style="width:50%;">총 출근</span>
             <span style="width:50%;">{{totalin}}명 </span>
@@ -155,7 +200,7 @@
       </div>
     </div>
 
-    <div class="area" id="ion-label-area-2">
+    <div class="area" id="ion-label-area-3">
 
       <div class="top-bar">
         <!-- <div class="synthesis">
@@ -177,7 +222,7 @@
         </div> -->
       </div>
 
-      <!-- <div class="calendar-main" style="">
+      <div class="calendar-main" style="">
         <ion-row class="calendar-header">
           <ion-col col-2 (click)="goToLastMonth()">
             <ion-icon name="arrow-back">
@@ -207,19 +252,39 @@
           </div>
           <div class="dates">
             <span *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</span>
-            <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span>
+            <span  *ngFor="let day of daysInThisMonth">
+
+              <span (click)="gotocalendardetail(day,1)" style="    border: solid 1px;" class="currentDate" *ngIf="(
+                currentDate === day &&
+                today.getMonth()+1 === currentMonth &&
+                today.getFullYear() === currentYear
+                ); else otherDate">{{day}}</span><br>
+
+                <ng-template #otherDate class="otherDate">
+                  <span (click)="gotocalendardetail(day,1)">{{day}}</span> <br>
+                  <div (click)="gotocalendardetail(day,1)" style="width: 7px;
+                  height: 7px;
+                  color: #E74371 ;
+                  background: #E74371 ;
+                  border-radius: 20px;
+                  margin-left: 20px;
+                  margin-top: -40px;" class="event-bullet" *ngIf="checkEvent(day)" >
+                                  </div>
+                              </ng-template> 
+            </span>
             <span *ngFor="let nextDay of daysInNextMonth" class="last-month" (click)="goToNextMonth()">{{nextDay}}</span>
           </div>
         </div>
-      </div> -->
+     
+      </div>
       <div class="listing">
         <ion-list *ngFor="let a of agasijungsantotal">
-          <ion-item style="font-size:12px;" >아가씨 : {{a.name}} {{a.money}}만원 tc : {{a.tc}} 담당자 : {{a.incharge}}  </ion-item>
+          <ion-item style="font-size:12px;" > {{a.name}} {{a.date}} {{a.money}}만원 tc : {{a.tc}}  {{a.incharge}}  </ion-item>
         </ion-list>
       </div>
     </div>
 
-    <div class="area" id="ion-label-area-3">
+    <div class="area" id="ion-label-area-2">
 
       <div class="top-bar">
         <!-- <div class="synthesis">
@@ -274,15 +339,15 @@
             <span *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</span>
             <span  *ngFor="let day of daysInThisMonth">
 
-              <span (click)="gotocalendardetail(day)" style="    border: solid 1px;" class="currentDate" *ngIf="(
+              <span (click)="gotocalendardetail(day,2)" style="    border: solid 1px;" class="currentDate" *ngIf="(
                 currentDate === day &&
                 today.getMonth()+1 === currentMonth &&
                 today.getFullYear() === currentYear
                 ); else otherDate">{{day}}</span><br>
 
                 <ng-template #otherDate class="otherDate">
-                  <span (click)="gotocalendardetail(day)">{{day}}</span> <br>
-                  <div (click)="gotocalendardetail(day)" style="width: 7px;
+                  <span (click)="gotocalendardetail(day,2)">{{day}}</span> <br>
+                  <div (click)="gotocalendardetail(day,2)" style="width: 7px;
                   height: 7px;
                   color: #E74371 ;
                   background: #E74371 ;
@@ -305,15 +370,94 @@
      
       </div>
       <div class="listing">
-        <ion-list *ngFor="let a of agasijungsan">
-          <ion-item style="font-size:12px;" >아가씨 : {{a.name}} {{a.money}}만원 tc : {{a.tc}} 담당자 : {{a.incharge}}  </ion-item>
-        </ion-list>
+      
+        <div class="room-current">
+          <div class="title-div">
+            <ion-icon class="square" name="square"></ion-icon>
+            <span class="text">룸 현황</span>
+          </div>
+        
+          <div class="chart-div">
+            <div class="name-keys">
+              <span>이름</span>
+              <span>TC</span>
+              <span>완티</span>
+              <span>반티</span>
+              <span>차비</span>
+              <span>금액</span>
+              <span>담당자</span>
+            </div>
+            <div (click)="editing(a);" *ngIf="agasijungsan.length==0" class="datas">
+              <span style="width:100%;">해당일 정산내역이 없습니다 </span>
+            </div>
+            <div (click)="editing(a);" *ngFor="let a of agasijungsan let j = index" class="datas">
+              <span>{{a.name}}</span>
+              <span>{{a.tc}}</span>
+              <span>{{a.wantee}}</span>
+              <span>{{a.bantee}}</span>
+              <span>{{a.chasam}}</span>
+              <span>{{a.money}}</span>
+              <span>{{a.incharge}}</span>
+             
+            </div>
+          </div>
+        </div>
+
       </div>
+   
+
+      <!-- <div class="room-current">
+<div class="chart-div">
+  <div class="name-keys">
+
+    <span>순번</span>
+    <span>team</span>
+    <span>찡</span>
+  </div>
+
+  <div   *ngIf="jopanlist.length==0" class="datas">
+    <p >  완료된 방 내역이 없습니다. </p>
+ 
     </div>
+  <div   *ngFor="let a of jopanlist let j = index" class="datas">
+    <div (click)="gotodetail(a);" class="main">
+      <span>{{j+1}}</span>
+      <span>{{a.team}}</span>
+      <span>{{a.value}}</span>
+   
+
+    </div>
+  </div>
+</div>
+</div> -->
+<div class="room-current">
+  <div class="title-div">
+    <ion-icon class="square" name="square"></ion-icon>
+    <span class="text">룸 현황</span>
+  </div>
+
+  <div class="chart-div">
+    <div class="name-keys">
+      <span>NO</span>
+      <span>팀</span>
+      <span>찡</span>
+    </div>
+    <div (click)="editing(a);" *ngIf="jopanlist.length==0" class="datas">
+      <span style="width:100%;">해당일의 찡 내역이 없습니다 </span>
+    </div>
+    <div (click)="editing(a);" *ngFor="let a of newlist let j = index" class="datas">
+      <span>ss</span>
+      <span>{{a.teamname}}</span>
+      <span>{{a.jjing}}</span>
+     
+    </div>
+  </div>
+</div>
+  </div>
 
 
 
-<ion-fab bottom right >
+<ion-fab *ngIf="activeclass==1" bottom right >
   <button (click)="attending();" ion-fab mini><ion-icon name="add"></ion-icon></button>
 </ion-fab>
 

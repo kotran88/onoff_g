@@ -2,7 +2,6 @@ page-directorpage {
 
     .header {
         position: absolute;
-        height: 80px;
         width: 100%;
         color:white;
     }
@@ -21,6 +20,14 @@ page-directorpage {
         display: flex;
         padding-left: 0px !important;
         margin-left: 30px;
+    }
+    .orderlisting{
+        p{
+            margin:0px !important;
+        }
+    }
+    button{
+        color:black;
     }
     .segactive{
         background: blue !important;
@@ -196,7 +203,7 @@ page-directorpage {
         padding-top: 0px;
     }
     .toolbar-background{
-        background: rgb(59, 56, 56);
+        background: #fdd734;
     }
     .toolbar{
         text-align: center;
@@ -208,8 +215,8 @@ page-directorpage {
 
     margin-top: 80px;
     width: 100%;
-    color: red;
-    background: red;
+    color: black;
+    background: black;
     }
     .accordion > div {
         width: 50%;
@@ -266,11 +273,7 @@ page-directorpage {
             height: 3px;
         }
     }
-    .c{
-        p{
-            margin:0px !important;
-        }
-    }
+
     .panel-4 > div:first-child {
         padding-left: 0px;
     }

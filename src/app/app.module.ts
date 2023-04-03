@@ -52,6 +52,9 @@ import { GongjiwritePage } from '../pages/gongjiwrite/gongjiwrite';
 import { OrdermainPage } from '../pages/ordermain/ordermain';
 import { Choicemodal2Page } from '../pages/choicemodal2/choicemodal2';
 import { Choicemodal3Page } from '../pages/choicemodal3/choicemodal3';
+import { ChoicedetailPage } from '../pages/choicedetail/choicedetail';
+import { ChoicejimyungPage } from '../pages/choicejimyung/choicejimyung';
+import { HistoryPage } from '../pages/history/history';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -76,6 +79,7 @@ initializeApp(firebaseConfig);
     InfomodalPage,
     OrdermainPage,
     EditingroomPage,
+    HistoryPage,
     InfoPage,
     AccountingmodalPage,
     DirectorpagePage,
@@ -92,7 +96,9 @@ initializeApp(firebaseConfig);
     ChoicemodalPage,
     BandPage,
     AttendancePage,
+    ChoicedetailPage,
     ExpandableComponent,
+    ChoicejimyungPage,
     Choicemodal2Page,
     Choicemodal3Page,
   ],
@@ -113,8 +119,10 @@ initializeApp(firebaseConfig);
   entryComponents: [
     MyApp,
     LoginpagePage,
+    ChoicedetailPage,
     OrdermainPage,
     ChoicemodalPage,
+    ChoicejimyungPage,
     Choicemodal3Page,
     Choicemodal2Page,
     GongjiwritePage,
@@ -124,6 +132,7 @@ initializeApp(firebaseConfig);
     AgasichoicePage,
     EditingroomPage,
     OrderPage,
+    HistoryPage,
     AttendancePage,
     AccountingmodalPage,
     OrderdetailPage,

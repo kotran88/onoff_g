@@ -174,6 +174,7 @@ export class AgasiPage {
     }
   }
   generatecal(){
+    console.log("generate cal come");
     this.attendcount=0;
     this.totaltcofday=0;
     this.attendance=[];
@@ -600,6 +601,8 @@ console.log(tc);
       this.totaltcofday+=Number(this.thismonthmainlist[ab].money);
       }
     };
+    console.log("mainlist...");
+    console.log(this.mainlist)
       });
       
       console.log(this.tcday);

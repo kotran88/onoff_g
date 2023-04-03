@@ -12,6 +12,19 @@
           width: 30px" class="logo" src="assets/img/back1.png" />
         </button>
       </ion-buttons>
+      <div class="upper">
+
+        <ion-toggle style="
+        margin-top: 10px;
+        position: absolute;
+        left: 10%;
+      " slot="end" (ionChange)="myChange($event)" [(ngModel)]="booleanValue" ></ion-toggle> 
+
+      <span style=" 
+      position: absolute;
+      left: 11%;">자동순번</span>
+        </div>
+
 
       <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
 
@@ -57,8 +70,8 @@
   </ion-menu>
 
   <ion-nav #mycontent [root]="rootPage"></ion-nav>
-<ion-content [ngClass]="activeclass=='2' ? 'contents2' : 'contents'" class="contents" padding>
-  <ion-segment style="
+<ion-content style=" background: white !important;" [ngClass]="activeclass=='2' ? 'contents2' : 'contents'" class="contents" padding>
+  <!-- <ion-segment style="
   margin-top: 20px;" class="ion-segment" value="1" (ionChange)="screenSwitch($event)">
     <ion-segment-button [ngClass]="activeclass=='1' ? 'segactive' : 'segactiveno'" value="1">
       <ion-label class="ion-label">초이스</ion-label>
@@ -66,187 +79,244 @@
     <ion-segment-button [ngClass]="activeclass=='2' ? 'segactive' : 'segactiveno'" value="2">
       <ion-label class="ion-label">완료된방 </ion-label>
     </ion-segment-button>
+  </ion-segment> -->
+  <ion-segment style=" height:50px;
+  margin-top: 17px;" class="ion-segment"  (ionChange)="screenSwitch($event)">
+    <ion-segment-button [ngClass]="activeclass=='1' ? 'segactive' : 'segactiveno'" value="1">
+      <ion-label class="ion-label">초이스</ion-label>
+    </ion-segment-button>
+    <ion-segment-button [ngClass]="activeclass=='2' ? 'segactive' : 'segactiveno'" value="2">
+      <ion-label class="ion-label">진행중인방 </ion-label>
+    </ion-segment-button>
+    <ion-segment-button [ngClass]="activeclass=='3' ? 'segactive' : 'segactiveno'" value="3">
+      <ion-label class="ion-label">완료된방 </ion-label>
+    </ion-segment-button>
   </ion-segment>
-
   <div  class="ion-label-area">
     <div class="area" id="ion-label-area-1">
-      
-    <div class="chart-div">
-      <div class="name-keys">
+      <ion-list style="
+      height: 55%;
+      overflow-y: scroll;"  no-lines 
+      reorder="true" 
+      (ionItemReorder)="reorderItems($event);">
+      <ion-item (click)="gotomorepage(main,1)" class="it" *ngFor="let main of mainlist">
+      <div class="chat-container">
+        <div class="chat-messages">
+          <div class="message">
+            
+            <div class="message-content">
+              <div class="contentmain">
+                <p *ngIf="main.avec" style="    font-size: 20px;
+                font-weight: 900;">{{main.v}} #{{main.name}} , A </p>
+                <p *ngIf="!main.avec" style="    font-size: 20px;
+                font-weight: 900;">{{main.v}} #{{main.name}} </p>
+               
+                <span>담당:{{main.incharge}}</span>&nbsp;<span>{{main.numofpeople}}명 WT:{{main.wt}}  </span>
+                <!-- <span *ngIf="main.numofagasi!=undefined">입장:{{main.numofagasi}}명</span>
+                <span *ngIf="main.numofagasi==undefined">입장:dd0명</span> -->
+                <span style="    color: black;
+                background: pink;" *ngIf="main.totalagasi==0"> 신규{{main.lack}}</span>
+                <span style="color: black;
+                background: yellow;" *ngIf="main.totalagasi!=0"> 빵{{main.lack}} </span>
 
-        <span>순번</span>
-        <span>룸NO</span>
-        <span>담당자</span>
-        <span>인원</span>
-        <span>입장</span>
-        <span>WT</span>
-        <span>입실T</span>
-        <span>완료</span>
-      </div>
-
-  <div   *ngIf="mainlist.length==0" class="datas">
-    <p >  만들어진 방 내역이 없습니다. </p>
- 
-    </div>
-      <div   *ngFor="let a of mainlist let j = index" class="datas">
-        <div (click)="gotodetail(a);" class="main">
-          <span>{{j+1}}</span>
-          <span>{{a.name}}</span>
-       <span>{{a.incharge}}</span>
-       
-        <span>{{a.numofpeople}}인 </span> 
-        <span *ngIf="a.numofagasi!=undefined">{{a.numofagasi}} 인</span>
-        
-        <span>{{a.wt}}</span>
-        <span>{{a.insert_date}}</span> 
-        <span *ngIf="a.end_date!=undefined">{{a.end_date}}</span>
-
-        </div>
-        <div *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
-          <div *ngFor="let b of a.agasi" class="looping" >
-            <div>
-              
-              <div *ngIf="b!=undefined" class="ab">
-                <span style="width:45px;">{{b.name}}</span>
-              <span style="width:45px;">{{b.date.split(" ")[1]}}</span>
-                <button *ngIf="b.findate==undefined" (click)="end(b,a.name,a,1)" style="
-                width: 45px;
-                background: grey;
+               
+                <span  style="
                 border: solid 1px;
-                color: white;
-                height: 30px; ">종료</button>
-  
-                <button (click)="reinit(b,a.name,a,1)" *ngIf="b.findate!=undefined" style="
-                  width: 55px;
-                  background: grey;
-                  border: solid 1px;
-                  color: white;
-                  margin-left: 10px;
-                  position: absolute;
-                  height: 30px;
-                  right: 5%; ">재진행</button>
-                 <span *ngIf="b.findate!=undefined" style="width:55px;">종료:{{b.findate.split(" ")[1]}}</span>
-                 <span *ngIf="b.tc!=undefined" style="width:45px;">{{b.tc}}개</span>
+                font-size: 12px;
+                padding: 3px;
+                margin-left: 10px;
+                background: white;" *ngIf="main.status=='fin'">종료</span>
               </div>
-             
+              <div class="latter">
+                <p>{{main.lastupdatedperson}} {{main.lastupdated.split(" ")[1]}}</p>
+              </div>
             </div>
           </div>
-          <div class="b">
-            <!-- <span style="
-            font-size: 14px;
-            font-weight: 500;">총 3개</span> -->
-            <button (click)="endall(a,a.name,a)"  style="
-            width: 80px;
-            background: orange;
-            border: solid 1px;
-            color: black;
-            margin-left:20px;
-            height: 30px; ">전체종료</button>
+          
+        </div>
+      </div>
+      </ion-item>
+      </ion-list>
 
-            <button (click)="ss(a,a.name,a)"  style="
-            width: 80px;
-            background: orange;
-            border: solid 1px;
-            color: black;
-            margin-left:20px;
-            height: 30px; ">초이스ㅅㅅ</button>
+
+      <p class="jimyung">날개초이스 </p>
+      <ion-list class="bottomlist"  no-lines 
+      >
+      <ion-item  (click)="gotomorepage(main,4)"  class="it" style="height:60px !important; 
+      background: aliceblue;" *ngFor="let main of mainlist_angel">
+      <div class="chat-container">
+        <div class="chat-messages">
+          <div style="
+          height: 60px !important; border:unset !important;" class="message">
+            
+
+            <div class="message-content">
+              <div class="contentmain">
+                  <p style="    font-size: 20px;
+                  font-weight: 900;"> 
+                  #{{main.name}}</p>
+               
+                <span>담당:{{main.incharge}}</span>&nbsp;<span>{{main.numofpeople}}명 </span>
+                <!-- <span *ngIf="main.numofagasi!=undefined">입장:{{main.numofagasi}}명</span>
+                <span *ngIf="main.numofagasi==undefined">입장:dd0명</span> -->
+                <span *ngIf="main.totalagasi==0">WT:{{main.wt}} </span>
+                <span *ngIf="main.totalagasi!=0">WT:{{main.wt}} </span>
+              </div>
+              <div class="latter">
+                <p>{{main.lastupdatedperson}} {{main.lastupdated.split(" ")[1]}}</p>
+              </div>
+            </div>
+
           </div>
+          
         </div>
-        
       </div>
-    </div>
-    </div>
+      </ion-item>
+      </ion-list>
 
-    <div class="area" id="ion-label-area-2">
-       
-    <div class="chart-div">
-      <div class="name-keys">
-
-        <span>순번</span>
-        <span>룸NO</span>
-        <span>담당자</span>
-        <span>인원</span>
-        <span>입장</span>
-        <span>WT</span>
-        <span>입실T</span>
-        <span>완료</span>
-      </div>
-      <div   *ngFor="let a of mainlist_finished let j = index" class="datas">
-        <div (click)="gotodetail(a);" class="main">
-          <span>{{j+1}}</span>
-          <span>{{a.name}}</span>
-       <span>{{a.incharge}}</span>
-       
-        <span>{{a.numofpeople}} 인 </span> 
-        <span *ngIf="a.agasi!=undefined">{{a.numofagasi}} 인</span>
-        
-        <span>{{a.wt}}</span>
-        <span>{{a.insert_date}}</span> 
-        <span *ngIf="a.end_date!=undefined">{{a.end_date}}</span>
-
-        </div>
-        <div *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
-          <div *ngFor="let b of a.agasi" class="looping" >
-            <div>
-              <span style="width:45px;">{{b.name}}</span>
-              <span style="width:45px;">{{b.date.split(" ")[1]}}</span>
-              <button *ngIf="b.findate==undefined" (click)="end(b,a.name,a,2)" style="
-              width: 45px;
-              background: grey;
-              border: solid 1px;
-              color: white;
-              height: 30px; ">종료</button>
-
-              <button (click)="reinit(b,a.name,a,2)" *ngIf="b.findate!=undefined" style="
-              width: 55px;
-              background: grey;
-              border: solid 1px;
-              color: white;
-              margin-left: 10px;
-              position: absolute;
-              height: 30px;
-              right: 5%; ">재진행</button>
-               <span *ngIf="b.findate!=undefined" style="width:40px;">{{b.findate.split(" ")[1]}}</span>
-               <span *ngIf="b.tc!=undefined" style="width:45px;">{{b.tc}}개</span>
+      <p class="jimyung">지명 <ion-icon (click)="write();" style="    float: right;
+        right: 30px;
+        position: relative;
+        top: 5px;" name="add"></ion-icon></p>
+      <ion-list class="bottomlist"  no-lines 
+      reorder="true" 
+      (ionItemReorder)="reorderItems2($event);">
+      <ion-item  class="it" style="height:60px !important;" *ngFor="let main of jimyung">
+      <div class="chat-container">
+        <div class="chat-messages">
+          <div style="
+          height: 44px !important;" class="message">
+            
+            <div class="message-content">
+              <div class="contentmain">
+                
+                <span>{{main.room}} , 담당:{{main.incharge}}</span>&nbsp;<span>{{main.agasi}}</span>
+                <span (click)="deleting(main)" style="
+                
+    border: solid 1px;
+    font-size: 12px;
+    padding: 3px;
+    margin-left: 10px;
+    float: right;
+    background: white;
+    position: absolute;
+    right: 20%;" >삭제</span>
+              </div>
             </div>
           </div>
-          <div class="b">
-
-            <button (click)="endall(a,a.name,a)"  style="
-            width: 80px;
-            background: orange;
-            border: solid 1px;
-            color: black;
-            margin-left:20px;
-            height: 30px; ">전체종료</button>
-
-            <button *ngIf="a.lack!=undefined" (click)="ss2(a,a.name,a)"  style="
-            width: 80px;
-            background: orange;
-            border: solid 1px;
-            color: black;
-            margin-left:20px;
-            height: 30px; ">빵꾸{{a.lack}}</button>
-            <!-- <span style="
-            font-size: 14px;
-            font-weight: 500;">총 ??? 개</span> -->
-            <!-- <button (click)="endall(a,a.name)"  style="
-            width: 80px;
-            background: orange;
-            border: solid 1px;
-            color: black;
-            margin-left:20px;
-            height: 30px; ">전체종료</button> -->
-          </div>
+          
         </div>
-        
       </div>
+      </ion-item>
+      </ion-list>
     </div>
+
+
+
+
+    <div  class="area" id="ion-label-area-2">
+      <ion-list  no-lines 
+      >
+      <ion-item (click)="gotomorepage(main,2)" class="it" *ngFor="let main of mainlist_finished">
+      <div class="chat-container">
+        <div class="chat-messages">
+          <div class="message">
+            <div class="message-content">
+              <div class="contentmain">
+                <p *ngIf="main.avec" style="    font-size: 20px;
+                font-weight: 900;">{{main.v}} #{{main.name}} , A </p>
+                <p *ngIf="!main.avec" style="    font-size: 20px;
+                font-weight: 900;">{{main.v}} #{{main.name}} </p>
+                <span>담당:{{main.incharge}}</span>&nbsp;<span>{{main.numofpeople}}명,WT:{{main.wt}}</span>
+                <!-- <span *ngIf="main.numofagasi!=undefined">입장:{{main.numofagasi}}명</span>
+                <span *ngIf="main.numofagasi==undefined">입장:0명</span> -->
+                <span style="    color: black;
+                background: pink;" *ngIf="main.totalagasi==0"> 신규{{main.lack}}</span>
+                <span style="color: black;
+                background: yellow;" *ngIf="main.totalagasi!=0"> 빵{{main.lack}} </span>
+
+                <span  style="
+                border: solid 1px;
+                font-size: 12px;
+                padding: 3px;
+                margin-left: 10px;
+                background: white;" *ngIf="main.status=='fin'">종료</span>
+                <span style="
+                border: solid 1px;
+                font-size: 12px;
+                padding: 3px;
+                margin-left: 10px;
+                background: white;" *ngIf="main.status=='reserved'">예약중</span>
+              </div>
+              <div class="latter">
+                <p>{{main.lastupdatedperson}} {{main.lastupdated.split(" ")[1]}}</p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      </ion-item>
+      </ion-list>
     </div>
+
+
+
+    <div  class="area" id="ion-label-area-3">
+      <ion-list  no-lines 
+      >
+      <ion-item (click)="gotomorepage(main,3)" class="it" *ngFor="let main of mainlist_finished_status">
+      <div class="chat-container">
+        <div class="chat-messages">
+          <div class="message">
+            
+            <div class="message-content">
+              <div class="contentmain">
+                <p *ngIf="main.avec" style="    font-size: 20px;
+                font-weight: 900;">{{main.v}} #{{main.name}} , A </p>
+                <p *ngIf="!main.avec" style="    font-size: 20px;
+                font-weight: 900;">{{main.v}} #{{main.name}} </p>
+                <span>담당:{{main.incharge}}</span>&nbsp;<span>{{main.numofpeople}}명,WT:{{main.wt}}</span>
+                <!-- <span *ngIf="main.numofagasi!=undefined">입장:{{main.numofagasi}}명</span>
+                <span *ngIf="main.numofagasi==undefined">입장:0명</span> -->
+
+                
+                <span style="    color: black;
+                background: pink;" *ngIf="main.totalagasi==0"> 신규{{main.lack}}</span>
+                <span style="color: black;
+                background: yellow;" *ngIf="main.totalagasi!=0"> 빵{{main.lack}} </span>
+
+                <span  style="
+                border: solid 1px;
+                font-size: 12px;
+                padding: 3px;
+                margin-left: 10px;
+                background: white;" *ngIf="main.status=='fin'">종료</span>
+                <span style="
+                border: solid 1px;
+                font-size: 12px;
+                padding: 3px;
+                margin-left: 10px;
+                background: white;" *ngIf="main.status=='reserved'">예약중</span>
+              </div>
+              <div class="latter">
+                <p>{{main.lastupdatedperson}} {{main.lastupdated.split(" ")[1]}}</p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      </ion-item>
+      </ion-list>
     </div>
+
+
+    </div>
+    
 </ion-content>
 
-<div *ngIf="activeclass=='2'" style=" 
+<!-- <div *ngIf="activeclass=='2'" style=" 
 
 text-align: center;
     position: fixed;
@@ -306,4 +376,4 @@ text-align: center;
   </div>
 </div>
 
-</div>
+</div> -->

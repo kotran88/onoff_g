@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { ChoicePage } from './choice';
+import { HistoryPage } from './history';
 
 @NgModule({
   declarations: [
-    ChoicePage,
+    HistoryPage,
   ],
   imports: [
-    IonicPageModule.forChild(ChoicePage),
+    IonicPageModule.forChild(HistoryPage),
   ],
 })
-export class ChoicePageModule {}
+export class HistoryPageModule {}

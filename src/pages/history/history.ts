@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController,ViewController, NavParams } from 'ionic-angular';
 import  firebase from 'firebase';
 import { MenuController } from 'ionic-angular';
 import { LoginpagePage } from '../loginpage/loginpage';
@@ -9,20 +9,26 @@ import { AttendancePage } from '../attendance/attendance';
 import { ChoicePage } from '../choice/choice';
 import { GongjiPage } from '../gongji/gongji';
 import { AccountPage } from '../account/account';
-import { HistoryPage } from '../history/history';
 import { UtilsProvider } from '../../providers/utils/utils';
+/**
+ * Generated class for the HistoryPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+
 @Component({
-  selector: 'page-directorpage',
-  templateUrl: 'directorpage.html',
+  selector: 'page-history',
+  templateUrl: 'history.html',
 })
-export class DirectorpagePage {
+export class HistoryPage {
   name:any="";
   mainlist=[];
   allmainlist=[];
   todaymoney=0;
+  selected:any="";
   yeonti:any="";
   obj = [];
-  interval:any;
   firemain = firebase.database().ref();
   count : number[] = new Array();
   orderlist=[];
@@ -31,14 +37,102 @@ export class DirectorpagePage {
   currentstartday:any="";
   currentstart:any="";
   company:any;
-  constructor(public util:UtilsProvider, public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
+
+
+
+  today:Date; // 오늘 날짜
+  date:Date; // 달력 표기일
+
+  daysInThisMonth = []; // 이번달
+  daysInLastMonth = []; // 저번달
+  daysInNextMonth = []; // 다음달
+
+  currentYear:number = 0; // 현재 년
+  currentMonth:number = 0; // 현재 월
+  currentDate:number = 0; // 현재 일
+
+  incen2:any=0;
+  selectedDate:any=0;
+  constructor(public util:UtilsProvider, public view:ViewController,public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
     this.name= localStorage.getItem("name");
     this.company=localStorage.getItem("company");
 
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
+
+    this.selected=this.currentstartday;
+    this.today = new Date();
+    this.date=new Date(this.today.getFullYear(),this.today.getMonth()+1,0);
+    this.getDaysOfMonth();
+    
   }
-  
+  openmodal(day){
+    console.log(day);
+    this.selected =  this.currentYear+"-"+this.currentMonth+"-"+day;
+    console.log(this.currentstartday)
+    console.log(this.selected)
+    this.generating();
+  }
+  getDaysOfMonth() {
+    this.daysInThisMonth = [];
+    this.daysInLastMonth = [];
+    this.daysInNextMonth = [];
+    // this.currentMonth = this.monthNames[this.date.getMonth()];
+    this.currentMonth =this.date.getMonth()+1;
+    this.currentYear = this.date.getFullYear();
+    if(this.date.getMonth() === new Date().getMonth()) {
+      this.currentDate = new Date().getDate();
+    } else {
+      this.currentDate = 999;
+    }
+    this.selectedDate = new Date().getDate();
+    var firstDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
+    var prevNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth(), 0).getDate();
+    for(var i = prevNumOfDays-(firstDayThisMonth-1); i <= prevNumOfDays; i++) {
+      this.daysInLastMonth.push(i);
+    }
+
+    var thisNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth()+1, 0).getDate();
+    for (var j = 0; j < thisNumOfDays; j++) {
+      this.daysInThisMonth.push(j+1);
+    }
+
+    var lastDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth()+1, 0).getDay();
+    // var nextNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth()+2, 0).getDate();
+    for (var k = 0; k < (6-lastDayThisMonth); k++) {
+      this.daysInNextMonth.push(k+1);
+    }
+    var totalDays = this.daysInLastMonth.length+this.daysInThisMonth.length+this.daysInNextMonth.length;
+    if(totalDays<36) {
+      for(var l = (7-lastDayThisMonth); l < ((7-lastDayThisMonth)+7); l++) {
+        this.daysInNextMonth.push(l);
+      }
+    }
+  }
+  goToday(){
+    this.today = new Date();
+    this.date=new Date(this.today.getFullYear(),this.today.getMonth()+1,0);
+    this.getDaysOfMonth();
+  }
+
+  goToLastMonth() {
+    this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 0);
+    // this.zone.run(()=>{
+      this.getDaysOfMonth();
+    // })
+
+  }
+
+  goToNextMonth() {
+    console.log("gotonextmonth")
+    this.date = new Date(this.date.getFullYear(), this.date.getMonth()+2, 0);
+    // this.zone.run(()=>{
+      this.getDaysOfMonth();
+    // })
+  }
+  checkEvent(day){
+    return false;
+  }
   gotolink(value){
     if(value == 1){
     this.navCtrl.push(ParkingPage,{flag:true});
@@ -58,7 +152,7 @@ export class DirectorpagePage {
   }
   openclose(){
     console.log("open and cloe");
-    this.menuCtrl.open();
+    this.view.dismiss();
   }
   logout(){
     localStorage.setItem("id", "" )
@@ -88,7 +182,7 @@ generating(){
         for(var b in snap.val()[a].roomhistory){
           for(var c in snap.val()[a].roomhistory[b]){
             if(snap.val()[a].roomhistory[b][c].orderlist!=undefined){
-              if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){
+              if(snap.val()[a].roomhistory[b][c].date==this.selected){
                 console.log(snap.val()[a].roomhistory[b][c].incharge);
                 console.log(this.name);
                 if(snap.val()[a].roomhistory[b][c].incharge.trim()==this.name.trim()){
@@ -141,23 +235,17 @@ generating(){
                 }
                 console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
                 var firstsumofv=0;
-                var totalsum=0;
                 for(var abab in tcarray){
                   console.log(tcarray[abab])
-                  console.log(tcarray[abab]+",,,"+tbottle)
-                  totalsum+=tcarray[abab];
                   if(tcarray[abab]>=tbottle){
                     var v = tcarray[abab]-tbottle;
                     console.log(v);
                     firstsumofv+=v;
                   }
                 }
-                if(firstsumofv==0){
-                  firstsumofv=tbottle*numofpeople-totalsum;
-                }
                 console.log("firstsumofv : "+firstsumofv);
-                var yeonti=firstsumofv;
-                console.log("yeontiiiii : "+yeonti);
+                this.yeonti=firstsumofv;
+                console.log("yeontiiiii : "+this.yeonti);
                 console.log("total bottle : "+tbottle);
                 console.log(snap.val()[a].roomhistory[b][c])
                   console.log(snap.val()[a].roomhistory[b][c].agasi)
@@ -183,12 +271,9 @@ generating(){
                   }
                   console.log("tp ...r : "+tp);
                   totalmoney=totalmoney*10000;
-                  
-                  console.log(totalmoney);
-                  this.todaymoney += tp+totalmoney+Number(yeonti*10000);
-                  console.log(this.todaymoney);
-                  this.orderlist.push({"numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].orderlist.wt,"date":snap.val()[a].roomhistory[b][c].orderlist.orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":orderl});
-              }
+                  this.todaymoney += tp+totalmoney
+                  this.orderlist.push({"tp":tp, "totalprice":orderprice,"tc":totaltc,"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].orderlist.wt,"date":snap.val()[a].roomhistory[b][c].orderlist.orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":orderl});
+                }
                 
               }
              
@@ -241,19 +326,8 @@ generating(){
     console.log(this.mainlist)
   });
 }
-  ionViewDidLeave(){
-    clearInterval(this.interval)
+  ionViewDidLoad() {
+    this.generating();
   }
-    ionViewDidLoad() {
-      console.log('ionViewDidLoad DirectorpagePage');
-  
-      this.generating();
-      this.interval = setInterval(()=>{
-  
-        this.generating();
-      },1000*60)
-  
-  
-    }
-  
+
 }

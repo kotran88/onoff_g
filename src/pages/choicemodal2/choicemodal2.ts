@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController,ViewController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController,LoadingController,ViewController, NavParams } from 'ionic-angular';
 import  firebase from 'firebase';
 /**
  * Generated class for the Choicemodal2Page page.
@@ -8,7 +8,6 @@ import  firebase from 'firebase';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-choicemodal2',
   templateUrl: 'choicemodal2.html',
@@ -22,6 +21,7 @@ export class Choicemodal2Page {
   jopanlist=[];
   company:any;
 
+  lloading:any;
   currentstartday:any="";
   currentstart:any="";
   quelist=[];
@@ -34,11 +34,13 @@ export class Choicemodal2Page {
   qtd6 = 'no';
   qtd7 = 'no';
   qtd8 = 'no';
-  constructor(public view:ViewController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public loading:LoadingController,public view:ViewController, public navCtrl: NavController, public navParams: NavParams) {
     this.agasilist=this.navParams.get("agasi");
+    console.log(this.agasilist);
+    console.log("was agasilist2")
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
-    
+    console.log("agasi modal 2..");
     console.log(this.agasilist);
     this.company = localStorage.getItem("company");
     this.firemain.child("company").child(this.company).once('value').then((snap)=>{
@@ -52,6 +54,10 @@ export class Choicemodal2Page {
     console.log(this.agasilist.length);
   }
   confirm(){
+    this.lloading = this.loading.create({
+      content: '저장중...'
+    });
+    this.lloading.present();
     console.log(this.agasilist);
     console.log(this.agasilist.length);
     // if(this.agasilist.length==9){
@@ -102,6 +108,7 @@ export class Choicemodal2Page {
     var min = date.getMinutes();
 
     console.log(this.agasilist);
+    console.log("was this.agasilist")
 
     console.log(this.qtd0);
     console.log(this.qtd1);
@@ -122,12 +129,14 @@ export class Choicemodal2Page {
       agasidate.setHours(agasidate.getHours()+9);
       console.log(agasidate);
       this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
-      this.firemain.child("users").child(this.agasilist[cc].name).update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name})
+      this.firemain.child("users").child(this.agasilist[cc].name).update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name ,"writer":this.agasilist[cc].writer})
       this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).child("attend").update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name});
       this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":this.quelist[count],"name":this.agasilist[cc].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
     }
 
-
+    if(this.lloading!=undefined){
+      this.lloading.dismiss()
+    }
     this.view.dismiss({"result":"ok"})
     console.log("confirm...");
   }

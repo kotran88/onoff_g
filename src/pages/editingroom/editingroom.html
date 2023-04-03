@@ -22,6 +22,9 @@ top: 30%;" padding>
               <span (click)="clicking(3);" class="newspan" *ngIf="status=='clean'" > 정리중 </span>
               <span (click)="clicking(4);" class="newspan" *ngIf="status=='fin'" > 완료 </span>
               
+              <span (click)="clicking2(a);" class="newspan"  *ngIf="avec"> A </span>
+              <span (click)="clicking2(a);" class="newspan"  *ngIf="!avec"> - </span>
+              
               <span><input   class="input-box" placeholder="인원"  [(ngModel)]="numofpeople" type="text"/> </span>
               <span><input   class="input-box"  [(ngModel)]="wt" type="text"/></span>
               <span><input   class="input-box"  [(ngModel)]="insert_date" type="text"/></span>

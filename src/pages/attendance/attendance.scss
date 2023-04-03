@@ -16,15 +16,23 @@ page-attendance {
         height: 100px;
         margin-top: 10px;
     }
+    .segactiveno{
+      .label-md{
+        color : black;
+      }
+    }
     .segactive{
-        background: blue !important;
+      height: 100%;
+
+      background: #fdd734 !important;
+        .label-md{
+          color : black;
+        }
     }
     .area{
         height: 100%;
         background-color: white;
-    }
-    .segment-button {
-        color: red; // here, instead of "red" you can use sass variable if it was already defined
+    margin-top: 5px;
     }
     .looping{
         width: 100% !important;
@@ -32,9 +40,7 @@ page-attendance {
         padding-left: 0px !important;
         margin-left: 30px;
     }
-    .segactive{
-        background: blue !important;
-    }
+  
     .ion-label{
 
     font-size: 20px;
@@ -155,20 +161,33 @@ page-attendance {
         color: white;
         margin:0px !important;
     }
-
-    .ion-label-area {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 90px;
-        background-color: black;
-        height: calc(100% - 132px);
-        overflow-y: scroll;
+    .selecting{
+      
+    height: 60px;
+    position: fixed;
+    display: contents;
+    width: 100%;
     }
+    .btn8{
+      span{
+        color: black;
+      }
+    }
+    .ion-label-area {
+
+      margin-top: 64px;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          
+          background-color: white;
+          overflow-y: scroll;
+      }
+  
 
     .ion-item-area-1 {
         color: white;
-        background-color: black;
+        background-color: white;
         padding: 3%;
 
         p {
@@ -203,8 +222,8 @@ page-attendance {
         padding-top: 0px;
     }
     .toolbar-background{
-        background: rgb(59, 56, 56);
-    }
+      background: #fdd734;
+  }
     .toolbar{
         text-align: center;
     }
@@ -294,7 +313,6 @@ page-attendance {
       margin-top:45px;
       .room-current
       {
-        margin-top: 10%;
         padding: 3%;
         .title-div
         {
@@ -309,34 +327,6 @@ page-attendance {
           }
         }
 
-        .chart-div
-        {
-          color: black;
-          text-align: center;
-          .name-keys, .datas{
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            span{
-              display: inline-block;
-              width: calc(100% / 7);
-            }
-            span:nth-child(n+1)
-            {
-              border-left: solid 1px white;
-            }
-          }
-          .name-keys
-          {
-            background-color: rgb(255,240,200);
-            border-bottom: solid 1px black;
-          }
-          .datas
-          {
-            background-color: rgb(240, 240, 240);
-            border-bottom: solid 1px rgb(176, 176, 176);
-          }
-        }
       }
 
       .vacancy-current
@@ -385,36 +375,54 @@ page-attendance {
             }
           }
 
-          .chart-datas
-          {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            background-color: rgb(255,240,200);
-            span{
-              height: 50px;
-              line-height: 50px;
-              text-align: center;
-              display: inline-block;
-              width: calc(100% / 6);
-            }
-            span:nth-child(n+2)
-            {
-              border-left: solid 1px rgb(117,117,117);
-            }
-            span:nth-child(7n)
-            {
-              border-left: none
-            }
-            span:nth-child(n+7)
-            {
-              border-top: solid 1px rgb(117,117,117);
-            }
-          }
         }
       }
     }
+    .room-current
+      {
+        padding: 3%;
+        .title-div
+        {
+          .square
+          {
+            color: rgb(254, 184, 45);
+          }
+          .text
+          {
+            color: white;
+            font-size: 20px;
+          }
+        }
 
+        .chart-div
+        {
+          color: black;
+          text-align: center;
+          .name-keys, .datas{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            span{
+              display: inline-block;
+              width: calc(100% / 7);
+            }
+            span:nth-child(n+1)
+            {
+              border-left: solid 1px white;
+            }
+          }
+          .name-keys
+          {
+            background-color: rgb(255,240,200);
+            border-bottom: solid 1px black;
+          }
+          .datas
+          {
+            background-color: rgb(240, 240, 240);
+            border-bottom: solid 1px rgb(176, 176, 176);
+          }
+        }
+      }
     .top-bar
       {
         background-color: black;
@@ -468,7 +476,8 @@ page-attendance {
       margin: 0;
       padding: 0;
       display: inline-block;
-      margin:5%;
+
+    margin-left: 5%;
       border: solid 1px black;
       margin-top: 2%;
       border-radius: 10px;
@@ -504,8 +513,8 @@ page-attendance {
 
         .weeks
         {
-          padding: 10px 0;
-          margin: 10px 0;
+          padding: 5px 0;
+          margin: 5px 0;
           span:first-child{color: red;}
           span:last-child{color: blue;}
           border-top: solid 1px black;
@@ -520,7 +529,7 @@ page-attendance {
           }
           span
           {
-            height: 50px;
+            height: 25px;
             width:50px;
           }
         }

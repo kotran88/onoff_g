@@ -1,7 +1,7 @@
 
   <ion-header>
     <ion-toolbar>
-      <ion-buttons  *ngIf="!firstflag||firstflag==undefined"  style="
+      <ion-buttons *ngIf="!firstflag"   style="
     position: absolute;
     left: 0;
     z-index: 9999;
@@ -55,24 +55,38 @@
 
   <ion-nav #mycontent [root]="rootPage"></ion-nav>
 <ion-content class="contents" padding>
+  <div style="
+  margin-top: 80px;" class="top">
+    <button (click)="buchange()"  style="
+        width: 120px;
+border-radius
+: 10px;
+    background: orange;
+    border: solid 1px;
+    color: black;
+    height: 45px;
+    margin-left: 30px; ">{{bu}}부</button>
+<span style="
+    float: right;
+    right: 15%;
+    position: fixed;
+    top: 80px;
+    font-size: 40px;
+    font-weight: 900;">{{nowtime}}</span>
+  </div>
   <div class="room-current">
     <div class="title-div">
       <ion-icon class="square" name="square"></ion-icon>
-      <span class="text">룸 현황</span>
+      <span class="text">룸 현황 {{mainlist.length}}개</span>
+     
     </div>
 
     <div class="chart-div">
-      <button (click)="buchange()"  style="
-            width: 80px;
-            background: orange;
-            border: solid 1px;
-            color: black;
-            margin-left:20px;
-            height: 30px; ">{{bu}}부</button>
+     
       <div class="name-keys">
         <span>룸NO</span>
         <span>담당자</span>
-        <span>산태</span>
+        <span>상태</span>
         <span>인원</span>
         <span>WT</span>
         <span>입실T</span>
@@ -88,7 +102,8 @@
         <span *ngIf="a.status=='entered'"> 입실 </span>
         <span *ngIf="a.status=='clean'"> 정리중 </span>
         <span *ngIf="a.status=='fin'">완료  </span>
-        <span>{{a.numofpeople}} 인 </span>
+        <span *ngIf="a.avec">{{a.numofpeople}} 인 A </span>
+        <span *ngIf="!a.avec">{{a.numofpeople}} 인 </span>
         <span>{{a.wt}}</span>
         <span>{{a.insert_date}}</span>
         <span>{{a.end_date}}</span>
@@ -104,7 +119,7 @@
     <div style="background:wheat;" class="chart-div">
       <div class="flex-div small-div">
         <div class="chart-name">
-          <span>소 [1인 ~ 2인]</span>
+          <span>소 [1인 ~ 2인] {{smallroom.length}}개</span>
         </div>
       </div>
       <div style="display: inline;" class="chart-datas">
@@ -116,7 +131,7 @@
       </div>
       <div class="flex-div medium-div">
         <div class="chart-name">
-          <span>중 [3인 ~ 4인]</span>
+          <span>중 [3인 ~ 4인] {{midroom.length}}개</span>
         </div>
       </div>
       <div style="display: inline;" class="chart-datas">
@@ -128,7 +143,7 @@
       </div>
       <div class="flex-div large-div">
         <div class="chart-name">
-          <span>대 [5인 ~ 6인]</span>
+          <span>대 [5인 ~ 6인] {{bigroom.length}}개</span>
         </div>
       </div>
       <div style="display: inline;" class="chart-datas">
@@ -140,4 +155,44 @@
       </div>
     </div>
   </div>
+
+
+  <div style="   
+  width: 95%;
+" class="room-current">
+    <div class="title-div">
+      <ion-icon class="square" name="square"></ion-icon>
+      <span class="text">완료된 룸 현황 {{mainlist_finished.length}}개</span>
+     
+    </div>
+
+    <div class="chart-div">
+     
+      <div class="name-keys">
+        <span>룸NO</span>
+        <span>담당자</span>
+        <span>상태</span>
+        <span>인원</span>
+        <span>WT</span>
+        <span>입실T</span>
+        <span>퇴실T</span>
+      </div>
+      <div (click)="editing(a);" *ngIf="mainlist_finished.length==0" class="datas">
+        <span style="width:100%;">현재 활성화된 방이 없습니다 </span>
+      </div>
+      <div (click)="editing(a);" *ngFor="let a of mainlist_finished" class="datas">
+        <span>{{a.name}}</span>
+        <span>{{a.incharge}}</span>
+        <span *ngIf="a.status=='reserved'"> 예약중 </span>
+        <span *ngIf="a.status=='entered'"> 입실 </span>
+        <span *ngIf="a.status=='clean'"> 정리중 </span>
+        <span *ngIf="a.status=='fin'">완료  </span>
+        <span>{{a.numofpeople}} 인 </span>
+        <span>{{a.wt}}</span>
+        <span>{{a.insert_date}}</span>
+        <span>{{a.end_date}}</span>
+      </div>
+    </div>
+  </div>
+
 </ion-content>

@@ -1,8 +1,23 @@
 page-account {
-
+  .label label-md{
+    margin:0px !important;
+  }
+  .label-md{
+    margin:0px !important;
+  }
+  .list-md{
+    margin:0px !important;
+    height: 30px !important;
+  }
+  .newbtn{
+    height: 80px;
+    width: 120px;
+    border: solid 1px;
+    background: transparent;
+    margin-top: 20px;
+  }
     .header {
         position: absolute;
-        height: 80px;
         width: 100%;
         color:white;
     }
@@ -154,7 +169,7 @@ page-account {
         width: 100%;
         height: 100%;
         top: 150px;
-        background-color: black;
+        background-color: white;
         height: calc(100% - 132px);
         overflow-y: scroll;
     }
@@ -195,15 +210,22 @@ page-account {
         padding-bottom: 0px;
         padding-top: 0px;
     }
-    .toolbar-background{
-        background: rgb(59, 56, 56);
+    
+
+    .synthesis{
+      background:#fdd734;
+      
     }
+    .toolbar-background{
+      background: #fdd734;
+  }
     .toolbar{
         text-align: center;
     }
     .logo{
         width:50px;
     }
+
     .header-parking-hr{
 
     margin-top: 80px;

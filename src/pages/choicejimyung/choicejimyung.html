@@ -4,7 +4,7 @@
 
 <ion-content class="main-view" style="background: transparent;
 background-color: transparent;
-height: 40%;
+height: 20%;
 top: 30%;" padding>
 
   <div class="modal_content">
@@ -17,7 +17,7 @@ top: 30%;" padding>
     float: left;
     line-height: 50px;
     font-size: 15px;
-    background: transparent;" class="input-title">아가씨 신규</div>
+    background: transparent;" class="input-title">지명</div>
             
 
             <button style="
@@ -27,7 +27,8 @@ top: 30%;" padding>
             width: 50px;
             border: solid 1px;
             background: red;" ion-button (click)="cancel()">취소</button>
-<button style="color: white;
+<button style="
+color: white;
 font-size: 20px;
 float: right;
 width: 50px;
@@ -35,23 +36,20 @@ border: solid 1px;
 background: red;" ion-button (click)="confirm()">저장</button>
 
           </div>
-          <div *ngFor="let aa of agasilist; let i = index" class="center">
-            <span style="    color: black;
-            width: 50%;
-            line-height: 80px;
-            font-size: 20px;
-            text-align: center;">{{aa.name}} 조판팀 </span>
-            <ion-list style="    margin-top: 20px;">
-              <ion-item>
-                <ion-label>조판팀 </ion-label>
-                <ion-select [(ngModel)]="this['qtd' + i]">
-                  <ion-option *ngFor="let a of jopanlist" style="color:black;" value="{{a.name}}">{{a.name}}</ion-option>
-                </ion-select>
-              </ion-item>
-            </ion-list>
+
+          <div  class="center">
+            <ion-input  placeholder="방번호" type="text" class="sc" [(ngModel)]='room' >
+            </ion-input>
+
+            <ion-input  placeholder="담당자" type="text" class="sc" [(ngModel)]='incharge'  >
+            </ion-input>
+  
+            <ion-input  placeholder="아가씨명" type="text" class="sc" [(ngModel)]='agasi' >
+            </ion-input>
+  
+            
           </div>
          
-
 
 
           <!-- <div  class="center">

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage,ViewController, NavController, NavParams } from 'ionic-angular';
 
 import  firebase from 'firebase';
+import { OrdermainPage } from '../ordermain/ordermain';
 /**
  * Generated class for the OrderdetailPage page.
  *
@@ -19,6 +20,9 @@ export class OrderdetailPage {
   selectedList=[];
   uniqueanju=[];
   uniquedrink=[];
+  obj22={};
+  obj33={};
+  obj44={};
   firemain = firebase.database().ref();
   company:any="";
   currentstartday:any="";
@@ -89,7 +93,36 @@ export class OrderdetailPage {
   onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
   }
+  minus(a,selectedList){
+    console.log("minus");
+    console.log(a)
+    console.log(selectedList)
+    console.log(this.selectedList);
+    for(var aa in this.selectedList){
+      console.log(this.selectedList[aa])
+      console.log(a.name);
+      console.log("mmm")
+      if(this.selectedList[aa].name==a.name){
+        this.selectedList[aa].num=Number(this.selectedList[aa].num)-1;
+      }
+    }
+  }
+  plus(a,selectedList){
+    console.log("plus");
+    console.log(a)
+    console.log(selectedList)
+    console.log(this.selectedList);
+    for(var aa in this.selectedList){
+      console.log(this.selectedList[aa])
+      console.log(a.name);
+      console.log("mmm")
+      if(this.selectedList[aa].name==a.name){
+        this.selectedList[aa].num=Number(this.selectedList[aa].num)+1;
+      }
+    }
+  }
   completed(){
+    console.log("completed...");
     console.log(this.selectedList);
     var date = new Date();
 
@@ -101,10 +134,13 @@ export class OrderdetailPage {
     var sec = date.getSeconds();
     console.log(this.company+"/"+this.a.name+"/"+this.currentstartday+"/"+this.a.key+"/"+hour+":"+min+":"+sec);
     console.log(this.a);
+    console.log("1111");
+    
     this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
-    this.firemain.child("users").child(this.a.directorId).child("incentive").child(this.currentstartday).child(this.a.key).update({"bu":this.a.bu, "roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+    console.log("2222");
+    this.firemain.child("users").child(this.a.directorId).child("incentive").child(this.currentstartday).child(this.a.key).child("ordertype").update({"bu":this.a.bu, "type":"order", "roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
     window.alert("주문이 완료되었습니다.");
-    this.navCtrl.pop();
+    this.view.dismiss({"result":true})
   }
   clicked(b){
     console.log(b);
@@ -155,6 +191,8 @@ export class OrderdetailPage {
           if(snap.val()[a].category=="주류"){
             
         this.obj.push(snap.val()[a].subcategory);
+        console.log(a);
+        console.log(snap.val()[a].subcategory)
             this.sullist.push(snap.val()[a]);
           }
           if(snap.val()[a].category=="안주"){
@@ -162,7 +200,7 @@ export class OrderdetailPage {
             this.anjulist.push(snap.val()[a]);
             
           }
-          if(snap.val()[a].category=="음료"){
+          if(snap.val()[a].category=="음료/사입"){
             this.obj3.push(snap.val()[a].subcategory);
             this.drinklist.push(snap.val()[a]);
             
@@ -197,6 +235,47 @@ console.log(this.newarray)
         console.log(this.uniqueanju);
         console.log(this.uniquedrink)
       }
+
+      console.log("sull : ");
+      console.log(this.sullist)
+      //re arrange sullist that with key of subcategory 
+      this.sullist.sort(function(a,b){
+        if(a.subcategory>b.subcategory){
+          return 1;
+        }else if(a.subcategory<b.subcategory){
+          return -1;
+        }else{
+          return 0;
+        }
+      })
+      console.log(this.sullist)
+      //make it hashkey style array with sullist that with key of name
+      this.obj22={};
+      for(var aaa in this.unique){
+        this.obj22[this.unique[aaa]]=[];
+      }
+      for(var aaa in this.uniqueanju){
+        this.obj33[this.uniqueanju[aaa]]=[];
+      }
+      for(var aaa in this.uniquedrink){
+        this.obj44[this.uniquedrink[aaa]]=[];
+      }
+      console.log(this.obj22)
+      for(var a in this.anjulist){
+        this.obj33[this.anjulist[a].subcategory].push({"name":this.anjulist[a].name,"category":this.anjulist[a].category,"subcategory":this.anjulist[a].subcategory,"price":Number(this.anjulist[a].price).toLocaleString()});
+      }
+      for(var a in this.sullist){
+        this.obj22[this.sullist[a].subcategory].push({"name":this.sullist[a].name,"category":this.sullist[a].category,"subcategory":this.sullist[a].subcategory,"price":Number(this.sullist[a].price).toLocaleString()});
+      }
+      console.log(this.drinklist)
+      for(var a in this.drinklist){
+        this.obj44[this.drinklist[a].subcategory].push({"name":this.drinklist[a].name,"category":this.drinklist[a].category,"subcategory":this.drinklist[a].subcategory,"price":Number(this.drinklist[a].price).toLocaleString()});
+      }
+      console.log(this.obj22);
+      console.log(this.obj33);
+      console.log(this.obj44);
+
+     console.log(this.sullist);
     });
 
   }

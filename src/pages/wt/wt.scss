@@ -2,7 +2,6 @@ page-wt {
 
     .header {
         position: absolute;
-        height: 80px;
         width: 100%;
         color:white;
     }
@@ -21,6 +20,9 @@ page-wt {
         display: flex;
         padding-left: 0px !important;
         margin-left: 30px;
+    }
+    button{
+        color:black;
     }
     .segactive{
         background: blue !important;
@@ -42,6 +44,7 @@ page-wt {
     }
     .box {
         height: 100%;
+
     }
 
     .box-1 {
@@ -196,7 +199,7 @@ page-wt {
         padding-top: 0px;
     }
     .toolbar-background{
-        background: rgb(59, 56, 56);
+        background: #fdd734;
     }
     .toolbar{
         text-align: center;
@@ -208,8 +211,8 @@ page-wt {
 
     margin-top: 80px;
     width: 100%;
-    color: red;
-    background: red;
+    color: black;
+    background: black;
     }
     .accordion > div {
         width: 50%;

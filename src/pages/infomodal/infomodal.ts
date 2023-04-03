@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ViewController } from 'ionic-angular';
+import { IonicPage, NavController,LoadingController, NavParams,ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the InfomodalPage page.
@@ -18,17 +18,22 @@ export class InfomodalPage {
   wt:any="";
   incharge:any="";
   numofpeople:any="";
+  booleanValue:any=false;
+  booleanValue2:any=false;
+  lloading:any;
   currentstartday:any="";
   currentstart:any="";
   room:any;
   company:any;
   bu:any=0;
+  name:any;
   firemain = firebase.database().ref();
-  constructor(public navCtrl: NavController,public view:ViewController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,public loading:LoadingController,public view:ViewController, public navParams: NavParams) {
    this.room= this.navParams.get("room");
     this.bu= this.navParams.get("bu");
    this.company = localStorage.getItem("company");
    this.currentstart=localStorage.getItem("start");
+   this.name = localStorage.getItem("name");
    this.currentstartday=localStorage.getItem("startDate");
    console.log(this.currentstart);
    console.log(this.currentstartday);
@@ -39,14 +44,62 @@ export class InfomodalPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfomodalPage');
   }
-
+   containsOnlyNumbers(input) {
+    // Create a regular expression that matches only numbers
+    var regex = /^[0-9]+$/;
+  
+    // Test the input against the regular expression
+    return regex.test(input);
+  }
   cancel(){
 
     this.view.dismiss();
   }
+  myChange(v){
+    console.log(this.booleanValue)
+  }
+  myChange2(v){
+    console.log(this.booleanValue2)
+  }
   confirm(){
+    this.lloading = this.loading.create({
+      content: '방 개설중...'
+    });
+    this.lloading.present();
+var countingvalue=0;
+var fin_countingvalue=0;
+    var flag = this.containsOnlyNumbers(this.numofpeople);
+    if(!flag){
+      window.alert("인원은 숫자만 입력해주세요")
+      return;
+    }
+    this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+      for(var a in snap.val()){
+          if(snap.val()[a].roomhistory!=undefined){
+      console.log("mmmm")
+      console.log(snap.val()[a].roomhistory)
+            for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+              console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+              console.log(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full)
+              if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
+                if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+                  if(snap.val()[a].roomhistory[this.currentstartday][b].angel!=true){
+                   countingvalue++;
+                  }
+                }
+              }
+              if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
+                if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+                  fin_countingvalue++;
+                }
+              }
+              }
+            }
+          }
 
-    var date = new Date();
+
+
+          var date = new Date();
 
     var year=date.getFullYear();
     var month=date.getMonth()+1;
@@ -55,20 +108,30 @@ export class InfomodalPage {
     var min = date.getMinutes();
 
     var dte = new Date();
-    dte.setHours(dte.getHours()+9);
     var fulldate = this.currentstartday;
     var key = this.firemain.child('rooms').child(fulldate).push().key;
     // this.firemain.child("rooms").child(fulldate).child(key).update({"status":"reserved", "incharge":this.incharge,"in":this.in,"wt":this.wt,"room":this.room,"insert_date":hour+":"+min,"key":key,"date":fulldate})
     var bujangid ="noname";
+    var bujangyoung="";
+    var bujangjopan="";
     this.firemain.child("users").once("value",snap=>{
       for(var b in snap.val()){
-        if(snap.val()[b].type=="director"){
-          console.log(snap.val()[b].name.trim()+",,,"+this.incharge.trim())
+        if(snap.val()[b].name==undefined){
+
+        }else{
             if(snap.val()[b].name.trim()==this.incharge.trim()){
-              
               bujangid=snap.val()[b].id;
+              bujangjopan = snap.val()[b].jopan;
+              bujangyoung = snap.val()[b].young;
+              if(snap.val()[b].young==undefined){
+                bujangyoung=snap.val()[b].uniqueid.substring(0,1);
+              }
+              if(snap.val()[b].jopan==undefined){
+                bujangjopan="no";
+              }
             }
         }
+       
       }
       if(bujangid=="noname"){
         window.alert("없는담당자입니다. 담당자명을 확인하세요.")
@@ -76,26 +139,22 @@ export class InfomodalPage {
     this.view.dismiss();
         return;
       }
-
-    this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday).child(key).update({"name":this.room.name,"status":"reserved","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte, "key":key,"date":fulldate})
-    this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday+"").child(key).update({"directorId":bujangid, "flag":true,"lastupdated":dte})
+      if(countingvalue==undefined){
+        countingvalue=1;
+      }
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday).child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate})
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday+"").child(key).update({"bujangyoung":bujangyoung,"bujangjopan":bujangjopan, "v":Number(countingvalue)+1, "directorId":bujangid, "flag":true,"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
     
     this.view.dismiss();
+
+
+    if(this.lloading!=undefined){
+      this.lloading.dismiss()
+    }
     });
 
+        });
     
-    // this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
-    //   console.log(snap.val());
-    //   for(var a in snap.val()){
-    //     console.log(snap.val()[a].name);
-    //     console.log(this.room.name);
-    //     if(snap.val()[a].name == this.room.name){
-    //       console.log("같다");
-    //       console.log(this.room.name);
-    //       console.log(snap.val()[a].name);
-    //          }
-    //   }
-    // });
-   
+
   }
 }

@@ -20,6 +20,10 @@ import { OrderPage } from '../order/order';
 })
 export class OrdermainPage {
   mainlist:any = [];
+  inputtext:any="";
+  contents:any="";
+  mainlist_no_order:any=[];
+  selected:any=1;
   smallroom=[];
   currentstartday:any="";
   currentstart:any="";
@@ -34,6 +38,11 @@ export class OrdermainPage {
     this.name= localStorage.getItem("name");
     this.currentstartday=localStorage.getItem("startDate");
   }
+  selecting(a){
+    console.log("selecting...")
+    console.log(a);
+    console.log(this.selected);
+  }
   openclose(){
     console.log("open and cloe");
     this.menuCtrl.open();
@@ -41,7 +50,12 @@ export class OrdermainPage {
   close(){
     console.log("close gongji")
     // this.menuCtrl.open();
-    this.view.dismiss();
+    try{
+
+      this.view.dismiss();
+    }catch(e){
+      console.log(e);
+    }
 }
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfoPage');
@@ -61,10 +75,53 @@ export class OrdermainPage {
       if(cat=="대"){
         this.bigroom.push({"name":name,"category":cat});
       }
+
+
+      console.log("mmmm")
+      console.log(snap.val()[a]);
+      console.log(snap.val()[a].roomhistory)
+      if(snap.val()[a].roomhistory!=undefined){
+        console.log(snap.val()[a].roomhistory[this.currentstartday])
+        for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+          console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+          if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
+            console.log("ok")
+            if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+              console.log(snap.val()[a].roomhistory[this.currentstartday][b].orderlist)
+              if(snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
+                //주문내역이 없음
+                console.log("insert to mainlist_no_order");
+                this.mainlist_no_order.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+              }else{
+                console.log("insert to mainlist");
+                this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+              }
+              
+            }
+           
+          }
+        }
+      }
+
       }
       console.log(this.smallroom);
     });
-    
+    console.log(this.company)
+    this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+      for(var a in snap.val()){
+      }
+      console.log(this.mainlist)
+      console.log(this.mainlist_no_order)
+    });
+  }
+  searching(){
+    console.log("searching...");
+    console.log(this.inputtext)
+    console.log(this.selected);
+
+    this.mainlist=[];
+    this.mainlist_no_order=[];
+
     this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
       for(var a in snap.val()){
         console.log("mmmm")
@@ -74,19 +131,52 @@ export class OrdermainPage {
           console.log(snap.val()[a].roomhistory[this.currentstartday])
           for(var b in snap.val()[a].roomhistory[this.currentstartday]){
             console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-            if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
-              if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
-                this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+            if(this.selected==2){
+              if(snap.val()[a].roomhistory[this.currentstartday][b].wt==this.inputtext){
+                if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
+                  if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+                    console.log(snap.val()[a].roomhistory[this.currentstartday][b].orderlist)
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
+                      //주문내역이 없음
+                      console.log("insert to mainlist_no_order");
+                      this.mainlist_no_order.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    }else{
+                      console.log("insert to mainlist");
+                      this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    }
+                    
+                  }
+                 
+                }
               }
-             
+            }else if(this.selected==1){
+              if(snap.val()[a].roomhistory[this.currentstartday][b].incharge==this.inputtext){
+                if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
+                  if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+                    console.log(snap.val()[a].roomhistory[this.currentstartday][b].orderlist)
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
+                      //주문내역이 없음
+                      console.log("insert to mainlist_no_order");
+                      this.mainlist_no_order.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    }else{
+                      console.log("insert to mainlist");
+                      this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    }
+                    
+                  }
+                 
+                }
+              }
             }
+            
+            
           }
         }
       }
       console.log(this.mainlist)
+      console.log(this.mainlist_no_order)
     });
   }
-  
   editing(a){
     console.log("editing...")
     console.log(a);
@@ -95,52 +185,38 @@ export class OrdermainPage {
       this.navCtrl.getActive().onDidDismiss(url => {
       console.log("dismiss second!");
       this.mainlist=[];
+      this.mainlist_no_order=[];
 
-
-    this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
-      for(var a in snap.val()){
-        console.log("mmmm")
-        console.log(snap.val()[a]);
-        console.log(snap.val()[a].roomhistory)
-        if(snap.val()[a].roomhistory!=undefined){
-          console.log(snap.val()[a].roomhistory[this.currentstartday])
-          for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-            console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-            if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
-              if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
-                this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+      this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+        for(var a in snap.val()){
+          console.log("mmmm")
+          console.log(snap.val()[a]);
+          console.log(snap.val()[a].roomhistory)
+          if(snap.val()[a].roomhistory!=undefined){
+            console.log(snap.val()[a].roomhistory[this.currentstartday])
+            for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+              console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+              if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
+                if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+                  console.log(snap.val()[a].roomhistory[this.currentstartday][b].orderlist)
+                  if(snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
+                    //주문내역이 없음
+                    console.log("insert to mainlist_no_order");
+                    this.mainlist_no_order.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                  }else{
+                    console.log("insert to mainlist");
+                    this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                  }
+                  
+                }
+               
               }
-             
             }
           }
         }
-      }
-      console.log(this.mainlist)
-    });
-      // this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
-      //   for(var a in snap.val()){
-      //     console.log("mmmm")
-      //     console.log(snap.val()[a]);
-      //     console.log(snap.val()[a].roomhistory)
-      //     if(snap.val()[a].roomhistory!=undefined){
-      //       console.log(snap.val()[a].roomhistory[this.currentstartday])
-      //       for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-      //         console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-      //         if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
-      //           this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
-      //         }
-              
-      //       }
-      //     }
-         
-      //     // for(var b in snap.val()[a]){
-      //     //   console.log(snap.val()[a][b]);
-      //     //   this.mainlist.push(snap.val()[a][b]);
-      //     // }
-      //   }
-      //   console.log(this.mainlist)
-      // });
-
+        console.log(this.mainlist)
+        console.log(this.mainlist_no_order)
+      });
     });
 
   });

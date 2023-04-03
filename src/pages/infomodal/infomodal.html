@@ -4,11 +4,55 @@
 
 <ion-content class="main-view" style="background: transparent;
 background-color: transparent;
-height: 40%;
-top: 30%;" padding>
+height: 55%;
+top: 10%;" padding>
 
   <div class="modal_content">
 
+        <div style="
+        height: 15px;
+    " class="More">
+                <span *ngIf="room.category!='소'" style="
+                float: left;
+                margin-left: 10px;" >중방/대방</span>
+                <span style="right: 52px;
+                position: absolute;">아벡</span>
+        </div>
+        <div  class="upper">
+                <div *ngIf="room.category!='소'" class="left">
+                        <span style="  
+                   top: 10%;
+    float: left;
+    position: fixed;
+    left: 12%;
+              ">OFF</span>
+                <ion-toggle style="
+                position: absolute;
+                left: 12%;
+              " slot="end" (ionChange)="myChange($event)" [(ngModel)]="booleanValue" ></ion-toggle> <span style="
+    position: absolute;
+    color: white;
+    top: 30%;
+">ON</span>
+
+                </div>
+                <div class="right">
+                        <span style="      float: right;
+                        position: absolute;
+                        right: 50%;
+                        color: white;
+                        top: 30%;
+              ">OFF</span>
+                <ion-toggle style="
+                position: absolute;
+                right: 12%;
+              " slot="end" (ionChange)="myChange2($event)" [(ngModel)]="booleanValue2" ></ion-toggle> <span style="    float: right;
+              position: absolute;
+              right: 5%;
+              color: white;
+                top: 30%;">ON</span>
+                </div>
+                </div>
         <div class="img">
           <div style="width: 100%; height:70px;">
             <div style="
@@ -17,7 +61,7 @@ top: 30%;" padding>
             float: left;
     line-height: 50px;
     font-size: 24px;
-            background: brown;" class="input-title">담당자</div>
+            " class="input-title">담당자</div>
             <ion-input style="
             
     color: white;
@@ -25,7 +69,6 @@ top: 30%;" padding>
     float: right;
     width: 150px;
     border: solid 1px;
-    background: red;
     " class="input-box" placeholder=" " [(ngModel)]="incharge" type="text"></ion-input>
           </div>
 
@@ -36,7 +79,7 @@ top: 30%;" padding>
             float: left;
     line-height: 50px;
     font-size: 24px;
-            background: brown;" class="input-title">인원</div>
+            " class="input-title">인원</div>
             <ion-input style="
             
     color: white;
@@ -44,7 +87,6 @@ top: 30%;" padding>
     float: right;
     width: 150px;
     border: solid 1px;
-    background: red;
     " class="input-box" placeholder=" " [(ngModel)]="numofpeople" type="text"></ion-input>
           </div>
 
@@ -55,7 +97,7 @@ top: 30%;" padding>
             float: left;
     line-height: 50px;
     font-size: 24px;
-            background: brown;" class="input-title">W / T</div>
+            " class="input-title">W / T</div>
             <ion-input style="
             
     color: white;
@@ -63,7 +105,6 @@ top: 30%;" padding>
     float: right;
     width: 150px;
     border: solid 1px;
-    background: red;
     " class="input-box" placeholder=" " [(ngModel)]="wt" type="text"></ion-input>
           </div>
           <!-- <button class="btn" (click)="takeVideo()" ion-button>동영상</button> -->

@@ -37,16 +37,16 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230221 v2.3';
+  version='20230401 v2.84';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
-  constructor(public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public util : UtilsProvider,public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
     var flag = localStorage.getItem("loginflag");
     console.log(flag);
     this.check = (flag === 'true');
     console.log("login flag : "+this.check);
-
+    
     setTimeout(()=>{
       if(this.check==true){
         $("#checked").prop('checked', true);
@@ -95,7 +95,7 @@ export class LoginpagePage {
     console.log("released...")
   }
   login(){
-    if(this.id==undefined||this.password==undefined){
+    if(this.id.length==0||this.id==undefined||this.password==undefined){
 
       window.alert("아이디비번을 입력해주세요")
     }else{
@@ -116,7 +116,8 @@ export class LoginpagePage {
       }
       else{
         console.log(this.id);
-        
+        console.log(this.id.length);
+       
         this.firemain.child("users").child(this.id).once("value",(snap)=>{
           console.log("rrr")
           if(snap.val()==null){
@@ -171,6 +172,7 @@ export class LoginpagePage {
               window.alert("아이디 및 비밀번호를 확인해주세요")
             }
             else{
+              console.log(snap.val().company);
               this.firemain.child("company").child(snap.val().company).once("value",(snap2)=>{
                 console.log(snap2.val())
                 console.log(snap.val())
@@ -184,7 +186,7 @@ export class LoginpagePage {
                
                 this.firemain.child("company").child(snap.val().company).child('openandclose').once('value').then((snap3)=>{
                   
-                  console.log(snap3.val().start)
+                  console.log(snap3.val())
                   
                   localStorage.setItem("flag",snap3.val().flag);
                   if(snap3.val().flag==true){
@@ -210,7 +212,7 @@ export class LoginpagePage {
                     else if(type == "director")
                     {
                       //부장 
-                      this.navCtrl.push(AttendancePage);
+                      this.navCtrl.push(DirectorpagePage);
                     }else if(type == "account"){
                       //경리 
                     this.navCtrl.push(AccountPage);

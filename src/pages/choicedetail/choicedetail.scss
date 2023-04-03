@@ -1,5 +1,37 @@
-page-choice {
+page-choicedetail {
+  .messagediv{
 
+    width: 90%;
+    height: 50px;
+    align-items: left;
+    background-color: white;
+    color: black;
+    margin-left: 16px;
+    margin-right: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: solid 1px;
+    p{
+      margin-bottom:3px !important;
+    }
+
+  }
+  .messagessss{
+    display: grid;
+    overflow-y: scroll;
+    width: 100%;
+  }
+  .c{
+    float: right;
+    margin-right: 20px;
+  }
+  .scroll-content{
+
+    overflow-y: hidden !important;
+  }
+  .mainlistloop{
+    height: 100%;
+  }
     .header {
         position: absolute;
         height: 60px;
@@ -9,31 +41,29 @@ page-choice {
     .main{
       width: 100%;
       display: flex;
+      height: 100%;
     }
     .message-content{
-      width:100%;
-      margin-left: 5px;
+      width:80%;
+      margin-left: 10px;
 
+    }
+    .showmain{
+      height: 100%;
+      width: 100%;
+      margin-top: 35px;
+      background: pink;
+    }
+    .show{
+
+    }
+    .noshow{
+        display:none;
     }
     .scroll-content{
         padding:0px !important;
         margin-top:0px !important;
-    }
-    .jimyung{
-      background: #fdd734;
-      height: 30px;
-      padding-left: 20px;
-      font-weight: 800;
-      line-height: 30px;
-      font-size:16px;
-      width: 100%;
-      margin: 0px;
-  
-    }
-    .bottomlist{
-      width: 100%;
-      height: 10%;
-      overflow-y: scroll;
+        background: white;
     }
     .chat-container {
       max-width: 600px;
@@ -62,10 +92,8 @@ page-choice {
     .message {
       display: flex;
       padding: 10px;
-
-      height: 65px;
-    border-radius: 5px;
-    border: solid 3px black;
+      border-radius: 5px;
+      background-color: #f2f2f2;
     }
     
     .avatar {
@@ -81,12 +109,10 @@ page-choice {
       align-items: center;
       font-weight: bold;
       font-size: 16px;
+      margin-right: 10px;
     }
     .it{
-      height: 80px;
       border:solid 1px;
-      margin-top:0px; 
-      margin-bottom:0px;
     }
     .former{
       float: left;
@@ -101,22 +127,9 @@ page-choice {
     }
     .latter{
       float: right;
-      height: 80px;
-
-    padding-top: 0px !important;
-
-    width: 30%;
-      line-height: 80px;
-      vertical-align: middle;
-      display: grid;
-      p{
-        line-height: 5px;
-        height: 36px;
-        margin: 0px;
-        display: table-cell;
-        vertical-align: middle;
-        padding: 10px;
-      }
+      height: 100%;
+      width: 20%;
+      line-height: 70px;
     }
     .header-parking {
         text-align: center;
@@ -124,30 +137,15 @@ page-choice {
         height: 100px;
         margin-top: 10px;
     }
-    .segactiveno{
-      .label-md{
-        color : black;
-      }
-    }
-    .segactive{
-      height: 100%;
-
-      background: #fdd734 !important;
-        .label-md{
-          color : black;
-        }
-    }
+    
     .area{
-        height: 100%;
+        height: 70%;
+        position: relative;
+        width:100%;
         background-color: white;
-    margin-top: 5px;
     }
     .segment-button {
         color: red; // here, instead of "red" you can use sass variable if it was already defined
-    }
-    .mainmain{
-
-    display: flex;
     }
     .looping{
       padding-left:0px; 
@@ -155,6 +153,19 @@ page-choice {
       padding-bottom: 5px;
       padding-top:5px;
       text-align: center;
+    }
+    .segactive{
+      background: #fdd734 !important;
+      .ion-label{
+        color:black !important;
+      }
+    }
+    .segactiveno{
+      display:none;
+      background: white !important;
+      .ion-label{
+        color:white !important;
+      }
     }
     .ion-label{
 
@@ -265,36 +276,31 @@ page-choice {
         left: 250px;
     }
     .segment-md .segment-button{
-      height: 100% !important;
+        height: 40px !important;
     }
     .ion-segment {
         position: absolute;
         color: white;
     }
-    .label-md{
-      margin-top: 0px !important;
-    }
+
     .ion-label {
-        color: white;
+        color: black;
         margin:0px !important;
     }
 
     .ion-label-area {
-
-    margin-top: 64px;
         position: absolute;
         width: 100%;
         height: 100%;
-        
-        background-color: white;
-        overflow-y: hidden;
+        top: 62px;
+        background-color: black;
+        overflow-y: scroll;
     }
 
     .ion-item-area-1 {
         color: white;
-        background-color: white;
+        background-color: black;
         padding: 3%;
-
         p {
             color: white;
         }
@@ -372,21 +378,28 @@ page-choice {
         float: right;
     }
 
+    .mainmain{
+        
+        text-align: center;
+        margin: auto;
+        display: inline-flex;
+        }
     .panel-4 {
+        padding: 0px;
         columns: white;
         width:100%;
-        height: 100%;
         overflow: hidden;
-        padding-top: 10px;
-        padding-bottom: 10px;
     }
     .fab .button-inner{
         font-size:30px;
     }
     .panel-4 > div {
         width: 100%;
-        padding:10px;
+        height: 100%;
+        margin: auto;
+        border-bottom: solid 1px;
         span {
+          
             display: block;
             margin: 5px;
             text-align: left;
@@ -410,13 +423,9 @@ page-choice {
         right: 10%;
         bottom: 5%;
     }
-
-    .contents{
-      background: white;
-    }
     .contents2{
       height: 70%;
-      background: white;
+      background: black;
       margin-top:45px;
       .room-current
       {
@@ -439,6 +448,7 @@ page-choice {
         {
           color: black;
           text-align: center;
+          background: yellow;
           .name-keys, .datas{
             display: flex;
             flex-wrap: wrap;
@@ -454,13 +464,20 @@ page-choice {
           }
           .name-keys
           {
-            background-color: rgb(255,240,200);
+            background-color: #eaa3af;
+            color: white;
             border-bottom: solid 1px black;
+            height: 30px;
+            line-height: 30px;
           }
           .datas
           {
-            background-color: rgb(240, 240, 240);
-            border-bottom: solid 1px rgb(176, 176, 176);
+
+           
+    background-color: pink;
+    border-bottom: solid 1px #b0b0b0;
+    height: 40px;
+    line-height: 40px;
           }
           span{
             font-size:8px;
@@ -588,8 +605,11 @@ page-choice {
           }
           .datas
           {
-            background-color: rgb(240, 240, 240);
-            border-bottom: solid 1px rgb(176, 176, 176);
+           
+    background-color: pink;
+    border-bottom: solid 1px #b0b0b0;
+    height: 40px;
+    line-height: 40px;
           }
           span{
             font-size:8px;
@@ -683,7 +703,7 @@ page-choice {
         justify-content: space-evenly;
         span{
           display: inline-block;
-          width: calc(100% / 8);
+          width: calc(100% / 7);
         }
         span:nth-child(n+1)
         {
@@ -692,12 +712,19 @@ page-choice {
       }
       .name-keys
       {
-        background-color: rgb(255,240,200);
+        background-color: rgb(213, 121, 136);
+        height: 30px;
+        color:white;
+        line-height: 30px;
         border-bottom: solid 1px black;
       }
       .datas
       {
-        background-color: rgb(240, 240, 240);
+        background-color:pink;
+        height:40px;
+        font-size:16px;
+        font-weight: bold;
+        line-height: 40px;
         border-bottom: solid 1px rgb(176, 176, 176);
       }
     }
