@@ -9,7 +9,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { MyApp } from './app.component';
 import { initializeApp } from "firebase/app";
-
+import { HttpClientModule } from '@angular/common/http/';
+import { HttpModule } from '@angular/http';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
@@ -55,6 +56,8 @@ import { Choicemodal3Page } from '../pages/choicemodal3/choicemodal3';
 import { ChoicedetailPage } from '../pages/choicedetail/choicedetail';
 import { ChoicejimyungPage } from '../pages/choicejimyung/choicejimyung';
 import { HistoryPage } from '../pages/history/history';
+import { SplashscreenPage } from '../pages/splashscreen/splashscreen';
+import { Orderdetail2Page } from '../pages/orderdetail2/orderdetail2';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -72,6 +75,7 @@ initializeApp(firebaseConfig);
   declarations: [
     MyApp,
     LoginpagePage,
+    SplashscreenPage,
     SignupPage,
     GongjiPage,
     TestpagePage,
@@ -92,6 +96,7 @@ initializeApp(firebaseConfig);
     OrderPage,
     GongjiwritePage,
     AgasichoicePage,
+    Orderdetail2Page,
     WtPage,
     ChoicemodalPage,
     BandPage,
@@ -105,7 +110,7 @@ initializeApp(firebaseConfig);
   imports: [
     BrowserModule,
     StarRatingModule,
-    LongPressModule,
+    LongPressModule,HttpClientModule,
     IonicModule.forRoot(MyApp,{
       monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
       monthShortNames: ['jan', 'fev', 'mar', 'avr', 'mai', 'jui', 'jui', 'aou', 'sep', 'oct', 'nov', 'dec' ],
@@ -120,9 +125,11 @@ initializeApp(firebaseConfig);
     MyApp,
     LoginpagePage,
     ChoicedetailPage,
+    SplashscreenPage,
     OrdermainPage,
     ChoicemodalPage,
     ChoicejimyungPage,
+    Orderdetail2Page,
     Choicemodal3Page,
     Choicemodal2Page,
     GongjiwritePage,
@@ -159,7 +166,7 @@ initializeApp(firebaseConfig);
     AngularFireAuth,
     DatePicker,
     PhotoViewer,
-    UtilsProvider,
+    UtilsProvider,HttpModule,
     Keyboard,
     UniqueDeviceID,
     Geolocation,

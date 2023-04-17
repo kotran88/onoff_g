@@ -11,6 +11,7 @@ import { GongjiPage } from '../gongji/gongji';
 import { AccountPage } from '../account/account';
 import { HistoryPage } from '../history/history';
 import { UtilsProvider } from '../../providers/utils/utils';
+import { SignupPage } from '../signup/signup';
 @Component({
   selector: 'page-directorpage',
   templateUrl: 'directorpage.html',
@@ -19,6 +20,7 @@ export class DirectorpagePage {
   name:any="";
   mainlist=[];
   allmainlist=[];
+  directorList=[];
   todaymoney=0;
   yeonti:any="";
   obj = [];
@@ -28,22 +30,35 @@ export class DirectorpagePage {
   orderlist=[];
   totalcount=0;
   totalprice=0;
+  paymentflag:any=false;
   currentstartday:any="";
   currentstart:any="";
   company:any;
   constructor(public util:UtilsProvider, public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
     this.name= localStorage.getItem("name");
     this.company=localStorage.getItem("company");
-
+    this.directorList=this.navParams.get("user");
+    console.log(this.directorList);
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
+
+
+    var login=localStorage.getItem("login_data");
+    console.log(login);
+    console.log(JSON.parse(login).payment);
+    this.paymentflag=JSON.parse(login).payment;
+
+
   }
   
+  gotopayment(){
+    this.navCtrl.push(SignupPage);
+  }
   gotolink(value){
     if(value == 1){
     this.navCtrl.push(ParkingPage,{flag:true});
     }else if(value==2){
-      this.navCtrl.push(InfoPage,{flag:true});
+      this.navCtrl.push(InfoPage,{flag:true,user:this.directorList});
     }else if(value==3){
       this.navCtrl.push(AttendancePage,{flag:true});
     }else if(value==4){
@@ -80,14 +95,23 @@ generating(){
   var hour = date.getHours();
   var min = date.getMinutes();
   this.firemain.child("company").child(this.company).child('roomlist').once('value').then((snap)=>{
-    console.log(snap.val().roomhistory)
-    console.log("IN!")
+    console.log(snap.val())
+    console.log("INNNN!")
     if(snap.val()!=undefined){
+      console.log(snap.val())
+      for(var cca in snap.val()){
+        console.log(snap.val()[cca])
+      }
       for(var a in snap.val()){
-
+        console.log(snap.val()[a])
         for(var b in snap.val()[a].roomhistory){
+          console.log(snap.val()[a].roomhistory[b])
           for(var c in snap.val()[a].roomhistory[b]){
-            if(snap.val()[a].roomhistory[b][c].orderlist!=undefined){
+            console.log(snap.val()[a].roomhistory[b][c])
+            if(snap.val()[a].roomhistory[b][c].bu!=this.name){
+              break;
+            }
+
               if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){
                 console.log(snap.val()[a].roomhistory[b][c].incharge);
                 console.log(this.name);
@@ -126,19 +150,24 @@ generating(){
                 var orderprice=0;
                 var tp=0;
                 var tbottle=0;
-                for(var d in snap.val()[a].roomhistory[b][c].orderlist.orderlist){
-                  if(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].category=="주류"){
-                    tbottle+=Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num);
+                if(snap.val()[a].roomhistory[b][c].orderlist==undefined){
+
+                }else{
+                  for(var d in snap.val()[a].roomhistory[b][c].orderlist.orderlist){
+                    if(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].category=="주류"){
+                      tbottle+=Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num);
+                    }
+                    orderprice+= (Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price) );
+                    console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d]);
+                    orderl.push(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d])
+                    console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price);
+                    console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num)
+                    tp += snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price.replace(",","")* snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num;
+                    console.log(snap.val()[a].roomhistory[b][c].orderlist);
+                    console.log(snap.val()[a].roomhistory[b][c].orderlist.orderDate);
                   }
-                  orderprice+= (Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price) );
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d]);
-                  orderl.push(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d])
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price);
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num)
-                  tp += snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price.replace(",","")* snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num;
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist);
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist.orderDate);
                 }
+                
                 console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
                 var firstsumofv=0;
                 var totalsum=0;
@@ -187,17 +216,29 @@ generating(){
                   console.log(totalmoney);
                   this.todaymoney += tp+totalmoney+Number(yeonti*10000);
                   console.log(this.todaymoney);
-                  this.orderlist.push({"numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].orderlist.wt,"date":snap.val()[a].roomhistory[b][c].orderlist.orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":orderl});
+
+                  var orderdate="";
+                  var roomno="";
+                  if(snap.val()[a].roomhistory[b][c].orderlist!=undefined){
+                    orderdate = snap.val()[a].roomhistory[b][c].orderlist.orderDate
+                    roomno=snap.val()[a].roomhistory[b][c].orderlist.roomno;
+                  }else{
+                    orderdate = "-"
+                    roomno="-"
+                  }
+
+                  this.orderlist.push({"numofpeople":numofpeople,"incharge":snap.val()[a].roomhistory[b][c].incharge,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].orderlist.wt,"date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
               }
                 
               }
              
               
-            }
            
           }
         }
       }
+    }else{
+      console.log(snap.val())
     }
     for(var cc in this.orderlist){
       console.log(this.orderlist[cc].value);

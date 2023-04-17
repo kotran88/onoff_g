@@ -6,6 +6,7 @@ import { LoginpagePage } from '../loginpage/loginpage';
 
 import { MenuController } from 'ionic-angular';
 import { UtilsProvider } from '../../providers/utils/utils';
+import { SignupPage } from '../signup/signup';
 /**
  * Generated class for the AccountPage page.
  *
@@ -39,6 +40,7 @@ export class AccountPage {
   login_data:any = {};
   company:any="";
   tomoney:any=0;
+  cumulative:any=0;
   option_title_ch = 0; // 0 팀, 1 담당자, 2 달력
   option_title = ["팀을 선택해주세요.", "담당자를 선택해주세요."];
 
@@ -53,6 +55,7 @@ export class AccountPage {
   currentMonth:number = 0; // 현재 월
   currentDate:number = 0; // 현재 일
 
+  paymentflag:any=false;
   firstflag=false;
   constructor(public util:UtilsProvider, public menuCtrl:MenuController,public view:ViewController,public modal:ModalController,public navCtrl: NavController, public navParams: NavParams) {
     this.name = localStorage.getItem("name");
@@ -64,8 +67,16 @@ export class AccountPage {
 
     this.goToday();
 
+    var login=localStorage.getItem("login_data");
+    console.log(login);
+    console.log(JSON.parse(login).payment);
+    this.paymentflag=JSON.parse(login).payment;
 
 
+  }
+
+  gotopayment(){
+    this.navCtrl.push(SignupPage);
   }
   confirm(){
     console.log(this.currentYear);
@@ -79,8 +90,9 @@ export class AccountPage {
     modal.onDidDismiss(url => {
       console.log("dismiss second!");
 
-
-      this.generatedata(this.selectedName.id);
+      var newdate = this.currentYear+"-"+this.currentMonth+"-"+this.selectedDate;
+      console.log(newdate);
+      this.generatedata(this.selectedName.id,newdate);
       
     });
 
@@ -111,7 +123,7 @@ export class AccountPage {
     var newdate = this.currentYear+"-"+this.currentMonth+"-"+this.selectedDate;
     console.log(newdate);
     console.log(this.currentstartday)
-    this.generatedata(bujangid);
+    this.generatedata(bujangid,newdate);
 
 
     //refreshing date by above info 
@@ -181,15 +193,19 @@ export class AccountPage {
     console.log(name);
     console.log("name was..");
     console.log(name.name);
-    this.generatedata(bujangid);
+    var newdate = this.currentYear+"-"+this.currentMonth+"-"+this.selectedDate;
+    console.log(newdate);
+    this.generatedata(bujangid,newdate);
   }
   checkEvent(day){
     return false;
   }
-  generatedata(bujangid){
+  generatedata(bujangid,nd){
     this.accountmessage=[];
     this.detailarray=[];
     this.orderlist=[];
+    this.tomoney=0;
+    this.todaymoney=0;
     var newdate = this.currentYear+"-"+this.currentMonth+"-"+this.selectedDate;
     this.firemain.child("users").child(bujangid).once('value').then((snap)=>{
       console.log(snap.val());
@@ -198,13 +214,13 @@ export class AccountPage {
       console.log(this.currentstartday);
       if(snap.val().accounting==undefined){
       }else{
-        console.log(snap.val().accounting[this.currentstartday]);
+        console.log(snap.val().accounting[nd]);
       this.todaymoney=0;
       for(var a in snap.val().accounting){
         console.log(a);
         console.log(this.currentstartday);
         console.log("mkmkmk")
-        if(a==this.currentstartday){
+        if(a==nd){
           for(var c in snap.val().accounting[a]){
             console.log(c);
             console.log(snap.val().accounting[a][c]);
@@ -217,9 +233,10 @@ export class AccountPage {
         }
         for(var c in snap.val().accounting[a]){
           console.log(snap.val().accounting[a][c])
+          console.log(nd);
           console.log(this.selectedDate)
           console.log(this.currentYear+"-"+Number(this.currentMonth)+"-"+this.selectedDate)
-          if(snap.val().accounting[a][c].year==this.currentYear+"-"+Number(this.currentMonth)+"-"+this.selectedDate){
+          if(snap.val().accounting[a][c].year==nd){
             this.accountmessage.push({"time":snap.val().accounting[a][c].time,"card":Number(snap.val().accounting[a][c].card),"cash":Number(snap.val().accounting[a][c].cash),"date":a,"name":snap.val().accounting[a][c].name});
 
           }
@@ -305,7 +322,7 @@ export class AccountPage {
           for(var b in snap.val()[a].roomhistory){
             for(var c in snap.val()[a].roomhistory[b]){
               if(snap.val()[a].roomhistory[b][c].orderlist!=undefined){
-                if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){
+                if(snap.val()[a].roomhistory[b][c].date==nd){
                   console.log(snap.val()[a].roomhistory[b][c].incharge);
                   console.log(this.name);
                   if(snap.val()[a].roomhistory[b][c].incharge.trim()==this.selectedName.name.trim()){
@@ -391,7 +408,6 @@ export class AccountPage {
         totalmoney+=Number(this.orderlist[c].money)+Number(this.orderlist[c].tp);
       }
       console.log(totalmoney)
-      totalmoney=totalmoney;
       this.tomoney = totalmoney;
     });
   }
@@ -402,6 +418,7 @@ export class AccountPage {
   }
 
   getDaysOfMonth() {
+    console.log("getDaysofMonth...")
     this.daysInThisMonth = [];
     this.daysInLastMonth = [];
     this.daysInNextMonth = [];
@@ -414,7 +431,6 @@ export class AccountPage {
       this.currentDate = 999;
     }
     this.selectedDate = this.currentstartday.split("-")[2];
-    window.alert(this.selectedDate);
     var firstDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
     var prevNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth(), 0).getDate();
     for(var i = prevNumOfDays-(firstDayThisMonth-1); i <= prevNumOfDays; i++) {

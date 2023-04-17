@@ -85,18 +85,6 @@
   <div  class="ion-label-area">
     <div class="area" id="ion-label-area-1">
       <div class="selecting">
-        <!-- <ion-select style="    float: left;
-        color: black;
-        height: 50px;
-        border: solid 1px;
-    font-size: 9px;
-        width: 70px;
-    margin-left: 80px;
-        line-height: 25px;
-    " [(ngModel)]="selected" >
-          <ion-option  value="1">아가씨</ion-option>
-          <ion-option  value="2">팀명</ion-option>
-        </ion-select> -->
 
         <ion-list style="  
         margin-left: 50px;  width: 80px;
@@ -131,7 +119,9 @@
 
 
 
-      <div class="room-current">
+      <div style="
+      height: 68%;
+      overflow-y: scroll;" class="room-current">
         <div class="title-div">
           <ion-icon class="square" name="square"></ion-icon>
           <span style="color:black;" class="text">오늘의 출근 현황</span>
@@ -188,12 +178,13 @@
         </div>
       </div>
 
-      <div class="room-current">
+      <div style="    height: 10%;
+      position: fixed;
+      bottom: 8%;
+      width: 95%;" class="room-current">
 
         <div style="
-        position: fixed;
-        bottom: 10%;
-        width: 95%;
+       
     " class="chart-div">
     <!-- <div class="name-keys">
       <span style="width:50%;">총 아가씨 수</span>
@@ -203,10 +194,14 @@
             <span style="width:50%;">총 출근</span>
             <span style="width:50%;">{{totalin}}명 </span>
           </div>
+
           <div class="datas">
-            <span style="width:50%;">총 퇴근  </span>
-            <span style="width:50%;">{{totalout}}명 </span>
-           
+            <span style="width:50%;">현재 방에 들어간 아가씨  </span>
+            <span style="width:50%;">{{numberofIn}}명 </span>
+          </div>
+          <div class="datas">
+            <span style="width:50%;">현재 대기중인 아가씨  </span>
+            <span style="width:50%;">{{numofstandby}}명 </span>
           </div>
         </div>
       </div>
@@ -469,8 +464,8 @@
 
 
 
-<ion-fab *ngIf="activeclass==1" bottom right >
-  <!-- <button (click)="attending();" ion-fab mini><ion-icon name="add"></ion-icon></button> -->
+<ion-fab style="    bottom: 105px;" *ngIf="activeclass==1" bottom right >
+  <button (click)="attending();" ion-fab mini><ion-icon name="add"></ion-icon></button>
 </ion-fab>
 
   </div>

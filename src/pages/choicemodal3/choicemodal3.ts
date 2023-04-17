@@ -31,16 +31,27 @@ export class Choicemodal3Page {
   text:any="";
   text2:any="";
   text3:any="";
+  name:any="";
   text4:any="";
   text5:any="";
   currentstartday:any="";
   text6:any="";
   text7:any="";
   text8:any="";
+
+  writer:any="";
+  writer2:any="";
+  writer3:any="";
+  writer4:any="";
+  writer5:any="";
+  writer6:any="";
+  writer7:any="";
+  writer8:any="";
+  writer9:any="";
   text9:any="";
   firemain = firebase.database().ref();
   constructor(public modal:ModalController,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
-    
+    this.name = localStorage.getItem("name");
     this.company = localStorage.getItem("company");
     this.currentstartday=localStorage.getItem("startDate");
   }
@@ -87,7 +98,34 @@ export class Choicemodal3Page {
     
   }
   confirm(){
-
+    console.log("출근부 출근 처리 시작")
+    if(this.writer.length==0){
+      this.writer=this.name;
+    }
+    if(this.writer2.length==0){
+      this.writer2=this.name;
+    }
+    if(this.writer3.length==0){
+      this.writer3=this.name;
+    }
+    if(this.writer4.length==0){
+      this.writer4=this.name;
+    }
+    if(this.writer5.length==0){
+      this.writer5=this.name;
+    }
+    if(this.writer6.length==0){
+      this.writer6=this.name;
+    }
+    if(this.writer7.length==0){
+      this.writer7=this.name;
+    }
+    if(this.writer8.length==0){
+      this.writer8=this.name;
+    }
+    if(this.writer9.length==0){
+      this.writer9=this.name;
+    }
     var date = new Date();
     var year=date.getFullYear();
     var month=date.getMonth()+1;
@@ -98,33 +136,33 @@ export class Choicemodal3Page {
     if(this.text.length>=2){
       console.log("agasilist input text");
     this.agasilist.push({  "name":this.text,
-    "date": year+"-"+month+"-"+day +" "+hour+":"+min})
+    "date": year+"-"+month+"-"+day +" "+hour+":"+min ,"writer":this.writer})
     }
     if(this.text2.length>=2){
       
       console.log("agasilist input text2");
     this.agasilist.push({ "name":this.text2,
-    "date":  year+"-"+month+"-"+day +" "+hour+":"+min})
+    "date":  year+"-"+month+"-"+day +" "+hour+":"+min,"writer":this.writer2})
     }
     if(this.text3.length>=2){
       
     this.agasilist.push({ "name":this.text3,
-    "date":  year+"-"+month+"-"+day +" "+hour+":"+min})
+    "date":  year+"-"+month+"-"+day +" "+hour+":"+min,"writer":this.writer3})
     }
     if(this.text4.length>=2){
       
     this.agasilist.push({ "name":this.text4,
-    "date": this.currentstartday +" "+hour+":"+min})
+    "date": this.currentstartday +" "+hour+":"+min,"writer":this.writer4})
     }
     if(this.text5.length>=2){
       
     this.agasilist.push({ "name":this.text5,
-    "date": this.currentstartday +" "+hour+":"+min})
+    "date": this.currentstartday +" "+hour+":"+min,"writer":this.writer5})
     }
     if(this.text6.length>=2){
       
     this.agasilist.push({ "name":this.text6,
-    "date": this.currentstartday +" "+hour+":"+min})
+    "date": this.currentstartday +" "+hour+":"+min,"writer":this.writer6})
     }
 
 
@@ -133,17 +171,17 @@ export class Choicemodal3Page {
     if(this.text7.length>=2){
       
       this.agasilist.push({ "name":this.text7,
-      "date": this.currentstartday +" "+hour+":"+min})
+      "date": this.currentstartday +" "+hour+":"+min,"writer":this.writer7})
       }
       if(this.text8.length>=2){
         
       this.agasilist.push({ "name":this.text8,
-      "date": this.currentstartday +" "+hour+":"+min})
+      "date": this.currentstartday +" "+hour+":"+min,"writer":this.writer8})
       }
       if(this.text9.length>=2){
         
       this.agasilist.push({ "name":this.text9,
-      "date": this.currentstartday +" "+hour+":"+min})
+      "date": this.currentstartday +" "+hour+":"+min,"writer":this.writer9})
       }
     
     
@@ -185,6 +223,7 @@ export class Choicemodal3Page {
         var min = date.getMinutes();
                 this.firemain.child("users").child(snap.val()[b].id).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
                 this.firemain.child("users").child(snap.val()[b].id).child("attendance").child(this.currentstartday).child("attend").update({"team":snap.val()[b].jopan,"name":snap.val()[b].name,"date":this.currentstartday,"flag":"attend","time":hour+":"+min})
+                this.firemain.child("users").child(snap.val()[b].id).update({"jopan":snap.val()[b].jopan,"name":this.agasilist[a].name,type:"agasi",writer:this.agasilist[a].writer,status:false,id:snap.val()[b].id,company:this.company})
                 this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[a].name).child("attend").update({ "team":snap.val()[b].jopan,"name":this.agasilist[a].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
      
                 console.log("snap.val()[b].name : "+snap.val()[b].name);
@@ -238,7 +277,6 @@ export class Choicemodal3Page {
   
   
           console.log("modal open");
-  
           let modal = this.modal.create(Choicemodal2Page,{"agasi":this.agasilist,"subscribedList":this.subscribedList,"room":"100","currentstartday":this.currentstartday,"hour":hour,"min":min});
           modal.onDidDismiss(url => {
             console.log(url);
@@ -270,7 +308,7 @@ export class Choicemodal3Page {
     });
   }
   cancel(){
-    this.view.dismiss();
+    this.view.dismiss({"result":"cancel"});
   }
 
 }

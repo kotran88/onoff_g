@@ -12,6 +12,7 @@ import { ChoicePage } from '../choice/choice';
 import { GongjiPage } from '../gongji/gongji';
 import { AccountPage } from '../account/account';
 import { UtilsProvider } from '../../providers/utils/utils';
+import { SignupPage } from '../signup/signup';
 @Component({
   selector: 'page-wt',
   templateUrl: 'wt.html',
@@ -32,14 +33,31 @@ export class WtPage {
   currentstartday:any="";
   currentstart:any="";
   company:any;
+  id:any="";
+  code:any="";
+  paymentflag:any=false;
   constructor(public util:UtilsProvider, public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
     this.name= localStorage.getItem("name");
     this.company=localStorage.getItem("company");
 
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
+    var login=localStorage.getItem("login_data");
+
+    var login=localStorage.getItem("login_data");
+    // this.code = JSON.parse(login).code;
+    console.log(login);
+
+    this.id = JSON.parse(login).id;
+    this.code = JSON.parse(login).young;
+
+    console.log(login);
+    console.log(JSON.parse(login).payment);
+    this.paymentflag=JSON.parse(login).payment;
   }
-  
+  gotopayment(){
+    this.navCtrl.push(SignupPage);
+  }
   gotolink(value){
     if(value == 0){
       this.navCtrl.push(OrdermainPage,{flag:true}).then(() => {
@@ -55,7 +73,14 @@ export class WtPage {
     }else if(value==3){
       this.navCtrl.push(AttendancePage,{flag:true});
     }else if(value==4){
-      this.navCtrl.push(ChoicePage,{flag:true});
+      this.navCtrl.push(ChoicePage,{flag:true}).then(() => {
+        console.log("choice back")
+        this.navCtrl.getActive().onDidDismiss(data => {
+          console.log("off...")
+      this.firemain.child("company").child(this.company).child("roomlist").off();
+          // this.generate();
+        })
+      });
     }else if(value==5){
       this.navCtrl.push(GongjiPage,{flag:true});
     }else if(value==6){
@@ -80,13 +105,18 @@ generate(){
   this.mainlist=[];
   this.todaymoney=0;
   this.firemain.child("company").child(this.company).child('roomlist').once('value').then((snap)=>{
+    console.log(snap.val());
     if(snap.val()!=undefined){
       for(var a in snap.val()){
-
+        console.log(snap.val()[a]);
         for(var b in snap.val()[a].roomhistory){
           for(var c in snap.val()[a].roomhistory[b]){
-            if(snap.val()[a].roomhistory[b][c].orderlist!=undefined){
               if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){
+                console.log(snap.val()[a].roomhistory[b][c]);
+                if(snap.val()[a].roomhistory[b][c].wt!=this.name){
+                  console.log("wt name diff");
+                  break;
+                }
                 console.log(snap.val()[a].roomhistory[b][c]);
                 var mainlist=snap.val()[a].roomhistory[b][c];
 
@@ -94,6 +124,7 @@ generate(){
 
                 console.log(mainlist);
         for(var d in mainlist.agasi){
+          console.log(mainlist.agasi[d]);
             if(mainlist.agasi[d].findate!=undefined){
   
             }else{
@@ -125,22 +156,27 @@ generate(){
       console.log(numofpeople+"newtc"+newtc);
       //어떤 아가씨가 술병수보다 완티가 많거나 같거나 하면. 그 아가씨는 제외하고, 손님수도 그아가씨 수만큼 제외하고
       // 나머지 완티의 갯수를 고려해서 계산. 
-                
-                console.log(snap.val()[a].roomhistory[b][c].orderlist);
-                console.log(snap.val()[a].roomhistory[b][c].orderlist.roomno);
-                var orderl=[];
-                var orderprice=0;
-                var tp=0;
-                var tbottle=0;
-                for(var d in snap.val()[a].roomhistory[b][c].orderlist.orderlist){
+      console.log(snap.val()[a].roomhistory[b][c].orderlist);
+      var orderl=[];
+      var orderprice=0;
+      var tp=0;
+      var tbottle=0;
+      
 
-                  if(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].category=="주류"){
-                    tbottle+=Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num);
+                if(snap.val()[a].roomhistory[b][c].orderlist==undefined){
+
+                }else{
+                  for(var d in snap.val()[a].roomhistory[b][c].orderlist.orderlist){
+
+                    if(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].category=="주류"){
+                      tbottle+=Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num);
+                    }
+                    orderprice+= (Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price) );
+                    orderl.push(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d])
+                    tp += snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price.replace(",","")* snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num;
                   }
-                  orderprice+= (Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price) );
-                  orderl.push(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d])
-                  tp += snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price.replace(",","")* snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num;
                 }
+               
                
                 console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
                 var firstsumofv=0;
@@ -210,11 +246,20 @@ generate(){
                   console.log(totalmoney);
                   this.todaymoney += tp+totalmoney+Number(yeonti*10000);
                   console.log(this.todaymoney);
-                  this.orderlist.push({"inagasi":inagasi, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"date":snap.val()[a].roomhistory[b][c].orderlist.orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":orderl});
+                  var orderdate="";
+                  var roomno="";
+                  if(snap.val()[a].roomhistory[b][c].orderlist!=undefined){
+                    orderdate = snap.val()[a].roomhistory[b][c].orderlist.orderDate
+                    roomno=snap.val()[a].roomhistory[b][c].orderlist.roomno;
+                  }else{
+                    orderdate = "-"
+                    roomno="-"
+                  }
+                  this.orderlist.push({"inagasi":inagasi, "incharge":snap.val()[a].roomhistory[b][c].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
               }
              
               
-            }
+            
            
           }
         }
@@ -258,11 +303,11 @@ ionViewDidLeave(){
   clearInterval(this.interval)
 }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DirectorpagePage');
+    console.log('ionViewDidLoad wt page');
 
     this.generate();
     this.interval = setInterval(()=>{
-
+      console.log("setinterval...")
       this.generate();
     },1000*60)
 

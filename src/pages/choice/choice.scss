@@ -19,6 +19,9 @@ page-choice {
         padding:0px !important;
         margin-top:0px !important;
     }
+    .sm{
+      font-size: 13px;
+    }
     .jimyung{
       background: #fdd734;
       height: 30px;
@@ -63,7 +66,8 @@ page-choice {
       display: flex;
       padding: 10px;
 
-      height: 65px;
+      padding-left: 0px;
+      height: 45px;
     border-radius: 5px;
     border: solid 3px black;
     }
@@ -83,7 +87,7 @@ page-choice {
       font-size: 16px;
     }
     .it{
-      height: 80px;
+      height: 55px;
       border:solid 1px;
       margin-top:0px; 
       margin-bottom:0px;
@@ -93,6 +97,13 @@ page-choice {
       height: 100%;
       width: 20%;
       line-height: 50px;
+    }
+    .standbynumber{
+      font-size: 25px;
+    font-weight: 900;
+    margin-left: 109px;
+    float: left;
+    margin-top: 15px;
     }
     .contentmain{
       float: left;
@@ -110,12 +121,16 @@ page-choice {
       vertical-align: middle;
       display: grid;
       p{
+        font-size: 11px;
         line-height: 5px;
         height: 36px;
         margin: 0px;
         display: table-cell;
         vertical-align: middle;
         padding: 10px;
+
+
+    padding-left: 0px;
       }
     }
     .header-parking {
@@ -334,6 +349,7 @@ page-choice {
     }
     .logo{
         width:50px;
+        margin-left:-30px;
     }
     .header-parking-hr{
 

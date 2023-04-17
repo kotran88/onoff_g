@@ -17,9 +17,9 @@ page-choicedetail {
 
   }
   .messagessss{
-    display: grid;
     overflow-y: scroll;
     width: 100%;
+    height: 250px;
   }
   .c{
     float: right;
@@ -28,6 +28,19 @@ page-choicedetail {
   .scroll-content{
 
     overflow-y: hidden !important;
+  }
+  .memo{
+    
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 900;
+
+    position: absolute;
+    bottom: -7%;
+    color: red;
+    padding: 10px;
+    padding-bottom: 0px;
   }
   .mainlistloop{
     height: 100%;

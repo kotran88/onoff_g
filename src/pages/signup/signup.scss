@@ -26,6 +26,19 @@ page-signup {
     border-radius: 10px;
     margin: 10px;
   }
+  .footer{
+    position: fixed;
+    width: 100%;
+    height: 100px;
+    background: gray;
+    bottom: 0;
+    margin: auto;
+    display: block;
+    padding: 5px;
+    p{
+      margin:0px !important;
+    }
+  }
   .input-title2{
 
     margin: 0;
@@ -33,7 +46,7 @@ page-signup {
     /* float: left; */
     /* width: 18%; */
     /* text-align: center; */
-    color:white;
+    color:black;
     padding-top: 3%;
     margin-left: 2%;
   }

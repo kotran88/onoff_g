@@ -2,6 +2,7 @@ import { Component ,ViewChild,Renderer2} from '@angular/core';
 import { IonicPage,ViewController,LoadingController,AlertController,ModalController, NavController, NavParams } from 'ionic-angular';
 import  firebase from 'firebase';
 import { Choicemodal2Page } from '../choicemodal2/choicemodal2';
+import { UtilsProvider } from '../../providers/utils/utils';
 /**
  * Generated class for the ChoicemodalPage page.
  *
@@ -56,7 +57,6 @@ export class ChoicemodalPage {
   condition19:any=false;
   condition20:any=false;
   a:any;
-  lloading:any;
   firemain = firebase.database().ref();
   company:any = "";
   agasilist=[];
@@ -136,7 +136,7 @@ export class ChoicemodalPage {
   subscribedList=[];
   currentstartday:any="";
   currentstart:any="";
-  constructor(public alertController:AlertController,public renderer:Renderer2,public modal:ModalController,public loading:LoadingController,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public util:UtilsProvider, public alertController:AlertController,public renderer:Renderer2,public modal:ModalController,public loading:LoadingController,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     this.company = localStorage.getItem("company");
     this.name = localStorage.getItem("name");
     
@@ -461,10 +461,8 @@ export class ChoicemodalPage {
     this.view.dismiss();
   }
   confirm(){
-    this.lloading = this.loading.create({
-      content: '저장중...'
-    });
-    this.lloading.present();
+    this.util.presentLoading();
+
     console.log(this.checkbox);
     console.log(this.checkbox2);
     console.log(this.checkbox3);
@@ -513,6 +511,8 @@ export class ChoicemodalPage {
     }
     console.log("confirm");
     console.log(this.a);
+    console.log(this.agasilist)
+    this.agasilist=[];
     if(this.text.length>=2){
       console.log("agasilist input text");
     this.agasilist.push({  "name":this.text,"writer":this.writer,"angel":this.checkbox,
@@ -526,123 +526,156 @@ export class ChoicemodalPage {
     }
     if(this.text3.length>=2){
       
+      console.log("agasilist input text3");
     this.agasilist.push({ "name":this.text3,"writer":this.writer3,"angel":this.checkbox3,
     "date":  year+"-"+month+"-"+day +" "+hour+":"+min})
     }
     if(this.text4.length>=2){
       
+      console.log("agasilist input text4");
     this.agasilist.push({ "name":this.text4,"writer":this.writer4,"angel":this.checkbox4,
     "date": this.currentstartday +" "+hour+":"+min})
     }
     if(this.text5.length>=2){
       
+      console.log("agasilist input text5");
     this.agasilist.push({ "name":this.text5,"writer":this.writer5,"angel":this.checkbox5,
     "date": this.currentstartday +" "+hour+":"+min})
     }
     if(this.text6.length>=2){
       
+      console.log("agasilist input text6");
     this.agasilist.push({ "name":this.text6,"writer":this.writer6,"angel":this.checkbox6,
     "date": this.currentstartday +" "+hour+":"+min})
     }
     if(this.text7.length>=2){
       
+      console.log("agasilist input text7");
       this.agasilist.push({ "name":this.text7,"writer":this.writer7,"angel":this.checkbox7,
       "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text8.length>=2){
         
+      console.log("agasilist input text8");
       this.agasilist.push({ "name":this.text8,"writer":this.writer8,"angel":this.checkbox8,
       "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text9.length>=2){
         
+      console.log("agasilist input text9");
       this.agasilist.push({ "name":this.text9, "writer":this.writer9,"angel":this.checkbox9,
       "date": this.currentstartday +" "+hour+":"+min})
       }
 
       if(this.text10.length>=2){
         
+      console.log("agasilist input text10");
         this.agasilist.push({ "name":this.text10, "writer":this.writer10,"angel":this.checkbox10,
         "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text11.length>=2){
+        console.log("agasilist input text11");
         this.agasilist.push({ "name":this.text11, "writer":this.writer11,"angel":this.checkbox11,
         "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text12.length>=2){
+        console.log("agasilist input text12");
         this.agasilist.push({ "name":this.text12, "writer":this.writer12,"angel":this.checkbox12,
         "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text13.length>=2){
+        console.log("agasilist input text13");
         this.agasilist.push({ "name":this.text13, "writer":this.writer13,"angel":this.checkbox13,
         "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text14.length>=2){
+        console.log("agasilist input text14");
         this.agasilist.push({ "name":this.text14, "writer":this.writer14,"angel":this.checkbox14,
         "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text15.length>=2){
+        console.log("agasilist input text15");
         this.agasilist.push({ "name":this.text15, "writer":this.writer15,"angel":this.checkbox15,
         "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text16.length>=2){
+        console.log("agasilist input text16");
         this.agasilist.push({ "name":this.text16, "writer":this.writer16,"angel":this.checkbox16,
         "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text17.length>=2){
+        console.log("agasilist input text17");
         this.agasilist.push({ "name":this.text17, "writer":this.writer17,"angel":this.checkbox17,
         "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text18.length>=2){
+        console.log("agasilist input text18");
         this.agasilist.push({ "name":this.text18, "writer":this.writer18,"angel":this.checkbox18,
         "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text19.length>=2){
+        console.log("agasilist input text19");
         this.agasilist.push({ "name":this.text19, "writer":this.writer19,"angel":this.checkbox19,
         "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text20.length>=2){
+        console.log("agasilist input text20");
         this.agasilist.push({ "name":this.text20, "writer":this.writer20,"angel":this.checkbox20,
         "date": this.currentstartday +" "+hour+":"+min})
       }
       if(this.text21.length>=2){
+        console.log("agasilist input text21");
         this.agasilist.push({ "name":this.text21, "writer":this.writer21,"angel":this.checkbox21,
         "date": this.currentstartday +" "+hour+":"+min})
       }
+      var angelcount=0;
       
       console.log(this.agasilist);
-      console.log(this.agasilist.length);
+      console.log(this.a.numofpeople)
+      for(var abe in this.agasilist){
+        console.log(this.agasilist[abe]);
+        if(this.agasilist[abe].angel==true){
+          angelcount++;
+        }
+      }
 
-      var a = this.alertController.create({
-        message: this.agasilist[this.agasilist.length-1].name+"를 날개로 지정하시겠습니까?",
-        buttons: [
-         
-          {
-            text: '아니요.',
-            handler: () => {
-              console.log('Let me think');
-              console.log(this.agasilist);
-        if(this.lloading!=undefined){
-          this.lloading.dismiss()
-        }
+      console.log(this.a.numofpeople)
+
+      console.log(this.agasilist.length);
+      console.log(angelcount);
+      if(this.a.numofpeople<this.agasilist.length-angelcount){
+        var a = this.alertController.create({
+          message: this.agasilist[this.agasilist.length-1].name+"를 날개로 지정하시겠습니까?",
+          buttons: [
+           
+            {
+              text: '아니요.',
+              handler: () => {
+                console.log('Let me think');
+                console.log(this.agasilist);
+          this.util.dismissLoading();
+
+
+              }
+            },
+            {
+              text: '네',
+              handler: () => {
+                console.log('Whatever');
+                this.agasilist[this.agasilist.length-1].angel=true;
+                console.log(this.agasilist);
+                this.regagasi();
+                //날개 지정하면서 기존 등록 프로세스 시작 
+                this.util.dismissLoading();
+              }
             }
-          },
-          {
-            text: '네',
-            handler: () => {
-              console.log('Whatever');
-              this.agasilist[this.agasilist.length-1].angel=true;
-              console.log(this.agasilist);
-              this.regagasi();
-              //날개 지정하면서 기존 등록 프로세스 시작 
-        if(this.lloading!=undefined){
-          this.lloading.dismiss()
-        }
-            }
-          }
-        ]
-      });
-      a.present();
+          ]
+        });
+        a.present();
+      }else{
+        this.regagasi();
+      }
+     
 
   console.log("agasilist to put in company node");
    }
@@ -719,13 +752,9 @@ export class ChoicemodalPage {
                     window.alert(""+currentflag.room+"번 방에 "+currentflag.enter_date.split("T")[1].split(":")[0]+"시"+currentflag.enter_date.split("T")[1].split(":")[1]+"분에 입장하여, 추가할수없습니다.");
                     this.view.dismiss();
 
-        if(this.lloading!=undefined){
-          this.lloading.dismiss()
-        }
 
                     return;
                 }
-                dte.setHours(dte.getHours()+9);
                 this.firemain.child("users").child(id).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
                 this.firemain.child("users").child(id).child("attendance").child(this.currentstartday).child("attend").update({"team":snap2.val()[b].jopan,"name":name,"date":this.currentstartday,"flag":"attend","time":hour+":"+min})
                 this.firemain.child("users").child(id).child("current").update({"room":this.a.name,"enter_date":dte})
@@ -795,6 +824,8 @@ export class ChoicemodalPage {
         }
 
       });
+      this.util.dismissLoading();
+
     });
 
 

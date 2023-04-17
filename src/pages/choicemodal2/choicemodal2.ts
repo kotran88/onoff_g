@@ -40,10 +40,11 @@ export class Choicemodal2Page {
     var aaa=this.navParams.get("agasi");
     console.log(aaa);
     console.log(this.agasilist);
+    var name = localStorage.getItem("name");
     this.flag = this.navParams.get("flag");
     if(this.flag=="attend"){
       this.agasilist=[];
-    this.agasilist.push({"name":aaa.name})
+    this.agasilist.push({"name":aaa.name,"writer":name})
     }else{
       this.agasilist=this.navParams.get("agasi");
     }
@@ -66,7 +67,7 @@ export class Choicemodal2Page {
   }
   confirm(){
     this.lloading = this.loading.create({
-      content: '저장중...'
+      content: '메이드중.....'
     });
     this.lloading.present();
     console.log(this.agasilist);
@@ -127,7 +128,7 @@ export class Choicemodal2Page {
     var count=-1;
     for(var cc in this.agasilist){
       count++;
-
+    console.log(this.agasilist[cc])
     console.log("value1=" + count);
     console.log(this.agasilist[cc].name);
     console.log(this.quelist[count]);

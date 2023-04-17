@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { IonicPage, ViewController,LoadingController,ModalController,NavController, NavParams } from 'ionic-angular';
 /*
   Generated class for the UtilsProvider provider.
 
@@ -8,8 +9,8 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class UtilsProvider {
-
-  constructor() {
+  lloading:any;
+  constructor(public loading:LoadingController) {
     console.log('Hello UtilsProvider Provider');
   }
   testing(){
@@ -27,15 +28,206 @@ export class UtilsProvider {
     return str.join('.');
   }
 
+   dismissLoading() {
+    console.log("dismissLoading ");
+    console.log(this.lloading);
+    if(this.lloading!=undefined){
+      this.lloading.dismiss();
+    }
+  }
+   presentLoading() {
+    console.log("loading show");
+    this.lloading =  this.loading.create({
+      spinner: 'hide',
+      content: `<img src="assets/img/wadloading.gif" />`
+    });
+    this.lloading.present();
+    console.log(this.lloading);
+  }
+  // getMoneyFromTC(tc){
 
+  //   if(tc==0.3){
+  //     return 3;
+  //   }else if(tc==0.6){
+  //     return 6;
+  //   }else if(tc==1){
+  //     return 13;
+  //   }else if(tc==1.3){
+  //     return 16;
+  //   }else if(tc==1.6){
+  //     return 19;
+  //   }else if(tc==2){
+  //     return 26;
+  //   }else if(tc==2.3){
+  //     return 29;
+  //   }else if(tc==2.6){
+  //     return 32;
+  //   }else if(tc==3){
+  //     return 39;
+  //   }else if(tc==3.3){
+  //     return 42;
+  //   }else if(tc==3.6){
+  //     return 45;
+  //   }else if(tc==4){
+  //     return 52;
+  //   }else if(tc==4.3){
+  //     return 55;
+  //   }else if(tc==4.6){
+  //     return 58;
+  //   }else if(tc==5){
+  //     return 65;
+  //   }else if(tc==5.3){
+  //     return 68;
+  //   }else if(tc==5.6){
 
+  //     return 71;
+  //   }else if(tc==6){
+  //     return 78;
+  //   }else if(tc==6.3){
+  //     return 81;
+  //   }else if(tc==6.6){
+  //     return 84;
+  //   }else if(tc==7){
+  //     return 91;
+  //   }else if(tc==7.3){
+  //     return 94;
+  //   }else if(tc==7.6){
+  //     return 97;
+  //   }else if(tc==8){
+  //     return 104;
+  //   }else if(tc==8.3){
+  //     return 107;
+  //   }else if(tc==8.6){
+  //     return 110;
+  //   }else if(tc==9){
+  //     return 117;
+  //   }else if(tc==9.3){
+  //     return 120;
+  //   }else if(tc==9.6){
+  //     return 123;
+  //   }else if(tc==10){
+  //     return 130;
+  //   }else if(tc==10.3){
+  //     return 133;
+  //   }else if(tc==10.6){
+  //     return 136;
+  //   }else if(tc==11){
+  //     return 143;
+  //   }else if(tc==11.3){
+  //     return 146;
+  //   }else if(tc==11.6){
+  //     return 149;
+  //   }else if(tc==12){
+  //     return 156;
+  //     }
+  // }
+
+  getTCfromtc(tc){
+    var totaltc= 1000;
+    if(tc==0){
+      totaltc=0;
+    }else if(tc==0.3){
+      totaltc=0.3;
+    }else if(tc==0.6){
+      totaltc=0.6;
+    }else if(tc==1){
+      totaltc=1;
+    }else if(tc==1.1){
+      totaltc=1.4;
+    }else if(tc==1.3){
+      totaltc=1.6;
+    }else if(tc==2){
+      totaltc=2;
+    }else if(tc==2.1){
+      totaltc=2.4;
+    }else if(tc==2.3){
+      totaltc=2.6;
+    }else if(tc==3){
+      totaltc=3;
+    }else if(tc==3.1){
+      totaltc=3.4;
+    }else if(tc==3.3){
+      totaltc=3.6;
+    }else if(tc==4){
+      totaltc=4;
+    }else if(tc==4.1){
+      totaltc=4.4;
+    }else if(tc==4.3){
+      totaltc=4.6;
+    }else if(tc==5){
+      totaltc=5;
+    }else if(tc==5.1){
+      totaltc=5.4;
+    }else if(tc==5.3){
+      totaltc=5.6;
+    }else if(tc==6){
+      totaltc=6;
+    }else if(tc==6.1){
+      totaltc=6.4;
+    }else if(tc==6.3){
+      totaltc=6.6;
+    }else if(tc==7){
+      totaltc=7;
+    }else if(tc==7.1){
+      totaltc=7.4;
+    }else if(tc==7.3){
+      totaltc=7.6;
+    }else if(tc==8){
+      totaltc=8;
+    }else if(tc==8.1){
+      totaltc=8.4;
+    }else if(tc==8.3){
+      totaltc=8.6;
+    }else if(tc==9){
+      totaltc=9;
+    }else if(tc==9.1){
+      totaltc=9.4;
+    }else if(tc==9.3){
+      totaltc=9.6;
+    }else if(tc==10){
+      totaltc=10;
+    }else if(tc==10.1){
+      totaltc=10.4;
+    }else if(tc==10.3){
+      totaltc=10.6;
+    }else if(tc==11){
+      totaltc=11;
+    }else if(tc==11.1){
+      totaltc=11.4;
+    }else if(tc==11.3){
+      totaltc=11.6;
+    }else if(tc==12){
+      totaltc=12;
+    }else if(tc==12.1){
+      totaltc=12.4;
+    }else if(tc==12.3){
+      totaltc=12.6;
+    }else if(tc==13){
+      totaltc=13;
+    }else if(tc==13.1){
+      totaltc=13.4;
+    }else if(tc==13.3){
+      totaltc=13.6;
+    }else if(tc==14){
+      totaltc=14;
+    }else if(tc==14.1){
+      totaltc=14.4;
+    }else if(tc==14.3){
+      totaltc=14.6;
+    }else if(tc==15){
+      totaltc=15;
+    }else{
+      totaltc=1000;
+    }
+    return totaltc
+  }
   getTC(startdate,pauseTime){
     if(pauseTime==undefined){
       pauseTime=0;
     }
-    console.log(pauseTime);
     console.log("GETTC");
     console.log(startdate);
+    console.log(pauseTime);
     var date = new Date();
     var year=date.getFullYear();
     var month=date.getMonth()+1;
@@ -86,12 +278,15 @@ var cha3=0;
       chasam=13;
       cha3=3;
     }else if(diffMin>=61&&diffMin<=80){
-      tctotal = 1.3;
       bantee=0;
       cha3=3;
       if(diffMin>=61&&diffMin<=66){
+
+      tctotal = 1.1;
         chasam=14;
       }else if(diffMin>=67&&diffMin<=80){
+
+      tctotal = 1.3;
         chasam=16;
       }
     }else if(diffMin>=81&&diffMin<=100){
@@ -104,11 +299,13 @@ var cha3=0;
       bantee=0;
       chasam=26;
     }else if(diffMin>=121&&diffMin<=140){
-      tctotal = 2.3;
       bantee=0;
       if(diffMin>=121&&diffMin<=126){
+        tctotal = 2.1;
         chasam=27;
       }else if(diffMin>=126&&diffMin<=140){
+
+      tctotal = 2.3;
         chasam=29;
       }
     }else if(diffMin>=141&&diffMin<=160){
@@ -120,11 +317,12 @@ var cha3=0;
       bantee=0;
       chasam=39;
     }else if(diffMin>=181&&diffMin<=200){
-      tctotal = 3.3;
       bantee=0;
       if(diffMin>=181&&diffMin<=186){
+        tctotal = 3.1;
       chasam=40;
       }else if(diffMin>=186&&diffMin<=200){
+        tctotal = 3.3;
       chasam=42;
       }
   }else if(diffMin>=201&&diffMin<=220){
@@ -136,11 +334,12 @@ var cha3=0;
       bantee=0;
       chasam=52;
   }else if(diffMin>=241&&diffMin<=260){
-      tctotal = 4.3;
       bantee=0;
       if(diffMin>=241&&diffMin<=246){
+        tctotal = 4.1;
       chasam=53;
       }else if(diffMin>=246&&diffMin<=260){
+        tctotal = 4.3;
       chasam=55;
       }
     }else if(diffMin>=261&&diffMin<=280){
@@ -151,11 +350,12 @@ var cha3=0;
       chasam=65;
       bantee=0;
     }else if(diffMin>=301&&diffMin<=320){
-      tctotal = 5.3;
       bantee=0;
       if(diffMin>=301&&diffMin<=306){
+        tctotal = 5.1;
         chasam=66;
         }else if(diffMin>=306&&diffMin<=320){
+          tctotal = 5.3;
         chasam=68;
         }
     }else if(diffMin>=321&&diffMin<=340){
@@ -167,11 +367,12 @@ var cha3=0;
       bantee=0;
       chasam=78;
     }else if(diffMin>=361&&diffMin<=380){
-      tctotal = 6.3;
       bantee=0;
       if(diffMin>=361&&diffMin<=366){
+        tctotal = 6.1;
         chasam=69;
         }else if(diffMin>=366&&diffMin<=380){
+          tctotal = 6.3;
         chasam=81;
         }
     }else if(diffMin>=381&&diffMin<=400){
@@ -183,11 +384,12 @@ var cha3=0;
       chasam=91;
       bantee=0;
     }else if(diffMin>=421&&diffMin<=440){
-      tctotal = 7.3;
       bantee=0;
       if(diffMin>=421&&diffMin<=426){
+        tctotal = 7.1;
         chasam=92;
       }else if(diffMin>=426&&diffMin<=440){
+        tctotal = 7.3;
         chasam=94;
       }
 
@@ -200,11 +402,12 @@ var cha3=0;
       chasam = 104;
       bantee=0;
     }else if(diffMin>=481&&diffMin<=500){
-      tctotal = 8.3;
       bantee=0;
       if(diffMin>=481&&diffMin<=486){
+        tctotal = 8.1;
         chasam=105
       }else if(diffMin>=486&&diffMin<=500){
+        tctotal = 8.3;
         chasam=107
       }
     }else if(diffMin>=501&&diffMin<=520){
@@ -216,11 +419,12 @@ var cha3=0;
       chasam=117;
       bantee=0;
     }else if(diffMin>=541&&diffMin<=560){
-      tctotal = 9.3;
       bantee=0;
       if(diffMin>=541&&diffMin<=546){
+        tctotal = 9.1;
         chasam=118;
       }else if(diffMin>=546&&diffMin<=560){
+        tctotal = 9.3;
         chasam=120;
       }
 
@@ -233,11 +437,12 @@ var cha3=0;
       bantee=0;
       chasam=130;
     }else if(diffMin>=601&&diffMin<=620){
-      tctotal = 10.3;
       bantee=0;
       if(diffMin>=601&&diffMin<=606){
+        tctotal = 10.1;
         chasam=131;
       }else if(diffMin>=606&&diffMin<=620){
+        tctotal = 10.3;
         chasam=133;
       }
     }else if(diffMin>=621&&diffMin<=640){
@@ -249,11 +454,12 @@ var cha3=0;
       bantee=0;
       chasam=143;
     }else if(diffMin>=661&&diffMin<=680){
-      tctotal = 11.3;
       bantee=0;
       if(diffMin>=661&&diffMin<=666){
+        tctotal = 11.1;
         chasam=144;
       }else if(diffMin>=666&&diffMin<=680){
+        tctotal = 11.3;
         chasam=146;
       }
     }else if(diffMin>=681&&diffMin<=700){
@@ -265,11 +471,12 @@ var cha3=0;
       chasam=156;
       bantee=0;
     }else if(diffMin>=721&&diffMin<=740){
-      tctotal = 12.3;
       bantee=0;
       if(diffMin>=721&&diffMin<=726){
+        tctotal = 12.1;
         chasam=157;
       }else if(diffMin>=726&&diffMin<=740){
+        tctotal = 12.3;
         chasam=159;
       }
     }else if(diffMin>=741&&diffMin<=760){
@@ -281,11 +488,12 @@ var cha3=0;
       bantee=0;
       chasam=169;
     }else if(diffMin>=781&&diffMin<=800){
-      tctotal = 13.3;
       bantee=0;
       if(diffMin>=781&&diffMin<=786){
+        tctotal = 13.1;
         chasam=170;
       }else if(diffMin>=786&&diffMin<=800){
+        tctotal = 13.3;
         chasam=172;
       }
     }else if(diffMin>=801&&diffMin<=820){
@@ -297,11 +505,12 @@ var cha3=0;
       chasam=182;
       bantee=0;
     }else if(diffMin>=841&&diffMin<=860){
-      tctotal = 14.3;
       bantee=0;
       if(diffMin>=841&&diffMin<=846){
+        tctotal = 14.1;
         chasam=183;
       }else if(diffMin>=846&&diffMin<=860){
+        tctotal = 14.3;
         chasam=185;
       }
     }else if(diffMin>=861&&diffMin<=880){
@@ -313,11 +522,12 @@ var cha3=0;
       bantee=0;
       chasam=195;
     }else if(diffMin>=901&&diffMin<=920){
-      tctotal = 15.3;
       bantee=0;
       if(diffMin>=901&&diffMin<=906){
+        tctotal = 15.1;
         chasam=196;
       }else if(diffMin>=906&&diffMin<=920){
+        tctotal = 15.3;
         chasam=198;
       }
     }else if(diffMin>=921&&diffMin<=940){
@@ -329,11 +539,12 @@ var cha3=0;
       chasam=208;
       bantee=0;
     }else if(diffMin>=961&&diffMin<=980){
-      tctotal = 16.3;
       bantee=0;
       if(diffMin>=961&&diffMin<=966){
+        tctotal = 16.1;
         chasam=209;
       }else if(diffMin>=966&&diffMin<=980){
+        tctotal = 16.3;
         chasam=211;
       }
     }else if(diffMin>=981&&diffMin<=1000){

@@ -4,34 +4,84 @@
 
 <ion-content class="main-view" style="background: transparent;
 background-color: transparent;
-height: 20%;
+
+height: 270px;
 top: 30%;" padding>
 
   <div class="modal_content">
 
         <div class="img">
           <div style="
-          padding: 10px; width: 100%; height:70px;">
+          padding: 10px; padding-left:0px;">
+            <div class="chart-div">
+              <div class="name-keys">
             
-            <div  class="datas">
-              <span style="
-              width: 30px;"><input disabled  class="input-box"  [(ngModel)]="room" type="text"/></span>
-              <span><input   class="input-box"  [(ngModel)]="incharge" type="text"/></span>
-              <span (click)="clicking(1);" class="newspan" *ngIf="status=='reserved'" > 예약중 </span>
-              <span (click)="clicking(2);" class="newspan" *ngIf="status=='entered'" > 입실 </span>
-              <span (click)="clicking(3);" class="newspan" *ngIf="status=='clean'" > 정리중 </span>
-              <span (click)="clicking(4);" class="newspan" *ngIf="status=='fin'" > 완료 </span>
-              
-              <span (click)="clicking2(a);" class="newspan"  *ngIf="avec"> A </span>
-              <span (click)="clicking2(a);" class="newspan"  *ngIf="!avec"> - </span>
-              
-              <span><input   class="input-box" placeholder="인원"  [(ngModel)]="numofpeople" type="text"/> </span>
-              <span><input   class="input-box"  [(ngModel)]="wt" type="text"/></span>
-              <span><input   class="input-box"  [(ngModel)]="insert_date" type="text"/></span>
-              <!-- <span><input   class="input-box" placeholder="퇴실" [(ngModel)]="end_date" type="text"/> </span> -->
+                <span>룸NO</span>
+                <span>담당자</span>
+                <span>방상태</span>
+                <span>아벡</span>
+                <span>인원</span>
+              </div>
+
+
+
+              <div style="
+              width: 90%;
+              margin: auto;
+              height: 30px;
+    background: white;
+              line-height: 20px;
+              margin-top: 5px;" class="name-keys">
+                <span style="
+                width: 30px;"><input   class="input-box"  style="width:40px !important;" [(ngModel)]="room" type="text"/></span>
+                <span style="    margin-left: 15px;"><input style="width:40px !important;"  class="input-box"  [(ngModel)]="incharge" type="text"/></span>
+                <span style="margin-left : 18px !important; " (click)="clicking(1);" style="
+                width: 53px !important;" class="newspan" *ngIf="status=='reserved'" > 예약중 </span>
+                <span (click)="clicking(2);" class="newspan" *ngIf="status=='entered'" > 입실 </span>
+                <span (click)="clicking(3);" class="newspan" *ngIf="status=='clean'" > 정리중 </span>
+                <span (click)="clicking(4);" class="newspan" *ngIf="status=='fin'" > 완료 </span>
+                
+                <span (click)="clicking2(a);" class="newspan"  *ngIf="avec"> A </span>
+                <span (click)="clicking2(a);" class="newspan" *ngIf="!avec"> - </span>
+                
+                <span><input style="    width: 50px !important;
+                  margin-left: 15px;"  class="input-box" placeholder="인원"  [(ngModel)]="numofpeople" type="text"/> </span>
+                
+              </div>
+
+
             </div>
+
+
+            <div class="chart-div">
+              <div class="name-keys">
+            
+                <span>WT</span>
+                <span>입장일</span>
+                <span>부</span>
+              </div>
+              <div style="
+              height: 30px;
+    background: white;
+              line-height: 20px;
+              margin-top: 5px;" class="name-keys">
+            
+                <span><input   class="input-box"  [(ngModel)]="wt" type="text"/></span>
+                <span><input  disabled class="input-box"  [(ngModel)]="insert_date" type="text"/></span>
+  
+  
+                <span (click)="clicking3(0);" class="sspan" *ngIf="bu==0" > 0부 </span>
+                <span (click)="clicking3(1);" class="sspan" *ngIf="bu==1" > 1부 </span>
+                <span (click)="clicking3(2);" class="sspan" *ngIf="bu==2" > 2부 </span>
+              </div>
+
+            </div>
+
+           
+            
           </div>
 
+          <p>수정할 내용을 터치하거나 입력하여 수정해주세요.</p>
           <!-- <button class="btn" (click)="takeVideo()" ion-button>동영상</button> -->
         <button class="btn" ion-button (click)="confirm()">수정</button>
         <button class="btn" ion-button (click)="cancel()">취소</button>

@@ -19,6 +19,11 @@ export class EditingroomPage {
   room:any;
   incharge:any;
   insert_date:any;
+  midroom:any=[];
+  smallroom:any=[];
+  bigroom:any=[];
+  allroom:any=[];
+  thisisarray:any=[];
   newarray:any=[];
   newarrayfin:any=[];
   status:any;
@@ -28,19 +33,26 @@ export class EditingroomPage {
   currentstartday:any="";
   currentstart:any="";
   end_date:any="";
+  bu:any="";
   name:any;
   date:any;
   firemain = firebase.database().ref();
   company:any;
   avec:any;
+  directorList:any=[];
   constructor(public util:UtilsProvider, public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
      this.a = this.navParams.get("a");
+     this.directorList=JSON.parse(localStorage.getItem("director"))
+     console.log(this.directorList);
      this.company = localStorage.getItem("company");
      this.name = localStorage.getItem("name");
      this.currentstart=localStorage.getItem("start");
      this.currentstartday=localStorage.getItem("startDate");
+      this.allroom = this.navParams.get("allroom");
+
     console.log(this.a);
     this.room = this.a.name
+    this.bu=this.a.bu;
     this.avec = this.a.avec;
     this.key=this.a.key;
     this.status = this.a.status;
@@ -81,7 +93,19 @@ export class EditingroomPage {
     if(v==4){
       this.status="reserved";
     }
+  }
 
+  clicking3(v){
+    console.log("clicking3..."+v)
+    if(v==0){
+      this.bu=1;
+    }
+    if(v==1){
+      this.bu=2;
+    }
+    if(v==2){
+      this.bu=0;
+    }
   }
   cancel(){
 
@@ -93,6 +117,36 @@ export class EditingroomPage {
     return date;
   }
   confirm(){
+    console.log("confirm...........")
+    console.log(this.smallroom);
+    console.log(this.midroom);
+    console.log(this.bigroom);
+    var occupied=false;
+    for(var ii in this.allroom){
+      //check if the room is already reserved
+      if(this.allroom[ii].name==this.room){
+        occupied=true;
+      }
+    }
+    
+    if(!occupied){
+      window.alert("존재하지 않는 방 번호입니다. 다시 입력해주세요.")
+      return;
+    }
+    var vacancy=false;
+    for(var iii in this.directorList){
+      //compare the name of the person who is in charge of the room
+      
+      if(this.directorList[iii].name.trim()==this.incharge.trim()){
+        vacancy=true;
+      }
+    }
+    
+
+    if(!vacancy){
+      window.alert("존재하지 않는 담당자입니다. 다시 입력해주세요.")
+      return;
+    }
     console.log(this.end_date);
     if(this.end_date==undefined){
       
@@ -102,6 +156,7 @@ export class EditingroomPage {
     var end_date_full =  new Date();
     var a = this.addHours(9,end_date_full);
     console.log(a)
+    console.log(this.status);
     // end_date_full = this.end_date.setHours(this.end_date.getHours()+9);
     // console.log(this.end_date);
     if(this.status=="fin"){
@@ -123,11 +178,13 @@ export class EditingroomPage {
                       // console.log("fin")
                     }
                     if(this.a.key == snap.val()[a].roomhistory[this.currentstartday][b].key){
+
+                      console.log("result....333")
                       console.log("this should be deleted and pulled in a row")
                       console.log("v")
                       console.log(snap.val()[a].roomhistory[this.currentstartday][b].key)
                       console.log(this.a.key)
-                      this.newarrayfin.push({"bu":snap.val()[a].roomhistory[this.currentstartday][b].bu,
+                      this.newarrayfin.push({"bu":this.bu,
                       "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
                       "flag":snap.val()[a].roomhistory[this.currentstartday][b].flag,
                       "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
@@ -143,11 +200,11 @@ export class EditingroomPage {
                       "v":snap.val()[a].roomhistory[this.currentstartday][b].v})
                     }else{
                       
+                      console.log("result....222")
                     if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full!=undefined){
-                      this.newarrayfin.push({"bu":snap.val()[a].roomhistory[this.currentstartday][b].bu,
+                      this.newarrayfin.push({"bu":this.bu,
                       "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
                       "flag":snap.val()[a].roomhistory[this.currentstartday][b].flag,
-
                       "avec":this.avec,
                       "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
                       "incharge_date_full":snap.val()[a].roomhistory[this.currentstartday][b].incharge_date_full,
@@ -161,7 +218,8 @@ export class EditingroomPage {
                       "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
                       "v":snap.val()[a].roomhistory[this.currentstartday][b].v})
                     }else{
-                      this.newarray.push({"bu":snap.val()[a].roomhistory[this.currentstartday][b].bu,
+                      console.log("result....333")
+                      this.newarray.push({"bu":this.bu,
                       "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
                       "flag":snap.val()[a].roomhistory[this.currentstartday][b].flag,
 
@@ -229,7 +287,21 @@ export class EditingroomPage {
       });
       this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({"flag":false})
       this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).once("value",snap=>{
-
+        // this.thisisarray.push({"bu":this.bu,
+        // "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
+        // "flag":snap.val()[a].roomhistory[this.currentstartday][b].flag,
+        // "avec":this.avec,
+        // "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
+        // "incharge_date_full":snap.val()[a].roomhistory[this.currentstartday][b].incharge_date_full,
+        // "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
+        // "last_updated":snap.val()[a].roomhistory[this.currentstartday][b].last_updated,
+        // "lastupdated":snap.val()[a].roomhistory[this.currentstartday][b].lastupdated,
+        // "lastupdatedperson":snap.val()[a].roomhistory[this.currentstartday][b].lastupdatedperson,
+        // "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
+        // "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
+        // "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
+        // "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
+        // "v":snap.val()[a].roomhistory[this.currentstartday][b].v})
           console.log(snap.val());
           this.firemain.child("users").once("value",snap2=>{
             for(var b in snap2.val()){
@@ -277,31 +349,97 @@ export class EditingroomPage {
     }else{
       this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({"flag":true})
     }
-    if(this.status=="fin"){
-      this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({
-        "name":this.room,
-        
-        "avec":this.avec,
-        "wt":this.wt,
-        "insert_date":this.insert_date,
-        "end_date":this.end_date.getHours()+":"+this.end_date.getMinutes(),
-        "end_date_full":end_date_full,
-        "status":this.status,
-        "numofpeople":this.numofpeople,
-        "incharge":this.incharge,
-      })
+  
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).once("value",snap=>{
+    console.log(snap.val());
+    var agasi=[];
+      var ss =false
+    if(snap.val().ss==undefined){
+     
     }else{
-      this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({
-        "name":this.room,
-        
-        "avec":this.avec,
-        "wt":this.wt,
-        "insert_date":this.insert_date,
-        "status":this.status,
-        "numofpeople":this.numofpeople,
-        "incharge":this.incharge,
-      })
+      ss=snap.val().ss;
     }
+    if(snap.val().agasi==undefined){
+     
+    }else{
+      agasi=snap.val().agasi;
+    }
+    console.log("agasi is:"+agasi);
+    console.log("ss is:"+ss);
+   
+        console.log(snap.val());
+        console.log(snap.val().logic);
+
+
+
+        if(this.status=="fin"){
+          this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({
+            "name":this.room,
+            "bu":this.bu,
+            "avec":this.avec,
+            "wt":this.wt,
+            "insert_date":this.insert_date,
+            "end_date":this.end_date.getHours()+":"+this.end_date.getMinutes(),
+            "end_date_full":end_date_full,
+            "status":this.status,
+            "numofpeople":this.numofpeople,
+            "incharge":this.incharge,
+          })
+        }else{
+          this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).remove();
+          if(agasi.length==0){
+            this.firemain.child("company").child(this.company).child("roomlist").child(this.room).child("roomhistory").child(this.currentstartday).child(this.a.key).update({
+              "bujangjopan":snap.val().bujangjopan,
+              "bujangyoung":snap.val().bujangyoung,
+              "directorId":snap.val().directorId,
+              "bu":this.bu,
+              "logic":snap.val().logic,
+              "ss":ss,
+              "insert_date":snap.val().insert_date,
+              "date":snap.val().date,
+              "flag":snap.val().flag,
+              "avec":this.avec,
+              "incharge":this.incharge,
+              "key":snap.val().key,
+              "last_updated":snap.val().last_updated,
+              "lastupdated":snap.val().lastupdated,
+              "lastupdatedperson":snap.val().lastupdatedperson,
+              "name":this.room,
+              "numofpeople":this.numofpeople,
+              "status":this.status,
+              "wt":this.wt,
+              "v":snap.val().v
+          })
+          }else{
+            this.firemain.child("company").child(this.company).child("roomlist").child(this.room).child("roomhistory").child(this.currentstartday).child(this.a.key).update({
+              "agasi":snap.val().agasi,
+              "bujangjopan":snap.val().bujangjopan,
+              "bujangyoung":snap.val().bujangyoung,
+              "directorId":snap.val().directorId,
+              "bu":this.bu,
+              "logic":snap.val().logic,
+              "ss":ss,
+              "insert_date":snap.val().insert_date,
+              "date":snap.val().date,
+              "flag":snap.val().flag,
+              "avec":this.avec,
+              "incharge":this.incharge,
+              "key":snap.val().key,
+              "last_updated":snap.val().last_updated,
+              "lastupdated":snap.val().lastupdated,
+              "lastupdatedperson":snap.val().lastupdatedperson,
+              "name":this.room,
+              "numofpeople":this.numofpeople,
+              "status":this.status,
+              "wt":this.wt,
+              "v":snap.val().v
+          })
+          }
+        
+        }
+
+    });
+   
     
     var dte = new Date();
 

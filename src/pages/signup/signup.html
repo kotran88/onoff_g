@@ -9,54 +9,98 @@
     <ion-title>회원가입</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content style="background: black; margin-top: 10%; height: 90%;"padding>
+<ion-content style="background: white; 
+margin-top: 17px;
+height: 85%;"padding>
   <div *ngIf="stage==1">
     <!-- <div class="input-title">이름</div>
     <ion-input class="input-box" placeholder="이름" [(ngModel)]="name" type="text"></ion-input> -->
-    <div style="width: 100%; height:100px;">
+    <div style="
+    display: flex; width: 100%; height:100px;">
       <div style="    height: 50px;" class="input-title">아이디</div>
       <ion-input style="
-      color: white;
-    font-size: 20px;
-      float: right;" class="input-box" placeholder="아이디를 입력해주세요 " [(ngModel)]="id" type="text"></ion-input>
+      color: black;
+      font-size: 20px;
+      float: left;
+      width: 50%;
+      margin-left: 30px;" class="input-box" placeholder="아이디 " [(ngModel)]="id" type="text"></ion-input>
     </div>
 
-    <div style="width: 100%; height:100px;">
+    <div style="
+    display: flex; width: 100%; height:100px;">
       <div style="    height: 50px;" class="input-title">비밀번호</div>
       <ion-input style="
-      color: white;
-    font-size: 20px;
-      float: right;" class="input-box" placeholder="비밀번호를 입력해주세요" [(ngModel)]="password" type="password"></ion-input>
+      color: black;
+      font-size: 20px;
+      float: left;
+      width: 50%;
+      margin-left: 30px;" class="input-box" placeholder="비밀번호" [(ngModel)]="password" type="password"></ion-input>
     </div>
 
-    <div style="width: 100%; height:100px;">
+    <div style="
+    display: flex; width: 100%; height:100px;">
       <div style="    height: 50px;" class="input-title">비밀번호 확인</div>
       <ion-input style="
-      color: white;
-    font-size: 20px;
-      float: right;" class="input-box" placeholder="비밀번호를 입력해주세요" [(ngModel)]="password2" type="password"></ion-input>
+      color: black;
+      font-size: 20px;
+      float: left;
+      width: 50%;
+      margin-left: 30px;" class="input-box" placeholder="비밀번호 확인" [(ngModel)]="password2" type="password"></ion-input>
     </div>
 
-    <div style="width: 100%; height:100px;">
+    <div style="
+    display: flex; width: 100%; height:100px;">
       <div style="    height: 50px;" class="input-title">이름</div>
       <ion-input style="
-      color: white;
-    font-size: 20px;
-      float: right;" class="input-box" placeholder="이름을 입력해주세요" [(ngModel)]="name" type="text"></ion-input>
+      color: black;
+      font-size: 20px;
+      float: left;
+      width: 50%;
+      margin-left: 30px;" class="input-box" placeholder="이름" [(ngModel)]="name" type="text"></ion-input>
+    </div>
+    <div style="
+    display: flex; width: 100%; height:100px;">
+      <div style="    height: 50px;" class="input-title">닉네임</div>
+      <ion-input style="
+      color: black;
+      font-size: 20px;
+      float: left;
+      width: 50%;
+      margin-left: 30px;" class="input-box" placeholder="닉네임" [(ngModel)]="nickname" type="text"></ion-input>
+
+
+    <button style="  
+    height: 52px;
+    margin-left: 10px;
+    border: solid 1px;
+    width: 50px;
+    float: right;
+    font-size: 10px;
+    margin-top: 5px;
+   " (click)="dupul1()">중복확인</button>
     </div>
 
-    <div style="width: 100%; height:100px;">
-      <div style="    height: 50px;" class="input-title">휴대전화 번호</div>
+    <div style="
+    display: flex; width: 100%; height:100px;">
+      <div style="    height: 50px;" class="input-title">휴대전화</div>
       <ion-input style="
-      color: white;
-    font-size: 20px;
-      float: right;" class="input-box" placeholder="휴대전화 번호" [(ngModel)]="phone" type="number"></ion-input>
+      color: black;
+      font-size: 20px;
+      float: left;
+      width: 50%;
+      margin-left: 30px;" class="input-box" placeholder="휴대전화 " [(ngModel)]="phone" type="number"></ion-input>
+
+
+    <button style="   
+    height: 52px;
+    margin-left: 10px;
+    border: solid 1px;
+    width: 50px;
+    float: right;
+    font-size: 10px;
+    margin-top: 5px;
+   " (click)="dupul2()">중복확인</button>
     </div>
-    <!-- <button style="
-    min-height: 40px;
-    margin-left:10px;
-    border: solid 1px; width: 60%; margin-left: 20%;
-    background: transparent;" (click)="certificate()">휴대번호 인증</button> -->
 
     <div style="margin-top: 15px;
     text-align: end; width: 60%; margin-left: 20%;
@@ -151,8 +195,8 @@
 
     <div style="text-align:center;">
       <button (click)="selecttype(1)" class="newbtn">영업진 </button>
-      <button (click)="selecttype(2)" class="newbtn"> WT </button>
-      <button (click)="selecttype(3)" class="newbtn">아가씨 </button>
+      <button (click)="selecttype(2)" class="newbtn"> WT </button> 
+       <button (click)="selecttype(3)" class="newbtn">아가씨 </button>
       
     </div>
     <div style="text-align:center;">
@@ -181,7 +225,7 @@
     <div class="center">
 
       <span style="
-      color: white;
+      color: black;
       width: 100%;
       font-size: 20px;
     display: block;
@@ -193,12 +237,14 @@
     margin-top: 100px;">
 
       <span *ngIf="type!='3'" style="
-      color: white;
+      color: black;
       width: 100%;
       font-size: 20px;
-      text-align: center;">영업팀을 설정해주세요.{{type}} </span>
+      text-align: center;">영업팀을 설정해주세요. </span>
 
 <ion-list *ngIf="type!='3'" style=" 
+height: 54px;
+border: solid 1px;
 margin-top: 20px;">
   <ion-item>
     <ion-label>영업팀</ion-label>
@@ -211,9 +257,11 @@ margin-top: 20px;">
 
 
 <span style="
-color: white;
+color: black;
 width: 100%;
 font-size: 20px;
+    height: 54px;
+    border: solid 1px;
 text-align: center;">조판팀을 설정해주세요. </span>
 <ion-list style="    margin-top: 20px;">
   <ion-item>
@@ -236,12 +284,17 @@ text-align: center;">조판팀을 설정해주세요. </span>
       영업진을 선택하셨군요 <br> 
 
       <button *ngIf="approved" class="paybtn" (click)="uploadToServer(1);">월 2,100원 결제하기</button>
+      <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
       <span *ngIf="type==2" style="font-size:30px;">
         WT 선택하셨군요 <br> 
-        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(2);">월 2,100원 결제하기</button>
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(2);"><span style="
+          text-decoration: line-through;
+          font-size: 11px;
+          color: red;">{{paytext}}</span><span>한달 무료이용</span></button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize2(1);">무료로이용해보기</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
@@ -260,6 +313,7 @@ text-align: center;">조판팀을 설정해주세요. </span>
         안드시면 언제든 탈퇴 가능합니다. .
 
         <button *ngIf="approved" class="paybtn" (click)="uploadToServer(3);">월 2,100원 결제하기</button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
@@ -270,6 +324,7 @@ text-align: center;">조판팀을 설정해주세요. </span>
         안드시면 언제든 탈퇴 가능합니다. .
 
         <button *ngIf="approved" class="paybtn" (click)="uploadToServer(4);">월 2,100원 결제하기</button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
@@ -280,6 +335,7 @@ text-align: center;">조판팀을 설정해주세요. </span>
         안드시면 언제든 탈퇴 가능합니다. .
 
         <button *ngIf="approved" class="paybtn" (click)="uploadToServer(5);">월 2,100원 결제하기</button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
@@ -294,6 +350,7 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <br>
         <br>
         <button *ngIf="approved" class="paybtn" (click)="uploadToServer(6);">월 2,100원 결제하기</button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
@@ -308,6 +365,7 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <br>
         <br>
         <button *ngIf="approved" class="paybtn" (click)="uploadToServer(7);">월 2,100원 결제하기</button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>면 다음달 이용시 요금이 청구됩니다.
 
@@ -333,7 +391,17 @@ text-align: center;">조판팀을 설정해주세요. </span>
   </div>
     <!-- <div *ngIf="passwordcheck()===false"></div> -->
 </ion-content>
+<div class="footer">
+  <div class="footer-text">
+    <p>상호명 : 와드(WAD)</p>
+    <p>주소 : 서울시 강남구 테헤란로79길 6 브이1048호</p>
+    <p>대표전화 : 070-8919-7221</p>
+    <p>사업자등록번호 : 459-47-01040</p>
+    <p>대표자명 : 노수지</p>
+    
 
+  </div>
+</div>
 
   <!-- <div class="form">
    <ion-list no-lines>

@@ -5,6 +5,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { LoginpagePage } from '../pages/loginpage/loginpage';
 import firebase from 'firebase/app';
+import { SplashscreenPage } from '../pages/splashscreen/splashscreen';
 @Component({
   templateUrl: 'app.html'
 })
@@ -13,7 +14,7 @@ export class MyApp {
   // rootPage:any=MypagePage;
   @ViewChild(Nav) nav: Nav;
   @ViewChild(Modal) modal: Modal;
-  rootPage:any=LoginpagePage;
+  rootPage:any=SplashscreenPage;
   app:any;
   id:any;
   user:any;

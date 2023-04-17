@@ -36,7 +36,7 @@
   </ion-header>
   <ion-menu [content]="mycontent">
     <ion-content>
-      <ion-list>
+      <!-- <ion-list>
         <ion-item>주차파트</ion-item>
       </ion-list>
       <ion-list>
@@ -59,8 +59,11 @@
       </ion-list>
       <ion-list>
         <ion-item>입금내역</ion-item>
-      </ion-list>
+      </ion-list> -->
 
+      <ion-list *ngIf="!paymentflag">
+        <ion-item (click)="gotopayment();">결제진행</ion-item>
+      </ion-list>
       <ion-list>
         <ion-item (click)="logout();">로그아웃</ion-item>
       </ion-list>
@@ -88,9 +91,10 @@
   <div *ngIf="option_title_ch == 2" class="sssss">
     <div class="top-bar">
       <div class="synthesis">
-        <div class="over">과입금액 : {{(todaymoney-tomoney).toLocaleString()}} </div>
+        <div class="over" *ngIf="tomoney-todaymoney>0">과입금액 : {{(tomoney-todaymoney).toLocaleString()}} </div>
+        <div class="over" *ngIf="tomoney-todaymoney<=0">과입금액 : - </div>
         <div class="syn">
-          <span style="color:black;">누적미수금액 -</span>
+          <span>누적미수금액 {{cumulative.toLocaleString()}}</span>
           <span>오늘입금할금액 {{tomoney.toLocaleString()}}</span>
           <span>오늘입금하신금액 {{todaymoney.toLocaleString()}}</span>
         </div>
@@ -187,12 +191,12 @@
     <div class="b">
       <div class="listing">
         <ion-list *ngFor="let a of detailarray">
-          <ion-item style="font-size:12px;" >#{{a.roomno}} {{a.incharge}}   {{a.bu}}부 {{a.totalsumprice.toLocaleString()}}원  </ion-item>
+          <ion-item style="font-size:12px;" >11#{{a.roomno}} {{a.incharge}}   {{a.bu}}부 {{a.totalsumprice.toLocaleString()}}원  </ion-item>
         </ion-list>
       </div>
       <div class="listing">
         <ion-list *ngFor="let a of accountmessage">
-          <ion-item style="font-size:12px;" >{{a.name}} 카드: {{a.card.toLocaleString()}}  현금: {{a.cash.toLocaleString()}} 입금입력날짜: {{a.time}}</ion-item>
+          <ion-item style="font-size:12px;" >22{{a.name}} 카드: {{a.card.toLocaleString()}}  현금: {{a.cash.toLocaleString()}} 입금입력날짜: {{a.time}}</ion-item>
         </ion-list>
       </div>
     </div>

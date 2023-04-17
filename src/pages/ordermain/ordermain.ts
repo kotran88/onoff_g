@@ -107,12 +107,38 @@ export class OrdermainPage {
       console.log(this.smallroom);
     });
     console.log(this.company)
-    this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
-      for(var a in snap.val()){
-      }
+
       console.log(this.mainlist)
+      this.mainlist.sort(function(a, b) {
+          console.log(a.insert_date);
+          // Compare dates
+         
+          var timeA = a.insert_date.split(":"); // convert time string to array of hours and minutes
+          var timeB = b.insert_date.split(":");
+          return timeA[0]-timeB[0] || timeA[1]-timeB[1];
+          
+      });
+
+      console.log("after sorting...")
+      console.log(this.mainlist)
+
       console.log(this.mainlist_no_order)
-    });
+      this.mainlist_no_order.sort(function(a, b) {
+          console.log(a.insert_date);
+          // Compare dates
+         
+          var timeA = a.insert_date.split(":"); // convert time string to array of hours and minutes
+          var timeB = b.insert_date.split(":");
+          return timeA[0]-timeB[0] || timeA[1]-timeB[1];
+          
+      });
+
+      console.log("after sorting...")
+      console.log(this.mainlist_no_order)
+
+
+      
+      console.log(this.mainlist_no_order)
   }
   searching(){
     console.log("searching...");

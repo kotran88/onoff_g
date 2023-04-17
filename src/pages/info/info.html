@@ -28,33 +28,38 @@
       <ion-buttons end>
         <button  style="color:white;"ion-button icon-only color="royal">
           <ion-icon name="person-add"></ion-icon>
-          <span>{{name}}</span>
+          <span>{{name}}<br>{{code}}</span>
         </button>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-menu [content]="mycontent">
     <ion-content>
-      <ion-list (click)="gotolink(1)">
+      <ion-list *ngIf="paymentflag" (click)="gotolink(1)">
         <ion-item>주차파트</ion-item>
       </ion-list>
-      <ion-list (click)="gotolink(3)">
+      <ion-list *ngIf="paymentflag" (click)="gotolink(3)">
         <ion-item>출근부</ion-item>
       </ion-list>
       <ion-list (click)="gotolink(4)">
-        <ion-item>초이스</ion-item>
+        <ion-item>초이스..</ion-item>
       </ion-list>
-      <ion-list>
+      <ion-list *ngIf="paymentflag">
         <ion-item (click)="gotolink(5)">공지</ion-item>
       </ion-list>
-      <ion-list>
-        <ion-item (click)="logout();">로그아웃</ion-item>
-      </ion-list>
+
+    <ion-list *ngIf="!paymentflag">
+      <ion-item (click)="gotopayment();">결제진행</ion-item>
+    </ion-list>
+
+    <ion-list  >
+      <ion-item (click)="logout();">로그아웃</ion-item>
+    </ion-list>
     </ion-content>
   </ion-menu>
 
   <ion-nav #mycontent [root]="rootPage"></ion-nav>
-<ion-content class="contents" padding>
+<ion-content overflow-scroll="false" class="contents" padding>
   <div style="
   margin-top: 80px;" class="top">
     <button (click)="buchange()"  style="
@@ -79,6 +84,41 @@ border-radius
       <ion-icon class="square" name="square"></ion-icon>
       <span class="text">룸 현황 {{mainlist.length}}개</span>
      
+
+      <div class="selecting">
+
+        <ion-list style="  
+        width: 70px;
+        float: left;">
+          <ion-item>
+            <ion-select [(ngModel)]="selected" aria-label="fruit" placeholder="선택">
+              <ion-option  value="1">영업진</ion-option>
+              <ion-option  value="2">방번호</ion-option>
+              <ion-option  value="3">웨이터</ion-option>
+              <ion-option  value="4">전체보기</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+
+        <ion-input  style="
+        color: black;
+        height: 40px;
+        border: solid 1px;
+        line-height: 0px;
+        width: 65px;
+        font-size:10px;
+        float: left;" [(ngModel)]="inputtext"  placeholder="검색어 입력"></ion-input>
+        <button class="btn8" style="     margin-left: 5px;
+        margin-top: 0px;
+        height: 41px;
+        background: transparent;
+        border: solid 1px;
+        color: black !important;
+        width: 35px;" (click)="searching();" ion-button icon-only color="royal">
+          검색
+        </button>
+      </div>
+
     </div>
 
     <div class="chart-div">
@@ -162,12 +202,13 @@ border-radius
 " class="room-current">
     <div class="title-div">
       <ion-icon class="square" name="square"></ion-icon>
-      <span class="text">완료된 룸 현황 {{mainlist_finished.length}}개</span>
+      <span class="text">완료된 룸 현황 {{noagasi}}개 ,OB {{agasinum}}개</span>
      
     </div>
 
     <div class="chart-div">
      
+
       <div class="name-keys">
         <span>룸NO</span>
         <span>담당자</span>
@@ -181,7 +222,8 @@ border-radius
         <span style="width:100%;">현재 활성화된 방이 없습니다 </span>
       </div>
       <div (click)="editing(a);" *ngFor="let a of mainlist_finished" class="datas">
-        <span>{{a.name}}</span>
+        <div *ngIf="a.agasi.length==0" style="width:100%;" class="rowrow">
+          <span>{{a.name}}</span>
         <span>{{a.incharge}}</span>
         <span *ngIf="a.status=='reserved'"> 예약중 </span>
         <span *ngIf="a.status=='entered'"> 입실 </span>
@@ -191,6 +233,19 @@ border-radius
         <span>{{a.wt}}</span>
         <span>{{a.insert_date}}</span>
         <span>{{a.end_date}}</span>
+        </div>
+        <div *ngIf="a.agasi.length!=0" style="width:100%;" class="norowww">
+          <span>{{a.name}}</span>
+        <span>{{a.incharge}}</span>
+        <span *ngIf="a.status=='reserved'"> 예약중 </span>
+        <span *ngIf="a.status=='entered'"> 입실 </span>
+        <span *ngIf="a.status=='clean'"> 정리중 </span>
+        <span *ngIf="a.status=='fin'">완료  </span>
+        <span>{{a.numofpeople}} 인 </span>
+        <span>{{a.wt}}</span>
+        <span>{{a.insert_date}}</span>
+        <span>{{a.end_date}}</span>
+        </div>
       </div>
     </div>
   </div>

@@ -11,6 +11,7 @@ import  firebase from 'firebase';
 import { EditingroomPage } from '../editingroom/editingroom';
 import { E } from '@angular/core/src/render3';
 import { generate } from 'rxjs';
+import { SignupPage } from '../signup/signup';
 /**
  * Generated class for the InfoPage page.
  *
@@ -24,10 +25,16 @@ import { generate } from 'rxjs';
 })
 export class InfoPage {
   mainlist:any = [];
+  noagasi:any=0;
+  agasinum:any=0;
+  inputtext:any="";
   mainlist_finished:any=[];
   currentstartday:any="";
+  selectedday:any=0;
   currentstart:any="";
+  selected:any=1;
   smallroom=[];
+  allroom=[];
   totalactiveroom:any=0;
   midroom=[];
   bigroom=[];
@@ -36,16 +43,28 @@ export class InfoPage {
   bu:any=0;
   name:any="";
   nowtime:any=""
+  paymentflag:any=false;
   interval:any;
+  directorList:any=[];
+  code:any="";
+  id:any="";
   firemain = firebase.database().ref();
   constructor(public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
     this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
+    this.directorList = this.navParams.get("user");
     this.currentstartday=localStorage.getItem("startDate");
     this.name = localStorage.getItem("name");
     this.firstflag = this.navParams.get("flag");
     var type = localStorage.getItem("type");
+    var login=localStorage.getItem("login_data");
+    // this.code = JSON.parse(login).code;
+    console.log(login);
 
+    this.id = JSON.parse(login).id;
+    this.code = JSON.parse(login).young;
+    console.log(JSON.parse(login).payment);
+    this.paymentflag=JSON.parse(login).payment;
     this.interval=setInterval(()=>{
       var now = new Date();
       var hour = now.getHours();
@@ -71,6 +90,120 @@ export class InfoPage {
     // this.menuCtrl.open();
     this.view.dismiss();
 }
+searching(){
+
+  console.log(this.inputtext)
+  console.log(this.selected)
+
+
+  this.mainlist=[];
+  this.mainlist_finished=[];
+
+  this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+    for(var a in snap.val()){
+      console.log("searching mmmm")
+      console.log(snap.val()[a]);
+      console.log(snap.val()[a].flag);
+      var flag = snap.val()[a].flag;
+      for(var b in snap.val()[a].roomhistory){
+        console.log(b)
+        console.log(this.currentstartday);
+        if(b==this.currentstartday){
+
+          console.log(snap.val()[a].roomhistory[b])
+          console.log(snap.val()[a].roomhistory[b].flag)
+        }
+      }
+        console.log(snap.val()[a].roomhistory)
+        if(snap.val()[a].roomhistory!=undefined){
+          console.log(snap.val()[a].roomhistory[this.currentstartday])
+          for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+            console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+            if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+              if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
+                if(snap.val()[a].roomhistory[this.currentstartday][b].flag){
+                  if(this.selected==1){
+                    console.log(snap.val()[a].roomhistory[this.currentstartday][b].incharge)
+                    console.log(this.inputtext)
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].incharge==this.inputtext){
+                      this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    }
+                  }else if(this.selected==2){
+                    console.log(snap.val()[a].roomhistory[this.currentstartday][b].name)
+                    console.log(this.inputtext)
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].name==this.inputtext){
+                      this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    }
+                  }else if(this.selected==3){
+                    console.log(snap.val()[a].roomhistory[this.currentstartday][b].wt)
+                    console.log(this.inputtext)
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].wt==this.inputtext){
+                      this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    }
+                  }else{
+                    this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                  }
+                
+                }
+                }else{
+                  if(this.selected==1){
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].incharge==this.inputtext){
+                     this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    }
+                  }else if(this.selected==2){
+                    console.log(snap.val()[a].roomhistory[this.currentstartday][b].name)
+                    console.log(this.inputtext)
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].name==this.inputtext){
+                      this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    }
+                  }else if(this.selected==3){
+                    console.log(snap.val()[a].roomhistory[this.currentstartday][b].wt)
+                    console.log(this.inputtext)
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].wt==this.inputtext){
+                      this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    }
+                  }else{
+                    this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                  }
+                }
+            }
+            
+          }
+        }
+    
+    }
+    console.log(this.mainlist)
+    this.mainlist.sort(function(a, b) {
+        console.log(a.insert_date);
+        // Compare dates
+       
+        var timeA = a.insert_date.split(":"); // convert time string to array of hours and minutes
+        var timeB = b.insert_date.split(":");
+        return timeA[0]-timeB[0] || timeA[1]-timeB[1];
+        
+    });
+
+    console.log("after sorting...")
+    console.log(this.mainlist)
+
+
+    this.mainlist_finished.sort(function(a, b) {
+      console.log(a.insert_date);
+      // Compare dates
+     
+      var timeA = a.insert_date.split(":"); // convert time string to array of hours and minutes
+      var timeB = b.insert_date.split(":");
+      return timeA[0]-timeB[0] || timeA[1]-timeB[1];
+      
+  });
+  });
+
+}
+gotopayment(){
+  this.firemain.child("users").child(this.id).update({"payment":true})
+  window.alert("임시 결제 완료 ")
+  this.navCtrl.setRoot(LoginpagePage);
+}
   gotolink(value){
     if(value == 1){
     this.navCtrl.push(ParkingPage,{flag:true});
@@ -80,8 +213,11 @@ export class InfoPage {
       this.navCtrl.push(AttendancePage,{flag:true});
     }else if(value==4){
       this.navCtrl.push(ChoicePage,{flag:true}).then(() => {
+        console.log("choice back")
         this.navCtrl.getActive().onDidDismiss(data => {
-          this.generate();
+          console.log("off...")
+      this.firemain.child("company").child(this.company).child("roomlist").off();
+          // this.generate();
         })
       });
     }else if(value==5){
@@ -93,9 +229,11 @@ export class InfoPage {
     }
   }
   generateroomcategory(){
+    console.log("generateroomcategory")
     this.smallroom=[];
     this.midroom=[];
     this.bigroom=[];
+    this.allroom=[];
     var roomin=[];
     this.firemain.child("company").child(this.company).once('value').then((snap2)=>{
       console.log(snap2.val().bu)
@@ -119,136 +257,87 @@ export class InfoPage {
          var name = snap.val()[a].name;
          var flag = snap.val()[a].flag;
          console.log(flag+"/"+name+"/"+cat);
-         
-        for(var b in snap.val()[a].roomhistory){
-          console.log(b)
-          console.log(this.currentstartday);
-          if(b==this.currentstartday){
+         if(flag==undefined){
+          flag=false;
+         }
+        this.allroom.push({"name":name,"category":cat,"flag":flag});
+        if(cat=="소"){
+          if(flag){
+            console.log(flag+"small not add")
+          }else{
+            this.smallroom.push({"name":name,"category":cat,"flag":flag});
+          }
+        }else if(cat=="중"){
+          if(flag){
+            console.log(flag+"mid not add")
+          }else{
+            this.midroom.push({"name":name,"category":cat,"flag":flag});
+          }
+        }else if(cat=="대"){
+          if(flag){
+            console.log(flag+"big not add")
+          }else{
+            this.bigroom.push({"name":name,"category":cat,"flag":flag});
+          }
+        }
 
-            console.log(snap.val()[a].roomhistory[b])
-            console.log(snap.val()[a].roomhistory[b].flag)
-            console.log("today's flag is "+flag);
+        for(var b in snap.val()[a].roomhistory){
+          if(b==this.currentstartday){
             for(var c in snap.val()[a].roomhistory[b]){
+              console.log(snap.val()[a].roomhistory[b][c])
               if(c!="lastupdated"&&c!="flag"){
-                console.log(snap.val()[a].roomhistory[b]);
-              console.log(snap.val()[a].roomhistory[b][c]);
-              console.log(snap.val()[a].roomhistory[b][c].flag);
-              if(snap.val()[a].roomhistory[b][c].flag){
+                console.log(snap.val()[a].roomhistory[b][c])
+                if(snap.val()[a].roomhistory[b][c].end_date_full!=undefined){
+                  //완료된방
+                }else{
+
                 roomin.push(snap.val()[a].roomhistory[b][c].name);
+                }
               }
-              
-              }
-              
               //flase 는 종료 
               
             }
           }
         }
+      }
+        console.log("roomin");
         console.log(roomin);
-         if(cat=="소"){
-          if(flag){
-            console.log(flag+"small not add")
-          }else{
-
-
-            this.smallroom.push({"name":name,"category":cat,"flag":flag});
-console.log(name);
-console.log(roomin);
-for(var cc in roomin){
-  console.log(roomin[cc]);
-  if(name==roomin[cc]){
-   console.log(name+"name and roomin match so delete");
-   console.log(this.smallroom);
-   var count=0;
-   for(var a in this.smallroom){
-    count++;
-      console.log(this.midroom[a]);
-      if(this.smallroom[a].name==name){
-        console.log("delete this.smallroom["+count+"]");
-        this.smallroom.splice(count-1,count);
-      }
-   }
-  }else{
-    console.log("this.smallroom push "+name+","+cat+","+flag);
-   
-  }
-}
-          
-          }
-           console.log(this.smallroom);
-         }
-         if(cat=="중"){
-          if(flag){
-            
-          }else{
-            this.midroom.push({"name":name,"category":cat,"flag":flag});
-console.log(name);
-console.log(roomin);
-for(var cc in roomin){
-  console.log(roomin[cc]);
-  if(name==roomin[cc]){
-   console.log(name+"name and roomin match so delete");
-   console.log(this.midroom);
-   var count=0;
-   for(var a in this.midroom){
-    count++;
-      console.log(this.midroom[a]);
-      if(this.midroom[a].name==name){
-        console.log("delete this.midroom["+count+"]");
-        this.midroom.splice(count-1,count);
-      }
-   }
-  }else{
-    console.log("this.midroom push "+name+","+cat+","+flag);
-   
-  }
-}
-          
-          }
-        }
-        if(cat=="대"){
-          if(flag){
-            
-          }else{
-
-
-
-
-            this.bigroom.push({"name":name,"category":cat,"flag":flag});
-console.log(name);
-console.log(roomin);
-for(var cc in roomin){
-  console.log(roomin[cc]);
-  if(name==roomin[cc]){
-   console.log(name+"name and roomin match so delete");
-   console.log(this.bigroom);
-   var count=0;
-   for(var a in this.bigroom){
-    count++;
-      console.log(this.midroom[a]);
-      if(this.bigroom[a].name==name){
-        console.log("delete this.bigroom["+count+"]");
-        this.bigroom.splice(count-1,count);
-      }
-   }
-  }else{
-    console.log("this.bigroom push "+name+","+cat+","+flag);
-   
-  }
-}
-
-          }
-          
-        }
-        }
-        console.log(this.smallroom);
-        console.log(this.midroom);
-        console.log(this.bigroom);
+        
       }
   
+      console.log(this.smallroom);
+      //if smallroom have value of roomin then delete
+      
+      for(var bba in roomin){
+        for(var aba in this.smallroom){
+          if(this.smallroom[aba].name==roomin[bba]){
+            console.log("smallroom delete")
+            this.smallroom.splice(Number(aba),1);
+          }
+        }
+        for(var aba in this.midroom){
+          if(this.midroom[aba].name==roomin[bba]){
+            console.log("midroom delete")
+            this.midroom.splice(Number(aba),1);
+          }
+        }
+        for(var aba in this.bigroom){
+          if(this.bigroom[aba].name==roomin[bba]){
+            console.log("bigroom delete")
+            this.bigroom.splice(Number(aba),1);
+          }
+        }
+      }
+      console.log(this.midroom);
+      console.log(this.bigroom);
+      console.log(this.allroom)
     });
   }
   buchange(){
+    if(!this.paymentflag){
+      window.alert("결제전 이용 불가합니다.")
+      return;
+    }
     console.log("buchnage"+this.bu)
     if(this.bu==0){
       this.bu=1
@@ -266,41 +355,107 @@ for(var cc in roomin){
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad InfoPage');
-
+    this.firemain.child("company").child(this.company).child("roomlist").on('child_removed', function(snap, prevChildKey) {
+      console.log("on on on on on cccccchild_removed.....")
+      console.log(snap.val());
+      console.log(prevChildKey);
+      // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+    });
+    this.firemain.child("company").child(this.company).child("roomlist").on('child_moved', function(snap, prevChildKey) {
+      console.log("on on on on on cccccchild_moved.....")
+      console.log(snap.val());
+      console.log(prevChildKey);
+      // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+    });
+    this.firemain.child("company").child(this.company).child("roomlist").on('child_added', function(snap, prevChildKey) {
+      console.log("on on on on on cccccchild_added.....")
+      console.log(snap.val());
+      console.log(prevChildKey);
+      // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+    });
+      this.firemain.child("company").child(this.company).child("roomlist").on('child_changed', (snap, prevChildKey) =>{
+        console.log("on on on on on cccccchild_changed.....")
+        console.log(snap.val());
+        console.log(prevChildKey);
+        console.log(this.mainlist)
+        this.generate();
+        // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+      });
     this.generate();
   }
   generate(){
+    console.log("generate come");
     this.generateroomcategory()
     this.mainlist=[];
     this.mainlist_finished=[];
+    
+    this.noagasi=0;
+    this.agasinum=0;
     this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
       for(var a in snap.val()){
-        console.log("mmmm")
-        console.log(snap.val()[a]);
-        console.log(snap.val()[a].flag);
         var flag = snap.val()[a].flag;
-        for(var b in snap.val()[a].roomhistory){
-          console.log(b)
-          console.log(this.currentstartday);
-          if(b==this.currentstartday){
+        // for(var b in snap.val()[a].roomhistory){
+        //   if(b==this.currentstartday){
 
-            console.log(snap.val()[a].roomhistory[b])
-            console.log(snap.val()[a].roomhistory[b].flag)
-          }
-        }
-          console.log(snap.val()[a].roomhistory)
+        //     console.log(snap.val()[a].roomhistory[b])
+        //     console.log(snap.val()[a].roomhistory[b].flag)
+        //   }
+        // }
           if(snap.val()[a].roomhistory!=undefined){
-            console.log(snap.val()[a].roomhistory[this.currentstartday])
             for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-              console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
               if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
                 if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
                   if(snap.val()[a].roomhistory[this.currentstartday][b].flag){
                     this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
                   }
-                  
                   }else{
-                    this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    console.log("this is finished room");
+                    console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].agasi==undefined&&snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
+                      //이방은 OB처리해야함. 
+                    }else{
+                      
+                    }
+                    //iterate through snap.val()[a].roomhistory[this.currentstartday][b] 
+                    //and push to mainlist_finished
+                    // this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    var agasi = [];
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].agasi==undefined){
+                      agasi = [];
+                    }else{
+                      agasi = snap.val()[a].roomhistory[this.currentstartday][b].agasi;
+                    }
+                    if(agasi.length==0){
+                      this.noagasi++;
+                    }else{
+                      this.agasinum++;
+                    }
+                    var orderlist = [];
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
+                      orderlist = [];
+                    }else{
+                      orderlist = snap.val()[a].roomhistory[this.currentstartday][b].orderlist;
+                    }
+                    console.log(agasi);
+                    console.log(orderlist);
+                   
+                    this.mainlist_finished.push({
+                      "v":snap.val()[a].roomhistory[this.currentstartday][b].v, "agasi":agasi,
+                          "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
+                        "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
+                      "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
+                    "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
+                            "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
+                          "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
+                          "avec":snap.val()[a].roomhistory[this.currentstartday][b].avec,
+                          "lastupdatedperson":snap.val()[a].roomhistory[this.currentstartday][b].lastupdatedperson,
+                          "lastupdated":snap.val()[a].roomhistory[this.currentstartday][b].lastupdated,
+                          "directorId":snap.val()[a].roomhistory[this.currentstartday][b].directorId,
+                        "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
+                        "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
+                      "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt
+                    })
+                    // this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
                   }
               }
               
@@ -308,7 +463,10 @@ for(var cc in roomin){
           }
       
       }
-      console.log(this.mainlist)
+
+      console.log("this is finished room result")
+      console.log(this.noagasi);
+      console.log(this.agasinum);
       this.mainlist.sort(function(a, b) {
           console.log(a.insert_date);
           // Compare dates
@@ -333,11 +491,16 @@ for(var cc in roomin){
         
     });
     });
+    console.log(this.mainlist);
   }
   editing(a){
+    if(!this.paymentflag){
+      window.alert("결제전 이용 불가합니다.")
+      return;
+    }
     console.log("editing...")
     console.log(a);
-    let modal = this.modal.create(EditingroomPage,{"a":a});
+    let modal = this.modal.create(EditingroomPage,{"user":this.directorList, "a":a,"allroom":this.allroom,"bu":this.bu});
     modal.onDidDismiss(url => {
       this.generate();
     });
@@ -349,6 +512,10 @@ for(var cc in roomin){
       this.navCtrl.setRoot(LoginpagePage)
   }
   addRoom(room){
+    if(!this.paymentflag){
+      window.alert("결제전 이용 불가합니다.")
+      return;
+    }
     console.log("ad room come");
     console.log(room);
     let modal = this.modal.create(InfomodalPage,{"room":room,"bu":this.bu});

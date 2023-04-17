@@ -23,7 +23,7 @@
     <ion-buttons end>
       <button  style="color:white;"ion-button icon-only color="royal">
         <ion-icon name="person-add"></ion-icon>
-        <span>{{name}}</span>
+        <span>{{name}}<br>{{code}}</span>
       </button>
     </ion-buttons>
   </ion-toolbar>
@@ -57,6 +57,10 @@
 
     <ion-list>
       <ion-item (click)="logout();">로그아웃</ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="!paymentflag">
+      <ion-item (click)="gotopayment();">결제진행</ion-item>
     </ion-list>
   </ion-content>
 
@@ -93,9 +97,9 @@ background: white; margin-top:45px;" padding>
     </div>
 <div class="orderlisting" style="color:black;" *ngFor="let i of orderlist; let j = index;">
   <p *ngIf="i.logic" style="
-  margin: 0;"> 룸 번호 : {{i.roomno}}T / 중방/대방 ON</p>
+  margin: 0;"> 룸 번호 : {{i.roomno}}T  담당자 : {{i.incharge}} / 중방/대방 ON</p>
   <p *ngIf="!i.logic" style="
-  margin: 0;"> 룸 번호 : {{i.roomno}}T 중방/대방 OFF</p>
+  margin: 0;"> 룸 번호 : {{i.roomno}}T 담당자 : {{i.incharge}}  / 중방/대방 OFF</p>
   <p style="
   margin: 0;"> 주문일 : {{i.date}}</p>
   <p style="

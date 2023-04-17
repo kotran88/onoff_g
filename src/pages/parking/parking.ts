@@ -11,6 +11,7 @@ import { InfoPage } from '../info/info';
 import { MenuController } from 'ionic-angular';
 import  firebase from 'firebase';
 import { LoginpagePage } from '../loginpage/loginpage';
+import { SignupPage } from '../signup/signup';
 /**
  * Generated class for the ParkingPage page.
  *
@@ -38,12 +39,21 @@ export class ParkingPage {
   showflag=false;
   firstflag=false;
   position:any;
+  paymentflag:any=false;
   count : number[] = new Array();
   constructor(public view:ViewController, public menuCtrl: MenuController ,public param:NavParams, public zone:NgZone,public navCtrl: NavController, public navParams: NavParams) {
     console.log("parking come");
     this.company = localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
+
+
+    var login=localStorage.getItem("login_data");
+    console.log(login);
+    console.log(JSON.parse(login).payment);
+    this.paymentflag=JSON.parse(login).payment;
+
+
     this.firstflag = this.param.get("flag");
     for (let i = 1; i <= 10; i++) {
       this.count.push(i);
@@ -54,6 +64,10 @@ export class ParkingPage {
     }else{
       this.showflag=false;
     }
+  }
+
+  gotopayment(){
+    this.navCtrl.push(SignupPage);
   }
   logout(){
     localStorage.setItem("id", "" )

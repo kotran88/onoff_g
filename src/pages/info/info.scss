@@ -24,8 +24,35 @@ page-info {
     .segactive{
         background: blue !important;
     }
+    .select-text{
+      width:80px !important;
+    }
+    .button-inner{
+      color:black !important;
+    }
+    ion-select{
+
+    font-size: 10px !important;
+    }
     .segment-button {
         color: red; // here, instead of "red" you can use sass variable if it was already defined
+    }
+    .input-wrapper{
+      overflow: visible !important;
+    }
+    .selecting{
+      float: right;
+      width: 190px;
+      height: 34px;
+    }
+    .rowrow{
+      span{
+      text-decoration: line-through;
+      color:  red;
+      }
+    }
+    .select-md{
+      padding : 0px !important;
     }
     .ion-label{
 

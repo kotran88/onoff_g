@@ -6,6 +6,11 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import  firebase from 'firebase';
 import * as $ from "jquery";
 
+
+import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http/';
+import { HttpClientModule,HttpHeaders } from '@angular/common/http/';
+import { HttpModule } from '@angular/http';
 import { SignupPage } from '../signup/signup';
 import { ParkingPage } from '../parking/parking';
 import { UtilsProvider } from '../../providers/utils/utils';
@@ -32,22 +37,52 @@ import { OrdermainPage } from '../ordermain/ordermain';
   templateUrl: 'loginpage.html',
 })
 export class LoginpagePage {
-
+  directorList:any=[];
   ValidateFlag:any=false;
   id:any = "";
   password:any = "";
   check=false;
-  version='20230403 v2.85';
+  version='20230414 v2.90';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
-  constructor(public util : UtilsProvider,public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+  // async getData() {
+  //   try {
+  //     const url = 'https://api.iamport.kr/users/getToken';
+  //     const params = {"imp_key":"0040765620267739","imp_secret": "lLzW9IKeK9htRMa6RpJza8uJ08Q6Nbf9XP57xQlh0DLRqVXhlHRwPlgQu7Whjcqh2woznKRonDgNyd5U"};
+  //     var headers = {};
+  //     this.http.get(url, params,headers).subscribe((e)=>{
+  //     const response = await this.http.get(url, params,headers);
+
+  //     console.log(response.subscribe((e)=>{
+  //       console.log(e);
+  //     }));
+  //   }catch (error) {
+  //     console.error(error.status);
+  //     console.error(error.error); // Error message as string
+  //     console.error(error.headers);
+  //   }
+  // }
+  // }
+  constructor(public httpClient: HttpClient,public h:HttpModule, public http:HttpClientModule,public util : UtilsProvider,public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
     var flag = localStorage.getItem("loginflag");
+    this.directorList=this.navParams.get("director");
+    console.log(this.directorList)
     console.log(flag);
     this.check = (flag === 'true');
     console.log("login flag : "+this.check);
-    
+
+            var headers = new HttpHeaders();
+            headers.append("Accept", 'application/json');
+            headers.append('Content-Type', 'application/json');
+            headers.append('Access-Control-Allow-Origin', '*');
+        
     setTimeout(()=>{
+      // var abc = this.httpClient.get('https://wad.herokuapp.com/test2',{headers:headers} );
+      // abc.subscribe(data => {
+      //   console.log(data);
+      // });
+      
       if(this.check==true){
         $("#checked").prop('checked', true);
         this.id = localStorage.getItem("id");
@@ -57,8 +92,14 @@ export class LoginpagePage {
       }else{
         $("#checked").prop('checked', false);
       }
-
-
+      // this.http.get('https://wad.herokuapp.com/test').subscribe(data => {
+      //   console.log(data);
+      //   this.ValidateFlag=true;
+      // }, error => {
+      //   console.log(error);
+      //   this.ValidateFlag=false;
+      // }
+      // );
 
 
     },1000)
@@ -84,7 +125,20 @@ export class LoginpagePage {
     var id = localStorage.getItem("id");
     console.log(approved);
     console.log(id);
-    this.navCtrl.push(SignupPage,{"approved":approved,"id":id});
+    this.navCtrl.push(SignupPage,{"approved":approved,"id":id}).then(() => {
+      this.navCtrl.getActive().onDidDismiss(data => {
+        console.log("ondiddismiss....");
+        if(data==undefined){
+
+        }else{
+          if(data.result=="success"){
+            this.navCtrl.push(SignupPage);
+          }
+        }
+        
+
+      })
+    });
   }
   login_flag_update(){
     this.firemain.child('users').child(this.id).update({'login_flag':String(this.check)})
@@ -132,20 +186,21 @@ export class LoginpagePage {
           this.loading.dismiss();
             return;
           }
-          if(snap.val().type=="kyungri"){
-            window.alert("경리는 웹페이지를 이용해주세요 .")
-            this.loading.dismiss();
-            return;
-          }
+          // if(snap.val().type=="kyungri"){
+          //   this.loading.dismiss();
+          //   return;
+          // }
           console.log(snap.val()["name"])
           this.name=snap.val()["name"];
 
           localStorage.setItem("login_data",JSON.stringify(snap.val()))
 
+        localStorage.setItem("name",this.name);
           var approved=snap.val()["approved"];
 
           var payment=snap.val()["payment"];
           console.log(approved+",,"+payment)
+          
           if(approved==false||approved==undefined){
             window.alert("승인대기중입니다. 관리자에게 문의하세요")
 
@@ -154,9 +209,10 @@ export class LoginpagePage {
           }else{
           }
           if(payment==false||payment==undefined){
-            window.alert("아직 결제하지 않았습니다. 회원가입버튼을 통해 결제를 해주세요.")
+            window.alert("아직 결제하지 않았기때문에 조회만 가능합니다.")
 
           this.loading.dismiss();
+          this.navCtrl.push(InfoPage,{"user":this.directorList});
             return;
           }else{
           }
@@ -218,13 +274,13 @@ export class LoginpagePage {
                     else if(type == "director")
                     {
                       //부장 
-                      this.navCtrl.push(DirectorpagePage);
+                      this.navCtrl.push(DirectorpagePage,{"user":this.directorList});
                     }else if(type == "account"){
                       //경리 
                     this.navCtrl.push(AccountPage);
                     }else if(type=="info"){
                       //인포  
-                      this.navCtrl.push(InfoPage)
+                      this.navCtrl.push(InfoPage,{"user":this.directorList})
                     }else if(type=="agasi"){
                       //아가씨 
                       this.navCtrl.push(AgasiPage)
@@ -234,6 +290,8 @@ export class LoginpagePage {
                     }else if(type=="wt"){
                       //wt 
                       this.navCtrl.push(WtPage)
+                    }else if(type=="kyungri"){
+                      this.navCtrl.push(InfoPage,{"user":this.directorList})
                     }
                   }else{
                     window.alert("업장 개시하지 않았습니다 매니저에게 문의하세요")

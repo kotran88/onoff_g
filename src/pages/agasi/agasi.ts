@@ -10,6 +10,8 @@ import { GongjiPage } from '../gongji/gongji';
 import  firebase from 'firebase';
 import { EditingroomPage } from '../editingroom/editingroom';
 import { InfoPage } from '../info/info';
+import { SignupPage } from '../signup/signup';
+import { UtilsProvider } from '../../providers/utils/utils';
 /**
  * Generated class for the AgasiPage page.
  *
@@ -68,12 +70,17 @@ export class AgasiPage {
   team:any;
   tctotal:any=0;
   
-  constructor(public zone:NgZone,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
+  paymentflag:any=false;
+  constructor(public util:UtilsProvider, public zone:NgZone,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
     this.id=localStorage.getItem("id");
     this.name = localStorage.getItem("name");
     this.company = localStorage.getItem("company");
     var date = new Date();
 
+    var login=localStorage.getItem("login_data");
+    console.log(login);
+    console.log(JSON.parse(login).payment);
+    this.paymentflag=JSON.parse(login).payment;
     
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
@@ -106,6 +113,9 @@ export class AgasiPage {
     });
   }
 
+  gotopayment(){
+    this.navCtrl.push(SignupPage);
+  }
   gotolink(value){
     if(value == 1){
     this.navCtrl.push(ParkingPage);
@@ -185,7 +195,110 @@ export class AgasiPage {
     this.thismonthmainlist=[];
     this.mainlist=[];
     this.mainlist2=[];
+    this.mainlist=[];
+    this.todaymoney=0;
+    this.firemain.child("company").child(this.company).child('roomlist').once('value').then((snap)=>{
+      if(snap.val()!=undefined){
+        for(var a in snap.val()){
+  
+          for(var b in snap.val()[a].roomhistory){
+            for(var c in snap.val()[a].roomhistory[b]){
+                if(snap.val()[a].roomhistory[b][c].date!=undefined&&snap.val()[a].roomhistory[b][c].date.split(" ")[0]==this.currentstartday){
+                  //오늘만...
+                  console.log(snap.val()[a].roomhistory[b][c]);
+                  var mainlist=snap.val()[a].roomhistory[b][c];
+  
+                  console.log("is mainlist...")
+  
+                  console.log(mainlist);
+          for(var d in mainlist.agasi){
+            if(mainlist.agasi[d].name==this.name){
+              var totalmoney=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[0]);
+              var tctotal=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[1]);
+              var bantee=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[2]);
+              mainlist.agasi[d].totalmoney=totalmoney;
+              mainlist.agasi[d].tc=tctotal;
+              mainlist.agasi[d].bantee=bantee;
 
+              console.log(mainlist.agasi[d]);
+              console.log(mainlist.agasi[d].tc);
+              this.todaymoney+=mainlist.agasi[d].tc;
+              if(mainlist.agasi[d].findate!=undefined){ this.thismonthmainlist.push({"date":mainlist.agasi[d].date.split(" ")[0], "end_date_full":mainlist.agasi[d].findate,"enter_date_full":mainlist.agasi[d].date.split(" ")[0],"name":mainlist.agasi[d].name,"room":mainlist.agasi[d].roomno,"incharge":mainlist.agasi[d].incharge,"tctotal":mainlist.agasi[d].tc,"money":mainlist.agasi[d].totalmoney})
+         
+                this.mainlist.push({"incharge":mainlist.agasi[d].incharge,"enter_date_full":mainlist.agasi[d].date,  "end_date_full":mainlist.agasi[d].findate,"room":mainlist.agasi[d].roomno,"name":mainlist.agasi[d].name,"tctotal":mainlist.agasi[d].tc,"money":mainlist.agasi[d].totalmoney})
+              }else{
+                this.currentRoom = mainlist.agasi[d].roomno;
+                this.tctotal = mainlist.agasi[d].tc;
+                var now = new Date();
+                var diffend = new Date(mainlist.agasi[d].date);
+                console.log(diffend);
+                var diff = now.getTime() - diffend.getTime();
+                console.log(diff);
+                console.log(now.getTime());
+                console.log(diffend.getTime());
+                this.diffMin = Math.ceil(diff / (1000) / 3600 * 60 );
+                console.log("diffmin..."+this.diffMin);
+               
+              }
+
+
+
+
+                     
+
+            }
+               
+          }
+
+        }else{
+          //오늘 아닌날. 
+
+          var mainlist=snap.val()[a].roomhistory[b][c];
+  
+                  console.log("is mainlist...")
+  
+                  console.log(mainlist);
+          for(var d in mainlist.agasi){
+            if(mainlist.agasi[d].name==this.name){
+              var totalmoney=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[0]);
+              var tctotal=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[1]);
+              var bantee=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[2]);
+              mainlist.agasi[d].totalmoney=totalmoney;
+              mainlist.agasi[d].tc=tctotal;
+              mainlist.agasi[d].bantee=bantee;
+
+              console.log(mainlist.agasi[d]);
+              console.log(mainlist.agasi[d].tc);
+              this.todaymoney+=mainlist.agasi[d].tc;
+              if(mainlist.agasi[d].findate!=undefined){
+                
+                this.thismonthmainlist.push({"date":mainlist.agasi[d].date.split(" ")[0], "end_date_full":mainlist.agasi[d].findate,"enter_date_full":mainlist.agasi[d].date.split(" ")[0],"name":mainlist.agasi[d].name,"room":mainlist.agasi[d].roomno,"incharge":mainlist.agasi[d].incharge,"tctotal":mainlist.agasi[d].tc,"money":(mainlist.agasi[d].totalmoney*10000).toLocaleString()})
+         
+                // this.mainlist.push({"incharge":mainlist.agasi[d].incharge,"enter_date_full":mainlist.agasi[d].date,  "end_date_full":mainlist.agasi[d].findate,"room":mainlist.agasi[d].roomno,"name":mainlist.agasi[d].name,"tctotal":mainlist.agasi[d].tc,"money":mainlist.agasi[d].totalmoney})
+              }else{
+                // this.currentRoom = mainlist.agasi[d].roomno;
+                // this.tctotal = mainlist.agasi[d].tc;
+                var now = new Date();
+                var diffend = new Date(mainlist.agasi[d].date);
+                console.log(diffend);
+                var diff = now.getTime() - diffend.getTime();
+                console.log(diff);
+                console.log(now.getTime());
+                console.log(diffend.getTime());
+                // this.diffMin = Math.ceil(diff / (1000) / 3600 * 60 );
+                console.log("diffmin..."+this.diffMin);
+         
+
+              }
+            }
+
+        }
+      }
+    }
+  }
+}
+      }
+});
     this.firemain.child("users").child(this.id).once('value').then((snap)=>{
       console.log(snap.val());
 
@@ -235,12 +348,12 @@ export class AgasiPage {
         console.log(diff);
         console.log(now.getTime());
         console.log(diffend.getTime());
-        this.diffMin = Math.ceil(diff / (1000) / 3600 * 60 );
-        console.log(this.diffMin)
+        // this.diffMin = Math.ceil(diff / (1000) / 3600 * 60 );
+        // console.log(this.diffMin)
         // this.tctotal = this.diffMin/60;
         // this.tctotal = this.tctotal.toFixed(2);
         // var tctotal=0;
-        var diffMin = this.diffMin;
+        var diffMin = 0;
         var chasam=0;
     if(diffMin<=10){
       tctotal =0;
@@ -452,7 +565,7 @@ export class AgasiPage {
                           totalmoney = Number(moneyvalue)+Number(restofmoney);
                           console.log(snap.val().roomhistory[a][b][c])
                             // this.tcday.push({"date":start.split("T")[0],"day":start.split("T")[0].split("-")[2],"value":32000})
-                              this.mainlist.push({"incharge":snap.val().roomhistory[a][b][c].incharge, "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].date,"name":roomno,"room":snap.val().roomhistory[a][b][c].room,"tctotal":snap.val().roomhistory[a][b][c].tc,"money":snap.val().roomhistory[a][b][c].money})
+                              // this.mainlist.push({"incharge":snap.val().roomhistory[a][b][c].incharge, "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].date,"name":roomno,"room":snap.val().roomhistory[a][b][c].room,"tctotal":snap.val().roomhistory[a][b][c].tc,"money":snap.val().roomhistory[a][b][c].money})
                           console.log("today total : "+totalmoney);
                           console.log(this.mainlist)
                           }else{
@@ -529,7 +642,7 @@ export class AgasiPage {
                           }
                         }
                         if(snap.val().roomhistory[a][b][c].date!=undefined){
-                          this.thismonthmainlist.push({"date":snap.val().roomhistory[a][b][c].date, "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney*10000})
+                          // this.thismonthmainlist.push({"date":snap.val().roomhistory[a][b][c].date, "end_date_full":snap.val().roomhistory[a][b][c].end_date_full,"enter_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"name":snap.val().roomhistory[a][b][c].name,"room":snap.val().roomhistory[a][b][c].room,"start_date_full":snap.val().roomhistory[a][b][c].enter_date_full,"incharge":snap.val().roomhistory[a][b][c].incharge,"tctotal":tctotal.toFixed(2),"money":totalmoney*10000})
                         }
                         console.log(this.thismonthmainlist);
                       }
@@ -576,11 +689,12 @@ console.log(this.totaltcofday)
       console.log(this.currentstartday)
       console.log("545...");
       if(this.currentYear+"-"+this.currentMonth+"-"+b==this.currentstartday){
-       this.todaymoney=tc;
+        
+        console.log(tc);
+      //  this.todaymoney=tc;
 
 console.log(b+",,,"+this.currentstartday);
 console.log(this.tctotal);
-console.log(this.todaymoney)
 // this.todaymoney+=Number(this.tctotal);
 console.log("totaltcofday:"+this.totaltcofday)
 console.log(tc);
@@ -588,7 +702,6 @@ console.log(tc);
       this.tcday.push({"date":dayy,"day":b,"value":tc});
 
     }
-    console.log(this.todaymoney);
     console.log(this.tcday);
 
 
