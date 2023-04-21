@@ -127,98 +127,105 @@ export class UtilsProvider {
     if(tc==0){
       totaltc=0;
     }else if(tc==0.3){
-      totaltc=0.3;
-    }else if(tc==0.6){
-      totaltc=0.6;
-    }else if(tc==1){
-      totaltc=1;
-    }else if(tc==1.1){
-      totaltc=1.4;
-    }else if(tc==1.3){
-      totaltc=1.6;
-    }else if(tc==2){
-      totaltc=2;
-    }else if(tc==2.1){
-      totaltc=2.4;
-    }else if(tc==2.3){
-      totaltc=2.6;
-    }else if(tc==3){
       totaltc=3;
-    }else if(tc==3.1){
-      totaltc=3.4;
-    }else if(tc==3.3){
-      totaltc=3.6;
-    }else if(tc==4){
-      totaltc=4;
-    }else if(tc==4.1){
-      totaltc=4.4;
-    }else if(tc==4.3){
-      totaltc=4.6;
-    }else if(tc==5){
-      totaltc=5;
-    }else if(tc==5.1){
-      totaltc=5.4;
-    }else if(tc==5.3){
-      totaltc=5.6;
-    }else if(tc==6){
+    }else if(tc==0.6){
       totaltc=6;
-    }else if(tc==6.1){
-      totaltc=6.4;
-    }else if(tc==6.3){
-      totaltc=6.6;
-    }else if(tc==7){
-      totaltc=7;
-    }else if(tc==7.1){
-      totaltc=7.4;
-    }else if(tc==7.3){
-      totaltc=7.6;
-    }else if(tc==8){
-      totaltc=8;
-    }else if(tc==8.1){
-      totaltc=8.4;
-    }else if(tc==8.3){
-      totaltc=8.6;
-    }else if(tc==9){
-      totaltc=9;
-    }else if(tc==9.1){
-      totaltc=9.4;
-    }else if(tc==9.3){
-      totaltc=9.6;
-    }else if(tc==10){
-      totaltc=10;
-    }else if(tc==10.1){
-      totaltc=10.4;
-    }else if(tc==10.3){
-      totaltc=10.6;
-    }else if(tc==11){
-      totaltc=11;
-    }else if(tc==11.1){
-      totaltc=11.4;
-    }else if(tc==11.3){
-      totaltc=11.6;
-    }else if(tc==12){
-      totaltc=12;
-    }else if(tc==12.1){
-      totaltc=12.4;
-    }else if(tc==12.3){
-      totaltc=12.6;
-    }else if(tc==13){
+    }else if(tc==1){
       totaltc=13;
-    }else if(tc==13.1){
-      totaltc=13.4;
-    }else if(tc==13.3){
-      totaltc=13.6;
-    }else if(tc==14){
+    }else if(tc==1.1){
       totaltc=14;
-    }else if(tc==14.1){
-      totaltc=14.4;
-    }else if(tc==14.3){
-      totaltc=14.6;
-    }else if(tc==15){
-      totaltc=15;
-    }else{
-      totaltc=1000;
+    }else if(tc==1.3){
+      totaltc=16;
+    }else if(tc==1.6){
+      totaltc=19;
+    }else if(tc==2){
+      totaltc=26;
+    }else if(tc==2.1){
+      totaltc=27;
+    }else if(tc==2.3){
+      totaltc=30;
+    }else if(tc==2.6){
+      totaltc=32;
+    }else if(tc==3){
+      totaltc=39;
+    }else if(tc==3.1){
+      totaltc=40;
+    }else if(tc==3.3){
+      totaltc=42;
+    }else if(tc==3.6){
+      totaltc=43;
+    }else if(tc==4){
+      totaltc=52;
+    }else if(tc==4.1){
+      totaltc=53;
+    }else if(tc==4.3){
+      totaltc=55;
+    }else if(tc==4.6){
+      totaltc=56;
+    }else if(tc==5){
+      totaltc=65;
+    }else if(tc==5.1){
+      totaltc=66;
+    }else if(tc==5.3){
+      totaltc=68;
+    }else if(tc==5.6){
+      totaltc=69;
+    }else if(tc==6){
+      totaltc=78;
+    }else if(tc==6.1){
+      totaltc=79;
+    }else if(tc==6.3){
+      totaltc=81;
+    }else if(tc==6.6){
+      totaltc=82;
+    }else if(tc==7){
+      totaltc=91;
+    }else if(tc==7.1){
+      totaltc=92;
+    }else if(tc==7.3){
+      totaltc=94;
+    }else if(tc==7.6){
+      totaltc=95;
+    }else if(tc==8){
+      totaltc=104;
+    }else if(tc==8.1){
+      totaltc=105;
+    }else if(tc==8.3){
+      totaltc=107;
+    }else if(tc==8.6){
+      totaltc=108;
+    }else if(tc==9){
+      totaltc=117;
+    }else if(tc==9.1){
+      totaltc=118;
+    }else if(tc==9.3){
+      totaltc=120;
+    }else if(tc==9.6){
+      totaltc=121;
+    }else if(tc==10){
+      totaltc=130;
+    }else if(tc==10.1){
+      totaltc=131;
+    }else if(tc==10.3){
+      totaltc=133;
+    }else if(tc==10.6){
+      totaltc=134;
+    }else if(tc==11){
+      totaltc=143;
+    }else if(tc==11.1){
+      totaltc=144;
+    }else if(tc==11.3){
+      totaltc=146;
+    }else if(tc==11.6){
+      totaltc=147;
+    }else if(tc==12){
+      totaltc=156;
+    }else if(tc==12.1){
+      totaltc=157;
     }
+
+
+    console.log(totaltc)
     return totaltc
   }
   getTC(startdate,pauseTime){

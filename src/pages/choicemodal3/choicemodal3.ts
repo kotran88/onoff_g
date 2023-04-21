@@ -49,11 +49,14 @@ export class Choicemodal3Page {
   writer8:any="";
   writer9:any="";
   text9:any="";
+  a:any=[];
   firemain = firebase.database().ref();
   constructor(public modal:ModalController,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     this.name = localStorage.getItem("name");
     this.company = localStorage.getItem("company");
     this.currentstartday=localStorage.getItem("startDate");
+    this.a=this.navParams.get("a");
+    console.log(this.a);
   }
 
   ionViewDidLoad() {
@@ -126,6 +129,7 @@ export class Choicemodal3Page {
     if(this.writer9.length==0){
       this.writer9=this.name;
     }
+    
     var date = new Date();
     var year=date.getFullYear();
     var month=date.getMonth()+1;
@@ -183,7 +187,22 @@ export class Choicemodal3Page {
       this.agasilist.push({ "name":this.text9,
       "date": this.currentstartday +" "+hour+":"+min,"writer":this.writer9})
       }
-    
+    //iterate agasilist and this.a and compare if there is same name
+    //if there is same name, then change var dupflag to true 
+    //if dupflag is true, then show alert
+    //if dupflag is false, then save to firebase
+    var dupflag=false;
+    for(var a in this.agasilist){
+      for(var b in this.a){
+        if(this.agasilist[a].name.trim() == this.a[b].name.trim()){
+          dupflag=true;
+        }
+      }
+    }
+    if(dupflag==true){
+      window.alert("이미 출근처리된 이름입니다.");
+      return;
+    }
     
       var clean = this.agasilist.filter((arr, index, self) =>
       index === self.findIndex((t) => (t.name === arr.name)))

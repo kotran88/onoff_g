@@ -6,6 +6,7 @@ import  firebase from 'firebase';
 import {IamportCordova} from '@ionic-native/iamport-cordova'
 import { T } from '@angular/core/src/render3';
 import { LoginpagePage } from '../loginpage/loginpage';
+import { UtilsProvider } from '../../providers/utils/utils';
 /**
  * Generated class for the SignupPage page.
  *
@@ -66,7 +67,7 @@ export class SignupPage {
     localStorage.setItem("id","")
     this.navCtrl.setRoot(LoginpagePage);
   }
-  constructor(public zone:NgZone,public loading:LoadingController, public viewCtrl:ViewController,
+  constructor(public util:UtilsProvider, public zone:NgZone,public loading:LoadingController, public viewCtrl:ViewController,
     public alertCtrl:AlertController,public navCtrl: NavController, public navParams: NavParams) {
     this.firemain.child("company").once('value').then((snap)=>{
       console.log(snap.val())
@@ -250,11 +251,7 @@ export class SignupPage {
     console.log(value)
     console.log("uploadtoServer come");
     console.log(this.id);
-
-    this.lloading = this.loading.create({
-      content: '로딩...'
-    });
-    this.lloading.present();
+    this.util.presentLoading();
     // this.firemain.child('users').child(this.id.trim()).update({
     //   payment:true
     // }).then(()=>{
@@ -292,7 +289,7 @@ export class SignupPage {
       IamportCordova.payment(PaymentObject)
       .then((response) => {
         window.alert("결제처리완료");
-        this.lloading.dismiss();
+        this.util.dismissLoading();
         this.firemain.child('users').child(this.id.trim()).update({
       payment:true
     }).then(()=>{
@@ -306,7 +303,7 @@ export class SignupPage {
       })
       .catch((err) => {
         window.alert("임시 결제처리완료");
-        this.lloading.dismiss();
+       this.util.dismissLoading();
         this.firemain.child('users').child(this.id.trim()).update({
       payment:true
     }).then(()=>{
@@ -405,10 +402,7 @@ export class SignupPage {
       window.alert("닉네임을 입력해주세요")
       return;
     }
-    this.lloading = this.loading.create({
-      content: '로딩...'
-    });
-    this.lloading.present();
+    this.util.presentLoading();
 
     this.nick_checker=false;
     console.log("nickname dupulicate check");
@@ -428,7 +422,7 @@ export class SignupPage {
       if(!this.nick_checker){
         window.alert("사용가능한 닉네임입니다")
       }
-      this.lloading.dismiss();
+      this.util.dismissLoading();
     });
   }
   dupul2(){
@@ -436,12 +430,7 @@ export class SignupPage {
       window.alert("휴대전화를 입력해주세요")
       return;
     }
-    this.lloading = this.loading.create({
-      content: '로딩...'
-    });
-    console.log(this.phone);
-
-    this.lloading.present();
+    this.util.presentLoading();
     this.phone_checker=false;
     console.log("ㅊㅊcell phone dupulicate check");
     this.firemain.child('users').once("value", (snap) => {
@@ -453,9 +442,7 @@ export class SignupPage {
           console.log("dupulicate")
           this.phone_checker=true;
           window.alert("이미 등록된 번호입니다.")
-          if(this.lloading!=undefined){
-            this.lloading.dismiss()
-          }
+          this.util.dismissLoading();
           return;
         }
       }
@@ -463,9 +450,7 @@ export class SignupPage {
       if(!this.phone_checker){
         window.alert("사용가능한 번호입니다")
       }
-      if(this.lloading!=undefined){
-        this.lloading.dismiss()
-      }
+      this.util.dismissLoading();
     });
     
   }

@@ -164,23 +164,28 @@ export class AccountPage {
 }
   get_charge_person(team)
   {
+    this.util.presentLoading();
     console.log(team);
     this.option_title_ch = 1;
-    this.firemain.child('users').orderByChild("young").equalTo(team).once('value').then((snap)=>{
-      console.log(snap.val());
+    this.firemain.child('users').orderByChild("young").once('value').then((snap)=>{
       this.view_list = [];
       for(var i in snap.val())
       {
-        if(snap.val()[i].type=="director"){
-
-          this.view_list.push(snap.val()[i]);
+        if(snap.val()[i].young!=undefined){
+          if(snap.val()[i].young.indexOf(team) > -1){
+            this.view_list.push(snap.val()[i]);
+          };
         }
+          
       }
       this.sort_temp_list = [];
       for(var j = 0; j < (this.view_list.length % 3); j++)
       {
         this.sort_temp_list.push(0)
       }
+      console.log(this.view_list);
+
+    this.util.dismissLoading();
     })
   }
 

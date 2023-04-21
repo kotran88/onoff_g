@@ -12,6 +12,9 @@ import { EditingroomPage } from '../editingroom/editingroom';
 import { E } from '@angular/core/src/render3';
 import { generate } from 'rxjs';
 import { SignupPage } from '../signup/signup';
+import { AccountPage } from '../account/account';
+import { OrderPage } from '../order/order';
+import { OrdermainPage } from '../ordermain/ordermain';
 /**
  * Generated class for the InfoPage page.
  *
@@ -48,6 +51,7 @@ export class InfoPage {
   directorList:any=[];
   code:any="";
   id:any="";
+  type:any="";
   firemain = firebase.database().ref();
   constructor(public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
     this.company=  localStorage.getItem("company");
@@ -56,7 +60,7 @@ export class InfoPage {
     this.currentstartday=localStorage.getItem("startDate");
     this.name = localStorage.getItem("name");
     this.firstflag = this.navParams.get("flag");
-    var type = localStorage.getItem("type");
+    this.type = localStorage.getItem("type");
     var login=localStorage.getItem("login_data");
     // this.code = JSON.parse(login).code;
     console.log(login);
@@ -76,6 +80,9 @@ export class InfoPage {
       }
     }
     ,1000)
+  }
+  ionViewWillLeave(){
+    this.firemain.child("company").child(this.company).child("roomlist").off();
   }
   openclose(){
     console.log("open and cloe");
@@ -217,13 +224,12 @@ gotopayment(){
         this.navCtrl.getActive().onDidDismiss(data => {
           console.log("off...")
       this.firemain.child("company").child(this.company).child("roomlist").off();
-          // this.generate();
         })
       });
     }else if(value==5){
-      this.navCtrl.push(GongjiPage,{flag:true});
+      this.navCtrl.push(AccountPage,{flag:true});
     }else if(value==6){
-      this.navCtrl.push(InfoPage,{flag:true});
+      this.navCtrl.push(OrdermainPage,{flag:true});
     }else if(value==7){
       this.navCtrl.push(InfoPage,{flag:true});
     }

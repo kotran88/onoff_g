@@ -44,6 +44,14 @@
       <ion-list (click)="gotolink(4)">
         <ion-item>초이스..</ion-item>
       </ion-list>
+
+      <ion-list *ngIf="type=='kyungri'" (click)="gotolink(5)">
+        <ion-item>입금</ion-item>
+      </ion-list>
+
+      <ion-list *ngIf="type=='kyungri'" (click)="gotolink(6)">
+        <ion-item>주문..</ion-item>
+      </ion-list>
       <ion-list *ngIf="paymentflag">
         <ion-item (click)="gotolink(5)">공지</ion-item>
       </ion-list>

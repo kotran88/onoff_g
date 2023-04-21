@@ -130,8 +130,18 @@ margin-top: -40px;" class="event-bullet" *ngIf="(
           ) && checkEvent(day)" >
               </div>
           <ng-template #otherDate class="otherDate">
-              <span style="
-              width: 20px;" (click)="openmodal(day)">{{day}}</span> <br>
+            <span  *ngIf="(
+              day == selectedDay &&
+              today.getMonth()+1 == currentMonth &&
+              today.getFullYear() == currentYear
+              )" style="background: pink;
+            width: 20px;" (click)="openmodal(day)">{{day}}</span>
+            <span  *ngIf="(
+              day != selectedDay &&
+              today.getMonth()+1 == currentMonth &&
+              today.getFullYear() == currentYear
+              )" style="
+            width: 20px;" (click)="openmodal(day)">{{day}}</span>
               <div  style="width: 7px;
               height: 7px;
               color: #E74371 ;

@@ -13,6 +13,7 @@ import { GongjiPage } from '../gongji/gongji';
 import { AccountPage } from '../account/account';
 import { UtilsProvider } from '../../providers/utils/utils';
 import { SignupPage } from '../signup/signup';
+import { ServinghistoryPage } from '../servinghistory/servinghistory';
 @Component({
   selector: 'page-wt',
   templateUrl: 'wt.html',
@@ -77,7 +78,8 @@ export class WtPage {
         console.log("choice back")
         this.navCtrl.getActive().onDidDismiss(data => {
           console.log("off...")
-      this.firemain.child("company").child(this.company).child("roomlist").off();
+      // this.firemain.child("company").child(this.company).child("roomlist").off();
+      this.generate();
           // this.generate();
         })
       });
@@ -86,7 +88,7 @@ export class WtPage {
     }else if(value==6){
       this.navCtrl.push(AccountPage,{flag:true});
     }else if(value==7){
-      this.navCtrl.push(InfoPage);
+      this.navCtrl.push(ServinghistoryPage);
     }
   }
   openclose(){
@@ -140,6 +142,8 @@ generate(){
       var newtc=0;
       var tcarray = [];
       var chasamarray=[];
+      var chasamtotal=0;
+      var tctotal=0;
       var yeontireason="";
       var numofpeople = snap.val()[a].roomhistory[b][c].numofpeople;
       var logic = snap.val()[a].roomhistory[b][c].logic;
@@ -149,10 +153,21 @@ generate(){
         console.log(mainlist.agasi[cccc].tc)
         newtc += Math.floor(mainlist.agasi[cccc].tc)
         tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
-
+        tctotal+=Number(Math.floor(mainlist.agasi[cccc].tc));
+        chasamtotal+=Number((mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
+        console.log("add chasam...");
+        console.log(Number((mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) ));
         chasamarray.push( (mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
       
       }
+      chasamtotal=Number(chasamtotal.toFixed(2));
+      var newchasamtotal=chasamtotal.toString();
+      //can you make it like this? newchasamtotal should be look like 1.8 and I want it to be 0.18 
+      newchasamtotal = newchasamtotal.split(".")[0]+newchasamtotal.split(".")[1];
+      newchasamtotal = ""+newchasamtotal;
+      console.log(newchasamtotal);
+      // newchasamtotal
+      console.log("chasamtotal"+chasamtotal);
       console.log(numofpeople+"newtc"+newtc);
       //어떤 아가씨가 술병수보다 완티가 많거나 같거나 하면. 그 아가씨는 제외하고, 손님수도 그아가씨 수만큼 제외하고
       // 나머지 완티의 갯수를 고려해서 계산. 
@@ -255,7 +270,7 @@ generate(){
                     orderdate = "-"
                     roomno="-"
                   }
-                  this.orderlist.push({"inagasi":inagasi, "incharge":snap.val()[a].roomhistory[b][c].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
+                  this.orderlist.push({"tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":snap.val()[a].roomhistory[b][c].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
               }
              
               

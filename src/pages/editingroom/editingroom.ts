@@ -49,7 +49,6 @@ export class EditingroomPage {
      this.currentstart=localStorage.getItem("start");
      this.currentstartday=localStorage.getItem("startDate");
       this.allroom = this.navParams.get("allroom");
-
     console.log(this.a);
     this.room = this.a.name
     this.bu=this.a.bu;
@@ -121,6 +120,7 @@ export class EditingroomPage {
     console.log(this.smallroom);
     console.log(this.midroom);
     console.log(this.bigroom);
+    this.util.presentLoading();
     var occupied=false;
     for(var ii in this.allroom){
       //check if the room is already reserved
@@ -169,7 +169,6 @@ export class EditingroomPage {
         for(var a in snap.val()){
 
           if(snap.val()[a].roomhistory!=undefined){
-            console.log("mmmm")
             console.log(snap.val()[a].roomhistory)
                   for(var b in snap.val()[a].roomhistory[this.currentstartday]){
                     console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
@@ -302,22 +301,15 @@ export class EditingroomPage {
         // "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
         // "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
         // "v":snap.val()[a].roomhistory[this.currentstartday][b].v})
-          console.log(snap.val());
           this.firemain.child("users").once("value",snap2=>{
             for(var b in snap2.val()){
             //   console.log(b);
               if(snap2.val()[b].type=="agasi"){
                 for(var aa in snap.val().agasi){
                   if(snap2.val()[b].name == snap.val().agasi[aa].name){
-                    console.log("100...");
-                    console.log(snap2.val()[b]);
-                    console.log(snap2.val()[b].name);
-                    console.log(snap.val().agasi[aa]);
                     var totalmoney=Number(this.util.getTC(snap.val().agasi[aa],snap.val().agasi[aa].pausetime).split(",")[0]);
                     var tctotal=Number(this.util.getTC(snap.val().agasi[aa],snap.val().agasi[aa].pausetime).split(",")[1]);
                     var bantee=Number(this.util.getTC(snap.val().agasi[aa],snap.val().agasi[aa].pausetime).split(",")[2]);
-                    console.log(totalmoney);
-                    console.log(tctotal);
 
                     this.firemain.child("users").child(snap2.val()[b].id).child("current").remove();
                     var dte = new Date();
@@ -369,8 +361,11 @@ export class EditingroomPage {
    
         console.log(snap.val());
         console.log(snap.val().logic);
-
-
+        var orderlist=[];
+        if(snap.val().orderlist==undefined){
+        }else{
+          orderlist=snap.val().orderlist;
+        }
 
         if(this.status=="fin"){
           this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({
@@ -382,6 +377,8 @@ export class EditingroomPage {
             "end_date":this.end_date.getHours()+":"+this.end_date.getMinutes(),
             "end_date_full":end_date_full,
             "status":this.status,
+
+            "orderlist":orderlist,
             "numofpeople":this.numofpeople,
             "incharge":this.incharge,
           })
@@ -402,6 +399,7 @@ export class EditingroomPage {
               "incharge":this.incharge,
               "key":snap.val().key,
               "last_updated":snap.val().last_updated,
+              "orderlist":orderlist,
               "lastupdated":snap.val().lastupdated,
               "lastupdatedperson":snap.val().lastupdatedperson,
               "name":this.room,
@@ -422,6 +420,7 @@ export class EditingroomPage {
               "insert_date":snap.val().insert_date,
               "date":snap.val().date,
               "flag":snap.val().flag,
+              "orderlist":orderlist,
               "avec":this.avec,
               "incharge":this.incharge,
               "key":snap.val().key,
@@ -437,7 +436,7 @@ export class EditingroomPage {
           }
         
         }
-
+        this.util.dismissLoading();
     });
    
     

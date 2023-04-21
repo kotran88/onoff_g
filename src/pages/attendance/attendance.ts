@@ -76,7 +76,7 @@ export class AttendancePage {
   attending(){
     console.log("attending??");
 
-    let modal = this.modal.create(Choicemodal3Page,{  });
+    let modal = this.modal.create(Choicemodal3Page,{ "a":this.mainlist });
     modal.onDidDismiss(url => {
         console.log(url);
         if(url==undefined){
@@ -150,22 +150,12 @@ export class AttendancePage {
     });
 
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AttendancePage');
-    this.util.presentLoading();
-    this.goToday();
+  generateaatendance(){
 
-    this.generating();
-    for (let i = 1; i <= 3; i++) { document.getElementById("ion-label-area-" + i).style.display = "none"; }
-        document.getElementById("ion-label-area-1").style.display = "";
-        this.zone.run(()=>{
+    console.log("ionViewWillEnter");
+    console.log(this.company);
+   
 
-          this.activeclass='1'
-        })
-  }
-
-  generating(){
-    console.log("gggggenerating...");
     this.totalagasi=[];
     this.mainlist=[];
     this.mainlist_no=[];
@@ -176,6 +166,7 @@ export class AttendancePage {
     this.jopanjjinglist2 = [];
 
     this.firemain.child("company").child(this.company).child('roomlist').once('value').then((snap)=>{
+      this.util.presentLoading();
       if(snap.val()!=undefined){
         for(var a in snap.val()){
   
@@ -189,12 +180,12 @@ export class AttendancePage {
             if(mainlist.agasi[d].findate!=undefined){
               //종료된 아가씨. 
 
-              var totalmoney=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[0]);
-              var tctotal=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[1]);
-              var bantee=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[2]);
-              mainlist.agasi[d].money=totalmoney;
-              mainlist.agasi[d].tc=tctotal;
-              mainlist.agasi[d].bantee=bantee;
+              // var totalmoney=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[0]);
+              // var tctotal=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[1]);
+              // var bantee=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[2]);
+              // mainlist.agasi[d].money=totalmoney;
+              // mainlist.agasi[d].tc=tctotal;
+              // mainlist.agasi[d].bantee=bantee;
               console.log(mainlist.agasi[d])
               console.log(mainlist.agasi[d].name)
               console.log(mainlist.agasi[d].tc)
@@ -230,6 +221,7 @@ export class AttendancePage {
     }
   }
 }
+console.log("for loop finfin")
 
 console.log(this.agasijungsan);
 this.numberofIn=this.agasijungsan.length;
@@ -254,13 +246,11 @@ for(var a in this.mainlistfromcompany){
   if(check==0){
     console.log("add first");
     console.log(this.mainlistfromcompany[a]);
-    console.log(this.mainlistfromcompany[a].name);
     if(this.mainlistfromcompany[a].tc==undefined){
       console.log(this.mainlistfromcompany[a].tc.toFixed(1));
       newvaluearray.push({"name":this.mainlistfromcompany[a].name,"tc":0,"money":0,"bantee":0,"wantee":0});
   
     }else{
-      console.log(this.mainlistfromcompany[a].tc.toFixed(1));
       newvaluearray.push({"name":this.mainlistfromcompany[a].name,"tc":Number(this.mainlistfromcompany[a].tc),"money":this.mainlistfromcompany[a].money,"bantee":this.mainlistfromcompany[a].bantee,"wantee":this.mainlistfromcompany[a].wantee});
   
     }
@@ -269,7 +259,6 @@ for(var a in this.mainlistfromcompany){
 console.log(newvaluearray);
 this.mainlistfromcompany=newvaluearray;
 this.mainlist=[];
-
 this.firemain.child('attendance').child(this.company).once('value').then((snap)=>{
   console.log("attendance check...");
   for(var a in snap.val()){
@@ -316,194 +305,36 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
   console.log("okdoneeeee")
   console.log(this.agasijungsan);
   console.log(this.agasijungsantotal);
-  this.util.dismissLoading();
+  // this.util.dismissLoading();
 
 this.numofstandby=this.mainlist.length - this.numberofIn;
 });
 
       }
     });
-//     this.firemain.child('users').once('value').then((snap)=>{
-//       for(var a in snap.val()){
-//         if(snap.val()[a].name!=undefined){
-//           if(snap.val()[a].type=="agasi"){
-//             if(this.company == snap.val()[a].company){
-//               console.log(snap.val()[a].name);
-//               this.totalagasi.push({"name":snap.val()[a].name,"id":a});
+  }
+  ionViewWillEnter(){
 
+    this.generating();
+  }
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad AttendancePage');
+    this.goToday();
 
-//               if(snap.val()[a].roomhistory!=undefined){
-//                 console.log("room history");
-//                 console.log(snap.val()[a].roomhistory)
-//                 for(var aa in snap.val()[a].roomhistory){
-//                   console.log("a is : "+aa); //방번호?
-//                   console.log(snap.val()[a].roomhistory[aa])
-//                   for(var b in snap.val()[a].roomhistory[aa]){
-//                     console.log(b+"and "+this.selectedday)
-//                     if(b == this.selectedday){
-//                       console.log("b is : "+b);
-//                       console.log("selected day is : "+this.selectedday);
-//                       console.log(snap.val()[a].roomhistory[aa][b]);
-//                       for(var c in snap.val()[a].roomhistory[aa][b]){
-//                         console.log(snap.val()[a].roomhistory[aa][b][c]);
-//                         if(snap.val()[a].roomhistory[aa][b][c].incharge!=undefined){
-//                           var chasam = 0;
-//                           var bantee=0;
-//                           var tt = 0;
-//                           if(diffMin<=10){
-//                             chasam=0;
-//                           }else if(diffMin>=11&&diffMin<=20){
-//                             tt = 0.3;
-//                             chasam=3;
-//                           }else if(diffMin>=21&&diffMin<=40){
-//                             bantee=1;
-//                           }else if(diffMin>=41&&diffMin<=60){
-//                             bantee=1;
-//                             chasam=13;
-//                           }else if(diffMin>=61&&diffMin<=80){
-//                             bantee=1;
-//                             if(diffMin>=61&&diffMin<=66){
-//                               chasam=14;
-//                             }else if(diffMin>=67&&diffMin<=80){
-//                               chasam=16;
-//                             }
-//                           }else if(diffMin>=81&&diffMin<=100){
-//                             bantee=2;
-//                           }else if(diffMin>=101&&diffMin<=120){
-//                             bantee=2;
-//                             chasam=26;
-//                           }else if(diffMin>=121&&diffMin<=140){
-//                             bantee=2;
-//                             if(diffMin>=121&&diffMin<=126){
-//                               chasam=27;
-//                             }else if(diffMin>=126&&diffMin<=140){
-//                               chasam=29;
-//                             }
-//                           }else if(diffMin>=141&&diffMin<=160){
-//                             bantee=3;
-//                             chasam=32;
-//                           }else if(diffMin>=161&&diffMin<=180){
-//                             bantee=3;
-//                             chasam=39;
-//                           }else if(diffMin>=181&&diffMin<=200){
-//                             bantee=3;
-//                             if(diffMin>=181&&diffMin<=186){
-//                               chasam=40;
-//                             }else if(diffMin>=186&&diffMin<=180){
-//                               chasam=42;
-//                             }
-//                           }else if(diffMin>=201&&diffMin<=220){
+    for (let i = 1; i <= 3; i++) { document.getElementById("ion-label-area-" + i).style.display = "none"; }
+        document.getElementById("ion-label-area-1").style.display = "";
+        this.zone.run(()=>{
+
+          this.activeclass='1'
+        })
+  }
+
+  generating(){
+    console.log("gggggenerating...");
     
-//                             bantee=4;
-//                             chasam=43;
-//                           }else if(diffMin>=221&&diffMin<=240){
-//                             bantee=4;
-//                             chasam=52;
-//                           }
-//                       console.log("add...");
-//                           this.agasijungsantotal.push({"bantee":bantee,"chasam":chasam,"name":snap.val()[a].roomhistory[aa][b][c].name,"date":snap.val()[a].roomhistory[aa][b][c].date,"incharge":snap.val()[a].roomhistory[aa][b][c].incharge,"money":snap.val()[a].roomhistory[aa][b][c].money,"tc":snap.val()[a].roomhistory[aa][b][c].tc,"wantee":Math.floor(snap.val()[a].roomhistory[aa][b][c].tc)});
-//                         }
-
-//                         var startdate = snap.val()[a].roomhistory[aa][b][c].date;
-//                         var end_date_full = snap.val()[a].roomhistory[aa][b][c].end_date_full;
-//                         //calculate diff of stardate and end_date_full
-//                         var startdate2 = new Date(startdate);
-//                         var end_date_full2 = new Date(end_date_full);
-//                         var d = end_date_full2.setHours(end_date_full2.getHours() - 9);
-//                         console.log(startdate2);
-//                         console.log(end_date_full2)
-//                         console.log(d);
-//                         var diff = end_date_full2.getTime() - startdate2.getTime();
-//                         var diff = diff / 1000;
-//                         var diff = diff / 60;
-//                         console.log(diff);
-//                         var diffMin = diff;
-                        
-//                         // var end = snap.val()[a].roomhistory[a][b][c].end_date_full
-//                         // var start = snap.val()[a].roomhistory[a][b][c].date;
-//                         // console.log(end);
-//                         // console.log(start);
-
-                          
-// //1분~10분까지는 0
-// //11분~20분까지는 0.3개 차삼 3만원 추가.
-// //21분~40분까지 0.6개 차삼 3만원 추가. 총 차삼 6만원  추가. 이때 반티가 올라가는 찡이하나 올라가는거고  총 찡 1개 
-// //41분~60분까지 tc 1개(완티) 13만원. 차삼 9만원 추가.  완티하나발생해서  총찡 1개. 
-// //61분~80분까지 tc 1.3개 13만원 + 차삼 12만원 = 25만원  총 찡 1개
-// //81분~100분까지 tc 1.6개 13만원 + 차삼 15만원 = 28만원  반티가 발생하니까 찡이 하나  총 찡 2개
-// //101분~120분까지 tc 2개 13만원 + 차삼 18만원 = 31만원 완티가 발생하니까 찡이 하나 더올라가고.  총 찡 2개
-//                       var chasam = 0;
-//                       var bantee=0;
-//                       var tt = 0;
-//                       if(diffMin<=10){
-//                         chasam=0;
-//                       }else if(diffMin>=11&&diffMin<=20){
-//                         tt = 0.3;
-//                         chasam=3;
-//                       }else if(diffMin>=21&&diffMin<=40){
-//                         bantee=1;
-//                       }else if(diffMin>=41&&diffMin<=60){
-//                         bantee=1;
-//                         chasam=13;
-//                       }else if(diffMin>=61&&diffMin<=80){
-//                         bantee=1;
-//                         if(diffMin>=61&&diffMin<=66){
-//                           chasam=14;
-//                         }else if(diffMin>=67&&diffMin<=80){
-//                           chasam=16;
-//                         }
-//                       }else if(diffMin>=81&&diffMin<=100){
-//                         bantee=2;
-//                       }else if(diffMin>=101&&diffMin<=120){
-//                         bantee=2;
-//                         chasam=26;
-//                       }else if(diffMin>=121&&diffMin<=140){
-//                         bantee=2;
-//                         if(diffMin>=121&&diffMin<=126){
-//                           chasam=27;
-//                         }else if(diffMin>=126&&diffMin<=140){
-//                           chasam=29;
-//                         }
-//                       }else if(diffMin>=141&&diffMin<=160){
-//                         bantee=3;
-//                         chasam=32;
-//                       }else if(diffMin>=161&&diffMin<=180){
-//                         bantee=3;
-//                         chasam=39;
-//                       }else if(diffMin>=181&&diffMin<=200){
-//                         bantee=2;
-//                         if(diffMin>=181&&diffMin<=186){
-//                           chasam=40;
-//                         }else if(diffMin>=186&&diffMin<=180){
-//                           chasam=42;
-//                         }
-//                       }else if(diffMin>=201&&diffMin<=220){
-
-//                         bantee=4;
-//                         chasam=43;
-//                       }else if(diffMin>=221&&diffMin<=240){
-//                         bantee=4;
-//                         chasam=52;
-//                       }
-//                       console.log(snap.val()[a].roomhistory[aa][b][c].name)
-//                         this.agasijungsan.push({"diffMin":diffMin,"bantee":bantee, "chasam":(snap.val()[a].roomhistory[aa][b][c].tc-Math.floor(snap.val()[a].roomhistory[aa][b][c].tc) ).toFixed(1),"name":snap.val()[a].roomhistory[aa][b][c].name,"date":snap.val()[a].roomhistory[aa][b][c].date,"incharge":snap.val()[a].roomhistory[aa][b][c].incharge,"money":snap.val()[a].roomhistory[aa][b][c].money,"tc":snap.val()[a].roomhistory[aa][b][c].tc,"wantee":Math.floor(snap.val()[a].roomhistory[aa][b][c].tc)});
-
-//                       }
-//                     }
-//                   }
-//                 }
-//               };
-
-//             }
-//           }
-//         }
-//       }
-//     });
-
-//mmmmmmmmmmmmmm
-
+    this.generateaatendance();
     this.firemain.child("company").child(this.company).child("jopanjjing").once("value", (snap) => {
-      
+      console.log("jopanjjing come")
       for(var a in snap.val()){
         console.log(snap.val()[a][this.selectedday])
         if(snap.val()[a][this.selectedday]!=undefined){
@@ -554,6 +385,10 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
           console.log(this.jopanjjinglist2[abdc].teamname)
         }
         console.log(this.newlist);
+
+
+  this.util.dismissLoading();
+
     });
     console.log(this.agasijungsan);
     console.log(this.agasijungsantotal);

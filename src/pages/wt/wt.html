@@ -56,6 +56,9 @@
     </ion-list>
 
     <ion-list>
+      <ion-item (click)="gotolink(7)">서빙내역</ion-item>
+    </ion-list>
+    <ion-list>
       <ion-item (click)="logout();">로그아웃</ion-item>
     </ion-list>
 
@@ -96,10 +99,12 @@ background: white; margin-top:45px;" padding>
  
     </div>
 <div class="orderlisting" style="color:black;" *ngFor="let i of orderlist; let j = index;">
-  <p *ngIf="i.logic" style="
-  margin: 0;"> 룸 번호 : {{i.roomno}}T  담당자 : {{i.incharge}} / 중방/대방 ON</p>
-  <p *ngIf="!i.logic" style="
-  margin: 0;"> 룸 번호 : {{i.roomno}}T 담당자 : {{i.incharge}}  / 중방/대방 OFF</p>
+  <p *ngIf="i.logic=='true'||i.logic==true" style="
+  margin: 0;">  <span style="    font-size: 16px;
+    background: yellow;">{{i.roomno}}T   {{i.incharge}}</span> / <span>중방/대방 ON</span> </p>
+  <p *ngIf="i.logic=='false'||i.logic==false" style="
+  margin: 0;">  <span style="    font-size: 16px;
+    background: yellow;">{{i.roomno}}T   {{i.incharge}}</span>  / <span>중방/대방 OFF</span></p>
   <p style="
   margin: 0;"> 주문일 : {{i.date}}</p>
   <p style="
@@ -114,10 +119,12 @@ background: white; margin-top:45px;" padding>
  <p style="
   margin: 0;"> 완티 : {{i.tcarray}} 차삼: {{i.chasamarray}}</p>
   <p style="
-  margin: 0;">TC : {{i.tc}}개 , {{i.money.toLocaleString()}}원</p>
+  margin: 0;">TC : {{i.tctotal}}.{{i.chasam}}개 , {{i.money.toLocaleString()}}원</p>
   <p style="
   margin: 0;">연티 : {{i.yeonti}} , 연티원인 : {{i.reason}}</p>
-  <p>합계 :  {{(i.tp+i.money+(i.yeonti*10000) ).toLocaleString()}}</p>
+  <p style="    font-size: 18px;
+  background: pink;
+  width: 120px;">합계 :  {{(i.tp+i.money+(i.yeonti*10000) ).toLocaleString()}}</p>
   <!-- <p></p>
   <p>주문일자 : {{i.date}}</p> -->
   <hr>

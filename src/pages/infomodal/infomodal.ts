@@ -9,6 +9,7 @@ import { IonicPage, NavController,LoadingController, NavParams,ViewController } 
  */
 
  import  firebase from 'firebase';
+import { UtilsProvider } from '../../providers/utils/utils';
 @IonicPage()
 @Component({
   selector: 'page-infomodal',
@@ -32,7 +33,7 @@ export class InfomodalPage {
   bujangjopan:any="";
   directorList:any=[];
   firemain = firebase.database().ref();
-  constructor(public navCtrl: NavController,public loading:LoadingController,public view:ViewController, public navParams: NavParams) {
+  constructor(public util:UtilsProvider, public navCtrl: NavController,public loading:LoadingController,public view:ViewController, public navParams: NavParams) {
    this.room= this.navParams.get("room");
     this.bu= this.navParams.get("bu");
     this.directorList =  localStorage.getItem("director");
@@ -74,7 +75,7 @@ export class InfomodalPage {
     console.log(this.booleanValue2)
   }
   confirm(){
-    
+    this.util.presentLoading();
     for(var abab in this.directorList){
       console.log(this.directorList[abab].name+",,,"+this.incharge);
       if(this.directorList[abab].name.trim()==this.incharge){
@@ -97,27 +98,18 @@ export class InfomodalPage {
           if(this.bujangid=="noname"){
         window.alert("없는담당자입니다. 담당자명을 확인하세요.")
 
-        if(this.lloading!=undefined){
-          this.lloading.dismiss()
-        }
+        this.util.dismissLoading();
     this.view.dismiss();
         return;
       }
 
-
-      this.lloading = this.loading.create({
-        content: '방 개설중...'
-      });
-      this.lloading.present();
   var countingvalue=0;
   var fin_countingvalue=0;
       var flag = this.containsOnlyNumbers(this.numofpeople);
       if(!flag){
         window.alert("인원은 숫자만 입력해주세요")
-
-        if(this.lloading!=undefined){
-          this.lloading.dismiss()
-        }
+        this.util.dismissLoading();
+       
 
         return;
       }
@@ -159,9 +151,7 @@ export class InfomodalPage {
         }
       this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday+"").child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
       
-      if(this.lloading!=undefined){
-        this.lloading.dismiss()
-      }
+      this.util.dismissLoading();
       this.view.dismiss();
   
   

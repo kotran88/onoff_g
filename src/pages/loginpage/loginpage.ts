@@ -39,10 +39,11 @@ import { OrdermainPage } from '../ordermain/ordermain';
 export class LoginpagePage {
   directorList:any=[];
   ValidateFlag:any=false;
+  nickname:any="";
   id:any = "";
   password:any = "";
   check=false;
-  version='20230414 v2.90';
+  version='20230417 v2.92';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -191,11 +192,12 @@ export class LoginpagePage {
           //   return;
           // }
           console.log(snap.val()["name"])
-          this.name=snap.val()["name"];
+          this.nickname=snap.val()["nickname"];
 
           localStorage.setItem("login_data",JSON.stringify(snap.val()))
 
-        localStorage.setItem("name",this.name);
+        localStorage.setItem("name",this.nickname);
+        localStorage.setItem("nickname",this.name);
           var approved=snap.val()["approved"];
 
           var payment=snap.val()["payment"];

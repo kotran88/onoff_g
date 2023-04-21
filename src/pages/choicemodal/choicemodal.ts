@@ -150,149 +150,6 @@ export class ChoicemodalPage {
     }
     console.log(this.a);
     console.log("was this.a")
-    // if(agasi==undefined){
-    //   this.writer=this.name;
-    //   this.writer2=this.name;
-    // }
-    // for(var a in agasi){
-    //   console.log(agasi[a].name)
-    //   console.log(this.agasilist.length)
-    //   console.log("was agasi[a].name")
-    //   console.log(this.agasilist);
-    //   if(agasi[a].findate==undefined){
-    //     this.agasilist.push({ "name":agasi[a].name,
-    //     "writer":agasi[a].writer,
-    //   "date":agasi[a].date,
-    // })
-    //   }else{
-    //     this.agasilist.push({ "name":agasi[a].name,
-    //   "findate":agasi[a].findate,
-    //   "date":agasi[a].date, "writer":agasi[a].writer,
-    //   "money":agasi[a].money,
-    //   "roomno":agasi[a].roomno,
-    //   "wt":agasi[a].wt,
-    //   "tc":agasi[a].tc})
-    //   }
-      
-    //   if(this.agasilist.length==1){
-    //     this.text=this.agasilist[0].name;
-    //     this.writer=this.agasilist[0].writer;
-    //   }
-    //   if(this.agasilist.length==2){
-    //     this.text=this.agasilist[0].name;
-    //     this.text2=this.agasilist[1].name;
-
-    //     this.writer=this.agasilist[0].writer;
-    //     this.writer2=this.agasilist[1].writer;
-    //   }
-    //   if(this.agasilist.length==3){
-    //     this.text=this.agasilist[0].name;
-    //     this.text2=this.agasilist[1].name;
-    //     this.text3=this.agasilist[2].name;
-
-
-    //     this.writer=this.agasilist[0].writer;
-    //     this.writer2=this.agasilist[1].writer;
-    //     this.writer3=this.agasilist[2].writer;
-    //   }
-    //   if(this.agasilist.length==4){
-    //     this.text=this.agasilist[0].name;
-    //     this.text2=this.agasilist[1].name;
-    //     this.text3=this.agasilist[2].name;
-    //     this.text4=this.agasilist[3].name;
-
-
-    //     this.writer=this.agasilist[0].writer;
-    //     this.writer2=this.agasilist[1].writer;
-    //     this.writer3=this.agasilist[2].writer;
-    //     this.writer4=this.agasilist[3].writer;
-    //   }
-    //   if(this.agasilist.length==5){
-    //     this.text=this.agasilist[0].name;
-    //     this.text2=this.agasilist[1].name;
-    //     this.text3=this.agasilist[2].name;
-    //     this.text4=this.agasilist[3].name;
-    //     this.text5=this.agasilist[4].name;
-    //     this.writer=this.agasilist[0].writer;
-    //     this.writer2=this.agasilist[1].writer;
-    //     this.writer3=this.agasilist[2].writer;
-    //     this.writer4=this.agasilist[3].writer;
-    //     this.writer5=this.agasilist[4].writer;
-    //   }
-    //   if(this.agasilist.length==6){
-    //     this.text=this.agasilist[0].name;
-    //     this.text2=this.agasilist[1].name;
-    //     this.text3=this.agasilist[2].name;
-    //     this.text4=this.agasilist[3].name;
-    //     this.text5=this.agasilist[4].name;
-    //     this.text6=this.agasilist[5].name;
-    //     this.writer=this.agasilist[0].writer;
-    //     this.writer2=this.agasilist[1].writer;
-    //     this.writer3=this.agasilist[2].writer;
-    //     this.writer4=this.agasilist[3].writer;
-    //     this.writer5=this.agasilist[4].writer;
-    //     this.writer6=this.agasilist[5].writer;
-    //   }
-    //   if(this.agasilist.length==7){
-    //     this.text=this.agasilist[0].name;
-    //     this.text2=this.agasilist[1].name;
-    //     this.text3=this.agasilist[2].name;
-    //     this.text4=this.agasilist[3].name;
-    //     this.text5=this.agasilist[4].name;
-    //     this.text6=this.agasilist[5].name;
-    //     this.text7=this.agasilist[6].name;
-    //     this.writer=this.agasilist[0].writer;
-    //     this.writer2=this.agasilist[1].writer;
-    //     this.writer3=this.agasilist[2].writer;
-    //     this.writer4=this.agasilist[3].writer;
-    //     this.writer5=this.agasilist[4].writer;
-    //     this.writer6=this.agasilist[5].writer;
-    //     this.writer7=this.agasilist[6].writer;
-    //   }
-
-    //   if(this.agasilist.length==8){
-    //     this.text=this.agasilist[0].name;
-    //     this.text2=this.agasilist[1].name;
-    //     this.text3=this.agasilist[2].name;
-    //     this.text4=this.agasilist[3].name;
-    //     this.text5=this.agasilist[4].name;
-    //     this.text6=this.agasilist[5].name;
-    //     this.text7=this.agasilist[6].name;
-    //     this.text5=this.agasilist[7].name;
-    //     this.writer=this.agasilist[0].writer;
-    //     this.writer2=this.agasilist[1].writer;
-    //     this.writer3=this.agasilist[2].writer;
-    //     this.writer4=this.agasilist[3].writer;
-    //     this.writer5=this.agasilist[4].writer;
-    //     this.writer6=this.agasilist[5].writer;
-    //     this.writer7=this.agasilist[6].writer;
-    //     this.writer8=this.agasilist[7].writer;
-    //   }
-
-    //   if(this.agasilist.length==9){
-    //     this.text=this.agasilist[0].name;
-    //     this.text2=this.agasilist[1].name;
-    //     this.text3=this.agasilist[2].name;
-    //     this.text4=this.agasilist[3].name;
-    //     this.text5=this.agasilist[4].name;
-    //     this.text6=this.agasilist[5].name;
-    //     this.text7=this.agasilist[6].name;
-    //     this.text5=this.agasilist[7].name;
-    //     this.text6=this.agasilist[8].name;
-
-    //     this.writer=this.agasilist[0].writer;
-    //     this.writer2=this.agasilist[1].writer;
-    //     this.writer3=this.agasilist[2].writer;
-    //     this.writer4=this.agasilist[3].writer;
-    //     this.writer5=this.agasilist[4].writer;
-    //     this.writer6=this.agasilist[5].writer;
-    //     this.writer7=this.agasilist[6].writer;
-    //     this.writer8=this.agasilist[7].writer;
-    //     this.writer9=this.agasilist[8].writer;
-    //   }
-
-    // }
-
     console.log("current agasi : ");
     console.log(this.agasilist);
   }
@@ -739,7 +596,8 @@ export class ChoicemodalPage {
                   console.log(id+","+name);
                   var dte = new Date();
                 var currentflag = snap2.val()[b].current;
-
+                console.log("currentflag:")
+                console.log(currentflag);
                 if(currentflag==undefined){
                   //처음 들어옴. 
                 }else{
@@ -750,6 +608,8 @@ export class ChoicemodalPage {
                   console.log(this.a.name);
                   
                     window.alert(""+currentflag.room+"번 방에 "+currentflag.enter_date.split("T")[1].split(":")[0]+"시"+currentflag.enter_date.split("T")[1].split(":")[1]+"분에 입장하여, 추가할수없습니다.");
+                    
+                this.util.dismissLoading();
                     this.view.dismiss();
 
 
@@ -761,7 +621,6 @@ export class ChoicemodalPage {
                 this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":snap2.val()[b].jopan,"name":this.agasilist[cc].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
                 this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
                 this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(newnum+"").update({"angel": this.agasilist[cc].angel,"roomno":this.a.name,"incharge":this.a.incharge, "name":this.agasilist[cc].name,"writer":this.name,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
-                
                 this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("message").push({ "date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드 ","type":"assigned", "agasi":this.agasilist[cc].name,"uploader":this.name, "name":"system"})
                 this.subscribedList.push({"id":id,"name":name});
       
@@ -785,8 +644,11 @@ export class ChoicemodalPage {
         if(this.newlist.length==0){
           console.log(this.agasilist);
           console.log(this.originalList);
+          this.util.dismissLoading();
           this.view.dismiss();
         }else{
+
+         // 수정 1개로 만원. 
           console.log("추가등록할것...");
           console.log(this.newlist)
           let modal = this.modal.create(Choicemodal2Page,{"agasi":this.newlist,"subscribedList":this.subscribedList,"room":this.a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
@@ -813,10 +675,8 @@ export class ChoicemodalPage {
              }
 
              
+             this.util.dismissLoading();
               this.navCtrl.pop();
-              setTimeout(()=>{
-               this.view.dismiss();
-              },500)
             }
           });
           
@@ -824,7 +684,7 @@ export class ChoicemodalPage {
         }
 
       });
-      this.util.dismissLoading();
+     
 
     });
 

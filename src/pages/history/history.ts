@@ -26,7 +26,6 @@ export class HistoryPage {
   mainlist=[];
   allmainlist=[];
   todaymoney=0;
-  selected:any="";
   yeonti:any="";
   obj = [];
   firemain = firebase.database().ref();
@@ -52,6 +51,7 @@ export class HistoryPage {
   currentDate:number = 0; // 현재 일
 
   incen2:any=0;
+  selectedDay:any=0;
   selectedDate:any=0;
   constructor(public util:UtilsProvider, public view:ViewController,public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
     this.name= localStorage.getItem("name");
@@ -60,7 +60,8 @@ export class HistoryPage {
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
 
-    this.selected=this.currentstartday;
+    this.selectedDate=this.currentstartday;
+    this.selectedDay = this.currentstartday.split("-")[2];
     this.today = new Date();
     this.date=new Date(this.today.getFullYear(),this.today.getMonth()+1,0);
     this.getDaysOfMonth();
@@ -68,9 +69,9 @@ export class HistoryPage {
   }
   openmodal(day){
     console.log(day);
-    this.selected =  this.currentYear+"-"+this.currentMonth+"-"+day;
-    console.log(this.currentstartday)
-    console.log(this.selected)
+    this.selectedDate =  this.currentYear+"-"+this.currentMonth+"-"+day;
+
+    this.selectedDay = day;
     this.generating();
   }
   getDaysOfMonth() {
@@ -180,107 +181,116 @@ generating(){
       for(var a in snap.val()){
 
         for(var b in snap.val()[a].roomhistory){
-          for(var c in snap.val()[a].roomhistory[b]){
-            if(snap.val()[a].roomhistory[b][c].orderlist!=undefined){
-              if(snap.val()[a].roomhistory[b][c].date==this.selected){
-                console.log(snap.val()[a].roomhistory[b][c].incharge);
-                console.log(this.name);
-                if(snap.val()[a].roomhistory[b][c].incharge.trim()==this.name.trim()){
-                  var mainlist=snap.val()[a].roomhistory[b][c];
+          console.log(b+",,"+this.selectedDate);
+          if(b==this.selectedDate){
+            for(var c in snap.val()[a].roomhistory[b]){
+              console.log(snap.val()[a].roomhistory[b][c].incharge);
+              console.log(this.name);
+              if(snap.val()[a].roomhistory[b][c].incharge.trim()==this.name.trim()){
+                var mainlist=snap.val()[a].roomhistory[b][c];
 
-                  console.log("is mainlist...")
+                console.log("is mainlist...")
+
+                console.log(mainlist);
+        for(var d in mainlist.agasi){
+            if(mainlist.agasi[d].findate!=undefined){
   
-                  console.log(mainlist);
-          for(var d in mainlist.agasi){
-              if(mainlist.agasi[d].findate!=undefined){
-    
-              }else{
-                var totalmoney=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[0]);
-                var tctotal=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[1]);
-                var bantee=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[2]);
-                mainlist.agasi[d].totalmoney=totalmoney;
-                mainlist.agasi[d].tc=tctotal;
-                mainlist.agasi[d].bantee=bantee;
+            }else{
+              var totalmoney=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[0]);
+              var tctotal=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[1]);
+              var bantee=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[2]);
+              mainlist.agasi[d].totalmoney=totalmoney;
+              mainlist.agasi[d].tc=tctotal;
+              mainlist.agasi[d].bantee=bantee;
+            }
+        }
+        console.log(mainlist);
+        var newtc=0;
+        var tcarray = [];
+        var numofpeople = snap.val()[a].roomhistory[b][c].numofpeople;
+        for(var cccc in mainlist.agasi){
+          console.log(mainlist.agasi[cccc].tc)
+          newtc += Math.floor(mainlist.agasi[cccc].tc)
+          tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
+        
+        }
+              var orderl=[];
+              var orderprice=0;
+              var tp=0;
+              var tbottle=0;
+
+            if(snap.val()[a].roomhistory[b][c].orderlist!=undefined){
+              for(var d in snap.val()[a].roomhistory[b][c].orderlist.orderlist){
+                if(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].category=="주류"){
+                  tbottle+=Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num);
+                }
+                orderprice+= (Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price) );
+                console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d]);
+                orderl.push(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d])
+                console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price);
+                console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num)
+                tp += snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price.replace(",","")* snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num;
+                console.log(snap.val()[a].roomhistory[b][c].orderlist);
+                console.log(snap.val()[a].roomhistory[b][c].orderlist.orderDate);
               }
-          }
-          console.log(mainlist);
-          var newtc=0;
-          var tcarray = [];
-          var numofpeople = snap.val()[a].roomhistory[b][c].numofpeople;
-          for(var cccc in mainlist.agasi){
-            console.log(mainlist.agasi[cccc].tc)
-            newtc += Math.floor(mainlist.agasi[cccc].tc)
-            tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
-          
-          }
-                  console.log(snap.val()[a].roomhistory[b][c]);
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist);
-                console.log(snap.val()[a].roomhistory[b][c].orderlist.roomno);
-                var orderl=[];
-                var orderprice=0;
-                var tp=0;
-                var tbottle=0;
-                for(var d in snap.val()[a].roomhistory[b][c].orderlist.orderlist){
-                  if(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].category=="주류"){
-                    tbottle+=Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num);
-                  }
-                  orderprice+= (Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price) );
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d]);
-                  orderl.push(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d])
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price);
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num)
-                  tp += snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price.replace(",","")* snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num;
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist);
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist.orderDate);
+            }
+              console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
+              var firstsumofv=0;
+              for(var abab in tcarray){
+                console.log(tcarray[abab])
+                if(tcarray[abab]>=tbottle){
+                  var v = tcarray[abab]-tbottle;
+                  console.log(v);
+                  firstsumofv+=v;
                 }
-                console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
-                var firstsumofv=0;
-                for(var abab in tcarray){
-                  console.log(tcarray[abab])
-                  if(tcarray[abab]>=tbottle){
-                    var v = tcarray[abab]-tbottle;
-                    console.log(v);
-                    firstsumofv+=v;
-                  }
-                }
-                console.log("firstsumofv : "+firstsumofv);
-                this.yeonti=firstsumofv;
-                console.log("yeontiiiii : "+this.yeonti);
-                console.log("total bottle : "+tbottle);
-                console.log(snap.val()[a].roomhistory[b][c])
-                  console.log(snap.val()[a].roomhistory[b][c].agasi)
-                  var totaltc=0;
-                  var totalmoney=0;
-                  for(var aga in mainlist.agasi){
-                    console.log("aga : ");
-                    console.log(mainlist.agasi[aga])
-                    console.log("tc:::"+mainlist.agasi[aga].tc);
-                    console.log("money:::"+mainlist.agasi[aga].totalmoney);
-                    if(mainlist.agasi[aga].tc==undefined){
+              }
+              console.log("firstsumofv : "+firstsumofv);
+              this.yeonti=firstsumofv;
+              console.log("yeontiiiii : "+this.yeonti);
+              console.log("total bottle : "+tbottle);
+              console.log(snap.val()[a].roomhistory[b][c])
+                console.log(snap.val()[a].roomhistory[b][c].agasi)
+                var totaltc=0;
+                var totalmoney=0;
+                for(var aga in mainlist.agasi){
+                  console.log("aga : ");
+                  console.log(mainlist.agasi[aga])
+                  console.log("tc:::"+mainlist.agasi[aga].tc);
+                  console.log("money:::"+mainlist.agasi[aga].totalmoney);
+                  if(mainlist.agasi[aga].tc==undefined){
 
+                  }else{
+                    totaltc+=Number(mainlist.agasi[aga].tc);
+                    if(mainlist.agasi[aga].totalmoney==undefined){
+
+                      totalmoney+=Number(mainlist.agasi[aga].money);
                     }else{
-                      totaltc+=Number(mainlist.agasi[aga].tc);
-                      if(mainlist.agasi[aga].totalmoney==undefined){
 
-                        totalmoney+=Number(mainlist.agasi[aga].money);
-                      }else{
-
-                        totalmoney+=Number(mainlist.agasi[aga].totalmoney);
-                      }
+                      totalmoney+=Number(mainlist.agasi[aga].totalmoney);
                     }
                   }
-                  console.log("tp ...r : "+tp);
-                  totalmoney=totalmoney*10000;
-                  this.todaymoney += tp+totalmoney
-                  this.orderlist.push({"tp":tp, "totalprice":orderprice,"tc":totaltc,"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].orderlist.wt,"date":snap.val()[a].roomhistory[b][c].orderlist.orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":orderl});
                 }
-                
+                console.log("tp ...r : "+tp);
+                totalmoney=totalmoney*10000;
+                this.todaymoney += tp+totalmoney
+                var orderdate="";
+                    var roomno="";
+                    if(snap.val()[a].roomhistory[b][c].orderlist!=undefined){
+                      orderdate = snap.val()[a].roomhistory[b][c].orderlist.orderDate
+                      roomno=snap.val()[a].roomhistory[b][c].orderlist.roomno;
+                    }else{
+                      orderdate = "-"
+                      roomno="-"
+                    }
+                this.orderlist.push({"tp":tp, "totalprice":orderprice,"tc":totaltc,"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
               }
-             
               
-            }
            
+            
+         
+        }
           }
+          
         }
       }
     }

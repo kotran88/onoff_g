@@ -58,6 +58,7 @@ import { ChoicejimyungPage } from '../pages/choicejimyung/choicejimyung';
 import { HistoryPage } from '../pages/history/history';
 import { SplashscreenPage } from '../pages/splashscreen/splashscreen';
 import { Orderdetail2Page } from '../pages/orderdetail2/orderdetail2';
+import { ServinghistoryPage } from '../pages/servinghistory/servinghistory';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -79,6 +80,7 @@ initializeApp(firebaseConfig);
     SignupPage,
     GongjiPage,
     TestpagePage,
+    ServinghistoryPage,
     AccountPage,
     InfomodalPage,
     OrdermainPage,
@@ -129,6 +131,7 @@ initializeApp(firebaseConfig);
     OrdermainPage,
     ChoicemodalPage,
     ChoicejimyungPage,
+    ServinghistoryPage,
     Orderdetail2Page,
     Choicemodal3Page,
     Choicemodal2Page,

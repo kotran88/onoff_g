@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController,LoadingController,ViewController, NavParams } from 'ionic-angular';
 import  firebase from 'firebase';
+import { UtilsProvider } from '../../providers/utils/utils';
 /**
  * Generated class for the Choicemodal2Page page.
  *
@@ -36,7 +37,7 @@ export class Choicemodal2Page {
   flag:any="notattend";
   qtd7 = 'no';
   qtd8 = 'no';
-  constructor(public loading:LoadingController,public view:ViewController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public util:UtilsProvider, public loading:LoadingController,public view:ViewController, public navCtrl: NavController, public navParams: NavParams) {
     var aaa=this.navParams.get("agasi");
     console.log(aaa);
     console.log(this.agasilist);
@@ -66,10 +67,7 @@ export class Choicemodal2Page {
     console.log(this.agasilist);
   }
   confirm(){
-    this.lloading = this.loading.create({
-      content: '메이드중.....'
-    });
-    this.lloading.present();
+    this.util.presentLoading();
     console.log(this.agasilist);
     console.log(this.agasilist.length);
     // if(this.agasilist.length==9){
@@ -108,6 +106,7 @@ export class Choicemodal2Page {
 
     }else{
       window.alert("조판팀 설정은 필수입니다.")
+      this.util.dismissLoading();
       return;
     }
     
@@ -154,10 +153,7 @@ export class Choicemodal2Page {
       
       
     }
-
-    if(this.lloading!=undefined){
-      this.lloading.dismiss()
-    }
+    this.util.dismissLoading();
     this.view.dismiss({"result":"ok"})
     console.log("confirm...");
   }
