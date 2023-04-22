@@ -29,7 +29,7 @@
       <ion-buttons end>
         <button  style="color:white;"ion-button icon-only color="royal">
           <ion-icon name="person"></ion-icon>
-          <span>{{name}}</span>
+          <span>{{nickname}}</span>
         </button>
       </ion-buttons>
     </ion-toolbar>
@@ -84,7 +84,7 @@
   </div>
 
   <div *ngIf="option_title_ch == 1" class="users-div">
-    <div *ngFor="let item of view_list" (click)="get_money_data(item)">{{item.name}}</div>
+    <div *ngFor="let item of view_list" (click)="get_money_data(item)">{{item.nickname}}</div>
     <div class="disable" *ngFor="let item of sort_temp_list"></div>
   </div>
 

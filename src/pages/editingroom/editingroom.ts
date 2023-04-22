@@ -131,13 +131,14 @@ export class EditingroomPage {
     
     if(!occupied){
       window.alert("존재하지 않는 방 번호입니다. 다시 입력해주세요.")
+      this.util.dismissLoading();
       return;
     }
     var vacancy=false;
     for(var iii in this.directorList){
       //compare the name of the person who is in charge of the room
       
-      if(this.directorList[iii].name.trim()==this.incharge.trim()){
+      if(this.directorList[iii].nickname.trim()==this.incharge.trim()){
         vacancy=true;
       }
     }
@@ -145,6 +146,7 @@ export class EditingroomPage {
 
     if(!vacancy){
       window.alert("존재하지 않는 담당자입니다. 다시 입력해주세요.")
+      this.util.dismissLoading();
       return;
     }
     console.log(this.end_date);

@@ -27,6 +27,7 @@ export class AttendancePage {
   mainlistfromcompany:any=[];
   mainlist:any = [];
   mainlist_no:any = [];
+  nickname:any="";
   firemain = firebase.database().ref();
   selectedday:any=0;
   activeclass='1';
@@ -45,6 +46,7 @@ export class AttendancePage {
   company:any="";
   constructor(public util:UtilsProvider, public zone:NgZone,public modal:ModalController,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     var date = new Date();
+    this.nickname=localStorage.getItem("nickname");
     this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
@@ -208,7 +210,8 @@ export class AttendancePage {
               console.log(mainlist.agasi[d].bantee)
               this.agasijungsantotal.push({"bantee":mainlist.agasi[d].bantee,"chasam":0,"name":mainlist.agasi[d].name,"date":mainlist.agasi[d].date,"incharge":mainlist.agasi[d].incharge,"money":mainlist.agasi[d].money,"tc":mainlist.agasi[d].tc,"wantee":Math.floor(mainlist.agasi[d].tc)});
             this.agasijungsan.push({"bantee":mainlist.agasi[d].bantee,"chasam":0,"name":mainlist.agasi[d].name,"date":mainlist.agasi[d].date,"incharge":mainlist.agasi[d].incharge,"money":mainlist.agasi[d].money,"tc":mainlist.agasi[d].tc,"wantee":Math.floor(mainlist.agasi[d].tc)});
-            
+            console.log("is  having findate so this agasi is in bang")
+            console.log(mainlist.agasi[d].name);
               this.mainlistfromcompany.push({"name":mainlist.agasi[d].name,"wantee":Math.floor(mainlist.agasi[d].tc), "tc":mainlist.agasi[d].tc,"bantee":mainlist.agasi[d].bantee,"money":mainlist.agasi[d].money})
             }
           }

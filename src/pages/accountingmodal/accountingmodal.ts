@@ -39,7 +39,7 @@ export class AccountingmodalPage {
     console.log(this.selected)
     console.log(this.selected.name)
     console.log(this.company);
-    this.firemain.child("users").child(this.selected.id).child("accounting").once("value",snap=>{
+    this.firemain.child("users").child(this.selected.nickname).child("accounting").once("value",snap=>{
       console.log(snap.val());
       if(snap.val()!=null){
         this.accumulus=snap.val().incoming;
@@ -74,10 +74,10 @@ export class AccountingmodalPage {
     console.log(this.inputcash)
     console.log(this.inputname)
     console.log(this.accumulus)
-    console.log(this.selected.id);
+    console.log(this.selected.nickname);
     console.log(this.year+"-"+this.month+"-"+this.day)
-    this.firemain.child("users").child(this.selected.id).child("accounting").update({"incoming":this.accumulus+Number(this.inputcard)+Number(this.inputcash) })
-    this.firemain.child("users").child(this.selected.id).child("accounting").child(this.year+"-"+this.month+"-"+this.day).push({"name":this.inputname,"card":this.inputcard,"cash":this.inputcash,"year":this.year+"-"+this.month+"-"+this.day,"time":endtime}).then(()=>{
+    this.firemain.child("users").child(this.selected.nickname).child("accounting").update({"incoming":this.accumulus+Number(this.inputcard)+Number(this.inputcash) })
+    this.firemain.child("users").child(this.selected.nickname).child("accounting").child(this.year+"-"+this.month+"-"+this.day).push({"name":this.inputname,"card":this.inputcard,"cash":this.inputcash,"year":this.year+"-"+this.month+"-"+this.day,"time":endtime}).then(()=>{
       this.view.dismiss();
     });
   }

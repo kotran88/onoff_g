@@ -43,12 +43,13 @@ export class ServinghistoryPage {
   currentYear:number = 0; // 현재 년
   currentMonth:number = 0; // 현재 월
   currentDate:number = 0; // 현재 일
-
+  nickname:any="";
   incen2:any=0;
   selectedDay:any=0;
   selectedDate:any=0;
   constructor(public util:UtilsProvider, public view:ViewController,public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
     this.name= localStorage.getItem("name");
+    this.nickname=localStorage.getItem("nickname");
     this.company=localStorage.getItem("company");
 
     this.currentstart=localStorage.getItem("start");
@@ -172,7 +173,7 @@ generating(){
 
             for(var c in snap.val()[a].roomhistory[b]){
               console.log(snap.val()[a].roomhistory[b][c]);
-                  if(snap.val()[a].roomhistory[b][c].wt.trim()==this.name.trim()){
+                  if(snap.val()[a].roomhistory[b][c].wt.trim()==this.nickname.trim()){
                     var mainlist=snap.val()[a].roomhistory[b][c];
   
                     console.log("is mainlist...")

@@ -50,6 +50,7 @@ export class InfoPage {
   interval:any;
   directorList:any=[];
   code:any="";
+  nickname:any="";
   id:any="";
   type:any="";
   firemain = firebase.database().ref();
@@ -58,6 +59,7 @@ export class InfoPage {
     this.currentstart=localStorage.getItem("start");
     this.directorList = this.navParams.get("user");
     this.currentstartday=localStorage.getItem("startDate");
+    this.nickname = localStorage.getItem("nickname");
     this.name = localStorage.getItem("name");
     this.firstflag = this.navParams.get("flag");
     this.type = localStorage.getItem("type");
@@ -207,7 +209,7 @@ searching(){
 
 }
 gotopayment(){
-  this.firemain.child("users").child(this.id).update({"payment":true})
+  this.firemain.child("users").child(this.nickname).update({"payment":true})
   window.alert("임시 결제 완료 ")
   this.navCtrl.setRoot(LoginpagePage);
 }
@@ -419,8 +421,14 @@ gotopayment(){
                     console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
                     if(snap.val()[a].roomhistory[this.currentstartday][b].agasi==undefined&&snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
                       //이방은 OB처리해야함. 
+                      console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+                      console.log("this bang should be ob ++ ");
+                      this.noagasi++;
                     }else{
                       
+                      console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+                      console.log("this bang should not be ob ++ ");
+                      this.agasinum++;
                     }
                     //iterate through snap.val()[a].roomhistory[this.currentstartday][b] 
                     //and push to mainlist_finished
@@ -431,10 +439,11 @@ gotopayment(){
                     }else{
                       agasi = snap.val()[a].roomhistory[this.currentstartday][b].agasi;
                     }
+                    console.log("agasi length : "+agasi.length);
+                    console.log(agasi);
                     if(agasi.length==0){
-                      this.noagasi++;
+                      
                     }else{
-                      this.agasinum++;
                     }
                     var orderlist = [];
                     if(snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){

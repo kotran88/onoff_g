@@ -129,6 +129,7 @@ export class LoginpagePage {
     this.navCtrl.push(SignupPage,{"approved":approved,"id":id}).then(() => {
       this.navCtrl.getActive().onDidDismiss(data => {
         console.log("ondiddismiss....");
+        console.log(data);
         if(data==undefined){
 
         }else{
@@ -142,7 +143,7 @@ export class LoginpagePage {
     });
   }
   login_flag_update(){
-    this.firemain.child('users').child(this.id).update({'login_flag':String(this.check)})
+    // this.firemain.child('users').child(this.id).update({'login_flag':String(this.check)})
   }
   pressed(){
     console.log("pressed");
@@ -160,10 +161,7 @@ export class LoginpagePage {
 
       window.alert("아이디비번을 입력해주세요")
     }else{
-      this.loading = this.loadingCtrl.create({
-        content: 'loading....'
-      });
-      this.loading.present();
+      this.util.presentLoading();
       console.log(this.id);
       console.log(this.password);
       console.log(this.check)
@@ -179,158 +177,125 @@ export class LoginpagePage {
         console.log(this.id);
         console.log(this.id.length);
        
-        this.firemain.child("users").child(this.id).once("value",(snap)=>{
-          console.log("rrr")
-          if(snap.val()==null){
-            window.alert("아이디가 존재하지 않습니다.")
+        this.firemain.child("users").once("value",(snap)=>{
+          var flag=false;
+          for(var aa in snap.val()){
+            if(snap.val()[aa].id==this.id){
+              console.log(snap.val()[aa])
+              flag=true;
+              console.log(snap.val()[aa]["name"])
+              this.nickname=snap.val()[aa]["nickname"];
+              localStorage.setItem("login_data",JSON.stringify(snap.val()[aa]))
+              localStorage.setItem("name",this.name);
+              localStorage.setItem("nickname",this.nickname);
+              var approved=snap.val()[aa]["approved"];
+              var type = snap.val()[aa]["type"];
+              var payment=snap.val()[aa]["payment"];
+              console.log(type+"?????"+approved+",,"+payment)
 
-          this.loading.dismiss();
+          
+          // if(approved==false||approved==undefined){
+          //   window.alert("승인대기중입니다. 관리자에게 문의하세요")
+          //   this.util.dismissLoading();
+          //   return;
+          // }else{
+          // }
+          if(approved==false||approved==undefined){
+            window.alert("관리자가 승인해야 이용가능합니다.");
+            this.util.dismissLoading();
+            return;
+          }
+          if(payment==false||payment==undefined){
+            window.alert("아직 결제하지 않았기때문에 조회만 가능합니다.")
+            this.util.dismissLoading();
+            this.navCtrl.push(InfoPage,{"user":this.directorList});
+            return;
+          }else{
+          }
+
+          localStorage.setItem('id',this.id.split('@')[0]);
+          localStorage.setItem('name',this.name);
+          localStorage.setItem('password',this.password);
+          localStorage.setItem('company',snap.val()[aa].company);
+
+          localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
+          localStorage.setItem("type",snap.val()[aa].type);
+          console.log(snap.numChildren());
+          var length=snap.numChildren();
+          this.util.dismissLoading();
+          this.firemain.child("company").child(snap.val()[aa].company).once("value",(snap2)=>{
+            console.log(snap2.val())
+            console.log(snap.val())
+            this.firemain.child("company").child(snap.val()[aa].company).child('openandclose').once('value').then((snap3)=>{
+              
+              console.log(snap3.val())
+              
+              localStorage.setItem("flag",snap3.val().flag);
+              if(snap3.val().flag==true){
+                localStorage.setItem("startDate",snap3.val().startDate)
+                localStorage.setItem("start",snap3.val().start);
+
+                this.login_flag_update();
+                console.log(snap.val()[aa])
+                var price = snap2.val().price;
+                console.log(price);
+                localStorage.setItem("price",price)
+                console.log("gogo type is : "+type);
+                if(type == "park")
+                {
+                  //주차
+                  this.navCtrl.push(ParkingPage).then(() => {
+                    this.navCtrl.getActive().onDidDismiss(data => {
+                      console.log("login ondiddismiss...")
+                      this.check=false;
+                      localStorage.setItem("loginflag","false")
+                    });
+                  });
+                }
+                else if(type == "director")
+                {
+                  //부장 
+                  this.navCtrl.push(DirectorpagePage,{"user":this.directorList});
+                }else if(type == "account"){
+                  //경리 
+                this.navCtrl.push(AccountPage);
+                }else if(type=="info"){
+                  //인포  
+                  this.navCtrl.push(InfoPage,{"user":this.directorList})
+                }else if(type=="agasi"){
+                  //아가씨 
+                  this.navCtrl.push(AgasiPage)
+                }else if(type=="band"){
+                  //band 
+                  this.navCtrl.push(BandPage)
+                }else if(type=="wt"){
+                  //wt 
+                  this.navCtrl.push(WtPage)
+                }else if(type=="kyungri"){
+                  this.navCtrl.push(InfoPage,{"user":this.directorList})
+                }
+              }else{
+                window.alert("업장 개시하지 않았습니다 매니저에게 문의하세요")
+              }
+            });
+          });
+
+
+
+
+            }
+          }
+          console.log("rrr")
+          if(!flag){
+            window.alert("아이디가 존재하지 않습니다.")
+            this.util.dismissLoading();
             return;
           }
           // if(snap.val().type=="kyungri"){
           //   this.loading.dismiss();
           //   return;
           // }
-          console.log(snap.val()["name"])
-          this.nickname=snap.val()["nickname"];
-
-          localStorage.setItem("login_data",JSON.stringify(snap.val()))
-
-        localStorage.setItem("name",this.nickname);
-        localStorage.setItem("nickname",this.name);
-          var approved=snap.val()["approved"];
-
-          var payment=snap.val()["payment"];
-          console.log(approved+",,"+payment)
           
-          if(approved==false||approved==undefined){
-            window.alert("승인대기중입니다. 관리자에게 문의하세요")
-
-          this.loading.dismiss();
-            return;
-          }else{
-          }
-          if(payment==false||payment==undefined){
-            window.alert("아직 결제하지 않았기때문에 조회만 가능합니다.")
-
-          this.loading.dismiss();
-          this.navCtrl.push(InfoPage,{"user":this.directorList});
-            return;
-          }else{
-          }
-          console.log(snap.numChildren());
-          var length=snap.numChildren();
-          console.log(snap.val()==null)
-
-          this.loading.dismiss();
-          if(length==1){
-            //loginflag 밖에 없을때 회원가입 화면으로 이동시킴.
-            window.alert("아이디 및 비밀번호를 확인해주세요")
-          }
-          // else if(snap.val().flag!='approved'){
-          //   window.alert("승인 대기중으로 진행이 불가합니다")
-          //   return;
-          // }
-          else{
-            if(snap.val()==null){
-              window.alert("아이디 및 비밀번호를 확인해주세요")
-            }
-            else{
-              console.log(snap.val().company);
-              this.firemain.child("company").child(snap.val().company).once("value",(snap2)=>{
-                console.log(snap2.val())
-                console.log(snap.val())
-                localStorage.setItem('id',this.id.split('@')[0]);
-                localStorage.setItem('name',this.name);
-                localStorage.setItem('password',this.password);
-                localStorage.setItem('company',snap.val().company);
-
-                localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
-                localStorage.setItem("type",snap.val().type);
-               
-                this.firemain.child("company").child(snap.val().company).child('openandclose').once('value').then((snap3)=>{
-                  
-                  console.log(snap3.val())
-                  
-                  localStorage.setItem("flag",snap3.val().flag);
-                  if(snap3.val().flag==true){
-                    localStorage.setItem("startDate",snap3.val().startDate)
-                    localStorage.setItem("start",snap3.val().start);
-
-                    this.login_flag_update();
-                    var type = snap.val().type;
-                    var price = snap2.val().price;
-                    localStorage.setItem("price",price)
-                    console.log("gogo type is : "+type);
-                    if(type == "park")
-                    {
-                      //주차
-                      this.navCtrl.push(ParkingPage).then(() => {
-                        this.navCtrl.getActive().onDidDismiss(data => {
-                          console.log("login ondiddismiss...")
-                          this.check=false;
-                          localStorage.setItem("loginflag","false")
-                        });
-                      });
-                    }
-                    else if(type == "director")
-                    {
-                      //부장 
-                      this.navCtrl.push(DirectorpagePage,{"user":this.directorList});
-                    }else if(type == "account"){
-                      //경리 
-                    this.navCtrl.push(AccountPage);
-                    }else if(type=="info"){
-                      //인포  
-                      this.navCtrl.push(InfoPage,{"user":this.directorList})
-                    }else if(type=="agasi"){
-                      //아가씨 
-                      this.navCtrl.push(AgasiPage)
-                    }else if(type=="band"){
-                      //band 
-                      this.navCtrl.push(BandPage)
-                    }else if(type=="wt"){
-                      //wt 
-                      this.navCtrl.push(WtPage)
-                    }else if(type=="kyungri"){
-                      this.navCtrl.push(InfoPage,{"user":this.directorList})
-                    }
-                  }else{
-                    window.alert("업장 개시하지 않았습니다 매니저에게 문의하세요")
-                  }
-                });
-              });
-
-              // console.log("rr")
-
-              // this.fire.auth.signInWithEmailAndPassword(this.id+"@naver.com", this.password).then( (data)=> {
-              //   console.log(data);
-              //   localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
-              //   this.login_success();
-              // }).catch( (error)=> {
-              //   console.log("error")
-              //   console.log(error);
-              //   if(error.code=="auth/user-not-found"||error.code=="auth/wrong-password"){
-              //     alert("유저의 아이디 혹은 비밀번호가 맞지않습니다.")
-              //     return;
-              //   }else if(error.code=="auth/too-many-requests"){
-
-              //     var user=this.fire.auth.currentUser;
-              //     // window.alert(user);
-              //     console.log(user);
-              //     localStorage.setItem("loginflag", String($('#checked' ).is(":checked")));
-              //     this.login_success();
-
-              //     // user.delete().then(()=>{
-
-              //     // });
-
-              //   }else{
-              //     window.alert(error.code);
-              //   }
-              // });
-            }
-          }
         }).catch((e)=>{
           console.log(e);
         })

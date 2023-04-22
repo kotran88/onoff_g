@@ -30,12 +30,14 @@ export class OrdermainPage {
   midroom=[];
   bigroom=[];
   company:any="";
+  nickname:any="";
   name:any="";
   firemain = firebase.database().ref();
   constructor(public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
     this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
     this.name= localStorage.getItem("name");
+    this.nickname=localStorage.getItem("nickname");
     this.currentstartday=localStorage.getItem("startDate");
   }
   selecting(a){

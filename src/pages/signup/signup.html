@@ -282,9 +282,12 @@ text-align: center;">조판팀을 설정해주세요. </span>
     <div class="input-title2"><span style="font-size:30px;" >환영합니다. <br></span>
       <span *ngIf="type==1" style="font-size:30px;">
       영업진을 선택하셨군요 <br> 
-
-      <button *ngIf="approved" class="paybtn" (click)="uploadToServer(1);">월 2,100원 결제하기</button>
-      <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
+      <button *ngIf="approved" class="paybtn" (click)="uploadToServer(2);"><span style="
+        text-decoration: line-through;
+        font-size: 11px;
+        color: red;">{{paytext}}</span><span>한달 무료이용</span></button>
+      <button *ngIf="approved" class="paybtn" (click)="initialize2(1);">무료로이용해보기</button>
+      <!-- <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button> -->
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
@@ -311,8 +314,11 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <br>
         한달간 무료로 이용해보시고 마음에<br>
         안드시면 언제든 탈퇴 가능합니다. .
-
-        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(3);">월 2,100원 결제하기</button>
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(2);"><span style="
+          text-decoration: line-through;
+          font-size: 11px;
+          color: red;">{{paytext}}</span><span>한달 무료이용</span></button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize2(1);">무료로이용해보기</button>
         <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
@@ -322,9 +328,12 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <br>
         한달간 무료로 이용해보시고 마음에<br>
         안드시면 언제든 탈퇴 가능합니다. .
-
-        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(4);">월 2,100원 결제하기</button>
-        <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(2);"><span style="
+          text-decoration: line-through;
+          font-size: 11px;
+          color: red;">{{paytext}}</span><span>한달 무료이용</span></button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize2(1);">무료로이용해보기</button>
+        <!-- <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button> -->
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
@@ -333,9 +342,12 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <br>
         한달간 무료로 이용해보시고 마음에<br>
         안드시면 언제든 탈퇴 가능합니다. .
-
-        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(5);">월 2,100원 결제하기</button>
-        <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
+        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(2);"><span style="
+          text-decoration: line-through;
+          font-size: 11px;
+          color: red;">{{paytext}}</span><span>한달 무료이용</span></button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize2(1);">무료로이용해보기</button>
+        <!-- <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button> -->
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
@@ -348,9 +360,12 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <br>
         <br>
         <br>
-        <br>
-        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(6);">월 2,100원 결제하기</button>
-        <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
+        <br> <button *ngIf="approved" class="paybtn" (click)="uploadToServer(2);"><span style="
+          text-decoration: line-through;
+          font-size: 11px;
+          color: red;">{{paytext}}</span><span>한달 무료이용</span></button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize2(1);">무료로이용해보기</button>
+        <!-- <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button> -->
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>
       </span>
@@ -363,9 +378,12 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <br>
         <br>
         <br>
-        <br>
-        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(7);">월 2,100원 결제하기</button>
-        <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button>
+        <br> <button *ngIf="approved" class="paybtn" (click)="uploadToServer(2);"><span style="
+          text-decoration: line-through;
+          font-size: 11px;
+          color: red;">{{paytext}}</span><span>한달 무료이용</span></button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize2(1);">무료로이용해보기</button>
+        <!-- <button *ngIf="approved" class="paybtn" (click)="initialize(1);">초기화 및 새로가입</button> -->
         <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
         <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>면 다음달 이용시 요금이 청구됩니다.
 
@@ -380,10 +398,13 @@ text-align: center;">조판팀을 설정해주세요. </span>
         <br>
         <br>
         <br>
-        <br>
-        <button *ngIf="approved" class="paybtn" (click)="uploadToServer(7);">월 2,100원 결제하기</button>
-        <button *ngIf="!approved" class="paybtn" >승인대기중 </button>
-        <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>면 다음달 이용시 요금이 청구됩니다.
+        <br> <button *ngIf="approved" class="paybtn" (click)="uploadToServer(2);"><span style="
+          text-decoration: line-through;
+          font-size: 11px;
+          color: red;">{{paytext}}</span><span>한달 무료이용</span></button>
+        <button *ngIf="approved" class="paybtn" (click)="initialize2(1);">무료로이용해보기</button>
+        <!-- <button *ngIf="!approved" class="paybtn" >승인대기중 </button> -->
+        <!-- <span *ngIf="approved">결제하기를 누르면 다음달 이용시 요금이 청구됩니다. </span>면 다음달 이용시 요금이 청구됩니다. -->
 
       </span>
     </div>

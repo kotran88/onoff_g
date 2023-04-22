@@ -27,6 +27,7 @@ import { Conditional } from '@angular/compiler';
 export class ChoicePage {
   choicesentence:any="ㄴㄱ초이스";
   start:any;
+  nickname:any="";
   mainlist_attend:any=[];
   abc:any="22";
   paymentflag:any=false;
@@ -71,6 +72,8 @@ export class ChoicePage {
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
     this.name = localStorage.getItem("name");
+    this.nickname = localStorage.getItem("nickname");
+
     console.log("1 min  passed");
 
     
@@ -766,6 +769,8 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
     console.log(a)
     let modal = this.modal.create(ChoicemodalPage,{"a":a});
     modal.onDidDismiss(url => {
+      console.log(url);
+      this.util.dismissLoading();
       // this.refreshChoice2();
       //regenerate 
       // this.refreshChoice(); 

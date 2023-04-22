@@ -32,7 +32,7 @@
       <ion-buttons end>
         <button  style="color:white;"ion-button icon-only color="royal">
           <ion-icon name="person-add"></ion-icon>
-          <span>{{name}}</span>
+          <span>{{nickname}}</span>
         </button>
       </ion-buttons>
     </ion-toolbar>
@@ -226,14 +226,23 @@
           <div class="message">
             <div class="message-content">
               <div class="contentmain">
-                <p *ngIf="main.avec" style="    font-size: 18px;
+                <!-- <p *ngIf="main.avec" style="    font-size: 18px;
                 font-weight: 900;">{{main.v}} #{{main.name}} , A </p>
                 <p *ngIf="!main.avec" style="    font-size: 18px;
                 font-weight: 900;">{{main.v}} #{{main.name}} <span class="sm">{{main.incharge}} {{main.numofpeople}}명,{{main.wt}} <span class="sm" style="    color: black;
                 background: pink;" *ngIf="main.totalagasi==0"> 신규{{main.lack}}</span>
                 <span class="sm" style="color: black;
-                background: yellow;" *ngIf="main.totalagasi!=0 && main.lack>0"> 빵{{main.lack}} </span></span> </p>
-                
+                background: yellow;" *ngIf="main.totalagasi!=0 && main.lack>0"> 빵{{main.lack}} </span></span> </p> -->
+                <p *ngIf="main.avec" style="    font-size: 18px;
+                font-weight: 900;">{{main.v}} #{{main.name}}  <span class="sm">A{{main.incharge}} {{main.numofpeople}}명 {{main.wt}}</span> <span class="sm" style="    color: black;
+                background: pink;" *ngIf="main.totalagasi==0"> 신규{{main.lack}}</span>
+                <span class="sm" style="color: black;
+                background: yellow;" *ngIf="main.totalagasi!=0 && main.lack>0"> 빵{{main.lack}} </span> </p>
+                <p *ngIf="!main.avec" style="    font-size: 18px;
+                font-weight: 900;">{{main.v}} #{{main.name}} <span class="sm">{{main.incharge}} {{main.numofpeople}}명 {{main.wt}}</span> <span class="sm" style="    color: black;
+                background: pink;" *ngIf="main.totalagasi==0"> 신규{{main.lack}}</span>
+                <span class="sm" style="color: black;
+                background: yellow;" *ngIf="main.totalagasi!=0 && main.lack>0"> 빵{{main.lack}} </span> </p>
                 <!-- <span *ngIf="main.numofagasi!=undefined">입장:{{main.numofagasi}}명</span>
                 <span *ngIf="main.numofagasi==undefined">입장:0명</span> -->
                 
@@ -276,19 +285,18 @@
             
             <div class="message-content">
               <div class="contentmain">
-                <p *ngIf="main.avec" style="    font-size: 20px;
-                font-weight: 900;">{{main.v}} #{{main.name}} , A </p>
-                <p *ngIf="!main.avec" style="    font-size: 20px;
-                font-weight: 900;">{{main.v}} #{{main.name}} </p>
-                <span>담당:{{main.incharge}}</span>&nbsp;<span>{{main.numofpeople}}명,WT:{{main.wt}}</span>
-                <!-- <span *ngIf="main.numofagasi!=undefined">입장:{{main.numofagasi}}명</span>
-                <span *ngIf="main.numofagasi==undefined">입장:0명</span> -->
+             
 
-                
-                <span style="    color: black;
+                <p *ngIf="main.avec" style="    font-size: 18px;
+                font-weight: 900;">{{main.v}} #{{main.name}}  <span class="sm">A{{main.incharge}} {{main.numofpeople}}명 {{main.wt}}</span> <span class="sm" style="    color: black;
                 background: pink;" *ngIf="main.totalagasi==0"> 신규{{main.lack}}</span>
-                <span style="color: black;
-                background: yellow;" *ngIf="main.totalagasi!=0"> 빵{{main.lack}} </span>
+                <span class="sm" style="color: black;
+                background: yellow;" *ngIf="main.totalagasi!=0 && main.lack>0"> 빵{{main.lack}} </span> </p>
+                <p *ngIf="!main.avec" style="    font-size: 18px;
+                font-weight: 900;">{{main.v}} #{{main.name}} <span class="sm">{{main.incharge}} {{main.numofpeople}}명 {{main.wt}}</span> <span class="sm" style="    color: black;
+                background: pink;" *ngIf="main.totalagasi==0"> 신규{{main.lack}}</span>
+                <span class="sm" style="color: black;
+                background: yellow;" *ngIf="main.totalagasi!=0 && main.lack>0"> 빵{{main.lack}} </span> </p>
 
                 <span  style="
                 border: solid 1px;

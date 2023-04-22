@@ -36,16 +36,18 @@ export class WtPage {
   company:any;
   id:any="";
   code:any="";
+  nickname:any="";
+  
   paymentflag:any=false;
   constructor(public util:UtilsProvider, public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
     this.name= localStorage.getItem("name");
+    this.nickname= localStorage.getItem("nickname");
     this.company=localStorage.getItem("company");
 
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
     var login=localStorage.getItem("login_data");
 
-    var login=localStorage.getItem("login_data");
     // this.code = JSON.parse(login).code;
     console.log(login);
 
@@ -115,7 +117,7 @@ generate(){
           for(var c in snap.val()[a].roomhistory[b]){
               if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){
                 console.log(snap.val()[a].roomhistory[b][c]);
-                if(snap.val()[a].roomhistory[b][c].wt!=this.name){
+                if(snap.val()[a].roomhistory[b][c].wt!=this.nickname){
                   console.log("wt name diff");
                   break;
                 }

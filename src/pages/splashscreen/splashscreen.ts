@@ -25,7 +25,7 @@ export class SplashscreenPage {
     this.firemain.child("users").orderByChild("type").once("value",snap=>{
       console.log(snap.val())
       for(var b in snap.val()){
-        if(snap.val()[b].name==undefined){
+        if(snap.val()[b].nickname==undefined){
 
         }else{
             this.directorList.push(snap.val()[b]);

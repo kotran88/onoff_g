@@ -29,6 +29,7 @@ export class InfomodalPage {
   bu:any=0;
   name:any;
   bujangyoung:any=""
+  nickname:any="";
   bujangid :any="noname";
   bujangjopan:any="";
   directorList:any=[];
@@ -37,6 +38,7 @@ export class InfomodalPage {
    this.room= this.navParams.get("room");
     this.bu= this.navParams.get("bu");
     this.directorList =  localStorage.getItem("director");
+    this.nickname=localStorage.getItem("nickname");
     console.log(this.directorList)
     this.directorList= JSON.parse(this.directorList);
     for(var a in this.directorList){
@@ -77,12 +79,12 @@ export class InfomodalPage {
   confirm(){
     this.util.presentLoading();
     for(var abab in this.directorList){
-      console.log(this.directorList[abab].name+",,,"+this.incharge);
-      if(this.directorList[abab].name.trim()==this.incharge){
+      console.log(this.directorList[abab].nickname+",,,"+this.incharge);
+      if(this.directorList[abab].nickname.trim()==this.incharge){
         console.log("matched...");
 
 
-          this.bujangid=this.directorList[abab].id;
+          this.bujangid=this.directorList[abab].nickname;
           this.bujangjopan = this.directorList[abab].jopan;
           this.bujangyoung = this.directorList[abab].young;
           if(this.directorList[abab].young==undefined){
@@ -95,6 +97,9 @@ export class InfomodalPage {
       }
       
     }
+    console.log(this.bujangid);
+    console.log(this.bujangjopan);
+    console.log(this.bujangyoung);
           if(this.bujangid=="noname"){
         window.alert("없는담당자입니다. 담당자명을 확인하세요.")
 
@@ -149,7 +154,7 @@ export class InfomodalPage {
         if(countingvalue==undefined){
           countingvalue=1;
         }
-      this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday+"").child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+      this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday+"").child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
       
       this.util.dismissLoading();
       this.view.dismiss();

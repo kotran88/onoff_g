@@ -23,7 +23,7 @@
     <ion-buttons end>
       <button  style="color:white;"ion-button icon-only color="royal">
         <ion-icon name="person-add"></ion-icon>
-        <span>{{name}}</span>
+        <span>{{nickname}}</span>
       </button>
     </ion-buttons>
   </ion-toolbar>
@@ -115,14 +115,14 @@
                    <span *ngIf="b.date!=undefined" style="line-height: 20px; 
                    font-size: 10px;
                    text-align: center; width:45px;">{{abcd(b.date.substring(10))}}</span>
-                   <button *ngIf="b.findate==undefined" (click)="end(b,a.name,a,1)" style="
+                   <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,1)" style="
                        display: block;
     margin: 5px;
     width: 40px;
     height: 40px;
     text-align: center;
     font-size: 12px; ">종료</button>
-                   <button (click)="reinit(b,a.name,a,1)" *ngIf="b.findate!=undefined" style="
+                   <button (click)="reinit(b,a.name,a,1)" *ngIf="b.findate!=undefined&&b.findate.length!=0" style="
                          display: block;
     margin: 5px;
     width: 40px;

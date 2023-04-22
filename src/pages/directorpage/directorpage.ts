@@ -18,6 +18,7 @@ import { SignupPage } from '../signup/signup';
 })
 export class DirectorpagePage {
   name:any="";
+  nickname:any="";
   mainlist=[];
   allmainlist=[];
   directorList=[];
@@ -36,6 +37,7 @@ export class DirectorpagePage {
   company:any;
   constructor(public util:UtilsProvider, public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
     this.name= localStorage.getItem("name");
+    this.nickname=localStorage.getItem("nickname");
     this.company=localStorage.getItem("company");
     this.directorList=this.navParams.get("user");
     console.log(this.directorList);
@@ -108,14 +110,16 @@ generating(){
           console.log(snap.val()[a].roomhistory[b])
           for(var c in snap.val()[a].roomhistory[b]){
             console.log(snap.val()[a].roomhistory[b][c])
-            if(snap.val()[a].roomhistory[b][c].bu!=this.name){
+            if(snap.val()[a].roomhistory[b][c].incharge!=this.nickname){
               break;
             }
 
               if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){
                 console.log(snap.val()[a].roomhistory[b][c].incharge);
                 console.log(this.name);
-                if(snap.val()[a].roomhistory[b][c].incharge.trim()==this.name.trim()){
+                console.log(this.nickname);
+                console.log(snap.val()[a].roomhistory[b][c].incharge)
+                if(snap.val()[a].roomhistory[b][c].incharge.trim()==this.nickname.trim()){
                   var mainlist=snap.val()[a].roomhistory[b][c];
 
                   console.log("is mainlist...")
@@ -133,19 +137,43 @@ generating(){
                 mainlist.agasi[d].bantee=bantee;
               }
           }
+          var logic = snap.val()[a].roomhistory[b][c].logic;
           console.log(mainlist);
           var newtc=0;
           var tcarray = [];
+          var tctotal=0;
+          var chasamarray=[];
+          var chasamtotal=0;
+      var yeontireason="";
+      var inagasi = 0;
           var numofpeople = snap.val()[a].roomhistory[b][c].numofpeople;
           for(var cccc in mainlist.agasi){
+            inagasi++;
             console.log(mainlist.agasi[cccc].tc)
             newtc += Math.floor(mainlist.agasi[cccc].tc)
             tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
-          
+            console.log("add tc Math.floor(mainlist.agasi[cccc].tc:"+Math.floor(mainlist.agasi[cccc].tc));
+            tctotal+=Number(Math.floor(mainlist.agasi[cccc].tc));
+            console.log(tctotal);
+            chasamtotal+=Number((mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
+            console.log("add chasam...");
+            console.log(Number((mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) ));
+            chasamarray.push( (mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
           }
-                  console.log(snap.val()[a].roomhistory[b][c]);
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist);
-                console.log(snap.val()[a].roomhistory[b][c].orderlist.roomno);
+          console.log(tctotal)
+          console.log("original chasamtotal : "+chasamtotal);
+          chasamtotal=Number(chasamtotal.toFixed(2));
+          var newchasamtotal=chasamtotal.toString();
+          //can you make it like this? newchasamtotal should be look like 1.8 and I want it to be 0.18 
+          newchasamtotal = newchasamtotal.split(".")[0]+newchasamtotal.split(".")[1];
+          newchasamtotal = ""+newchasamtotal;
+          if(chasamtotal==0){
+            newchasamtotal="0";
+          }
+          console.log(newchasamtotal);
+          // newchasamtotal
+          console.log("chasamtotal"+chasamtotal);
+          console.log(numofpeople+"newtc"+newtc);
                 var orderl=[];
                 var orderprice=0;
                 var tp=0;
@@ -171,19 +199,31 @@ generating(){
                 console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
                 var firstsumofv=0;
                 var totalsum=0;
-                for(var abab in tcarray){
-                  console.log(tcarray[abab])
-                  console.log(tcarray[abab]+",,,"+tbottle)
-                  totalsum+=tcarray[abab];
-                  if(tcarray[abab]>=tbottle){
-                    var v = tcarray[abab]-tbottle;
-                    console.log(v);
-                    firstsumofv+=v;
-                  }
+                if(logic){
+                  tbottle=tbottle-1;
+                  yeontireason+="중/대방로직에 따른 술병 차감 -1 , "
                 }
-                if(firstsumofv==0){
-                  firstsumofv=tbottle*numofpeople-totalsum;
+                if(tcarray.length>numofpeople){
+                  var minVal = Math.min.apply(null, tcarray);
+                  console.log("minvalue : "+minVal);
+                  var maxVal = Math.max.apply(null, tcarray);
+                  console.log("maxvalue : "+maxVal);
+                  firstsumofv=minVal+maxVal-tbottle
+                  yeontireason += "인원수<아가씨, 가장큰 tc"+maxVal+"+가장작은 tc"+minVal+"에서 총술병"+tbottle+"를 뺀값."
                 }
+                // for(var abab in tcarray){
+                //   console.log(tcarray[abab])
+                //   console.log(tcarray[abab]+",,,"+tbottle)
+                //   totalsum+=tcarray[abab];
+                //   if(tcarray[abab]>=tbottle){
+                //     var v = tcarray[abab]-tbottle;
+                //     console.log(v);
+                //     firstsumofv+=v;
+                //   }
+                // }
+                // if(firstsumofv==0){
+                //   firstsumofv=tbottle*numofpeople-totalsum;
+                // }
                 console.log("firstsumofv : "+firstsumofv);
                 var yeonti=firstsumofv;
                 console.log("yeontiiiii : "+yeonti);
@@ -227,7 +267,7 @@ generating(){
                     roomno="-"
                   }
 
-                  this.orderlist.push({"numofpeople":numofpeople,"incharge":snap.val()[a].roomhistory[b][c].incharge,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].orderlist.wt,"date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
+                  this.orderlist.push({"tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "numofpeople":numofpeople,"incharge":snap.val()[a].roomhistory[b][c].incharge,"tbottle":tbottle, "yeonti":yeonti,"reason":yeontireason,"logic":logic, "tcarray":tcarray,"chasamarray":chasamarray,  "tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
               }
                 
               }

@@ -45,7 +45,7 @@ export class HistoryPage {
   daysInThisMonth = []; // 이번달
   daysInLastMonth = []; // 저번달
   daysInNextMonth = []; // 다음달
-
+  nickname:any="";
   currentYear:number = 0; // 현재 년
   currentMonth:number = 0; // 현재 월
   currentDate:number = 0; // 현재 일
@@ -56,7 +56,7 @@ export class HistoryPage {
   constructor(public util:UtilsProvider, public view:ViewController,public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
     this.name= localStorage.getItem("name");
     this.company=localStorage.getItem("company");
-
+    this.nickname=localStorage.getItem("nickname");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
 
@@ -186,7 +186,7 @@ generating(){
             for(var c in snap.val()[a].roomhistory[b]){
               console.log(snap.val()[a].roomhistory[b][c].incharge);
               console.log(this.name);
-              if(snap.val()[a].roomhistory[b][c].incharge.trim()==this.name.trim()){
+              if(snap.val()[a].roomhistory[b][c].incharge.trim()==this.nickname.trim()){
                 var mainlist=snap.val()[a].roomhistory[b][c];
 
                 console.log("is mainlist...")

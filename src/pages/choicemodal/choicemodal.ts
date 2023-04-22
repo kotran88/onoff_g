@@ -131,7 +131,7 @@ export class ChoicemodalPage {
   writer19:any="";
   writer20:any="";
   writer21:any="";
-
+  nickname:any="";
   name:any="";
   subscribedList=[];
   currentstartday:any="";
@@ -139,7 +139,7 @@ export class ChoicemodalPage {
   constructor(public util:UtilsProvider, public alertController:AlertController,public renderer:Renderer2,public modal:ModalController,public loading:LoadingController,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     this.company = localStorage.getItem("company");
     this.name = localStorage.getItem("name");
-    
+    this.nickname=localStorage.getItem("nickname");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
     this.a =  this.navParams.get("a");
@@ -315,10 +315,10 @@ export class ChoicemodalPage {
     
   }
   cancel(){
-    this.view.dismiss();
+    this.view.dismiss({"result":false});
   }
   confirm(){
-    this.util.presentLoading();
+    // this.util.presentLoading();
 
     console.log(this.checkbox);
     console.log(this.checkbox2);
@@ -340,32 +340,66 @@ export class ChoicemodalPage {
     console.log(this.writer3);
     console.log(this.writer4);
     if(this.writer.length==0){
-      this.writer=this.name;
+      this.writer=this.nickname;
     }
     if(this.writer2.length==0){
-      this.writer2=this.name;
+      this.writer2=this.nickname;
     }
     if(this.writer3.length==0){
-      this.writer3=this.name;
+      this.writer3=this.nickname;
     }
     if(this.writer4.length==0){
-      this.writer4=this.name;
+      this.writer4=this.nickname;
     }
     if(this.writer5.length==0){
-      this.writer5=this.name;
+      this.writer5=this.nickname;
     }
     if(this.writer6.length==0){
-      this.writer6=this.name;
+      this.writer6=this.nickname;
     }
     if(this.writer7.length==0){
-      this.writer7=this.name;
+      this.writer7=this.nickname;
     }
     if(this.writer8.length==0){
-      this.writer8=this.name;
+      this.writer8=this.nickname;
     }
     if(this.writer9.length==0){
-      this.writer9=this.name;
+      this.writer9=this.nickname;
     }
+    if(this.writer10.length==0){
+      this.writer10=this.nickname;
+    }
+    if(this.writer11.length==0){
+      this.writer11=this.nickname;
+    }
+    if(this.writer12.length==0){
+      this.writer12=this.nickname;
+    }
+    if(this.writer13.length==0){
+      this.writer13=this.nickname;
+    }
+    if(this.writer14.length==0){
+      this.writer14=this.nickname;
+    }
+    if(this.writer15.length==0){
+      this.writer15=this.nickname;
+    }
+    if(this.writer16.length==0){
+      this.writer16=this.nickname;
+    }
+    if(this.writer17.length==0){
+      this.writer17=this.nickname;
+    }
+    if(this.writer18.length==0){
+      this.writer18=this.nickname;
+    }
+    if(this.writer19.length==0){
+      this.writer19=this.nickname;
+    }
+    if(this.writer20.length==0){
+      this.writer20=this.nickname;
+    }
+
     console.log("confirm");
     console.log(this.a);
     console.log(this.agasilist)
@@ -496,10 +530,10 @@ export class ChoicemodalPage {
         }
       }
 
-      console.log(this.a.numofpeople)
+      console.log(this.a.numofpeople) //4
 
-      console.log(this.agasilist.length);
-      console.log(angelcount);
+      console.log(this.agasilist.length);  //1
+      console.log(angelcount); //0
       if(this.a.numofpeople<this.agasilist.length-angelcount){
         var a = this.alertController.create({
           message: this.agasilist[this.agasilist.length-1].name+"를 날개로 지정하시겠습니까?",
@@ -587,11 +621,13 @@ export class ChoicemodalPage {
           if(snap2.val()[b].type=="agasi"){
             var dupflag=false;
             for(var cc in this.agasilist){
-              if(this.agasilist[cc].name.trim() == snap2.val()[b].name.trim()){
+              console.log(this.agasilist[cc].name.trim()+",,,,"+snap2.val()[b].nickname);
+              if(snap2.val()[b].nickname!=undefined&&this.agasilist[cc].name.trim() == snap2.val()[b].nickname.trim()){
                 dupflag=true;
                 newnum++;
                 var id = snap2.val()[b].id;
-                var name = snap2.val()[b].name;
+                var nickname = snap2.val()[b].nickname;
+                var name = snap2.val()[b].nickname;
                   console.log("id and name : ");
                   console.log(id+","+name);
                   var dte = new Date();
@@ -610,19 +646,19 @@ export class ChoicemodalPage {
                     window.alert(""+currentflag.room+"번 방에 "+currentflag.enter_date.split("T")[1].split(":")[0]+"시"+currentflag.enter_date.split("T")[1].split(":")[1]+"분에 입장하여, 추가할수없습니다.");
                     
                 this.util.dismissLoading();
-                    this.view.dismiss();
+                    this.view.dismiss({result:false});
 
 
                     return;
                 }
-                this.firemain.child("users").child(id).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
-                this.firemain.child("users").child(id).child("attendance").child(this.currentstartday).child("attend").update({"team":snap2.val()[b].jopan,"name":name,"date":this.currentstartday,"flag":"attend","time":hour+":"+min})
-                this.firemain.child("users").child(id).child("current").update({"room":this.a.name,"enter_date":dte})
+                this.firemain.child("users").child(nickname).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
+                this.firemain.child("users").child(nickname).child("attendance").child(this.currentstartday).child("attend").update({"team":snap2.val()[b].jopan,"name":name,"date":this.currentstartday,"flag":"attend","time":hour+":"+min})
+                this.firemain.child("users").child(nickname).child("current").update({"room":this.a.name,"enter_date":dte})
                 this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":snap2.val()[b].jopan,"name":this.agasilist[cc].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
-                this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
-                this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(newnum+"").update({"angel": this.agasilist[cc].angel,"roomno":this.a.name,"incharge":this.a.incharge, "name":this.agasilist[cc].name,"writer":this.name,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
-                this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("message").push({ "date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드 ","type":"assigned", "agasi":this.agasilist[cc].name,"uploader":this.name, "name":"system"})
-                this.subscribedList.push({"id":id,"name":name});
+                this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
+                this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(newnum+"").update({"angel": this.agasilist[cc].angel,"roomno":this.a.name,"incharge":this.a.incharge, "name":this.agasilist[cc].name,"writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
+                this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("message").push({ "date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드 ","type":"assigned", "agasi":this.agasilist[cc].name,"uploader":this.nickname, "name":"system"})
+                this.subscribedList.push({"id":nickname,"name":nickname});
       
               }
             }
@@ -641,46 +677,91 @@ export class ChoicemodalPage {
        
         console.log("this is new List...")
         console.log(this.newlist);
-        if(this.newlist.length==0){
+        console.log(this.agasilist);
+        console.log(this.originalList);
+        console.log(this.subscribedList);
+        if(this.newlist.length!=0){
           console.log(this.agasilist);
           console.log(this.originalList);
-          this.util.dismissLoading();
-          this.view.dismiss();
-        }else{
 
          // 수정 1개로 만원. 
-          console.log("추가등록할것...");
-          console.log(this.newlist)
-          let modal = this.modal.create(Choicemodal2Page,{"agasi":this.newlist,"subscribedList":this.subscribedList,"room":this.a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
-          modal.onDidDismiss(url => {
-            console.log(url);
-            if(url==undefined||url.result==undefined){
-    
-            }else if(url.result=="ok"){
-              window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
-    
-          console.log(this.newlist);
-          for(var cca in this.newlist){
-            console.log(this.newlist[cca])
-            if(newflag){
-    
-            }else{
-              this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("message").push({"date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드..","agasi":this.newlist[cca].name,"uploader":this.name,"type":"assigned", "name":"system"})
-         
+         console.log("추가등록할것...");
+         console.log(this.newlist)
+         let modal = this.modal.create(Choicemodal2Page,{"agasi":this.newlist,"subscribedList":this.subscribedList,"room":this.a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
+         modal.onDidDismiss(url => {
+           console.log(url);
+           if(url==undefined||url.result==undefined){
+            this.util.dismissLoading();
+           }else if(url.result=="ok"){
+             window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
+   
+         console.log(this.newlist);
+         console.log(this.a);
+         for(var cca in this.newlist){
+           console.log(this.newlist[cca])
+           if(newflag){
+   
+           }else{
+             this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("message").push({"date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드..","agasi":this.newlist[cca].name,"uploader":this.nickname,"type":"assigned", "name":"system"})
+        
+           }
+           newnum++;
+            console.log("newnum..."+newnum);
+             this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({"lastupdatedperson":this.nickname, "lastupdated":year+"-"+month+"-"+day +" "+hour+":"+min+""})
+             this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(newnum+"").update({"angel": this.newlist[cca].angel, "roomno":this.a.name, "name":this.newlist[cca].name,"incharge":this.a.incharge, "writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min});
             }
-            newnum++;
-             console.log("newnum..."+newnum);
-              this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({"lastupdatedperson":this.name, "lastupdated":year+"-"+month+"-"+day +" "+hour+":"+min+""})
-              this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(newnum+"").update({"angel": this.newlist[cca].angel, "roomno":this.a.name, "name":this.newlist[cca].name,"incharge":this.a.incharge, "writer":this.name,"date":year+"-"+month+"-"+day +" "+hour+":"+min});
-             }
 
-             
-             this.util.dismissLoading();
-              this.navCtrl.pop();
-            }
-          });
+            this.view.dismiss({"result":true})
+           }
+         });
+         
+     modal.present();
+
+          // this.util.dismissLoading();
+          // this.view.dismiss();
+        }else{
           
-      modal.present();
+          this.navCtrl.pop();
+      //    // 수정 1개로 만원. 
+      //     console.log("추가등록할것...");
+      //     console.log(this.newlist)
+      //     let modal = this.modal.create(Choicemodal2Page,{"agasi":this.agasilist,"subscribedList":this.subscribedList,"room":this.a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
+      //     modal.onDidDismiss(url => {
+      //       console.log(url);
+      //       if(url==undefined||url.result==undefined){
+    
+      //       }else if(url.result=="ok"){
+      //         window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
+    
+      //     console.log(this.newlist);
+      //     console.log(this.a);
+      //     for(var cca in this.newlist){
+      //       console.log(this.newlist[cca])
+      //       if(newflag){
+    
+      //       }else{
+      //         this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("message").push({"date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드..","agasi":this.newlist[cca].name,"uploader":this.nickname,"type":"assigned", "name":"system"})
+         
+      //       }
+      //       newnum++;
+      //        console.log("newnummmm..."+newnum);
+      //        console.log(this.company);
+      //        console.log(this.a.name);
+      //        console.log(this.a.key);
+      //         this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({"lastupdatedperson":this.nickname, "lastupdated":year+"-"+month+"-"+day +" "+hour+":"+min+""})
+      //         this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(newnum+"").update({"angel": this.newlist[cca].angel, "roomno":this.a.name, "name":this.newlist[cca].name,"incharge":this.a.incharge, "writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min});
+      //        }
+
+      //        console.log("ok end");
+      //       }
+      //       console.log("ok end2");
+      //       console.log("ok end3");
+      //       console.log("ok end4");
+            
+      //       this.navCtrl.pop();
+      //     });
+          
+      // modal.present();
         }
 
       });

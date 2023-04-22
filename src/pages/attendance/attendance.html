@@ -17,7 +17,7 @@
       <ion-buttons end>
         <button  style="color:white;"ion-button icon-only color="royal">
           <ion-icon name="person-add"></ion-icon>
-          <span>{{name}}</span>
+          <span>{{nickname}}</span>
         </button>
       </ion-buttons>
     </ion-toolbar>
@@ -140,7 +140,9 @@
            
           </div>
           <div (click)="editing(a);" *ngFor="let a of mainlist" class="datas">
-            <span>{{a.team}}</span>
+            <span style="
+            font-size: 10px;
+            text-align: center;">{{a.team}}</span>
             <span>{{a.name}}</span>
             <span >{{a.wantee}} </span>
             <span>{{a.tc}}</span>
@@ -151,7 +153,7 @@
 
 
 
-        <div class="title-div">
+        <!-- <div class="title-div">
           <ion-icon class="square" name="square"></ion-icon>
           <span style="color:black;" class="text">오늘의 퇴근 현황</span>
         </div>
@@ -175,7 +177,7 @@
             <span>0</span>
             <span >퇴근</span>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div style="    height: 10%;
@@ -291,7 +293,7 @@
       </div>
     </div>
 
-    <div class="area" id="ion-label-area-2">
+    <div style="    height: 90%;" class="area" id="ion-label-area-2">
 
       <div class="top-bar">
         <!-- <div class="synthesis">

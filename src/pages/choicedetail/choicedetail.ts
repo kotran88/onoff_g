@@ -29,7 +29,7 @@ export class ChoicedetailPage {
    company:any="";
    modifyflag:any=false;
    name:any = "";
-   
+   nickname:any="";
   interval:any;
   mainlist_finished_status:any = [];
   mainlist_finished:any = [];
@@ -38,6 +38,7 @@ export class ChoicedetailPage {
   constructor(public alertCtrl:AlertController, public util:UtilsProvider,public view:ViewController,public loading:LoadingController,public modal:ModalController,public zone:NgZone, public navCtrl: NavController, public navParams: NavParams) {
     this.a=this.navParams.get("a");
     this.v=this.navParams.get("v");
+    this.nickname=localStorage.getItem("nickname");
   
     if(this.v==1||this.v=="1"){
       this.activeclass='1';
@@ -151,10 +152,17 @@ export class ChoicedetailPage {
     let modal = this.modal.create(ChoicemodalPage,{"a":this.a});
     modal.onDidDismiss(url => {
 
-    
+      console.log(url);
+      if(url==undefined){
+        this.view.dismiss();
+      }else if(url.result==true){
+        this.refreshChoice2();
+      }else if(url.result==false){
+        console.log("do nothing....")
+      }
       //this should refresh a....
       // this.refreshChoice2();
-      this.view.dismiss();
+     
 
     });
 
@@ -264,7 +272,7 @@ screenSwitch(values) : void {
         }
       }
       console.log("totalsumtc:"+totalsumtc);
-      this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"tc":totalsumtc,"date":endtime,"contents":"전체종료 ","type":"fin", "uploader":this.name, "name":"system"})
+      this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"tc":totalsumtc,"date":endtime,"contents":"전체종료 ","type":"fin", "uploader":this.nickname, "name":"system"})
      this.util.dismissLoading();
        
       // this.refreshChoice2();
@@ -272,7 +280,10 @@ screenSwitch(values) : void {
       
     this.activeclass="1";
 
-    this.view.dismiss();
+    setTimeout(()=>{
+
+      this.refreshChoice2();
+    },1000)
     // });
   }
   reinit(c,room,mainlist, f){
@@ -344,15 +355,15 @@ this.util.presentLoading();
               this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(num+"").update(postData)
               if(f==2){
                 var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
-                this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"ss":true,"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
-                this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"재진행:"+agasiname,"type":"reinit", "uploader":this.name, "name":"system"})
+                this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"ss":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
+                this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"재진행:"+agasiname,"type":"reinit", "uploader":this.nickname, "name":"system"})
               }else{
                 console.log(this.name);
                 console.log(room);
                 console.log(mainlist.key);
                 var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
-                this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
-                this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"재진행:"+agasiname,"type":"reinit", "uploader":this.name, "name":"system"})
+                this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
+                this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"재진행:"+agasiname,"type":"reinit", "uploader":this.nickname, "name":"system"})
               }
 
               
@@ -373,10 +384,11 @@ this.util.dismissLoading();
   }
 
   end(c,room,mainlist, f){
-   this.util.presentLoading();
+
     console.log("-------------------------end-------------------------");
     console.log(c);
     console.log(mainlist)
+    this.util.presentLoading();
     var date = new Date();
 
     var year=date.getFullYear();
@@ -395,7 +407,8 @@ this.util.dismissLoading();
     this.firemain.child("users").once("value",snap=>{
       for(var b in snap.val()){
         if(snap.val()[b].type=="agasi"){
-            if(c.name == snap.val()[b].name){
+            console.log(c.name+",,,,"+snap.val()[b].nickname);
+            if(c.name == snap.val()[b].nickname){
               alreadyexist=true;
               console.log("matched one : ");
               console.log(c);
@@ -408,6 +421,7 @@ this.util.dismissLoading();
               // this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(room).update({"end_date":hour+":"+min,"end_date_full":dte})
               this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).once('value').then((snap2)=>{
                 for(var d in snap2.val().agasi){
+                  console.log(snap2.val().agasi[d]);
                   if(snap2.val().agasi[d].name==c.name){
 
                     //chasam
@@ -492,21 +506,21 @@ this.util.dismissLoading();
                         }
                         
                         console.log("this room's yeonti is : "+yeonti+"and yeontireason"+yeonti_reason);
-                        this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+"","yeonti":yeonti,"yeonti_reason":yeonti_reason})
+                        this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+"","yeonti":yeonti,"yeonti_reason":yeonti_reason})
                         this.firemain.child("users").child(selectedid).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"room":room, "name":snap2.val().agasi[d].name,  "date":this.currentstartday,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"bantee":bantee,"wt":mainlist.wt,"yeonti":yeonti,"yeonti_reason":yeonti_reason})
                       }else{
-                        this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
+                        this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
                         this.firemain.child("users").child(selectedid).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"room":room, "name":snap2.val().agasi[d].name,  "date":this.currentstartday,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"bantee":bantee,"wt":mainlist.wt})
                       }
                   this.firemain.child("users").child(selectedid).child("current").remove();
-
-                    this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(d).update({"roomno":room,"incharge":mainlist.incharge, "findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"bantee":bantee, "money":totalmoney,"wt":mainlist.wt,"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
+                      console.log("d is "+d);
+                    this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(d).update({"roomno":room,"incharge":mainlist.incharge, "findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"bantee":bantee, "money":totalmoney,"wt":mainlist.wt,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
                     
                   }
                 }
                 console.log(snap.val().agasi)
 
-                this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"tc":tctotal,"bantee":bantee,"totalmoney":totalmoney, "date":endtime,"contents":"종료 "+tctotal+"개","type":"fin", "uploader":this.name,"agasi":c.name, "name":"system"})
+                this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"tc":tctotal,"bantee":bantee,"totalmoney":totalmoney, "date":endtime,"contents":"종료 "+tctotal+"개","type":"fin", "uploader":this.nickname,"agasi":c.name, "name":"system"})
      
                 console.log("501!!!")
               });
@@ -528,12 +542,19 @@ this.util.dismissLoading();
   });
   this.util.dismissLoading();
   console.log("end fin");
-  this.view.dismiss();
+  setTimeout(()=>{
+    this.refreshChoice2();
+  },1000)
+  // this.view.dismiss({"result":true});
   }
   refreshChoice2(){
     console.log("refreshchoice222")
     console.log(this.company);
     console.log(this.a);
+    this.mainlist=[];
+    this.mainlist_angel=[];
+    this.mainlist_finished=[];
+    this.mainlist_finished_status=[];
     this.firemain.child("company").child(this.company).once("value", (snap2)=>{
       for(var ccddd in snap2.val().roomlist){
         var snap = snap2.val().roomlist[ccddd];
@@ -546,6 +567,7 @@ this.util.dismissLoading();
             if(snap.roomhistory[this.currentstartday][b].agasi!=undefined){
 
               for(var c in snap.roomhistory[this.currentstartday][b].agasi){
+                console.log(snap.roomhistory[this.currentstartday][b].agasi[c])
                 if(snap.roomhistory[this.currentstartday][b].agasi[c].findate!=undefined){
                   //종료됨. 
                 }else{
@@ -578,8 +600,11 @@ this.util.dismissLoading();
                 }
             });
             console.log(snap.roomhistory[this.currentstartday][b])
-
-
+            var findate = "";
+            if(snap.roomhistory[this.currentstartday][b].findate!=undefined){
+              findate = snap.roomhistory[this.currentstartday][b].findate;
+            }
+            console.log("findate is "+findate);
 
             if(snap.roomhistory[this.currentstartday][b].ss){
               if(snap.roomhistory[this.currentstartday][b].status=="fin"){
@@ -1214,7 +1239,7 @@ this.refreshforeverymin();
               
               console.log("this room's yeonti is : "+yeonti);
               this.firemain.child("users").child(returnvalue).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"room":room,"name":name,"date":d,"incharge":mainlist.incharge,"end_date_full":dte,"tc":tctotal,"money":totalmoney,"bantee":bantee,"wt":mainlist.wt,"yeonti":yeonti,"yeonti_reason":yeonti_reason})
-              this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"date":d, "lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+"","yeonti":yeonti,"yeonti_reason":yeonti_reason})
+              this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"date":d, "lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+"","yeonti":yeonti,"yeonti_reason":yeonti_reason})
               // this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"date":d, "end_date":hour+":"+min,"end_date_full":dte,"lastupdatedperson":this.name, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+"","yeonti":yeonti,"yeonti_reason":yeonti_reason})
             }
         }
@@ -1276,7 +1301,7 @@ this.refreshforeverymin();
     var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
     this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"ss":true,"angel":false})
     // this.firemain.child("company").child(this.company).child("roomlist").off();
-    this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"초이스 ㅅㅅ ","type":"ss", "uploader":this.name, "name":"system"})
+    this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"초이스 ㅅㅅ ","type":"ss", "uploader":this.nickname, "name":"system"})
       
 
     this.view.dismiss();
@@ -1291,7 +1316,7 @@ this.refreshforeverymin();
     var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
     this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"ss":true})
     // this.firemain.child("company").child(this.company).child("roomlist").off();
-    this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"초이스 ㅅㅅ ","type":"ss", "uploader":this.name, "name":"system"})
+    this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"초이스 ㅅㅅ ","type":"ss", "uploader":this.nickname, "name":"system"})
       
 
     this.view.dismiss();
@@ -1307,7 +1332,7 @@ this.refreshforeverymin();
     console.log(room);
     console.log(mainlist);
     this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"ss":false})
-    this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"재초이스","type":"ss", "uploader":this.name, "name":"system"})
+    this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"date":endtime,"contents":"재초이스","type":"ss", "uploader":this.nickname, "name":"system"})
      
     this.view.dismiss();
   }
