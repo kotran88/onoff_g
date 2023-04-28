@@ -83,7 +83,7 @@ color:black;
       <!-- <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span> -->
       <span  *ngFor="let day of daysInThisMonth" > 
         <span  style="
-        width: 40px;    border: solid 1px;" class="currentDate" *ngIf="(
+        width: 40px;    border: solid 1px;" (click)="openmodal(day)" class="currentDate" *ngIf="(
           currentDate === day &&
           today.getMonth()+1 === currentMonth &&
           today.getFullYear() === currentYear

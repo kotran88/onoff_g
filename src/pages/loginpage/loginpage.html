@@ -23,19 +23,27 @@
     </div>
     <div class="pass">
       
-    <input class="input-box"  style="margin-bottom: 1%;" placeholder="패스워드를 입력해주세요." [(ngModel)]="password" type="password"/>
+    <input style="border: solid 1px;
+    border-radius: 5px;  padding: 10px;
+    margin-top: 0px;
+" class="input-box"   placeholder="패스워드를 입력해주세요." [(ngModel)]="password" type="password"/>
    </div>
     <!-- <div calss="chk-box" style="margin-top: 1%;"> -->
      
       <!-- <ion-checkbox style="width: 50px;
       margin-left:30px;
       height: 50px;" class="check-box" [(ngModel)]="check" ></ion-checkbox> -->
-      <div style="    padding: 20px;" class="middle">
+      <div style="    padding: 20px; 
+      padding-bottom: 0px;
+      padding-top: 10px;
+  " class="middle">
         <input style="    margin-bottom: 1%;
         border: solid 1px;
+    margin-top: 5px;
         border-radius: 5px;
         padding: 10px;" id="checked" (click)="checkbox_click()" type="checkbox" name="xxx" value="yyy" >
-        <ion-label style="color:white; font-size:15px;" class="check-name" (click)="checkbox_click()">로그인 상태 유지</ion-label>
+        <ion-label style="color:white; font-size:15px; 
+        margin-left: 10px;" class="check-name" (click)="checkbox_click()">로그인 상태 유지</ion-label>
       <!-- </div> -->
         <!-- <button style="font-size:13px; 
         width: 130px !important;" class="fnid-id" (click)="find_admin()">아이디/비밀번호 찾기</button> -->
@@ -46,7 +54,7 @@
   width: 100%;" class="b">
     <button ion-button calss="login-button" (click)="login()"
       style="
-      width: 40%;
+      width: 90%;
       border-radius: 10px;
       background-color: white;
       font-size: 25px;
@@ -59,7 +67,7 @@
   
     <button ion-button class="login-button"  (click)="signup()"
     style="
-    width: 40%;
+    width: 90%;
     border-radius: 10px;
     background-color: white;
     font-size: 25px;

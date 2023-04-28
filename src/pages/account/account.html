@@ -91,10 +91,10 @@
   <div *ngIf="option_title_ch == 2" class="sssss">
     <div class="top-bar">
       <div class="synthesis">
-        <div class="over" *ngIf="tomoney-todaymoney>0">과입금액 : {{(tomoney-todaymoney).toLocaleString()}} </div>
-        <div class="over" *ngIf="tomoney-todaymoney<=0">과입금액 : - </div>
+        <div class="over" *ngIf="todaymoney-tomoney>0">과입금액 : {{(todaymoney-tomoney).toLocaleString()}} </div>
+        <div class="over" *ngIf="todaymoney-tomoney<=0">과입금액 : - </div>
         <div class="syn">
-          <span>누적미수금액 {{cumulative.toLocaleString()}}</span>
+          <span>누적미수금액 {{ (tomoney-todaymoney).toLocaleString() }}</span>
           <span>오늘입금할금액 {{tomoney.toLocaleString()}}</span>
           <span>오늘입금하신금액 {{todaymoney.toLocaleString()}}</span>
         </div>
@@ -114,6 +114,7 @@
         <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span> -->
         
   <button (click)="confirm()" class="newbtn">입금 </button>
+  <button (click)="cancel()" class="newbtn">출금 </button>
       </div>
     </div>
 
@@ -149,7 +150,7 @@
           <span *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</span>
           <!-- <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span> -->
           <span  *ngFor="let day of daysInThisMonth" > 
-            <span  style="
+            <span  (click)="openmodal(day)" style="
             width: 40px;    border: solid 1px;" class="currentDate" *ngIf="(
               currentDate === day &&
               today.getMonth()+1 === currentMonth &&
@@ -168,8 +169,20 @@
               ) && checkEvent(day)" >
                   </div>
               <ng-template #otherDate class="otherDate">
-                  <span style="
-                  width: 20px;" (click)="openmodal(day)">{{day}}</span> <br>
+                  <span *ngIf="(
+                    day == selectedDate &&
+                    today.getMonth()+1 == currentMonth &&
+                    today.getFullYear() == currentYear
+                    )" style="background: pink;
+                    width: 20px;" (click)="openmodal(day)">{{day}}</span>
+                  
+                  <span *ngIf="(
+                    day != selectedDate &&
+                    today.getMonth()+1 == currentMonth &&
+                    today.getFullYear() == currentYear
+                    )" style="
+                  width: 20px;" (click)="openmodal(day)">{{day}}</span>
+                  <br>
                   <div  style="width: 7px;
                   height: 7px;
                   color: #E74371 ;
@@ -191,12 +204,12 @@
     <div class="b">
       <div class="listing">
         <ion-list *ngFor="let a of detailarray">
-          <ion-item style="font-size:12px;" >11#{{a.roomno}} {{a.incharge}}   {{a.bu}}부 {{a.totalsumprice.toLocaleString()}}원  </ion-item>
+          <ion-item style="font-size:12px;" >#{{a.roomno}} {{a.incharge}}   {{a.bu}}부 {{a.totalsumprice.toLocaleString()}}원  </ion-item>
         </ion-list>
       </div>
       <div class="listing">
         <ion-list *ngFor="let a of accountmessage">
-          <ion-item style="font-size:12px;" >22{{a.name}} 카드: {{a.card.toLocaleString()}}  현금: {{a.cash.toLocaleString()}} 입금입력날짜: {{a.time}}</ion-item>
+          <ion-item style="font-size:12px;" >{{a.name}} 카드: {{a.card.toLocaleString()}}  현금: {{a.cash.toLocaleString()}} 입금입력날짜: {{a.time}}</ion-item>
         </ion-list>
       </div>
     </div>

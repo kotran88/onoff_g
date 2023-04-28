@@ -52,13 +52,25 @@ export class HistoryPage {
 
   incen2:any=0;
   selectedDay:any=0;
+  login_data:any="";
   selectedDate:any=0;
+  id:any="";
+  code:any="";
   constructor(public util:UtilsProvider, public view:ViewController,public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
     this.name= localStorage.getItem("name");
     this.company=localStorage.getItem("company");
     this.nickname=localStorage.getItem("nickname");
+    this.login_data=JSON.parse(localStorage.getItem("login_data"));
+    console.log(this.login_data.young);
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
+    
+    var login=localStorage.getItem("login_data");
+    // this.code = JSON.parse(login).code;
+    console.log(login);
+
+    this.id = JSON.parse(login).id;
+    this.code = JSON.parse(login).young;
 
     this.selectedDate=this.currentstartday;
     this.selectedDay = this.currentstartday.split("-")[2];
@@ -86,7 +98,7 @@ export class HistoryPage {
     } else {
       this.currentDate = 999;
     }
-    this.selectedDate = new Date().getDate();
+    // this.selectedDate = new Date().getDate();
     var firstDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
     var prevNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth(), 0).getDate();
     for(var i = prevNumOfDays-(firstDayThisMonth-1); i <= prevNumOfDays; i++) {
@@ -184,11 +196,15 @@ generating(){
           console.log(b+",,"+this.selectedDate);
           if(b==this.selectedDate){
             for(var c in snap.val()[a].roomhistory[b]){
+              console.log("snap.val()[a].roomhistory[b][c]");
+              console.log(snap.val()[a].roomhistory[b][c])
               console.log(snap.val()[a].roomhistory[b][c].incharge);
               console.log(this.name);
-              if(snap.val()[a].roomhistory[b][c].incharge.trim()==this.nickname.trim()){
+              if(snap.val()[a].roomhistory[b][c].bujangyoung.trim()==this.login_data.young.trim()){
+                console.log("matched....");
                 var mainlist=snap.val()[a].roomhistory[b][c];
 
+                console.log(mainlist)
                 console.log("is mainlist...")
 
                 console.log(mainlist);
@@ -282,7 +298,7 @@ generating(){
                       orderdate = "-"
                       roomno="-"
                     }
-                this.orderlist.push({"tp":tp, "totalprice":orderprice,"tc":totaltc,"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
+                this.orderlist.push({"tp":tp, "totalprice":orderprice,"tc":totaltc,"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"director":snap.val()[a].roomhistory[b][c].directorId, "date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
               }
               
            

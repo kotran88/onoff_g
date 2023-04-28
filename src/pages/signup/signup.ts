@@ -76,16 +76,25 @@ export class SignupPage {
       //   for(var b in snap.val()[a].younglist){
       //       console.log(snap.val()[a].younglist[b])
       //   }dfss
-
       //   for(var b in snap.val()[a].jopanlist){
       //     console.log(snap.val()[a].jopanlist[b])
       // }
         this.companies.push({"name":snap.val()[a].groupName,"address":snap.val()[a].address,"jopanlist":snap.val()[a].jopanlist,"younglist":snap.val()[a].younglist});
       }
+    });
       this.id = localStorage.getItem("id");
       this.nickname = localStorage.getItem("nickname");
       this.type = Number(localStorage.getItem("type"));
       console.log(this.nickname)
+      console.log(this.id);
+      console.log(this.type);
+      if(this.type==NaN){
+        this.stage=1;
+        window.alert("d")
+        return;
+
+      }
+     
       if(this.nickname!=null&&this.nickname!=undefined&&this.nickname.length!=0){
         try{
 
@@ -94,6 +103,7 @@ export class SignupPage {
           if(snap.val()==null){
             return;
           }
+
           console.log(snap.val().approved);
           this.approved=snap.val().approved;
           var payment=snap.val().payment;
@@ -102,12 +112,13 @@ export class SignupPage {
           if(this.approved==false){
             this.stage=5;
             
-          }else{
-            this.stage=1;
-            
           }
           if(this.approved==true&&payment==true){
             this.stage=1;
+          }
+          if(this.approved==false&&payment==true){
+            window.alert("d")
+            this.stage=5;
           }
         });
         }catch(e){
@@ -120,7 +131,6 @@ export class SignupPage {
       }
      
     
-    });
 
     console.log("result..")
     console.log(this.companies)
@@ -172,6 +182,7 @@ export class SignupPage {
     }else if(value==3){
       console.log("아가씨 승인 요청 ")
       var nowdate=this.format_date(new Date())
+      console.log(nowdate);
       this.firemain.child("users").child(this.nickname).update({"type":"agasi","id":this.id,"jopan":this.jopanteam,"pass":this.password,"ph":this.phone,"name":this.name,"registerDate":nowdate,"nickname":this.nickname, "approved":true,"payment":false,"company":this.selectedCompany["name"]})
     }else if(value==4){
       console.log("경리 승인 요청 ")
@@ -235,8 +246,8 @@ export class SignupPage {
     var str = "";
     var date = new Date(d);
     // 2022-08-25T17:52:39.629Z
-    str  = this.str_format(date.getFullYear(), 4) + '.';
-    str += this.str_format(date.getMonth() + 1, 2) + '.';
+    str  = this.str_format(date.getFullYear(), 4) + '-';
+    str += this.str_format(date.getMonth() + 1, 2) + '-';
     str += this.str_format(date.getDate(), 2) + ' ';
     str += this.str_format(date.getHours(), 2) + ':';
     str += this.str_format(date.getMinutes(), 2);
@@ -262,6 +273,10 @@ export class SignupPage {
 
     localStorage.setItem("id", "" )
     localStorage.setItem("type", "" )
+    localStorage.setItem("nickname", "" )
+    this.id="";
+    this.password="";
+    this.password2="";
       localStorage.setItem("loginflag", "false" )
       window.alert("임시 결제처리완료");
       this.util.dismissLoading();

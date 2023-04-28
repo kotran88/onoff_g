@@ -24,7 +24,7 @@
     <ion-buttons end>
       <button  style="color:white;"ion-button icon-only color="royal">
         <ion-icon name="person-add"></ion-icon>
-        <span>{{nickname}}</span>
+        <span>{{nickname}}<br>{{code}}</span>
       </button>
     </ion-buttons>
   </ion-toolbar>
@@ -112,7 +112,7 @@ color:black;
       <!-- <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span> -->
       <span  *ngFor="let day of daysInThisMonth" > 
         <span  style="
-        width: 40px;    border: solid 1px;" class="currentDate" *ngIf="(
+        width: 40px;    border: solid 1px;" (click)="openmodal(day)" class="currentDate" *ngIf="(
           currentDate === day &&
           today.getMonth()+1 === currentMonth &&
           today.getFullYear() === currentYear
@@ -171,9 +171,10 @@ text-align: center; color:black;" *ngIf="orderlist.length==0">
 
   </div>
 <div class="orderlisting" style="color:black;" *ngFor="let i of orderlist; let j = index;">
-<p > 룸 넘버 : {{i.roomno}}</p>
-<p > 주문일 : {{i.date}}</p>
-<p > 웨이터 : {{i.wt}}</p>
+  <span style="    font-size: 16px;
+  background: yellow;">{{i.roomno}}T   {{i.director}} </span>
+<!-- <p > 주문일 : {{i.date}}</p> -->
+<p > 웨이터 : {{i.wt}} </p>
 <span *ngFor="let j of i.value">
   <p style="
   margin: 0;" *ngIf="j.category=='주류'">{{j.name}} , {{j.num}}병, {{j.price.toLocaleString()}}원</p>

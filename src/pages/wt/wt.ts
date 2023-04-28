@@ -14,6 +14,7 @@ import { AccountPage } from '../account/account';
 import { UtilsProvider } from '../../providers/utils/utils';
 import { SignupPage } from '../signup/signup';
 import { ServinghistoryPage } from '../servinghistory/servinghistory';
+import { HistoryPage } from '../history/history';
 @Component({
   selector: 'page-wt',
   templateUrl: 'wt.html',
@@ -37,13 +38,13 @@ export class WtPage {
   id:any="";
   code:any="";
   nickname:any="";
-  
+  tc:any=0;
   paymentflag:any=false;
   constructor(public util:UtilsProvider, public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
     this.name= localStorage.getItem("name");
     this.nickname= localStorage.getItem("nickname");
     this.company=localStorage.getItem("company");
-
+    this.tc=localStorage.getItem("tc");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
     var login=localStorage.getItem("login_data");
@@ -80,7 +81,7 @@ export class WtPage {
         console.log("choice back")
         this.navCtrl.getActive().onDidDismiss(data => {
           console.log("off...")
-      // this.firemain.child("company").child(this.company).child("roomlist").off();
+      this.firemain.child("company").child(this.company).child("roomlist").off();
       this.generate();
           // this.generate();
         })
@@ -91,6 +92,8 @@ export class WtPage {
       this.navCtrl.push(AccountPage,{flag:true});
     }else if(value==7){
       this.navCtrl.push(ServinghistoryPage);
+    }else if(value==8){
+      this.navCtrl.push(HistoryPage);
     }
   }
   openclose(){
@@ -119,8 +122,9 @@ generate(){
                 console.log(snap.val()[a].roomhistory[b][c]);
                 if(snap.val()[a].roomhistory[b][c].wt!=this.nickname){
                   console.log("wt name diff");
-                  break;
+                  continue;
                 }
+                var numofangel =0;
                 console.log(snap.val()[a].roomhistory[b][c]);
                 var mainlist=snap.val()[a].roomhistory[b][c];
 
@@ -138,15 +142,22 @@ generate(){
               mainlist.agasi[d].totalmoney=totalmoney;
               mainlist.agasi[d].tc=tctotal;
               mainlist.agasi[d].bantee=bantee;
+              console.log(mainlist.agasi[d]);
+              if(mainlist.agasi[d].angel){
+                numofangel++;
+              }
             }
         }
       console.log(mainlist);
       var newtc=0;
       var tcarray = [];
+      var tarray=[];
       var chasamarray=[];
       var chasamtotal=0;
       var tctotal=0;
       var yeontireason="";
+      console.log("room number"+mainlist.name);
+      console.log(numofangel);
       var numofpeople = snap.val()[a].roomhistory[b][c].numofpeople;
       var logic = snap.val()[a].roomhistory[b][c].logic;
       var inagasi = 0;
@@ -154,6 +165,8 @@ generate(){
         inagasi++;
         console.log(mainlist.agasi[cccc].tc)
         newtc += Math.floor(mainlist.agasi[cccc].tc)
+
+        tarray.push({"tc":Math.floor(mainlist.agasi[cccc].tc),"name":mainlist.agasi[cccc].name,"angel":mainlist.agasi[cccc].angel, "date":mainlist.agasi[cccc].date});
         tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
         tctotal+=Number(Math.floor(mainlist.agasi[cccc].tc));
         chasamtotal+=Number((mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
@@ -167,6 +180,9 @@ generate(){
       //can you make it like this? newchasamtotal should be look like 1.8 and I want it to be 0.18 
       newchasamtotal = newchasamtotal.split(".")[0]+newchasamtotal.split(".")[1];
       newchasamtotal = ""+newchasamtotal;
+      if(chasamtotal==0){
+        newchasamtotal="0";
+      }
       console.log(newchasamtotal);
       // newchasamtotal
       console.log("chasamtotal"+chasamtotal);
@@ -205,32 +221,100 @@ generate(){
                   yeontireason+="중/대방로직에 따른 술병 차감 -1 , "
                 }
                 if(tcarray.length>numofpeople){
-                  var minVal = Math.min.apply(null, tcarray);
-                  console.log("minvalue : "+minVal);
-                  var maxVal = Math.max.apply(null, tcarray);
-                  console.log("maxvalue : "+maxVal);
-                  firstsumofv=minVal+maxVal-tbottle
-                  yeontireason += "인원수<아가씨, 가장큰 tc"+maxVal+"+가장작은 tc"+minVal+"에서 총술병"+tbottle+"를 뺀값."
-                }
-                
-                var agasiover=false;
+
+                  yeontireason="";
+                  firstsumofv=0;
+                  console.log("아가씨 수가 사람수보다 많다면....")
+
+                  console.log(tarray);
+                  tarray.sort(function(a,b){
+                    console.log(a.date+",,,"+b.date)
+                    if (a.date < b.date) {
+                      return -1;
+                    }
+                    if (a.date > b.date) {
+                      return 1;
+                    }
+                    return 0;
+                  });
+                  console.log(tarray);
+                  var cvalue=-1;
+                  for(var abab in tarray){
+                    cvalue++;
+                    console.log(cvalue+"????"+numofpeople);
+                    if(cvalue<numofpeople){
+                      console.log("아래 값에다가 ")
+                      console.log(tarray[abab].tc+","+tarray[abab].date+","+tarray[abab].name+",,,"+tbottle)
+                      firstsumofv+=tarray[abab].tc
+                      yeontireason+="///"+tarray[abab].name+"의 tc:"+tarray[abab].tc+"개를 더함."
+                      console.log("firstsumofv : "+firstsumofv);
+                    }
+                    if(cvalue>=numofpeople){
+                      console.log("아래아가씨의 정보를 가지고와서 위의 아가씨 tc에 더해야함")
+                      if(tarray[abab].angel!=true){
+                        firstsumofv+=tarray[abab].tc
+                        yeontireason+="///"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함."
+                        console.log(tarray[abab].tc+","+tarray[abab].date+","+tarray[abab].name+",,,"+tbottle)
+                      console.log("firstsumofv222 : "+firstsumofv);
+                      }else if(tarray[abab].angel){
+                        // console.log("아래 아가씨는 angel이므로 따로 계산하자. ")
+                        // console.log(tarray[abab].tc+","+tarray[abab].date+","+tarray[abab].name+",,,"+tbottle)
+                        
+                        firstsumofv+= tarray[abab].tc - tbottle;
+                        yeontireason+="///날개아가씨"+tarray[abab].name+"의 tc"+tarray[abab].tc+"에서 술병"+tbottle+"를 뺀값."
+                      }
+                    }
+                    totalsum+=tcarray[abab];
+                  }
+                    console.log("firstsumofv3: "+firstsumofv);
+                    firstsumofv= firstsumofv - tbottle;
+                    yeontireason+="///"+firstsumofv+"에서 술병"+tbottle+"를 뺌. ";
+                    console.log("firstsumofv4: "+firstsumofv);
+                  // var minVal = Math.min.apply(null, tcarray);
+                  // console.log("minvalue : "+minVal);
+                  // var maxVal = Math.max.apply(null, tcarray);
+                  // console.log("maxvalue : "+maxVal);
+                  // firstsumofv=minVal+maxVal-tbottle
+                  // yeontireason += "인원수<아가씨, 가장큰 tc"+maxVal+"+가장작은 tc"+minVal+"에서 총술병"+tbottle+"를 뺀값."
+                }else if (tcarray.length==numofpeople){
+                  console.log("아가씨 수가 사람수와 같다면....")
                 for(var abab in tcarray){
                   console.log(tcarray[abab]+",,,"+tbottle)
                   totalsum+=tcarray[abab];
+                }
+                firstsumofv= numofpeople*tbottle-totalsum
+                if(firstsumofv<0){
+                  firstsumofv=0;
+                }
+                yeontireason = "사람수 * 술병 - 전체 완티 "+numofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;                
+              }else if(tcarray.length<numofpeople){
+                  console.log("아가씨 수가 사람수보다 적다면....")
+                  firstsumofv=0;
+                  var newnumofpeople=tcarray.length;
+                  firstsumofv= newnumofpeople*tbottle-totalsum
+                  if(firstsumofv<0){
+                    firstsumofv=0;
+                  }
+                   yeontireason = "인원수를"+tcarray.length+"명으로 조정후 계산."+" 사람수 * 술병 - 전체 완티 "+newnumofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;  
+                }
+                console.log("numofpeople"+numofpeople);
+                var agasiover=false;
+                for(var abab in tcarray){
+                  console.log(tcarray[abab]+",,,"+tbottle)
+                  // totalsum+=tcarray[abab];
                   
                   if(tcarray[abab]>tbottle){ //아가씨 각각의 tc가 술병수보다 많다면, 
                     var v = tcarray[abab]-tbottle;
                     console.log(v);
-                    firstsumofv+=v;
+                    // firstsumofv+=v;
                     agasiover=true;
                   }if(tcarray[abab]==tbottle){
-                    firstsumofv+=0;
+                    // firstsumofv+=0;
                   }else{
-                    firstsumofv+=0;
+                    // firstsumofv+=0;
                   }
                 }
                 if(agasiover){
-                  yeontireason += "각각의 tc에서 술병값을 뺀값"
                 }
                 console.log(tcarray)
                 console.log("firstsumofv : "+firstsumofv);

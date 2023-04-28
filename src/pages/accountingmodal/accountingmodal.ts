@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
 import { IonicPage, ViewController,NavController, NavParams } from 'ionic-angular';
-
+import { Component ,ViewChild,Renderer2} from '@angular/core';
 import  firebase from 'firebase';
 /**
  * Generated class for the AccountingmodalPage page.
@@ -15,6 +14,8 @@ import  firebase from 'firebase';
   templateUrl: 'accountingmodal.html',
 })
 export class AccountingmodalPage {
+
+  @ViewChild('input2') myInput2 ;
   inputname:any="";
   inputcard:any="";
   inputcash:any="";
@@ -65,8 +66,30 @@ export class AccountingmodalPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AccountingmodalPage');
   }
-  confirm(){
+  formatInput(event) {
+    let inputVal = event.target.value;
+    inputVal = inputVal.replace(/,/g, ''); // remove existing commas
+    inputVal = (+inputVal).toLocaleString(); // add commas
+    event.target.value = inputVal; // set formatted value back into input field
+    console.log(inputVal);
+  }
 
+  onChangeTime(event,v){
+
+    console.log(event.value);
+    console.log(event.value.length);
+    let inputVal = event.value;
+    inputVal = inputVal.replace(/,/g, ''); // remove existing commas
+  inputVal = (+inputVal).toLocaleString(); // add commas
+  console.log(inputVal);
+  event.value=inputVal;
+  }
+
+  confirm(){
+    if(this.inputname.length==0){
+      window.alert("이름은 필수입력입니다.");
+      return;
+    }
     var dte = new Date();
     var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
     console.log("confirm");
@@ -76,8 +99,9 @@ export class AccountingmodalPage {
     console.log(this.accumulus)
     console.log(this.selected.nickname);
     console.log(this.year+"-"+this.month+"-"+this.day)
-    this.firemain.child("users").child(this.selected.nickname).child("accounting").update({"incoming":this.accumulus+Number(this.inputcard)+Number(this.inputcash) })
-    this.firemain.child("users").child(this.selected.nickname).child("accounting").child(this.year+"-"+this.month+"-"+this.day).push({"name":this.inputname,"card":this.inputcard,"cash":this.inputcash,"year":this.year+"-"+this.month+"-"+this.day,"time":endtime}).then(()=>{
+    var newinput=this.inputcard.replace(/,/g, '');
+    // this.firemain.child("users").child(this.selected.nickname).child("accounting").update({"incoming":this.accumulus+Number(this.inputcard)+Number(this.inputcash) })
+    this.firemain.child("users").child(this.selected.nickname).child("accounting").child(this.year+"-"+this.month+"-"+this.day).push({"incoming":this.accumulus+Number(this.inputcard.replace(/,/g, ''))+Number(this.inputcash.replace(/,/g, '')) ,"name":this.inputname,"card":this.inputcard.replace(/,/g, ''),"cash":this.inputcash.replace(/,/g, ''),"year":this.year+"-"+this.month+"-"+this.day,"time":endtime}).then(()=>{
       this.view.dismiss();
     });
   }

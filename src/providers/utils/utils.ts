@@ -10,6 +10,7 @@ import { IonicPage, ViewController,LoadingController,ModalController,NavControll
 @Injectable()
 export class UtilsProvider {
   lloading:any;
+  tc:any=0;
   constructor(public loading:LoadingController) {
     console.log('Hello UtilsProvider Provider');
   }
@@ -34,6 +35,17 @@ export class UtilsProvider {
     if(this.lloading!=undefined){
       this.lloading.dismiss();
     }
+  }
+
+  loadingnew() {
+    console.log("loading show");
+    this.lloading =  this.loading.create({
+      spinner: 'hide',
+      content:"loading...!!!"
+
+    });
+    this.lloading.present();
+    console.log(this.lloading);
   }
    presentLoading() {
     console.log("loading show");
@@ -123,6 +135,8 @@ export class UtilsProvider {
   // }
 
   getTCfromtc(tc){
+
+    this.tc = localStorage.getItem("tc");
     var totaltc= 1000;
     if(tc==0){
       totaltc=0;
@@ -131,7 +145,7 @@ export class UtilsProvider {
     }else if(tc==0.6){
       totaltc=6;
     }else if(tc==1){
-      totaltc=13;
+      totaltc=this.tc*tc;
     }else if(tc==1.1){
       totaltc=14;
     }else if(tc==1.3){
@@ -139,7 +153,7 @@ export class UtilsProvider {
     }else if(tc==1.6){
       totaltc=19;
     }else if(tc==2){
-      totaltc=26;
+      totaltc=this.tc*tc;
     }else if(tc==2.1){
       totaltc=27;
     }else if(tc==2.3){
@@ -147,7 +161,7 @@ export class UtilsProvider {
     }else if(tc==2.6){
       totaltc=32;
     }else if(tc==3){
-      totaltc=39;
+      totaltc=this.tc*tc;
     }else if(tc==3.1){
       totaltc=40;
     }else if(tc==3.3){
@@ -155,7 +169,7 @@ export class UtilsProvider {
     }else if(tc==3.6){
       totaltc=43;
     }else if(tc==4){
-      totaltc=52;
+      totaltc=this.tc*tc;
     }else if(tc==4.1){
       totaltc=53;
     }else if(tc==4.3){
@@ -163,7 +177,7 @@ export class UtilsProvider {
     }else if(tc==4.6){
       totaltc=56;
     }else if(tc==5){
-      totaltc=65;
+      totaltc=this.tc*tc;
     }else if(tc==5.1){
       totaltc=66;
     }else if(tc==5.3){
@@ -171,7 +185,7 @@ export class UtilsProvider {
     }else if(tc==5.6){
       totaltc=69;
     }else if(tc==6){
-      totaltc=78;
+      totaltc=this.tc*tc;
     }else if(tc==6.1){
       totaltc=79;
     }else if(tc==6.3){
@@ -179,7 +193,7 @@ export class UtilsProvider {
     }else if(tc==6.6){
       totaltc=82;
     }else if(tc==7){
-      totaltc=91;
+      totaltc=this.tc*tc;
     }else if(tc==7.1){
       totaltc=92;
     }else if(tc==7.3){
@@ -187,7 +201,7 @@ export class UtilsProvider {
     }else if(tc==7.6){
       totaltc=95;
     }else if(tc==8){
-      totaltc=104;
+      totaltc=this.tc*tc;
     }else if(tc==8.1){
       totaltc=105;
     }else if(tc==8.3){
@@ -195,7 +209,7 @@ export class UtilsProvider {
     }else if(tc==8.6){
       totaltc=108;
     }else if(tc==9){
-      totaltc=117;
+      totaltc=this.tc*tc;
     }else if(tc==9.1){
       totaltc=118;
     }else if(tc==9.3){
@@ -203,7 +217,7 @@ export class UtilsProvider {
     }else if(tc==9.6){
       totaltc=121;
     }else if(tc==10){
-      totaltc=130;
+      totaltc=this.tc*tc;
     }else if(tc==10.1){
       totaltc=131;
     }else if(tc==10.3){
@@ -211,7 +225,7 @@ export class UtilsProvider {
     }else if(tc==10.6){
       totaltc=134;
     }else if(tc==11){
-      totaltc=143;
+      totaltc=this.tc*tc;
     }else if(tc==11.1){
       totaltc=144;
     }else if(tc==11.3){
@@ -219,7 +233,7 @@ export class UtilsProvider {
     }else if(tc==11.6){
       totaltc=147;
     }else if(tc==12){
-      totaltc=156;
+      totaltc=this.tc*tc;
     }else if(tc==12.1){
       totaltc=157;
     }
@@ -229,6 +243,9 @@ export class UtilsProvider {
     return totaltc
   }
   getTC(startdate,pauseTime){
+
+    this.tc = localStorage.getItem("tc");
+    console.log("get tc..."+(this.tc));
     if(pauseTime==undefined){
       pauseTime=0;
     }
@@ -282,7 +299,7 @@ var cha3=0;
     }else if(diffMin>=41&&diffMin<=60){
       tctotal = 1;
       bantee=0;
-      chasam=13;
+      chasam=this.tc*1;
       cha3=3;
     }else if(diffMin>=61&&diffMin<=80){
       bantee=0;
@@ -304,7 +321,7 @@ var cha3=0;
     }else if(diffMin>=101&&diffMin<=120){
       tctotal = 2;
       bantee=0;
-      chasam=26;
+      chasam=this.tc*2;
     }else if(diffMin>=121&&diffMin<=140){
       bantee=0;
       if(diffMin>=121&&diffMin<=126){
@@ -322,7 +339,7 @@ var cha3=0;
     }else if(diffMin>=161&&diffMin<=180){
       tctotal = 3;
       bantee=0;
-      chasam=39;
+      chasam=this.tc*3;
     }else if(diffMin>=181&&diffMin<=200){
       bantee=0;
       if(diffMin>=181&&diffMin<=186){
@@ -339,7 +356,7 @@ var cha3=0;
   }else if(diffMin>=221&&diffMin<=240){
       tctotal = 4;
       bantee=0;
-      chasam=52;
+      chasam=this.tc*4;
   }else if(diffMin>=241&&diffMin<=260){
       bantee=0;
       if(diffMin>=241&&diffMin<=246){
@@ -354,7 +371,7 @@ var cha3=0;
       bantee=5;
     }else if(diffMin>=281&&diffMin<=300){
       tctotal = 5;
-      chasam=65;
+      chasam=this.tc*5;
       bantee=0;
     }else if(diffMin>=301&&diffMin<=320){
       bantee=0;
@@ -372,7 +389,7 @@ var cha3=0;
     }else if(diffMin>=341&&diffMin<=360){
       tctotal = 6;
       bantee=0;
-      chasam=78;
+      chasam=this.tc*6;
     }else if(diffMin>=361&&diffMin<=380){
       bantee=0;
       if(diffMin>=361&&diffMin<=366){
@@ -388,7 +405,7 @@ var cha3=0;
       chasam=84;
     }else if(diffMin>=401&&diffMin<=420){
       tctotal = 7;
-      chasam=91;
+      chasam=this.tc*7;
       bantee=0;
     }else if(diffMin>=421&&diffMin<=440){
       bantee=0;
@@ -406,7 +423,7 @@ var cha3=0;
       chasam = 97;
     }else if(diffMin>=461&&diffMin<=480){
       tctotal = 8;
-      chasam = 104;
+      chasam=this.tc*8
       bantee=0;
     }else if(diffMin>=481&&diffMin<=500){
       bantee=0;
@@ -423,7 +440,7 @@ var cha3=0;
       chasam=110;
     }else if(diffMin>=521&&diffMin<=540){
       tctotal = 9;
-      chasam=117;
+      chasam=this.tc*9;
       bantee=0;
     }else if(diffMin>=541&&diffMin<=560){
       bantee=0;
@@ -442,7 +459,7 @@ var cha3=0;
     }else if(diffMin>=581&&diffMin<=600){
       tctotal = 10;
       bantee=0;
-      chasam=130;
+      chasam=this.tc*10;
     }else if(diffMin>=601&&diffMin<=620){
       bantee=0;
       if(diffMin>=601&&diffMin<=606){
@@ -459,7 +476,7 @@ var cha3=0;
     }else if(diffMin>=641&&diffMin<=660){
       tctotal = 11;
       bantee=0;
-      chasam=143;
+      chasam=this.tc*11;
     }else if(diffMin>=661&&diffMin<=680){
       bantee=0;
       if(diffMin>=661&&diffMin<=666){
@@ -475,7 +492,7 @@ var cha3=0;
       chasam=149;
     }else if(diffMin>=701&&diffMin<=720){
       tctotal = 12;
-      chasam=156;
+      chasam=this.tc*12;
       bantee=0;
     }else if(diffMin>=721&&diffMin<=740){
       bantee=0;
@@ -493,7 +510,7 @@ var cha3=0;
     }else if(diffMin>=761&&diffMin<=780){
       tctotal = 13;
       bantee=0;
-      chasam=169;
+      chasam=this.tc*13;
     }else if(diffMin>=781&&diffMin<=800){
       bantee=0;
       if(diffMin>=781&&diffMin<=786){
@@ -509,7 +526,7 @@ var cha3=0;
       chasam=175;
     }else if(diffMin>=821&&diffMin<=840){
       tctotal = 14;
-      chasam=182;
+      chasam=this.tc*14;
       bantee=0;
     }else if(diffMin>=841&&diffMin<=860){
       bantee=0;
@@ -527,7 +544,7 @@ var cha3=0;
     }else if(diffMin>=881&&diffMin<=900){
       tctotal = 15;
       bantee=0;
-      chasam=195;
+      chasam=this.tc*15;
     }else if(diffMin>=901&&diffMin<=920){
       bantee=0;
       if(diffMin>=901&&diffMin<=906){
@@ -543,7 +560,7 @@ var cha3=0;
       chasam=201;
     }else if(diffMin>=941&&diffMin<=960){
       tctotal = 16;
-      chasam=208;
+      chasam=this.tc*16;
       bantee=0;
     }else if(diffMin>=961&&diffMin<=980){
       bantee=0;
@@ -560,11 +577,6 @@ var cha3=0;
       chasam=214;
     }
 
-    var newtctotal = Number(diffMin)/60;
-    newtctotal = Number(tctotal.toFixed(2));
-    var mok = Math.floor(newtctotal);
-    var nameoji = newtctotal -Math.floor(newtctotal);
-    console.log(nameoji)
     // 10분 -> 0.17 
     // 15분 -> 0.25
     // 20분 -> 0.33 - 3만원
@@ -618,27 +630,6 @@ var cha3=0;
                             //100분까지는 1.6개
                             //101분이면 2개
                             
-    var moneyvalue = mok*13;
-    var restofmoney=0;
-    //if 2.5 
-    if(nameoji<=0.17){
-      //nothing
-    }else if(nameoji>0.17 &&nameoji<=0.33){
-      //3마ㄴ원
-      restofmoney = 3;
-    }else if(nameoji>0.33 &&nameoji<=0.67){
-      //6만원
-      restofmoney = 6;
-    }else{
-      //13만원 
-
-      restofmoney = 13;
-    }
-
-    var totalmoney = Number(moneyvalue);
-    console.log(totalmoney);
-    console.log(startdate.name)
-    console.log("chasam is : "+chasam);
     return chasam+","+tctotal+","+bantee;
 
 

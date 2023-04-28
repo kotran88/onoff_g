@@ -8,6 +8,10 @@ page-ordermain {
     .scroll-content{
         padding:0px !important;
         margin-top:30px !important;
+
+    height: 90%;
+    overflow: scroll;
+    position: absolute;
     }
     .header-parking {
         text-align: center;
@@ -299,7 +303,6 @@ page-ordermain {
       margin-top:45px;
       .room-current
       {
-        margin-top: 15%;
         padding: 3%;
         .title-div
         {

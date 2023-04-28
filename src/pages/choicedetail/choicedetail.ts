@@ -19,7 +19,9 @@ import { E } from '@angular/core/src/render3';
 })
 export class ChoicedetailPage {
    a :any ;
-
+   numofpeople:any=0;
+   inagasi:any=0;
+   angelcount:any=0;
    v:any;
    moneyvalue:any=[];
    currentstartday:any="";
@@ -51,29 +53,93 @@ export class ChoicedetailPage {
     }
     console.log(this.a);
     this.company = localStorage.getItem("company");
-    this.firemain.child("company").child(this.company).child("roomlist").off();
+   
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
 
     this.name = localStorage.getItem("name");
 // this.presentLoading();
-    this.interval =setInterval(()=>{
-      console.log("come minutes..")
-      this.refreshforeverymin();
-      // this.util.dismissLoading();
-      // this.dismissLoading();
-    },1000*60)
+    // this.interval =setInterval(()=>{
+    //   console.log("come minutes..")
+    //   this.refreshforeverymin();
+    //   // this.util.dismissLoading();
+    //   // this.dismissLoading();
+    // },1000*60)
 
   }
-
-  ionViewDidLeave(){
+  ionViewWillLeave(){
+    this.firemain.child("company").child(this.company).child("roomlist").off();
     clearInterval(this.interval)
+  }
+  ionViewDidLeave(){
 
   }
+  refresheverymin(){
+    console.log("refresheveryminrefresheveryminrefresheverymin");
 
+    for(var c in this.mainlist){
+      for(var d in this.mainlist[c].agasi){
+          if(this.mainlist[c].agasi[d].findate!=undefined){
+
+          }else{
+            var totalmoney=Number(this.util.getTC(this.mainlist[c].agasi[d],this.mainlist[c].agasi[d].pausetime).split(",")[0]);
+            var tctotal=Number(this.util.getTC(this.mainlist[c].agasi[d],this.mainlist[c].agasi[d].pausetime).split(",")[1]);
+            var newtctotal = Math.floor(tctotal);
+            var bantee=Number(this.util.getTC(this.mainlist[c].agasi[d],this.mainlist[c].agasi[d].pausetime).split(",")[2]);
+            this.mainlist[c].agasi[d].money=totalmoney;
+            this.mainlist[c].agasi[d].tc=tctotal;
+            this.mainlist[c].agasi[d].bantee=bantee;
+            console.log(this.mainlist[c].agasi[d]);
+            console.log(this.mainlist[c].agasi[d].tc);
+            console.log(this.mainlist[c].agasi[d].money);
+            console.log(this.mainlist[c].agasi[d].bantee);
+            console.log(this.mainlist[c].agasi[d].pausetime);
+            console.log(this.mainlist[c].agasi[d].name);
+          }
+         
+      }
+    }
+
+    for(var c in this.mainlist_finished){
+      for(var d in this.mainlist_finished[c].agasi){
+        if(this.mainlist_finished[c].agasi[d].findate!=undefined){
+
+        }else{
+          var totalmoney=Number(this.util.getTC(this.mainlist_finished[c].agasi[d],this.mainlist_finished[c].agasi[d].pausetime).split(",")[0]);
+          var tctotal=Number(this.util.getTC(this.mainlist_finished[c].agasi[d],this.mainlist_finished[c].agasi[d].pausetime).split(",")[1]);
+          this.mainlist_finished[c].agasi[d].money=totalmoney;
+          this.mainlist_finished[c].agasi[d].tc=tctotal;
+          this.mainlist_finished[c].agasi[d].wantee=Math.floor(this.mainlist_finished[c].agasi[d].tc);
+          this.mainlist_finished[c].agasi[d].chasam=Number((this.mainlist_finished[c].agasi[d].tc-Math.floor(this.mainlist_finished[c].agasi[d].tc)).toFixed(1) )
+          console.log(this.mainlist_finished[c].agasi[d]);
+
+        }
+      }
+    }
+
+    for(var c in this.mainlist_angel){
+      for(var d in this.mainlist_angel[c].agasi){
+        if(this.mainlist_angel[c].agasi[d].findate!=undefined){
+
+        }else{
+          var totalmoney=Number(this.util.getTC(this.mainlist_angel[c].agasi[d],this.mainlist_angel[c].agasi[d].pausetime).split(",")[0]);
+          var tctotal=Number(this.util.getTC(this.mainlist_angel[c].agasi[d],this.mainlist_angel[c].agasi[d].pausetime).split(",")[1]);
+          this.mainlist_angel[c].agasi[d].money=totalmoney;
+          this.mainlist_angel[c].agasi[d].tc=tctotal;
+        }
+      }
+    }
+    console.log(this.mainlist);
+    console.log(this.mainlist_finished);
+    console.log(this.mainlist_finished_status)
+    console.log(this.mainlist_angel);
+
+  }
   refreshforeverymin(){
 
-    setTimeout(()=>{
+    this.interval = setInterval(()=>{
+      console.log("refreshforeveryminrefreshforeveryminrefreshforeveryminrefreshforeveryminrefreshforeveryminrefreshforeverymin");
+
       for(var c in this.mainlist){
         for(var d in this.mainlist[c].agasi){
             if(this.mainlist[c].agasi[d].findate!=undefined){
@@ -121,7 +187,7 @@ export class ChoicedetailPage {
       console.log(this.mainlist_finished_status)
       console.log(this.mainlist_angel);
 
-    },1000)
+    },1000*60)
     
   }
   openclose(){
@@ -148,8 +214,10 @@ export class ChoicedetailPage {
     }
     console.log("r is....");
     console.log(this.a);
-    
-    let modal = this.modal.create(ChoicemodalPage,{"a":this.a});
+    console.log(this.inagasi);
+    console.log(this.numofpeople);
+    console.log(this.angelcount);
+    let modal = this.modal.create(ChoicemodalPage,{"a":this.a,"numofpeople":this.numofpeople,"inagasi":this.inagasi,"angelcount":this.angelcount});
     modal.onDidDismiss(url => {
 
       console.log(url);
@@ -159,6 +227,9 @@ export class ChoicedetailPage {
         this.refreshChoice2();
       }else if(url.result==false){
         console.log("do nothing....")
+      }else if(url.result=="nono"){
+        console.log("do nothing....")
+        this.view.dismiss();
       }
       //this should refresh a....
       // this.refreshChoice2();
@@ -189,7 +260,7 @@ screenSwitch(values) : void {
 }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChoicedetailPage');
-
+    this.refreshforeverymin();
 
       //  "child_added", "child_changed", "child_removed", or "child_moved."
       this.firemain.child("company").child(this.company).child("roomlist").on('child_removed', function(snap, prevChildKey) {
@@ -207,7 +278,6 @@ screenSwitch(values) : void {
       this.firemain.child("company").child(this.company).child("roomlist").on('child_added', function(snap, prevChildKey) {
         console.log("on on on on on child_added.....")
         console.log(snap.val());
-        console.log(prevChildKey);
         // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
       });
         this.firemain.child("company").child(this.company).child("roomlist").on('child_changed', (snap, prevChildKey) =>{
@@ -278,8 +348,8 @@ screenSwitch(values) : void {
       // this.refreshChoice2();
 
       
-    this.activeclass="1";
-
+    this.activeclass="2";
+      console.log("this is end all this is end all this is end all this is end all this is end all this is end all this is end all ")
     setTimeout(()=>{
 
       this.refreshChoice2();
@@ -377,7 +447,12 @@ this.util.presentLoading();
     console.log("refreshchoice2 fin");
 this.util.dismissLoading();
   console.log("end fin");
-  this.view.dismiss();
+
+  setTimeout(()=>{
+
+    this.refreshChoice2();
+  },1000)
+
     });
         
 
@@ -556,6 +631,8 @@ this.util.dismissLoading();
     this.mainlist_finished=[];
     this.mainlist_finished_status=[];
     this.firemain.child("company").child(this.company).once("value", (snap2)=>{
+
+    this.util.loadingnew();
       for(var ccddd in snap2.val().roomlist){
         var snap = snap2.val().roomlist[ccddd];
         if(snap.name == this.a.name){
@@ -568,6 +645,9 @@ this.util.dismissLoading();
 
               for(var c in snap.roomhistory[this.currentstartday][b].agasi){
                 console.log(snap.roomhistory[this.currentstartday][b].agasi[c])
+                if(snap.roomhistory[this.currentstartday][b].agasi[c].angel){
+                  this.angelcount++;
+                }
                 if(snap.roomhistory[this.currentstartday][b].agasi[c].findate!=undefined){
                   //종료됨. 
                 }else{
@@ -578,6 +658,8 @@ this.util.dismissLoading();
             }else{
               //agasi가 없는 경우.
             }
+            this.inagasi=inagasi;
+            this.numofpeople = snap.roomhistory[this.currentstartday][b].numofpeople;
             console.log("inagasi is "+inagasi);
             var memo = "";
             memo = snap.roomhistory[this.currentstartday][b].memo;
@@ -798,7 +880,8 @@ this.util.dismissLoading();
         }
       }
 
-this.refreshforeverymin();
+this.refresheverymin();
+this.util.dismissLoading();
     });
 //     this.firemain.child("company").child(this.company).child("roomlist").once("value", (snap)=>{
 
@@ -1245,7 +1328,7 @@ this.refreshforeverymin();
         }
           this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(key).child("agasi").child(number).update({"bantee":bantee, "roomno":room,"findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"money":totalmoney,"wt":wt,"incharge":incharge})
 
-                
+                  console.log("getIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagaci")
     });
   }
   showPrompt(room,mainlist) {
@@ -1348,7 +1431,69 @@ this.refreshforeverymin();
 
     this.view.dismiss();
   }
+  modify0(c,room,mainlist) {
+    this.modifyflag=true;
+    console.log("modify0modify0modify0modify0 come")
+    console.log(c);
+    console.log(room);
+    console.log(mainlist);
+  }
 
+
+  modifyfin0(c,room,mainlist) {
+    var falseflag=false;
+    this.modifyflag=false;
+    console.log("modifyfin0modifyfin0modifyfin0modifyfin0modifyfin0 come")
+    console.log(c.agasi);
+
+    console.log(room);
+    console.log(mainlist);
+    var count=-1;
+    var agasi=[];
+    var initial = this.mainlist[0];
+    console.log(this.mainlist)
+    console.log(this.mainlist[0])
+    console.log(this.mainlist[0].agasi)
+    var finnum=0;
+    for(var a in this.mainlist[0].agasi){
+      console.log(this.mainlist[0].agasi[a]);
+      if(this.mainlist[0].agasi[a].findate==undefined){
+        finnum++;
+      }
+      count++;
+      if(this.mainlist[0].agasi[a].tc==undefined){
+        break;
+      }
+      console.log(this.mainlist[0].agasi[a].tc)
+      var newmoney = this.util.getTCfromtc(this.mainlist[0].agasi[a].tc);
+      console.log(newmoney);
+      if(newmoney==undefined){
+        newmoney=0;
+      }
+      if(newmoney==1000){
+        falseflag=true;
+      }
+      this.mainlist[0].agasi[a].money = newmoney;
+      agasi.push(this.mainlist[0].agasi[a]);
+      console.log("agasiiiiii");
+      console.log(agasi);
+    }
+    if(finnum>0){
+      window.alert("종료 전에는 수정할 수 없습니다.")
+      this.view.dismiss();
+      return;
+    }
+    if(falseflag){
+      window.alert("잘못된 값입니다.");
+      this.view.dismiss();
+      return;
+    }
+    console.log(this.company);
+    console.log(room);
+    console.log(this.mainlist[0].key);
+    console.log(agasi);
+    this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(this.mainlist[0].key).update({agasi})
+  }
   modify(c,room,mainlist) {
     this.modifyflag=true;
     console.log("modify come")
@@ -1372,8 +1517,12 @@ this.refreshforeverymin();
     console.log(this.mainlist_finished)
     console.log(this.mainlist_finished[0])
     console.log(this.mainlist_finished[0].agasi)
+    var finnum=0;
     for(var a in this.mainlist_finished[0].agasi){
       count++;
+      if(this.mainlist_finished[0].agasi[a].findate==undefined){
+        finnum++;
+      }
       if(this.mainlist_finished[0].agasi[a].tc==undefined){
         break;
       }
@@ -1387,20 +1536,14 @@ this.refreshforeverymin();
         falseflag=true;
       }
       this.mainlist_finished[0].agasi[a].money = newmoney;
-      // var totalmoney=this.util.getTC(this.mainlist_finished[0].agasi[a],this.mainlist_finished[0].agasi[a].pauseTime).split(",")[0];
-      // var tctotal = this.util.getTC(this.mainlist_finished[0].agasi[a],this.mainlist_finished[0].agasi[a].pauseTime).split(",")[1];
-      // var bantee = this.util.getTC(this.mainlist_finished[0].agasi[a],this.mainlist_finished[0].agasi[a].pauseTime).split(",")[2];
-      // console.log("totalmoney ...");
-      // console.log(totalmoney);
-      // console.log("tctotal ...");
-      // console.log(tctotal);
-      // console.log("bantee ...");
-      // console.log(bantee);
       agasi.push(this.mainlist_finished[0].agasi[a]);
       console.log("agasiiiiii");
       console.log(agasi);
-      
-
+    }
+    if(finnum>0){
+      window.alert("종료 전에는 수정할 수 없습니다..")
+      this.view.dismiss();
+      return;
     }
     if(falseflag){
       window.alert("잘못된 값입니다.");
@@ -1412,11 +1555,6 @@ this.refreshforeverymin();
     console.log(this.mainlist_finished[0].key);
     console.log(agasi);
     this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(this.mainlist_finished[0].key).update({agasi})
-       
-    // this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").update(this.mainlist_finished.agasi)
-
-    //tc 수정 
-
   }
 
   modifycancel(c,room,mainlist) {

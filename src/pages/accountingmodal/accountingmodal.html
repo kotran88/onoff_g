@@ -18,7 +18,7 @@ top: 30%;" padding>
         float: left;
 line-height: 50px;
 font-size: 24px;" class="input-title">현금 </span>
-        <ion-input style="
+        <ion-input (ionChange)='onChangeTime($event,1)' style="
         
 color: black;
 font-size: 20px;
@@ -37,7 +37,7 @@ width: 100px;
     float: left;
 line-height: 50px;
 font-size: 24px;" class="input-title">카드 </span>
-    <ion-input style="
+    <ion-input (ionChange)='onChangeTime($event,1)' style="
     
     margin:2px;
     border: solid 1px black;
@@ -56,7 +56,7 @@ width: 100px;
   float: left;
 line-height: 50px;
 font-size: 24px;" class="input-title">이름</span>
-  <ion-input style="
+  <ion-input #input2  style="
   
   margin:2px;
   border: solid 1px black;

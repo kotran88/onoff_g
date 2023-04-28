@@ -15,6 +15,7 @@ import { Choicemodal2Page } from '../choicemodal2/choicemodal2';
 })
 export class Choicemodal3Page {
 
+  newlist=[];
   @ViewChild('input')  myInput ;
   @ViewChild('input2') myInput2 ;
   @ViewChild('input3') myInput3 ;
@@ -24,6 +25,7 @@ export class Choicemodal3Page {
   @ViewChild('input7')  myInput7 ;
   @ViewChild('input8') myInput8 ;
   @ViewChild('input9') myInput9 ;
+  nickname:any="";
   subscribedList=[];
   company:any = "";
   agasilist=[];
@@ -57,6 +59,7 @@ export class Choicemodal3Page {
     this.currentstartday=localStorage.getItem("startDate");
     this.a=this.navParams.get("a");
     console.log(this.a);
+    this.nickname= localStorage.getItem("nickname");
   }
 
   ionViewDidLoad() {
@@ -103,31 +106,31 @@ export class Choicemodal3Page {
   confirm(){
     console.log("출근부 출근 처리 시작")
     if(this.writer.length==0){
-      this.writer=this.name;
+      this.writer=this.nickname;
     }
     if(this.writer2.length==0){
-      this.writer2=this.name;
+      this.writer2=this.nickname;
     }
     if(this.writer3.length==0){
-      this.writer3=this.name;
+      this.writer3=this.nickname;
     }
     if(this.writer4.length==0){
-      this.writer4=this.name;
+      this.writer4=this.nickname;
     }
     if(this.writer5.length==0){
-      this.writer5=this.name;
+      this.writer5=this.nickname;
     }
     if(this.writer6.length==0){
-      this.writer6=this.name;
+      this.writer6=this.nickname;
     }
     if(this.writer7.length==0){
-      this.writer7=this.name;
+      this.writer7=this.nickname;
     }
     if(this.writer8.length==0){
-      this.writer8=this.name;
+      this.writer8=this.nickname;
     }
     if(this.writer9.length==0){
-      this.writer9=this.name;
+      this.writer9=this.nickname;
     }
     
     var date = new Date();
@@ -216,11 +219,19 @@ export class Choicemodal3Page {
         console.log(this.originalList);
         for(var b in snap.val()){
         //   console.log(b);
+        
+        console.log(snap.val()[b].nickname);
           if(snap.val()[b].type=="agasi"){
+              console.log(snap.val()[b]);
+              console.log(snap.val()[b].nickname);
+              if(snap.val()[b].nickname==undefined){
+                continue;
+              }
             console.log("agasi list is....");
         console.log(this.agasilist);
             for(var a in this.agasilist){
-              if(this.agasilist[a].name.trim() == snap.val()[b].name.trim()){
+              if(this.agasilist[a].name.trim() == snap.val()[b].nickname.trim()){
+                console.log("match!")
                 var dte = new Date();
                 dte.setHours(dte.getHours()+9);
                 console.log("dte : "+dte);
@@ -246,10 +257,10 @@ export class Choicemodal3Page {
                 this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[a].name).child("attend").update({ "team":snap.val()[b].jopan,"name":this.agasilist[a].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
      
                 console.log("snap.val()[b].name : "+snap.val()[b].name);
-                this.subscribedList.push({"id":snap.val()[b].id,"name":snap.val()[b].name});
+                this.subscribedList.push({"id":snap.val()[b].id,"name":snap.val()[b].nickname});
                 console.log(this.currentstartday)
               }else{
-                console.log(this.agasilist[a].name.trim()+"no matchhh");
+                // console.log(this.agasilist[a].name.trim()+"no matchhh");
                 
               }
             }
@@ -263,7 +274,15 @@ export class Choicemodal3Page {
         console.log(this.originalList.length); //0   , 없는 이름  0 
         console.log(this.agasilist.length); //1     ,          1
         console.log(this.subscribedList.length); //1          0
-       
+        var subscribedListNames = this.subscribedList.map(function(obj) {
+          return obj.name;
+        });
+
+        this.newlist = this.agasilist.filter(function(obj) {
+          return !subscribedListNames.includes(obj.name);
+        });
+        console.log("nlist : ");
+        console.log(this.newlist);
         //remove subscribedList value from this.agasilist
         for(var i=0;i<this.agasilist.length;i++){
           for(var j=0;j<this.subscribedList.length;j++){
@@ -289,6 +308,43 @@ export class Choicemodal3Page {
         console.log(this.subscribedList);
         console.log(this.agasilist);
         
+        console.log("this is new List...")
+        console.log(this.newlist);
+
+        if(this.newlist.length!=0){
+          console.log(this.agasilist);
+          console.log(this.originalList);
+
+         // 수정 1개로 만원. 
+         console.log("추가등록할것...");
+         let modal = this.modal.create(Choicemodal2Page,{"agasi":this.newlist,"flag":"attend", "subscribedList":this.subscribedList,"room":"100","currentstartday":this.currentstartday,"hour":hour,"min":min});
+         modal.onDidDismiss(url => {
+           console.log(url);
+           if(url==undefined){
+             return;
+           }else{
+             if(url.result=="ok"){
+               window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
+               console.log(this.originalList);
+               this.navCtrl.pop();
+               setTimeout(()=>{
+                this.view.dismiss();
+               },500)
+             }
+           }
+           
+         });
+     modal.present();
+        }else{
+
+          console.log("eeelse...come...");
+
+          this.view.dismiss();
+        }
+        return;
+        console.log(this.agasilist);
+        console.log(this.originalList);
+        console.log(this.subscribedList);
       if(this.originalList.length!=this.subscribedList.length){
           console.log("추가등록할것...");
           console.log(this.agasilist);
@@ -296,18 +352,22 @@ export class Choicemodal3Page {
   
   
           console.log("modal open");
-          let modal = this.modal.create(Choicemodal2Page,{"agasi":this.agasilist,"subscribedList":this.subscribedList,"room":"100","currentstartday":this.currentstartday,"hour":hour,"min":min});
+          let modal = this.modal.create(Choicemodal2Page,{"agasi":this.agasilist,"flag":"attend", "subscribedList":this.subscribedList,"room":"100","currentstartday":this.currentstartday,"hour":hour,"min":min});
           modal.onDidDismiss(url => {
             console.log(url);
-            console.log(url.result);
-            if(url.result=="ok"){
-              window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
-              console.log(this.originalList);
-              this.navCtrl.pop();
-              setTimeout(()=>{
-               this.view.dismiss();
-              },500)
+            if(url==undefined){
+              return;
+            }else{
+              if(url.result=="ok"){
+                window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
+                console.log(this.originalList);
+                this.navCtrl.pop();
+                setTimeout(()=>{
+                 this.view.dismiss();
+                },500)
+              }
             }
+            
           });
       modal.present();
         }else{

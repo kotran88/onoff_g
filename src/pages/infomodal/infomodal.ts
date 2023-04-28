@@ -41,14 +41,11 @@ export class InfomodalPage {
     this.nickname=localStorage.getItem("nickname");
     console.log(this.directorList)
     this.directorList= JSON.parse(this.directorList);
-    for(var a in this.directorList){
-      console.log(this.directorList[a])
-    }
+    
    this.company = localStorage.getItem("company");
    this.currentstart=localStorage.getItem("start");
    this.name = localStorage.getItem("name");
    this.currentstartday=localStorage.getItem("startDate");
-   console.log(this.currentstart);
    console.log(this.currentstartday);
    console.log("room",this.room);
    console.log(this.company)
@@ -79,9 +76,7 @@ export class InfomodalPage {
   confirm(){
     this.util.presentLoading();
     for(var abab in this.directorList){
-      console.log(this.directorList[abab].nickname+",,,"+this.incharge);
       if(this.directorList[abab].nickname.trim()==this.incharge){
-        console.log("matched...");
 
 
           this.bujangid=this.directorList[abab].nickname;
@@ -100,13 +95,19 @@ export class InfomodalPage {
     console.log(this.bujangid);
     console.log(this.bujangjopan);
     console.log(this.bujangyoung);
-          if(this.bujangid=="noname"){
-        window.alert("없는담당자입니다. 담당자명을 확인하세요.")
+    if(this.bujangid=="noname"){
+      window.alert("없는담당자입니다. 담당자명을 확인하세요.")
 
+      this.util.dismissLoading();
+  this.view.dismiss();
+      return;
+    }
+    if(this.bujangyoung.length==0||this.bujangyoung.length==1){
+        window.alert(this.bujangyoung+",팀코드 부여가 안된 담당자. 다른 이름을 입력해주세요.");
         this.util.dismissLoading();
-    this.view.dismiss();
-        return;
-      }
+        return; 
+    }
+      
 
   var countingvalue=0;
   var fin_countingvalue=0;

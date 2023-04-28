@@ -136,6 +136,9 @@ export class ChoicemodalPage {
   subscribedList=[];
   currentstartday:any="";
   currentstart:any="";
+  angelcount:any=0;
+  numofpeople:any=0;
+  inagasi:any=0;
   constructor(public util:UtilsProvider, public alertController:AlertController,public renderer:Renderer2,public modal:ModalController,public loading:LoadingController,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     this.company = localStorage.getItem("company");
     this.name = localStorage.getItem("name");
@@ -143,6 +146,9 @@ export class ChoicemodalPage {
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
     this.a =  this.navParams.get("a");
+    this.inagasi = this.navParams.get("inagasi");
+    this.angelcount = this.navParams.get("angelcount");
+    this.numofpeople = this.navParams.get("numofpeople");
     var agasi="";
     if(this.a==undefined){
     }else{
@@ -152,6 +158,8 @@ export class ChoicemodalPage {
     console.log("was this.a")
     console.log("current agasi : ");
     console.log(this.agasilist);
+
+
   }
   onKeyPressed(event){
     console.log(event.key) ;
@@ -534,10 +542,36 @@ export class ChoicemodalPage {
 
       console.log(this.agasilist.length);  //1
       console.log(angelcount); //0
-      if(this.a.numofpeople<this.agasilist.length-angelcount){
+      console.log(this.a.numofpeople<this.agasilist.length-angelcount);
+      console.log(this.agasilist);
+      console.log(this.agasilist.length);
+      console.log("mmmmmmm");
+      console.log(this.numofpeople);
+      console.log(this.inagasi);
+
+      console.log(this.angelcount)
+      console.log("this time's angel count : "+angelcount);
+      // window.alert(this.numofpeople-(this.inagasi-this.angelcount)+"명까진 괜찮고 그 걸 넘은 인원은 날개. ")
+      console.log(this.numofpeople);//4
+      console.log(this.inagasi-this.angelcount); //3
+      console.log("위 둘이 비교를 먼저 해야함. 그 다음에 현재 새로 등록하는 아가씨의 수 .")
+      console.log(this.agasilist.length+"+"+this.inagasi+"-"+this.angelcount+"-"+angelcount)
+      if(this.numofpeople<this.agasilist.length+this.inagasi-this.angelcount-angelcount){
+        console.log(this.numofpeople);
+        console.log(this.agasilist.length+this.inagasi-this.angelcount-angelcount);
+        console.log(this.agasilist.length+this.inagasi-this.angelcount-angelcount-this.numofpeople+ "명을 날개 지정하면서 기존 등록 프로세스 시작 ");
+        var newarray = this.filterLastN(this.agasilist, this.agasilist.length+this.inagasi-this.angelcount-angelcount-this.numofpeople);
+        console.log(newarray);
+        console.log(newarray.length);
+        var numagasi ="";
+        for(var eiei in newarray){
+          numagasi+=newarray[eiei].name+",";
+        }
+        console.log(numagasi);
         var a = this.alertController.create({
-          message: this.agasilist[this.agasilist.length-1].name+"를 날개로 지정하시겠습니까?",
+          message: numagasi+"를 날개로 지정하시겠습니까?",
           buttons: [
+
            
             {
               text: '아니요.',
@@ -553,7 +587,15 @@ export class ChoicemodalPage {
               text: '네',
               handler: () => {
                 console.log('Whatever');
-                this.agasilist[this.agasilist.length-1].angel=true;
+                var endcount = this.agasilist.length;
+                console.log(newarray.length);
+                console.log(endcount);
+                for(var abab=0; abab<newarray.length; abab ++){
+                  endcount--;
+                  console.log(endcount);
+                  this.agasilist[endcount].angel=true;
+                }
+                
                 console.log(this.agasilist);
                 this.regagasi();
                 //날개 지정하면서 기존 등록 프로세스 시작 
@@ -570,6 +612,15 @@ export class ChoicemodalPage {
 
   console.log("agasilist to put in company node");
    }
+    filterLastN(arr, n) {
+    if (n >= arr.length) {
+      // if n is greater than or equal to the array length, return the original array
+      return arr;
+    } else {
+      // otherwise, return a new array containing the last n elements of the original array
+      return arr.slice(-n);
+    }
+  }
   regagasi(){
 
     var date = new Date();
@@ -621,39 +672,37 @@ export class ChoicemodalPage {
           if(snap2.val()[b].type=="agasi"){
             var dupflag=false;
             for(var cc in this.agasilist){
-              console.log(this.agasilist[cc].name.trim()+",,,,"+snap2.val()[b].nickname);
               if(snap2.val()[b].nickname!=undefined&&this.agasilist[cc].name.trim() == snap2.val()[b].nickname.trim()){
                 dupflag=true;
                 newnum++;
                 var id = snap2.val()[b].id;
                 var nickname = snap2.val()[b].nickname;
                 var name = snap2.val()[b].nickname;
-                  console.log("id and name : ");
-                  console.log(id+","+name);
                   var dte = new Date();
+                  dte.setHours(dte.getHours()+9);
                 var currentflag = snap2.val()[b].current;
-                console.log("currentflag:")
-                console.log(currentflag);
                 if(currentflag==undefined){
                   //처음 들어옴. 
                 }else{
                   //이미 방에 들어가있으므로 종료. 
                   console.log(currentflag);
+                  console.log(this.currentstartday)
                   console.log(currentflag.room);
                   console.log(this.a);
                   console.log(this.a.name);
+                  if(currentflag.date==this.currentstartday){
+                    window.alert(name+""+currentflag.room+"번 방에 "+currentflag.enter_date.split("T")[0]+" "+currentflag.enter_date.split("T")[1].split(":")[0]+"시"+currentflag.enter_date.split("T")[1].split(":")[1]+"분에 입장하여, 추가할수없습니다.");
+                    this.util.dismissLoading();
+                        this.view.dismiss({result:true});
+                        return;
+                  }
                   
-                    window.alert(""+currentflag.room+"번 방에 "+currentflag.enter_date.split("T")[1].split(":")[0]+"시"+currentflag.enter_date.split("T")[1].split(":")[1]+"분에 입장하여, 추가할수없습니다.");
                     
-                this.util.dismissLoading();
-                    this.view.dismiss({result:false});
-
-
-                    return;
+              
                 }
                 this.firemain.child("users").child(nickname).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
                 this.firemain.child("users").child(nickname).child("attendance").child(this.currentstartday).child("attend").update({"team":snap2.val()[b].jopan,"name":name,"date":this.currentstartday,"flag":"attend","time":hour+":"+min})
-                this.firemain.child("users").child(nickname).child("current").update({"room":this.a.name,"enter_date":dte})
+                this.firemain.child("users").child(nickname).child("current").update({"room":this.a.name,"enter_date":dte,"date":this.currentstartday})
                 this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":snap2.val()[b].jopan,"name":this.agasilist[cc].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
                 this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
                 this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(newnum+"").update({"angel": this.agasilist[cc].angel,"roomno":this.a.name,"incharge":this.a.incharge, "name":this.agasilist[cc].name,"writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
@@ -662,16 +711,12 @@ export class ChoicemodalPage {
       
               }
             }
-                  console.log(this.subscribedList.length);
                   var subscribedListNames = this.subscribedList.map(function(obj) {
                     return obj.name;
                   });
-                  console.log(subscribedListNames);
                   this.newlist = this.agasilist.filter(function(obj) {
                     return !subscribedListNames.includes(obj.name);
                   });
-                  console.log("nlist : ");
-                  console.log(this.newlist);
           }
         }
        
@@ -681,12 +726,7 @@ export class ChoicemodalPage {
         console.log(this.originalList);
         console.log(this.subscribedList);
         if(this.newlist.length!=0){
-          console.log(this.agasilist);
-          console.log(this.originalList);
-
          // 수정 1개로 만원. 
-         console.log("추가등록할것...");
-         console.log(this.newlist)
          let modal = this.modal.create(Choicemodal2Page,{"agasi":this.newlist,"subscribedList":this.subscribedList,"room":this.a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
          modal.onDidDismiss(url => {
            console.log(url);
@@ -695,10 +735,7 @@ export class ChoicemodalPage {
            }else if(url.result=="ok"){
              window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
    
-         console.log(this.newlist);
-         console.log(this.a);
          for(var cca in this.newlist){
-           console.log(this.newlist[cca])
            if(newflag){
    
            }else{
@@ -706,12 +743,11 @@ export class ChoicemodalPage {
         
            }
            newnum++;
-            console.log("newnum..."+newnum);
              this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).update({"lastupdatedperson":this.nickname, "lastupdated":year+"-"+month+"-"+day +" "+hour+":"+min+""})
              this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(newnum+"").update({"angel": this.newlist[cca].angel, "roomno":this.a.name, "name":this.newlist[cca].name,"incharge":this.a.incharge, "writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min});
             }
 
-            this.view.dismiss({"result":true})
+            this.view.dismiss({"result":"nono"})
            }
          });
          
@@ -720,8 +756,8 @@ export class ChoicemodalPage {
           // this.util.dismissLoading();
           // this.view.dismiss();
         }else{
-          
-          this.navCtrl.pop();
+          console.log("else...come...");
+          this.view.dismiss({"result":"nono"})
       //    // 수정 1개로 만원. 
       //     console.log("추가등록할것...");
       //     console.log(this.newlist)

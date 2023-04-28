@@ -33,6 +33,18 @@ page-choicemodal2 {
 width: 80%;
 min-height: 35px !important;
     }
+    .contentheader{
+      width: 80%;
+      height: 70px;
+      position: fixed;
+    }
+    .contentsection{
+      position: fixed;
+      width: 85%;
+      height: 211px;
+      top: 50px;
+      overflow: scroll;
+    }
    .img{
     width: 100%;
     text-align: center;

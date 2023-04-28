@@ -43,7 +43,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230417 v2.92';
+  version='20230428 v2.981';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -83,7 +83,6 @@ export class LoginpagePage {
       // abc.subscribe(data => {
       //   console.log(data);
       // });
-      
       if(this.check==true){
         $("#checked").prop('checked', true);
         this.id = localStorage.getItem("id");
@@ -126,6 +125,11 @@ export class LoginpagePage {
     var id = localStorage.getItem("id");
     console.log(approved);
     console.log(id);
+    if(approved==null||id.length==0){
+
+      this.navCtrl.push(SignupPage);
+      return;
+    }
     this.navCtrl.push(SignupPage,{"approved":approved,"id":id}).then(() => {
       this.navCtrl.getActive().onDidDismiss(data => {
         console.log("ondiddismiss....");
@@ -180,7 +184,7 @@ export class LoginpagePage {
         this.firemain.child("users").once("value",(snap)=>{
           var flag=false;
           for(var aa in snap.val()){
-            if(snap.val()[aa].id==this.id){
+            if(snap.val()[aa].id==this.id&&snap.val()[aa].pass==this.password){
               console.log(snap.val()[aa])
               flag=true;
               console.log(snap.val()[aa]["name"])
@@ -190,6 +194,7 @@ export class LoginpagePage {
               localStorage.setItem("nickname",this.nickname);
               var approved=snap.val()[aa]["approved"];
               var type = snap.val()[aa]["type"];
+              var young = snap.val()[aa]["young"];
               var payment=snap.val()[aa]["payment"];
               console.log(type+"?????"+approved+",,"+payment)
 
@@ -200,18 +205,6 @@ export class LoginpagePage {
           //   return;
           // }else{
           // }
-          if(approved==false||approved==undefined){
-            window.alert("관리자가 승인해야 이용가능합니다.");
-            this.util.dismissLoading();
-            return;
-          }
-          if(payment==false||payment==undefined){
-            window.alert("아직 결제하지 않았기때문에 조회만 가능합니다.")
-            this.util.dismissLoading();
-            this.navCtrl.push(InfoPage,{"user":this.directorList});
-            return;
-          }else{
-          }
 
           localStorage.setItem('id',this.id.split('@')[0]);
           localStorage.setItem('name',this.name);
@@ -220,12 +213,36 @@ export class LoginpagePage {
 
           localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
           localStorage.setItem("type",snap.val()[aa].type);
+          if(approved==false||approved==undefined){
+            window.alert("관리자가 승인해야 이용가능합니다.");
+            this.util.dismissLoading();
+            return;
+          }
+          if(payment==false||payment==undefined||young!=undefined&&young.length==1){
+             
+              window.alert("결제를 하지않았거나, 코드번호가 부여되지않아서 조회만 가능합니다. ")
+              this.util.dismissLoading();
+              this.navCtrl.push(InfoPage,{"user":this.directorList});
+              return;
+           
+          }else{
+          }
+
           console.log(snap.numChildren());
           var length=snap.numChildren();
           this.util.dismissLoading();
           this.firemain.child("company").child(snap.val()[aa].company).once("value",(snap2)=>{
             console.log(snap2.val())
             console.log(snap.val())
+            var tc=0;
+            if(snap2.val().tc==undefined){
+              window.alert("tc설정이 안되있으므로 기본값 13으로 설정됩니다.")
+              tc=13;
+            }else{
+              tc=snap2.val().tc;
+            }
+
+            localStorage.setItem("tc",snap2.val().tc);
             this.firemain.child("company").child(snap.val()[aa].company).child('openandclose').once('value').then((snap3)=>{
               
               console.log(snap3.val())
@@ -287,7 +304,7 @@ export class LoginpagePage {
           }
           console.log("rrr")
           if(!flag){
-            window.alert("아이디가 존재하지 않습니다.")
+            window.alert("아이디혹은 비밀번호정보 오류 ")
             this.util.dismissLoading();
             return;
           }
@@ -350,7 +367,8 @@ export class LoginpagePage {
 
   checkbox_click(){
     this.check=!this.check;
-    window.alert(this.check);
+    // window.alert(this.check);
+    console.log("checkbox clicked ..."+this.check);
     localStorage.setItem("loginflag", String(this.check));
   }
 }

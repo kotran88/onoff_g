@@ -29,12 +29,13 @@ page-signup {
   .footer{
     position: fixed;
     width: 100%;
-    height: 100px;
+    height: 64px;
     background: gray;
     bottom: 0;
     margin: auto;
     display: block;
     padding: 5px;
+    font-size: 8px;
     p{
       margin:0px !important;
     }
@@ -166,9 +167,11 @@ page-signup {
 //         margin-bottom: 16px;
 //       }
 
-//      .scroll-content {
-//         overflow-y: hidden;
-//       }
+     .scroll-content {
+
+    margin-bottom: 20px;
+    
+      }
 
 //       .item-ios.item-block .item-inner {
 //         border-style: none;

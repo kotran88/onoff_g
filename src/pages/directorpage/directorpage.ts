@@ -111,7 +111,7 @@ generating(){
           for(var c in snap.val()[a].roomhistory[b]){
             console.log(snap.val()[a].roomhistory[b][c])
             if(snap.val()[a].roomhistory[b][c].incharge!=this.nickname){
-              break;
+              continue;
             }
 
               if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){

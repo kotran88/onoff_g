@@ -225,7 +225,7 @@ gotopayment(){
         console.log("choice back")
         this.navCtrl.getActive().onDidDismiss(data => {
           console.log("off...")
-      this.firemain.child("company").child(this.company).child("roomlist").off();
+      // this.firemain.child("company").child(this.company).child("roomlist").off();
         })
       });
     }else if(value==5){
@@ -362,41 +362,45 @@ gotopayment(){
     clearInterval(this.interval)
   }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InfoPage');
-    this.firemain.child("company").child(this.company).child("roomlist").on('child_removed', function(snap, prevChildKey) {
-      console.log("on on on on on cccccchild_removed.....")
-      console.log(snap.val());
-      console.log(prevChildKey);
-      // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-    });
-    this.firemain.child("company").child(this.company).child("roomlist").on('child_moved', function(snap, prevChildKey) {
-      console.log("on on on on on cccccchild_moved.....")
-      console.log(snap.val());
-      console.log(prevChildKey);
-      // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-    });
-    this.firemain.child("company").child(this.company).child("roomlist").on('child_added', function(snap, prevChildKey) {
-      console.log("on on on on on cccccchild_added.....")
-      console.log(snap.val());
-      console.log(prevChildKey);
-      // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-    });
-      this.firemain.child("company").child(this.company).child("roomlist").on('child_changed', (snap, prevChildKey) =>{
-        console.log("on on on on on cccccchild_changed.....")
-        console.log(snap.val());
-        console.log(prevChildKey);
-        console.log(this.mainlist)
-        this.generate();
-        // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-      });
+
     this.generate();
+    // console.log('ionViewDidLoad InfoPage');
+    // this.company=  localStorage.getItem("company");
+    // console.log(this.company);
+    // this.firemain.child("company").child(this.company).child("roomlist").on('child_removed', function(snap, prevChildKey) {
+    //   console.log("on on on on on cccccchild_removed.....")
+    //   console.log(snap.val());
+    //   console.log(prevChildKey);
+    //   // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+    // });
+    // this.firemain.child("company").child(this.company).child("roomlist").on('child_moved', function(snap, prevChildKey) {
+    //   console.log("on on on on on cccccchild_moved.....")
+    //   console.log(snap.val());
+    //   console.log(prevChildKey);
+    //   // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+    // });
+    // this.firemain.child("company").child(this.company).child("roomlist").on('child_added', function(snap, prevChildKey) {
+    //   console.log("child_addedchild_addedchild_addedchild_addedchild_addedchild_added.....")
+    //   console.log(snap.val());
+    //   console.log(prevChildKey);
+    //   // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+    // });
+    //   this.firemain.child("company").child(this.company).child("roomlist").on('child_changed', (snap, prevChildKey) =>{
+    //     console.log("on on on on on cccccchild_changed.....")
+    //     console.log(snap.val());
+    //     console.log(prevChildKey);
+    //     console.log(this.mainlist)
+    //     setTimeout(()=>{
+    //      this.generate();
+    //     },500)
+    //     // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+    //   });
   }
   generate(){
     console.log("generate come");
     this.generateroomcategory()
     this.mainlist=[];
     this.mainlist_finished=[];
-    
     this.noagasi=0;
     this.agasinum=0;
     this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
@@ -483,7 +487,6 @@ gotopayment(){
       console.log(this.noagasi);
       console.log(this.agasinum);
       this.mainlist.sort(function(a, b) {
-          console.log(a.insert_date);
           // Compare dates
          
           var timeA = a.insert_date.split(":"); // convert time string to array of hours and minutes
@@ -517,13 +520,19 @@ gotopayment(){
     console.log(a);
     let modal = this.modal.create(EditingroomPage,{"user":this.directorList, "a":a,"allroom":this.allroom,"bu":this.bu});
     modal.onDidDismiss(url => {
+      console.log("EditingroomPageEditingroomPageEditingroomPageEditingroomPageEditingroomPage");
+      console.log(url);
+      setTimeout(()=>{
+
       this.generate();
+      },500)
     });
 
     modal.present();
   }
   logout(){
       localStorage.setItem("loginflag", "false" )
+      
       this.navCtrl.setRoot(LoginpagePage)
   }
   addRoom(room){
