@@ -23,6 +23,7 @@ export class AccountPage {
   currentstartday:any="";
   selectedName:any="";
   bu=0;
+  accumuls:Number=0;
   accountmessage:any=[];
   todaymoney=0;
   // 팀 리스트
@@ -80,6 +81,25 @@ export class AccountPage {
   gotopayment(){
     this.navCtrl.push(SignupPage);
   }
+  withdraw(){
+
+    console.log(this.currentYear);
+    console.log(this.currentMonth);
+    console.log(this.selectedDate)
+    console.log(this.selectedName)
+    //refreshing date by above info 
+    let modal = this.modal.create(AccountingmodalPage,{"flag":2, "year":this.currentYear,"month":this.currentMonth,"day":this.selectedDate,"selected":this.selectedName});
+    modal.onDidDismiss(url => {
+      console.log("dismiss second!");
+
+      var newdate = this.currentYear+"-"+this.currentMonth+"-"+this.selectedDate;
+      console.log(newdate);
+      this.generatedata(this.selectedName.nickname,newdate);
+      
+    });
+
+    modal.present();
+  }
   confirm(){
     console.log(this.currentYear);
     console.log(this.currentMonth);
@@ -88,7 +108,7 @@ export class AccountPage {
 
 
     //refreshing date by above info 
-    let modal = this.modal.create(AccountingmodalPage,{"year":this.currentYear,"month":this.currentMonth,"day":this.selectedDate,"selected":this.selectedName});
+    let modal = this.modal.create(AccountingmodalPage,{"flag":1,"year":this.currentYear,"month":this.currentMonth,"day":this.selectedDate,"selected":this.selectedName});
     modal.onDidDismiss(url => {
       console.log("dismiss second!");
 
@@ -220,7 +240,10 @@ export class AccountPage {
     this.firemain.child("users").child(bujangid).once('value').then((snap)=>{
       console.log(snap.val());
       console.log(snap.val().incentive);
+      
       console.log(snap.val().accounting);
+      console.log(snap.val().accounting.incoming);
+      this.accumuls=snap.val().accounting.incoming;
       console.log(this.currentstartday);
       if(snap.val().accounting==undefined){
       }else{
@@ -230,7 +253,10 @@ export class AccountPage {
         console.log(a);
         console.log(this.currentstartday);
         console.log("mkmkmk")
+        console.log(nd);
         if(a==nd){
+          console.log(a);
+          console.log(snap.val().accounting[a]);
           for(var c in snap.val().accounting[a]){
             console.log(c);
             console.log(snap.val().accounting[a][c]);
@@ -247,8 +273,16 @@ export class AccountPage {
           console.log(this.selectedDate)
           console.log(this.currentYear+"-"+Number(this.currentMonth)+"-"+this.selectedDate)
           if(snap.val().accounting[a][c].year==nd){
-            this.accountmessage.push({"time":snap.val().accounting[a][c].time,"card":Number(snap.val().accounting[a][c].card),"cash":Number(snap.val().accounting[a][c].cash),"date":a,"name":snap.val().accounting[a][c].name});
+            if(snap.val().accounting[a][c].withdraw!=undefined&&snap.val().accounting[a][c].incoming==undefined){
+              this.accountmessage.push({"type":"출금", "time":snap.val().accounting[a][c].time,"card":Number(snap.val().accounting[a][c].card),"cash":Number(snap.val().accounting[a][c].cash),"date":a,"name":snap.val().accounting[a][c].name});
 
+              //출금
+            }else if(snap.val().accounting[a][c].incoming!=undefined&&snap.val().accounting[a][c].withdraw==undefined){
+              //입금
+              this.accountmessage.push({"type":"입금", "time":snap.val().accounting[a][c].time,"card":Number(snap.val().accounting[a][c].card),"cash":Number(snap.val().accounting[a][c].cash),"date":a,"name":snap.val().accounting[a][c].name});
+
+            }
+            
           }
         
         }
@@ -276,7 +310,7 @@ export class AccountPage {
               var aaaa;
               console.log(detail)
               detail.bottle=0;
-              if(context[b]==undefined){
+              if(context[b].ordertype==undefined){
                 return;
               }
               var orderlist = context[b].ordertype.orderlist;
@@ -465,7 +499,6 @@ export class AccountPage {
     this.daysInThisMonth = [];
     this.daysInLastMonth = [];
     this.daysInNextMonth = [];
-    // this.currentMonth = this.monthNames[this.date.getMonth()];
     this.currentMonth =this.date.getMonth()+1;
     this.currentYear = this.date.getFullYear();
     if(this.date.getMonth() === new Date().getMonth()) {
@@ -496,6 +529,7 @@ export class AccountPage {
         this.daysInNextMonth.push(l);
       }
     }
+    console.log("daysInThisMonth : "+this.daysInThisMonth);
   }
 
   goToday(){
@@ -513,8 +547,10 @@ export class AccountPage {
   }
 
   goToNextMonth() {
-    console.log("gotonextmonth")
+    console.log("gotonextmonthgotonextmonth")
+    console.log(this.date.getFullYear()+",,,,"+this.date.getMonth()+2, 0);
     this.date = new Date(this.date.getFullYear(), this.date.getMonth()+2, 0);
+    console.log(this.date);
     // this.zone.run(()=>{
       this.getDaysOfMonth();
     // })

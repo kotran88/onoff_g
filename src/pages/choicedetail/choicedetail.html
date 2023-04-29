@@ -106,18 +106,22 @@
                     <span style="line-height: 40px; width:40px; text-align: center;">{{b.date.split(" ")[1]}}</span>
                     
                   
-                    <span *ngIf="b.findate!=undefined&&!modifyflag" style="line-height: 40px; width:40px; text-align: center;">{{b.findate.split(" ")[1]}}</span>
-                    <span *ngIf="b.findate==undefined&&!modifyflag" style="line-height: 40px; width:40px; text-align: center;">-</span>
+                    <span *ngIf="(b.findate!=undefined&&!modifyflag)" style="line-height: 40px; width:40px; text-align: center;">{{b.findate.split(" ")[1]}}</span>
+                    <span *ngIf="(b.findate==undefined&&!modifyflag)" style="line-height: 40px; width:40px; text-align: center;">-</span>
                     <span *ngIf="b.tc!=undefined&&!modifyflag" style="line-height: 20px; width:40px; text-align: center;">{{b.tc}}개 <br>{{b.money}}만원</span>
                    <div *ngIf="modifyflag" style="
                    width: 50px;
                    line-height: 25px;" class="aaa">
-                   <span *ngIf="b.tc!=undefined&&modifyflag" style="line-height: 20px; width:40px; text-align: center;">
+                   <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined" style="line-height: 20px; width:40px; text-align: center;">
                      <input [(ngModel)]='b.tc' style="    width: 40px;
                    border: solid 2px;
                    border-radius: 10px;
                    text-align: center;" *ngIf="b.tc!=undefined&&modifyflag" value="{{b.tc}}" type="text">
                     <br>{{b.money}}만원</span>
+
+                    <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate==undefined" style="line-height: 20px; width:40px; text-align: center;">
+                      {{b.tc}}개 <br>{{b.money}}만원
+                  </span>
                     </div>
 <!--                     
                    <span *ngIf="b.findate!=undefined" style="line-height: 40px; width:40px; text-align: center;">{{b.findate.split(" ")[1]}}</span>
@@ -257,6 +261,18 @@ width: 50px;
       font-size:11px;
 top: 0px;
 margin-top: -10px; ">완료</button>
+
+
+<button *ngIf="modifyflag" class="btnbottom" (click)="modifycancel0(a,a.name,a)" style="
+margin-left: 10px;
+height: 40px;
+background: transparent;
+border: solid 1px;
+border-radius: 10px;
+width: 50px;
+      font-size:11px;
+top: 0px;
+margin-top: -10px; ">취소</button>
       </div>
     </div>
     <div class="area" [ngClass]="activeclass=='2' ? 'show' : 'noshow'" id="ion-label-area-2">
@@ -325,13 +341,16 @@ margin: 0px !important;" *ngIf="b.angel">
         <div *ngIf="modifyflag" style="
         width: 50px;
         line-height: 25px;" class="aaa">
-        <span *ngIf="b.tc!=undefined&&modifyflag" style="line-height: 20px; width:40px; text-align: center;">
+        <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined" style="line-height: 20px; width:40px; text-align: center;">
           <input [(ngModel)]='b.tc' style="    width: 40px;
         border: solid 2px;
         border-radius: 10px;
         text-align: center;" *ngIf="b.tc!=undefined&&modifyflag" value="{{b.tc}}" type="text">
          <br>{{b.money}}만원</span>
 
+         <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate==undefined" style="line-height: 20px; width:40px; text-align: center;">
+          {{b.tc}}개 <br>{{b.money}}만원
+      </span>
          <!-- <input [(ngModel)]='b.money' style="    width: 40px;
          border: solid 2px;
          border-radius: 10px;
@@ -342,14 +361,14 @@ margin: 0px !important;" *ngIf="b.angel">
          <span *ngIf="b.date!=undefined" style="line-height: 20px; 
          font-size: 10px;
          text-align: center; width:45px;">{{abcd(b.date.substring(10))}}</span>  
-<button *ngIf="b.findate==undefined" (click)="end(b,a.name,a,2)" style="
+<button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,2)" style="
 display: block;
 margin: 5px;
 width: 40px;
 height: 40px;
 text-align: center;
 font-size: 12px;  ">종료</button>
-<button (click)="reinit(b,a.name,a,2)" *ngIf="b.findate!=undefined" style="
+<button (click)="reinit(b,a.name,a,2)" *ngIf="b.findate!=undefined&&b.findate.length!=0" style="
 display: block;
     margin: 5px;
     width: 40px;
@@ -475,6 +494,7 @@ width: 50px;
       font-size:11px;
 top: 0px;
 margin-top: -10px; ">완료</button>
+
 
 <button *ngIf="modifyflag" (click)="modifycancel(a,a.name,a)" style="
 margin-left: 10px;

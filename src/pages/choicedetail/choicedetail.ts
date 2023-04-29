@@ -37,11 +37,15 @@ export class ChoicedetailPage {
   mainlist_finished:any = [];
   mainlist:any = [];
   firemain = firebase.database().ref();
+  key:any;
+  roomno:any;
   constructor(public alertCtrl:AlertController, public util:UtilsProvider,public view:ViewController,public loading:LoadingController,public modal:ModalController,public zone:NgZone, public navCtrl: NavController, public navParams: NavParams) {
+    console.log("choice detail come...");
     this.a=this.navParams.get("a");
     this.v=this.navParams.get("v");
     this.nickname=localStorage.getItem("nickname");
-  
+    console.log(this.a);
+    console.log(this.v);
     if(this.v==1||this.v=="1"){
       this.activeclass='1';
     }else if (this.v==2||this.v=="2"){
@@ -113,6 +117,56 @@ export class ChoicedetailPage {
           this.mainlist_finished[c].agasi[d].chasam=Number((this.mainlist_finished[c].agasi[d].tc-Math.floor(this.mainlist_finished[c].agasi[d].tc)).toFixed(1) )
           console.log(this.mainlist_finished[c].agasi[d]);
 
+        }
+      }
+    }
+
+    for(var c in this.mainlist_angel){
+      for(var d in this.mainlist_angel[c].agasi){
+        if(this.mainlist_angel[c].agasi[d].findate!=undefined){
+
+        }else{
+          var totalmoney=Number(this.util.getTC(this.mainlist_angel[c].agasi[d],this.mainlist_angel[c].agasi[d].pausetime).split(",")[0]);
+          var tctotal=Number(this.util.getTC(this.mainlist_angel[c].agasi[d],this.mainlist_angel[c].agasi[d].pausetime).split(",")[1]);
+          this.mainlist_angel[c].agasi[d].money=totalmoney;
+          this.mainlist_angel[c].agasi[d].tc=tctotal;
+        }
+      }
+    }
+    console.log(this.mainlist);
+    console.log(this.mainlist_finished);
+    console.log(this.mainlist_finished_status)
+    console.log(this.mainlist_angel);
+
+  }
+  justrefresh(){
+
+    for(var c in this.mainlist){
+      for(var d in this.mainlist[c].agasi){
+          if(this.mainlist[c].agasi[d].findate!=undefined){
+
+          }else{
+            var totalmoney=Number(this.util.getTC(this.mainlist[c].agasi[d],this.mainlist[c].agasi[d].pausetime).split(",")[0]);
+            var tctotal=Number(this.util.getTC(this.mainlist[c].agasi[d],this.mainlist[c].agasi[d].pausetime).split(",")[1]);
+            var newtctotal = Math.floor(tctotal);
+            var bantee=Number(this.util.getTC(this.mainlist[c].agasi[d],this.mainlist[c].agasi[d].pausetime).split(",")[2]);
+            this.mainlist[c].agasi[d].money=totalmoney;
+            this.mainlist[c].agasi[d].tc=tctotal;
+            this.mainlist[c].agasi[d].bantee=bantee;
+          }
+         
+      }
+    }
+
+    for(var c in this.mainlist_finished){
+      for(var d in this.mainlist_finished[c].agasi){
+        if(this.mainlist_finished[c].agasi[d].findate!=undefined){
+
+        }else{
+          var totalmoney=Number(this.util.getTC(this.mainlist_finished[c].agasi[d],this.mainlist_finished[c].agasi[d].pausetime).split(",")[0]);
+          var tctotal=Number(this.util.getTC(this.mainlist_finished[c].agasi[d],this.mainlist_finished[c].agasi[d].pausetime).split(",")[1]);
+          this.mainlist_finished[c].agasi[d].money=totalmoney;
+          this.mainlist_finished[c].agasi[d].tc=tctotal;
         }
       }
     }
@@ -299,11 +353,7 @@ screenSwitch(values) : void {
     console.log(mainlist);
     console.log(mainlist);
     console.log(mainlist.agasi);
-    for(var abcd in mainlist.agasi){
-
-    }
     console.log("----------endall----------");
-
 
     var date = new Date();
 
@@ -348,7 +398,7 @@ screenSwitch(values) : void {
       // this.refreshChoice2();
 
       
-    this.activeclass="2";
+    // this.activeclass="2";
       console.log("this is end all this is end all this is end all this is end all this is end all this is end all this is end all ")
     setTimeout(()=>{
 
@@ -368,14 +418,12 @@ this.util.presentLoading();
     console.log(room);
     
 
-    this.firemain.child("users").once("value",snapp=>{
-      for(var b in snapp.val()){
-        if(snapp.val()[b].name==c.name){
-
+    this.firemain.child("users").child(c.name).once("value",snapp=>{
+      console.log(snapp.val());
+      console.log(snapp.val().current);
           for(var a in mainlist.agasi){
             console.log(mainlist.agasi[a].name+", "+c.name)
             if(mainlist.agasi[a].name==c.name){
-      
               agasiname+=c.name;
               console.log("find");
               var num = a;
@@ -396,6 +444,7 @@ this.util.presentLoading();
               pausetime+=Number(minutes);
               console.log(pausetime);
               console.log(this.company+","+room+",,"+this.currentstartday+","+mainlist.key+","+num+",,,"+pausetime);
+              console.log(c);
               var postData = {
                 date: c.date,
                 money: c.money,
@@ -403,14 +452,14 @@ this.util.presentLoading();
                 roomno: c.roomno,
                 tc: c.tc,
                 pausetime:pausetime,
-                wt:c.wt,
+                wt:mainlist.wt,
                 writer:c.writer,
               };
 
                 console.log("find user");
-                var user = snapp.val()[b].id;
-                console.log(snapp.val()[b].current)
-                if(snapp.val()[b].current!=undefined){
+                var user = snapp.val().id;
+                console.log(snapp.val().current)
+                if(snapp.val().current!=undefined){
                   window.alert("이미 들어가있는 방이 존재하므로, 재진행할수없습니다.");
                   return;
                 }
@@ -439,8 +488,6 @@ this.util.presentLoading();
               
             }
           }
-        }
-      }
 
     console.log("loop finish in reinit")
     // this.refreshChoice2();
@@ -449,10 +496,8 @@ this.util.dismissLoading();
   console.log("end fin");
 
   setTimeout(()=>{
-
     this.refreshChoice2();
-  },1000)
-
+  },2000)
     });
         
 
@@ -630,25 +675,26 @@ this.util.dismissLoading();
     this.mainlist_angel=[];
     this.mainlist_finished=[];
     this.mainlist_finished_status=[];
-    this.firemain.child("company").child(this.company).once("value", (snap2)=>{
+    this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).once("value", (snap)=>{
 
     this.util.loadingnew();
-      for(var ccddd in snap2.val().roomlist){
-        var snap = snap2.val().roomlist[ccddd];
-        if(snap.name == this.a.name){
-          console.log(snap.roomhistory[this.currentstartday])
+        console.log(snap.val())
+        console.log(snap.val().agasi);
+        console.log(snap.val().logic);
+          // console.log(snap.roomhistory[this.currentstartday])
 
-          for(var b in snap.roomhistory[this.currentstartday]){
-            console.log(snap.roomhistory[this.currentstartday][b])
+            console.log(snap.val())
             var inagasi = 0;
-            if(snap.roomhistory[this.currentstartday][b].agasi!=undefined){
+            var totalagasi=0;
+            if(snap.val().agasi!=undefined){
 
-              for(var c in snap.roomhistory[this.currentstartday][b].agasi){
-                console.log(snap.roomhistory[this.currentstartday][b].agasi[c])
-                if(snap.roomhistory[this.currentstartday][b].agasi[c].angel){
+              for(var c in snap.val().agasi){
+                totalagasi++;
+                console.log(snap.val().agasi[c])
+                if(snap.val().agasi[c].angel){
                   this.angelcount++;
                 }
-                if(snap.roomhistory[this.currentstartday][b].agasi[c].findate!=undefined){
+                if(snap.val().agasi[c].findate!=undefined){
                   //종료됨. 
                 }else{
                   inagasi++;
@@ -659,13 +705,13 @@ this.util.dismissLoading();
               //agasi가 없는 경우.
             }
             this.inagasi=inagasi;
-            this.numofpeople = snap.roomhistory[this.currentstartday][b].numofpeople;
+            this.numofpeople = snap.val().numofpeople;
             console.log("inagasi is "+inagasi);
             var memo = "";
-            memo = snap.roomhistory[this.currentstartday][b].memo;
+            memo = snap.val().memo;
             var messages=[];
-            for(var dd in snap.roomhistory[this.currentstartday][b].message){
-              messages.push(snap.roomhistory[this.currentstartday][b].message[dd]);
+            for(var dd in snap.val().message){
+              messages.push(snap.val().message[dd]);
             }
             //sort message by date
             messages.sort(function(a, b) {
@@ -681,189 +727,210 @@ this.util.dismissLoading();
                   return 0; // Keep order unchanged
                 }
             });
-            console.log(snap.roomhistory[this.currentstartday][b])
+            console.log(snap.val())
             var findate = "";
-            if(snap.roomhistory[this.currentstartday][b].findate!=undefined){
-              findate = snap.roomhistory[this.currentstartday][b].findate;
+            if(snap.val().findate!=undefined){
+              findate = snap.val().findate;
             }
             console.log("findate is "+findate);
 
-            if(snap.roomhistory[this.currentstartday][b].ss){
-              if(snap.roomhistory[this.currentstartday][b].status=="fin"){
-                this.mainlist_finished_status.push({"agasi":snap.roomhistory[this.currentstartday][b].agasi,
-                "date":snap.roomhistory[this.currentstartday][b].date,
-              "incharge":snap.roomhistory[this.currentstartday][b].incharge,
-            "insert_date":snap.roomhistory[this.currentstartday][b].insert_date,
-          "insert_date_full":snap.roomhistory[this.currentstartday][b].insert_date_full,
-                  "key":snap.roomhistory[this.currentstartday][b].key,
+            if(snap.val().ss){
+              if(snap.val().status=="fin"){
+                this.mainlist_finished_status.push({"agasi":snap.val().agasi,
+                "date":snap.val().date,
+              "incharge":snap.val().incharge,
+            "insert_date":snap.val().insert_date,
+          "insert_date_full":snap.val().insert_date_full,
+                  "key":snap.val().key,
                   "message":messages,
                   "memo":memo,
-                  "angel":snap.roomhistory[this.currentstartday][b].angel,
-                  "name":snap.roomhistory[this.currentstartday][b].name,
-              "numofpeople":snap.roomhistory[this.currentstartday][b].numofpeople,
-              "status":snap.roomhistory[this.currentstartday][b].status,
-            "wt":snap.roomhistory[this.currentstartday][b].wt,
-          "numofagasi":inagasi,"lack":snap.roomhistory[this.currentstartday][b].numofpeople-inagasi});
+                  "angel":snap.val().angel,
+                  "name":snap.val().name,
+              "numofpeople":snap.val().numofpeople,
+              "status":snap.val().status,
+            "wt":snap.val().wt,
+          "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
       
-               }else if(snap.roomhistory[this.currentstartday][b].angel==true){
+               }else if(snap.val().angel==true){
 
-                this.mainlist_angel.push({"agasi":snap.roomhistory[this.currentstartday][b].agasi,
-                "date":snap.roomhistory[this.currentstartday][b].date,
-              "incharge":snap.roomhistory[this.currentstartday][b].incharge,
-            "insert_date":snap.roomhistory[this.currentstartday][b].insert_date,
-          "insert_date_full":snap.roomhistory[this.currentstartday][b].insert_date_full,
-                  "key":snap.roomhistory[this.currentstartday][b].key,
+                this.mainlist_angel.push({"agasi":snap.val().agasi,
+                "date":snap.val().date,
+              "incharge":snap.val().incharge,
+            "insert_date":snap.val().insert_date,
+          "insert_date_full":snap.val().insert_date_full,
+                  "key":snap.val().key,
                   "message":messages,
                   "memo":memo,
-                  "angel":snap.roomhistory[this.currentstartday][b].angel,
-                  "name":snap.roomhistory[this.currentstartday][b].name,
-              "numofpeople":snap.roomhistory[this.currentstartday][b].numofpeople,
-              "status":snap.roomhistory[this.currentstartday][b].status,
-            "wt":snap.roomhistory[this.currentstartday][b].wt,
-          "numofagasi":inagasi,"lack":snap.roomhistory[this.currentstartday][b].numofpeople-inagasi});
+                  "angel":snap.val().angel,
+                  "name":snap.val().name,
+              "numofpeople":snap.val().numofpeople,
+              "status":snap.val().status,
+            "wt":snap.val().wt,
+          "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
            
 
               }else{
 
                 //초이스 ㅅㅅ 방에다가 날개가아니고 완료도 아닌 경우.
-                        this.mainlist_finished.push({"agasi":snap.roomhistory[this.currentstartday][b].agasi,
-                        "date":snap.roomhistory[this.currentstartday][b].date,
-                      "incharge":snap.roomhistory[this.currentstartday][b].incharge,
-                    "insert_date":snap.roomhistory[this.currentstartday][b].insert_date,
-                  "insert_date_full":snap.roomhistory[this.currentstartday][b].insert_date_full,
-                          "key":snap.roomhistory[this.currentstartday][b].key,
-                        "name":snap.roomhistory[this.currentstartday][b].name,
+                        this.mainlist_finished.push({"agasi":snap.val().agasi,
+                        "date":snap.val().date,
+                      "incharge":snap.val().incharge,
+                    "insert_date":snap.val().insert_date,
+                  "insert_date_full":snap.val().insert_date_full,
+                          "key":snap.val().key,
+                        "name":snap.val().name,
                         "message":messages,
 
                         "memo":memo,
-                    "angel":snap.roomhistory[this.currentstartday][b].angel,
-                        "numofpeople":snap.roomhistory[this.currentstartday][b].numofpeople,
-                      "status":snap.roomhistory[this.currentstartday][b].status,
-                    "wt":snap.roomhistory[this.currentstartday][b].wt,
-                    "directorId":snap.roomhistory[this.currentstartday][b].directorId,
-                  "numofagasi":inagasi,"lack":snap.roomhistory[this.currentstartday][b].numofpeople-inagasi});
+                    "angel":snap.val().angel,
+                        "numofpeople":snap.val().numofpeople,
+                      "status":snap.val().status,
+                    "wt":snap.val().wt,
+                    "directorId":snap.val().directorId,
+                  "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
               
               }
               }else{
                 
                 console.log(" 초이스 ㅅㅅ 이 아님. 그러면 재초거나 undefined else...flag ")
-                console.log(snap.roomhistory[this.currentstartday][b]);
                 var orderlist="";
-                if(snap.roomhistory[this.currentstartday][b].orderlist==undefined){
+                if(snap.val().orderlist==undefined){
                   orderlist="no"
                 }else{
-                  orderlist=snap.roomhistory[this.currentstartday][b].orderlist;
+                  orderlist=snap.val().orderlist;
                 }
                
+                console.log(snap.val().numofpeople);
+                console.log(inagasi);
+                console.log(totalagasi);
+                if(snap.val().ss==false){
 
-                if(snap.roomhistory[this.currentstartday][b].numofpeople-inagasi<=0){
-                  //진행중인방으로 넘어가야함. 무조건. 
-                  if(snap.roomhistory[this.currentstartday][b].status=="fin"){
-                    this.mainlist_finished_status.push({"agasi":snap.roomhistory[this.currentstartday][b].agasi,
-                    "date":snap.roomhistory[this.currentstartday][b].date,
-                  "incharge":snap.roomhistory[this.currentstartday][b].incharge,
-                "insert_date":snap.roomhistory[this.currentstartday][b].insert_date,
-              "insert_date_full":snap.roomhistory[this.currentstartday][b].insert_date_full,
-              "directorId":snap.roomhistory[this.currentstartday][b].directorId,
-              "key":snap.roomhistory[this.currentstartday][b].key,
+
+                  this.mainlist.push({"agasi":snap.val().agasi,
+                  "date":snap.val().date,
+                "incharge":snap.val().incharge,
+              "insert_date":snap.val().insert_date,
+            "insert_date_full":snap.val().insert_date_full,
+            "directorId":snap.val().directorId,
+            "key":snap.val().key,
+            "message":messages,
+            "memo":memo,
+            "angel":snap.val().angel,
+            "name":snap.val().name,
+                "numofpeople":snap.val().numofpeople,
+                "status":snap.val().status,
+              "wt":snap.val().wt,
+            "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
+                }else if(snap.val().numofpeople<=totalagasi){
+                  //ㅇ 진행중인방으로 넘어가야함. 무조건. 
+                  console.log("진행중인방!");
+                  console.log(snap.val().name)
+                  if(snap.val().status=="fin"){
+                    this.mainlist_finished_status.push({"agasi":snap.val().agasi,
+                    "date":snap.val().date,
+                  "incharge":snap.val().incharge,
+                "insert_date":snap.val().insert_date,
+              "insert_date_full":snap.val().insert_date_full,
+              "directorId":snap.val().directorId,
+              "key":snap.val().key,
               "message":messages,
               "memo":memo,
-              "angel":snap.roomhistory[this.currentstartday][b].angel,
-              "name":snap.roomhistory[this.currentstartday][b].name,
-                  "numofpeople":snap.roomhistory[this.currentstartday][b].numofpeople,
-                  "status":snap.roomhistory[this.currentstartday][b].status,
-                "wt":snap.roomhistory[this.currentstartday][b].wt,
-              "numofagasi":inagasi,"lack":snap.roomhistory[this.currentstartday][b].numofpeople-inagasi});
+              "angel":snap.val().angel,
+              "name":snap.val().name,
+                  "numofpeople":snap.val().numofpeople,
+                  "status":snap.val().status,
+                "wt":snap.val().wt,
+              "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
           
-                  }else if(snap.roomhistory[this.currentstartday][b].angel==true){
+                  }else if(snap.val().angel==true){
 
-                    this.mainlist_angel.push({"agasi":snap.roomhistory[this.currentstartday][b].agasi,
-                    "date":snap.roomhistory[this.currentstartday][b].date,
-                  "incharge":snap.roomhistory[this.currentstartday][b].incharge,
-                "insert_date":snap.roomhistory[this.currentstartday][b].insert_date,
-              "insert_date_full":snap.roomhistory[this.currentstartday][b].insert_date_full,
-                      "key":snap.roomhistory[this.currentstartday][b].key,
+                    this.mainlist_angel.push({"agasi":snap.val().agasi,
+                    "date":snap.val().date,
+                  "incharge":snap.val().incharge,
+                "insert_date":snap.val().insert_date,
+              "insert_date_full":snap.val().insert_date_full,
+                      "key":snap.val().key,
                       "message":messages,
                       "memo":memo,
-                      "angel":snap.roomhistory[this.currentstartday][b].angel,
-                      "name":snap.roomhistory[this.currentstartday][b].name,
-                  "numofpeople":snap.roomhistory[this.currentstartday][b].numofpeople,
-                  "status":snap.roomhistory[this.currentstartday][b].status,
-                "wt":snap.roomhistory[this.currentstartday][b].wt,
-              "numofagasi":inagasi,"lack":snap.roomhistory[this.currentstartday][b].numofpeople-inagasi});
+                      "angel":snap.val().angel,
+                      "name":snap.val().name,
+                  "numofpeople":snap.val().numofpeople,
+                  "status":snap.val().status,
+                "wt":snap.val().wt,
+              "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
                
 
                   }else{
 
-                            this.mainlist_finished.push({"agasi":snap.roomhistory[this.currentstartday][b].agasi,
-                            "date":snap.roomhistory[this.currentstartday][b].date,
-                          "incharge":snap.roomhistory[this.currentstartday][b].incharge,
-                        "insert_date":snap.roomhistory[this.currentstartday][b].insert_date,
-                      "insert_date_full":snap.roomhistory[this.currentstartday][b].insert_date_full,
-                      "directorId":snap.roomhistory[this.currentstartday][b].directorId,
-                      "key":snap.roomhistory[this.currentstartday][b].key,
+                            this.mainlist_finished.push({"agasi":snap.val().agasi,
+                            "date":snap.val().date,
+                          "incharge":snap.val().incharge,
+                        "insert_date":snap.val().insert_date,
+                      "insert_date_full":snap.val().insert_date_full,
+                      "directorId":snap.val().directorId,
+                      "key":snap.val().key,
                       "message":messages,
                       "memo":memo,
-                      "angel":snap.roomhistory[this.currentstartday][b].angel,
-                      "name":snap.roomhistory[this.currentstartday][b].name,
-                          "numofpeople":snap.roomhistory[this.currentstartday][b].numofpeople,
-                          "status":snap.roomhistory[this.currentstartday][b].status,
-                        "wt":snap.roomhistory[this.currentstartday][b].wt,
-                      "numofagasi":inagasi,"lack":snap.roomhistory[this.currentstartday][b].numofpeople-inagasi});
+                      "angel":snap.val().angel,
+                      "name":snap.val().name,
+                          "numofpeople":snap.val().numofpeople,
+                          "status":snap.val().status,
+                        "wt":snap.val().wt,
+                      "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
                   }
                 }else{
-                  if(snap.roomhistory[this.currentstartday][b].status=="fin"){
-                    this.mainlist_finished_status.push({"agasi":snap.roomhistory[this.currentstartday][b].agasi,
-                    "date":snap.roomhistory[this.currentstartday][b].date,
-                  "incharge":snap.roomhistory[this.currentstartday][b].incharge,
-                "insert_date":snap.roomhistory[this.currentstartday][b].insert_date,
-              "insert_date_full":snap.roomhistory[this.currentstartday][b].insert_date_full,
-              "directorId":snap.roomhistory[this.currentstartday][b].directorId,
-              "key":snap.roomhistory[this.currentstartday][b].key,
+                  if(snap.val().status=="fin"){
+                    this.mainlist_finished_status.push({"agasi":snap.val().agasi,
+                    "date":snap.val().date,
+                  "incharge":snap.val().incharge,
+                "insert_date":snap.val().insert_date,
+              "insert_date_full":snap.val().insert_date_full,
+              "directorId":snap.val().directorId,
+              "key":snap.val().key,
               "message":messages,
               "memo":memo,
-              "angel":snap.roomhistory[this.currentstartday][b].angel,
-              "name":snap.roomhistory[this.currentstartday][b].name,
-                  "numofpeople":snap.roomhistory[this.currentstartday][b].numofpeople,
-                  "status":snap.roomhistory[this.currentstartday][b].status,
-                "wt":snap.roomhistory[this.currentstartday][b].wt,
-              "numofagasi":inagasi,"lack":snap.roomhistory[this.currentstartday][b].numofpeople-inagasi});
+              "angel":snap.val().angel,
+              "name":snap.val().name,
+                  "numofpeople":snap.val().numofpeople,
+                  "status":snap.val().status,
+                "wt":snap.val().wt,
+              "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
           
-                  }else if(snap.roomhistory[this.currentstartday][b].angel==true){
+                  }else if(snap.val().angel==true){
 
-                    this.mainlist_angel.push({"agasi":snap.roomhistory[this.currentstartday][b].agasi,
-                    "date":snap.roomhistory[this.currentstartday][b].date,
-                  "incharge":snap.roomhistory[this.currentstartday][b].incharge,
-                "insert_date":snap.roomhistory[this.currentstartday][b].insert_date,
-              "insert_date_full":snap.roomhistory[this.currentstartday][b].insert_date_full,
-                      "key":snap.roomhistory[this.currentstartday][b].key,
+                    this.mainlist_angel.push({"agasi":snap.val().agasi,
+                    "date":snap.val().date,
+                  "incharge":snap.val().incharge,
+                "insert_date":snap.val().insert_date,
+              "insert_date_full":snap.val().insert_date_full,
+                      "key":snap.val().key,
                       "message":messages,
                       "memo":memo,
-                      "angel":snap.roomhistory[this.currentstartday][b].angel,
-                      "name":snap.roomhistory[this.currentstartday][b].name,
-                  "numofpeople":snap.roomhistory[this.currentstartday][b].numofpeople,
-                  "status":snap.roomhistory[this.currentstartday][b].status,
-                "wt":snap.roomhistory[this.currentstartday][b].wt,
-              "numofagasi":inagasi,"lack":snap.roomhistory[this.currentstartday][b].numofpeople-inagasi});
+                      "angel":snap.val().angel,
+                      "name":snap.val().name,
+                  "numofpeople":snap.val().numofpeople,
+                  "status":snap.val().status,
+                "wt":snap.val().wt,
+              "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
                
 
                   }else{
 
-                            this.mainlist.push({"agasi":snap.roomhistory[this.currentstartday][b].agasi,
-                            "date":snap.roomhistory[this.currentstartday][b].date,
-                          "incharge":snap.roomhistory[this.currentstartday][b].incharge,
-                        "insert_date":snap.roomhistory[this.currentstartday][b].insert_date,
-                      "insert_date_full":snap.roomhistory[this.currentstartday][b].insert_date_full,
-                      "directorId":snap.roomhistory[this.currentstartday][b].directorId,
-                      "key":snap.roomhistory[this.currentstartday][b].key,
+                            this.mainlist.push({"agasi":snap.val().agasi,
+                            "date":snap.val().date,
+                          "incharge":snap.val().incharge,
+                        "insert_date":snap.val().insert_date,
+                      "insert_date_full":snap.val().insert_date_full,
+                      "directorId":snap.val().directorId,
+                      "key":snap.val().key,
                       "message":messages,
                       "memo":memo,
-                      "angel":snap.roomhistory[this.currentstartday][b].angel,
-                      "name":snap.roomhistory[this.currentstartday][b].name,
-                          "numofpeople":snap.roomhistory[this.currentstartday][b].numofpeople,
-                          "status":snap.roomhistory[this.currentstartday][b].status,
-                        "wt":snap.roomhistory[this.currentstartday][b].wt,
-                      "numofagasi":inagasi,"lack":snap.roomhistory[this.currentstartday][b].numofpeople-inagasi});
+                      "angel":snap.val().angel,
+                      "name":snap.val().name,
+                          "numofpeople":snap.val().numofpeople,
+                          "status":snap.val().status,
+                        "wt":snap.val().wt,
+                      "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
                   }
                 }
                 
@@ -876,9 +943,6 @@ this.util.dismissLoading();
             console.log(this.mainlist_finished_status);
 
 
-          }
-        }
-      }
 
 this.refresheverymin();
 this.util.dismissLoading();
@@ -1208,6 +1272,7 @@ this.util.dismissLoading();
     return formattedTime;
   }
   async getIdOfagaci (d,name,totalmoney,room,key,number,tctotal,wt,incharge,mainlist,bantee){
+    console.log("getIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagaci")
     console.log(d);
     console.log(name);
     console.log(totalmoney);
@@ -1328,7 +1393,7 @@ this.util.dismissLoading();
         }
           this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(key).child("agasi").child(number).update({"bantee":bantee, "roomno":room,"findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"money":totalmoney,"wt":wt,"incharge":incharge})
 
-                  console.log("getIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagacigetIdOfagaci")
+                  console.log("end of getIdOfAgasi....");
     });
   }
   showPrompt(room,mainlist) {
@@ -1440,11 +1505,20 @@ this.util.dismissLoading();
   }
 
 
+  modifycancel0(c,room,mainlist) {
+    var falseflag=false;
+    this.modifyflag=!this.modifyflag;
+    console.log("modifycancel0modifycancel0modifycancel0 come")
+    console.log(c.agasi);
+    console.log(room);
+    console.log(mainlist);
+  }
   modifyfin0(c,room,mainlist) {
     var falseflag=false;
     this.modifyflag=false;
     console.log("modifyfin0modifyfin0modifyfin0modifyfin0modifyfin0 come")
     console.log(c.agasi);
+    console.log(c);
 
     console.log(room);
     console.log(mainlist);
@@ -1478,11 +1552,11 @@ this.util.dismissLoading();
       console.log("agasiiiiii");
       console.log(agasi);
     }
-    if(finnum>0){
-      window.alert("종료 전에는 수정할 수 없습니다.")
-      this.view.dismiss();
-      return;
-    }
+    // if(finnum>0){
+    //   window.alert("종료 전에는 수정할 수 없습니다.")
+    //   this.view.dismiss();
+    //   return;
+    // }
     if(falseflag){
       window.alert("잘못된 값입니다.");
       this.view.dismiss();
@@ -1493,6 +1567,9 @@ this.util.dismissLoading();
     console.log(this.mainlist[0].key);
     console.log(agasi);
     this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(this.mainlist[0].key).update({agasi})
+    setTimeout(()=>{
+      this.refreshChoice2();
+    },1000)
   }
   modify(c,room,mainlist) {
     this.modifyflag=true;
@@ -1501,7 +1578,6 @@ this.util.dismissLoading();
     console.log(room);
     console.log(mainlist);
   }
-
 
   modifyfin(c,room,mainlist) {
     var falseflag=false;
@@ -1540,11 +1616,6 @@ this.util.dismissLoading();
       console.log("agasiiiiii");
       console.log(agasi);
     }
-    if(finnum>0){
-      window.alert("종료 전에는 수정할 수 없습니다..")
-      this.view.dismiss();
-      return;
-    }
     if(falseflag){
       window.alert("잘못된 값입니다.");
       this.view.dismiss();
@@ -1555,6 +1626,9 @@ this.util.dismissLoading();
     console.log(this.mainlist_finished[0].key);
     console.log(agasi);
     this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(this.mainlist_finished[0].key).update({agasi})
+    setTimeout(()=>{
+      this.refreshChoice2();
+    },1000)
   }
 
   modifycancel(c,room,mainlist) {

@@ -43,7 +43,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230428 v2.981';
+  version='2023042 v2.982';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -249,7 +249,7 @@ export class LoginpagePage {
               
               localStorage.setItem("flag",snap3.val().flag);
               if(snap3.val().flag==true){
-                localStorage.setItem("startDate",snap3.val().startDate)
+                localStorage.setItem("startDate",snap3.val().startDate);
                 localStorage.setItem("start",snap3.val().start);
 
                 this.login_flag_update();

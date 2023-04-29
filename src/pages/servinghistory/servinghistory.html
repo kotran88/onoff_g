@@ -113,6 +113,13 @@ margin-top: -40px;" class="event-bullet" *ngIf="(
                 today.getFullYear() == currentYear
                 )" style="
               width: 20px;" (click)="openmodal(day)">{{day}}</span>
+
+              <span *ngIf="(
+                                      
+                today.getMonth()+1 != currentMonth &&
+                today.getFullYear() == currentYear
+                )" style="
+              width: 20px;" (click)="openmodal(day)">{{day}}</span>
               <br>
               <div  style="width: 7px;
               height: 7px;

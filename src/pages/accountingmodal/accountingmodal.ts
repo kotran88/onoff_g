@@ -20,15 +20,18 @@ export class AccountingmodalPage {
   inputcard:any="";
   inputcash:any="";
   accumulus:any=0;
+  accumuluswithdraw:any=0;
   year:any="";
   month:any="";
   day:any="";
   selected:any="";
   firemain = firebase.database().ref();
   company:any="";
+  flag:any=1;
   constructor(public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     console.log("accountmodal come...")
-    
+    this.flag = this.navParams.get("flag");
+    console.log("flag : "+this.flag);
     this.year=this.navParams.get("year")
     this.month=this.navParams.get("month")
     this.day=this.navParams.get("day")
@@ -50,7 +53,17 @@ export class AccountingmodalPage {
       }else{
         this.accumulus=0;
       }
-     
+      if(snap.val()!=null){
+        this.accumuluswithdraw=snap.val().withdraw;
+        if(this.accumuluswithdraw==undefined){
+          this.accumuluswithdraw=0;
+        }
+      }else{
+        this.accumuluswithdraw=0;
+      }
+      console.log("user find...")
+     console.log(this.accumulus);
+     console.log(this.accumuluswithdraw);
     }
     )
   }
@@ -75,7 +88,7 @@ export class AccountingmodalPage {
   }
 
   onChangeTime(event,v){
-
+console.log("onChangeTime")
     console.log(event.value);
     console.log(event.value.length);
     let inputVal = event.value;
@@ -99,11 +112,56 @@ export class AccountingmodalPage {
     console.log(this.accumulus)
     console.log(this.selected.nickname);
     console.log(this.year+"-"+this.month+"-"+this.day)
-    var newinput=this.inputcard.replace(/,/g, '');
-    // this.firemain.child("users").child(this.selected.nickname).child("accounting").update({"incoming":this.accumulus+Number(this.inputcard)+Number(this.inputcash) })
-    this.firemain.child("users").child(this.selected.nickname).child("accounting").child(this.year+"-"+this.month+"-"+this.day).push({"incoming":this.accumulus+Number(this.inputcard.replace(/,/g, ''))+Number(this.inputcash.replace(/,/g, '')) ,"name":this.inputname,"card":this.inputcard.replace(/,/g, ''),"cash":this.inputcash.replace(/,/g, ''),"year":this.year+"-"+this.month+"-"+this.day,"time":endtime}).then(()=>{
+
+    var inputcard =0;
+    var inputcash=0;
+    if(this.inputcash.length!=0){
+      inputcash = Number(this.inputcash.replace(/,/g, ''));
+    }
+    if(this.inputcard.length!=0){
+      inputcard = Number(this.inputcard.replace(/,/g, ''));
+    }
+    if(this.flag==1){
+      
+      var inputcard =0;
+      var inputcash=0;
+      if(this.inputcash.length!=0){
+        inputcash = Number(this.inputcash.replace(/,/g, ''));
+      }
+      if(this.inputcard.length!=0){
+        inputcard = Number(this.inputcard.replace(/,/g, ''));
+      }
+
+      this.firemain.child("users").child(this.selected.nickname).child("accounting").update({"incoming":Number(this.accumulus)+Number(inputcard)+Number(inputcash) })
+
+      this.firemain.child("users").child(this.selected.nickname).child("accounting").child(this.year+"-"+this.month+"-"+this.day).push({"incoming":Number(this.accumulus)+Number(inputcard)+Number(inputcash) ,"name":this.inputname,"card":inputcard,"cash":inputcash,"year":this.year+"-"+this.month+"-"+this.day,"time":endtime}).then(()=>{
+        this.view.dismiss();
+        window.alert("입금완료!")
+      });
+    }else{
+      console.log(this.accumuluswithdraw);
+      console.log(this.inputcard);
+      console.log(this.inputcash);
+      var inputcard =0;
+      var inputcash=0;
+      if(this.inputcash.length!=0){
+        inputcash = Number(this.inputcash.replace(/,/g, ''));
+      }
+      if(this.inputcard.length!=0){
+        inputcard = Number(this.inputcard.replace(/,/g, ''));
+      }
+      // console.log(Number(this.inputcard.replace(/,/g, '')));
+      // console.log(Number(this.inputcash.replace(/,/g, '')))
+      this.firemain.child("users").child(this.selected.nickname).child("accounting").update({"incoming":this.accumulus-Number(inputcard)-Number(inputcash) });
+      this.firemain.child("users").child(this.selected.nickname).child("accounting").update({"withdraw":this.accumuluswithdraw+Number(inputcard)+Number(inputcash) })
+    this.firemain.child("users").child(this.selected.nickname).child("accounting").child(this.year+"-"+this.month+"-"+this.day).push({"withdraw":Number(this.accumuluswithdraw)+Number(inputcard)+Number(inputcash) ,"name":this.inputname,"card":inputcard,"cash":inputcash,"year":this.year+"-"+this.month+"-"+this.day,"time":endtime}).then(()=>{
       this.view.dismiss();
+
+      window.alert("출금완료!")
     });
+    }
+    // this.firemain.child("users").child(this.selected.nickname).child("accounting").update({"incoming":this.accumulus+Number(this.inputcard)+Number(this.inputcash) })
+    
   }
   cancel(){
 

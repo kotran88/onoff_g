@@ -239,6 +239,7 @@ generate(){
                   });
                   console.log(tarray);
                   var cvalue=-1;
+                  var stop=0;
                   for(var abab in tarray){
                     cvalue++;
                     console.log(cvalue+"????"+numofpeople);
@@ -252,23 +253,31 @@ generate(){
                     if(cvalue>=numofpeople){
                       console.log("아래아가씨의 정보를 가지고와서 위의 아가씨 tc에 더해야함")
                       if(tarray[abab].angel!=true){
+                        stop++;
                         firstsumofv+=tarray[abab].tc
                         yeontireason+="///"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함."
                         console.log(tarray[abab].tc+","+tarray[abab].date+","+tarray[abab].name+",,,"+tbottle)
                       console.log("firstsumofv222 : "+firstsumofv);
                       }else if(tarray[abab].angel){
-                        // console.log("아래 아가씨는 angel이므로 따로 계산하자. ")
-                        // console.log(tarray[abab].tc+","+tarray[abab].date+","+tarray[abab].name+",,,"+tbottle)
-                        
-                        firstsumofv+= tarray[abab].tc - tbottle;
-                        yeontireason+="///날개아가씨"+tarray[abab].name+"의 tc"+tarray[abab].tc+"에서 술병"+tbottle+"를 뺀값."
+                        console.log("아래 아가씨는 angel이므로 따로 계산하자. ")
+                        console.log(tarray[abab].tc+","+tarray[abab].date+","+tarray[abab].name+",,,"+tbottle)
+                        if(tarray[abab].tc - tbottle>=0){
+
+                           firstsumofv+= tarray[abab].tc - tbottle;
+                           yeontireason+="///날개아가씨"+tarray[abab].name+"의 tc"+tarray[abab].tc+"에서 술병"+tbottle+"를 뺀값."
+                   
+                        }
                       }
                     }
                     totalsum+=tcarray[abab];
                   }
+                  console.log(stop+"was stop value");
                     console.log("firstsumofv3: "+firstsumofv);
-                    firstsumofv= firstsumofv - tbottle;
-                    yeontireason+="///"+firstsumofv+"에서 술병"+tbottle+"를 뺌. ";
+                    yeontireason+="///"+firstsumofv+"에서 술병"+tbottle*numofpeople+"를 뺌. ";
+                    for(var ii=0; ii<numofpeople; ii++){
+
+                      firstsumofv= firstsumofv - tbottle;
+                    }
                     console.log("firstsumofv4: "+firstsumofv);
                   // var minVal = Math.min.apply(null, tcarray);
                   // console.log("minvalue : "+minVal);
@@ -282,8 +291,12 @@ generate(){
                   console.log(tcarray[abab]+",,,"+tbottle)
                   totalsum+=tcarray[abab];
                 }
+                console.log(numofpeople);
+                console.log(tbottle);
+                console.log(totalsum);
                 firstsumofv= numofpeople*tbottle-totalsum
-                if(firstsumofv<0){
+                console.log(firstsumofv);
+                if(firstsumofv>0){
                   firstsumofv=0;
                 }
                 yeontireason = "사람수 * 술병 - 전체 완티 "+numofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;                
@@ -292,7 +305,7 @@ generate(){
                   firstsumofv=0;
                   var newnumofpeople=tcarray.length;
                   firstsumofv= newnumofpeople*tbottle-totalsum
-                  if(firstsumofv<0){
+                  if(firstsumofv>0){
                     firstsumofv=0;
                   }
                    yeontireason = "인원수를"+tcarray.length+"명으로 조정후 계산."+" 사람수 * 술병 - 전체 완티 "+newnumofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;  

@@ -681,6 +681,7 @@ export class ChoicemodalPage {
                   var dte = new Date();
                   dte.setHours(dte.getHours()+9);
                 var currentflag = snap2.val()[b].current;
+                console.log(currentflag);
                 if(currentflag==undefined){
                   //처음 들어옴. 
                 }else{
@@ -700,6 +701,7 @@ export class ChoicemodalPage {
                     
               
                 }
+                window.alert("add");
                 this.firemain.child("users").child(nickname).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
                 this.firemain.child("users").child(nickname).child("attendance").child(this.currentstartday).child("attend").update({"team":snap2.val()[b].jopan,"name":name,"date":this.currentstartday,"flag":"attend","time":hour+":"+min})
                 this.firemain.child("users").child(nickname).child("current").update({"room":this.a.name,"enter_date":dte,"date":this.currentstartday})

@@ -94,7 +94,7 @@
         <div class="over" *ngIf="todaymoney-tomoney>0">과입금액 : {{(todaymoney-tomoney).toLocaleString()}} </div>
         <div class="over" *ngIf="todaymoney-tomoney<=0">과입금액 : - </div>
         <div class="syn">
-          <span>누적미수금액 {{ (tomoney-todaymoney).toLocaleString() }}</span>
+          <span>누적미수금액 {{ accumuls.toLocaleString() }}</span>
           <span>오늘입금할금액 {{tomoney.toLocaleString()}}</span>
           <span>오늘입금하신금액 {{todaymoney.toLocaleString()}}</span>
         </div>
@@ -114,7 +114,7 @@
         <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span> -->
         
   <button (click)="confirm()" class="newbtn">입금 </button>
-  <button (click)="cancel()" class="newbtn">출금 </button>
+  <button (click)="withdraw()" class="newbtn">출금 </button>
       </div>
     </div>
 
@@ -182,6 +182,14 @@
                     today.getFullYear() == currentYear
                     )" style="
                   width: 20px;" (click)="openmodal(day)">{{day}}</span>
+
+
+                      <span *ngIf="(
+                        
+                        today.getMonth()+1 != currentMonth &&
+                        today.getFullYear() == currentYear
+                        )" style="
+                      width: 20px;" (click)="openmodal(day)">{{day}}</span>
                   <br>
                   <div  style="width: 7px;
                   height: 7px;
@@ -209,7 +217,7 @@
       </div>
       <div class="listing">
         <ion-list *ngFor="let a of accountmessage">
-          <ion-item style="font-size:12px;" >{{a.name}} 카드: {{a.card.toLocaleString()}}  현금: {{a.cash.toLocaleString()}} 입금입력날짜: {{a.time}}</ion-item>
+          <ion-item style="font-size:12px;" >{{a.type}} {{a.name}}  카드: {{a.card.toLocaleString()}}  현금: {{a.cash.toLocaleString()}} 입력일: {{a.time}}</ion-item>
         </ion-list>
       </div>
     </div>

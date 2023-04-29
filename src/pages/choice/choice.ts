@@ -239,6 +239,8 @@ export class ChoicePage {
          
                 }
                 console.log(snap.val()[a].roomhistory[this.currentstartday][b])
+                console.log(snap.val()[a].roomhistory[this.currentstartday][b].name);
+                console.log(snap.val()[a].roomhistory[this.currentstartday][b].ss);
                   if(snap.val()[a].roomhistory[this.currentstartday][b].ss){
                     if(snap.val()[a].roomhistory[this.currentstartday][b].status=="fin"){
                       this.mainlist_finished_status.push({"v":snap.val()[a].roomhistory[this.currentstartday][b].v, "agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
@@ -301,13 +303,34 @@ export class ChoicePage {
                         this.lack = snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi;
                     }
                     }else{
+                      console.log("not ss true")
                       var orderlist="";
                       if(snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
                         orderlist="no"
                       }else{
                         orderlist=snap.val()[a].roomhistory[this.currentstartday][b].orderlist;
                       }
-                      if(snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi<=0){
+                      if(snap.val()[a].roomhistory[this.currentstartday][b].ss==false){
+
+      this.mainlist.push({"v":snap.val()[a].roomhistory[this.currentstartday][b].v, "agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
+      "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
+    "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
+    "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
+    "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
+        "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
+      "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
+      "orderlist":orderlist,
+      "showflag":true,
+      "avec":snap.val()[a].roomhistory[this.currentstartday][b].avec,
+      "lastupdatedperson":snap.val()[a].roomhistory[this.currentstartday][b].lastupdatedperson,
+      "lastupdated":snap.val()[a].roomhistory[this.currentstartday][b].lastupdated,
+      "directorId":snap.val()[a].roomhistory[this.currentstartday][b].directorId,
+    "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
+    "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
+    "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
+    "numofagasi":inagasi,"totalagasi":totalagasi,"lack":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi});
+    
+                      }else if(snap.val()[a].roomhistory[this.currentstartday][b].numofpeople<=totalagasi){
                         //진행중인방으로 넘어가야함. 무조건. 
                         if(snap.val()[a].roomhistory[this.currentstartday][b].status=="fin"){
                           this.mainlist_finished_status.push({"v":snap.val()[a].roomhistory[this.currentstartday][b].v, "agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
@@ -718,6 +741,7 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
     }
     console.log("gotomore");
     console.log(a);
+    console.log(v);
     this.navCtrl.push(ChoicedetailPage,{"a":a,"v":v}).then(() => {
       this.navCtrl.getActive().onDidDismiss(data => {
 

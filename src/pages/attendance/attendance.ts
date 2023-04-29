@@ -458,10 +458,10 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
       this.generating();
   }
   getDaysOfMonth() {
+    console.log("getDaysofMonth...")
     this.daysInThisMonth = [];
     this.daysInLastMonth = [];
     this.daysInNextMonth = [];
-    // this.currentMonth = this.monthNames[this.date.getMonth()];
     this.currentMonth =this.date.getMonth()+1;
     this.currentYear = this.date.getFullYear();
     if(this.date.getMonth() === new Date().getMonth()) {
@@ -510,6 +510,8 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
 
   goToNextMonth() {
     console.log("gotonextmonth")
+    console.log(this.date.getFullYear()+",,,,"+this.date.getMonth()+2, 0);
+    console.log(this.date);
     this.date = new Date(this.date.getFullYear(), this.date.getMonth()+2, 0);
     // this.zone.run(()=>{
       this.getDaysOfMonth();

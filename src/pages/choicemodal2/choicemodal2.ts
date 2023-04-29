@@ -156,11 +156,11 @@ export class Choicemodal2Page {
       console.log(this.agasilist[cc])
       if(this.flag==undefined){
         //초이스일경우,
-        this.firemain.child("users").child(this.agasilist[cc].name).child("current").update({"room":this.a.name,"enter_date":dte})
+        this.firemain.child("users").child(this.agasilist[cc].name).child("current").update({"room":this.a.name,"enter_date":dte,"date":this.currentstartday})
      
       }else{
         //출퇴근일경우 
-        this.firemain.child("users").child(this.agasilist[cc].name).child("current").update({"room":this.a,"enter_date":dte})
+        this.firemain.child("users").child(this.agasilist[cc].name).child("current").update({"room":this.a,"enter_date":dte,"date":this.currentstartday})
       }
       // this.firemain.child("users").child(this.agasilist[cc].name).child("current").update({"room":this.a.name,"enter_date":dte})
       if(this.flag=="attend"){
