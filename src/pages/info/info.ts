@@ -15,6 +15,7 @@ import { SignupPage } from '../signup/signup';
 import { AccountPage } from '../account/account';
 import { OrderPage } from '../order/order';
 import { OrdermainPage } from '../ordermain/ordermain';
+import { UtilsProvider } from '../../providers/utils/utils';
 /**
  * Generated class for the InfoPage page.
  *
@@ -54,7 +55,7 @@ export class InfoPage {
   id:any="";
   type:any="";
   firemain = firebase.database().ref();
-  constructor(public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public util:UtilsProvider, public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
     this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
     this.directorList = this.navParams.get("user");
@@ -82,6 +83,7 @@ export class InfoPage {
       }
     }
     ,1000)
+
   }
   ionViewWillLeave(){
     this.firemain.child("company").child(this.company).child("roomlist").off();
@@ -254,17 +256,13 @@ gotopayment(){
       }
     });
     this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
-      console.log(snap.val());
       if(snap.val()==null){
 
       }else{
-        console.log(snap.val().category)
         for(var a in snap.val()){
-          console.log(snap.val()[a])
          var cat =  snap.val()[a].category;
          var name = snap.val()[a].name;
          var flag = snap.val()[a].flag;
-         console.log(flag+"/"+name+"/"+cat);
          if(flag==undefined){
           flag=false;
          }
@@ -292,7 +290,6 @@ gotopayment(){
         for(var b in snap.val()[a].roomhistory){
           if(b==this.currentstartday){
             for(var c in snap.val()[a].roomhistory[b]){
-              console.log(snap.val()[a].roomhistory[b][c])
               if(c!="lastupdated"&&c!="flag"){
                 console.log(snap.val()[a].roomhistory[b][c])
                 if(snap.val()[a].roomhistory[b][c].end_date_full!=undefined){
@@ -313,7 +310,6 @@ gotopayment(){
         
       }
   
-      console.log(this.smallroom);
       //if smallroom have value of roomin then delete
       
       for(var bba in roomin){
@@ -361,40 +357,12 @@ gotopayment(){
   ionViewDidLeave(){
     clearInterval(this.interval)
   }
-  ionViewDidLoad() {
-
+  ionViewWillEnter(){
+    this.util.presentLoading();
     this.generate();
-    // console.log('ionViewDidLoad InfoPage');
-    // this.company=  localStorage.getItem("company");
-    // console.log(this.company);
-    // this.firemain.child("company").child(this.company).child("roomlist").on('child_removed', function(snap, prevChildKey) {
-    //   console.log("on on on on on cccccchild_removed.....")
-    //   console.log(snap.val());
-    //   console.log(prevChildKey);
-    //   // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-    // });
-    // this.firemain.child("company").child(this.company).child("roomlist").on('child_moved', function(snap, prevChildKey) {
-    //   console.log("on on on on on cccccchild_moved.....")
-    //   console.log(snap.val());
-    //   console.log(prevChildKey);
-    //   // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-    // });
-    // this.firemain.child("company").child(this.company).child("roomlist").on('child_added', function(snap, prevChildKey) {
-    //   console.log("child_addedchild_addedchild_addedchild_addedchild_addedchild_added.....")
-    //   console.log(snap.val());
-    //   console.log(prevChildKey);
-    //   // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-    // });
-    //   this.firemain.child("company").child(this.company).child("roomlist").on('child_changed', (snap, prevChildKey) =>{
-    //     console.log("on on on on on cccccchild_changed.....")
-    //     console.log(snap.val());
-    //     console.log(prevChildKey);
-    //     console.log(this.mainlist)
-    //     setTimeout(()=>{
-    //      this.generate();
-    //     },500)
-    //     // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-    //   });
+    this.util.dismissLoading();
+  }
+  ionViewDidLoad() {
   }
   generate(){
     console.log("generate come");
@@ -518,14 +486,25 @@ gotopayment(){
     }
     console.log("editing...")
     console.log(a);
-    let modal = this.modal.create(EditingroomPage,{"user":this.directorList, "a":a,"allroom":this.allroom,"bu":this.bu});
+    let modal = this.modal.create(EditingroomPage,{"user":this.directorList, "mainlist":this.mainlist,"mainlist_finished":this.mainlist_finished, "a":a,"allroom":this.allroom,"bu":this.bu});
     modal.onDidDismiss(url => {
       console.log("EditingroomPageEditingroomPageEditingroomPageEditingroomPageEditingroomPage");
       console.log(url);
-      setTimeout(()=>{
+      if(url!=undefined){
+        if(url.result){
+          
+        console.log("do nothing1");
+        }else{
 
-      this.generate();
-      },500)
+        console.log("do refresh");
+          setTimeout(()=>{
+    
+            this.generate();
+          },1500)
+        }
+      }else{
+        console.log("do nothing");
+      }
     });
 
     modal.present();
@@ -544,7 +523,22 @@ gotopayment(){
     console.log(room);
     let modal = this.modal.create(InfomodalPage,{"room":room,"bu":this.bu});
     modal.onDidDismiss(url => {
-      this.generate();
+      if(url!=undefined){
+        if(url.result){
+          
+        console.log("do nothing1");
+        }else{
+
+        console.log("do refresh");
+          setTimeout(()=>{
+    
+            this.generate();
+          },300)
+        }
+      }else{
+        console.log("do nothing");
+      }
+    
 
     });
 

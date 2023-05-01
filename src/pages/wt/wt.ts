@@ -29,6 +29,7 @@ export class WtPage {
   firemain = firebase.database().ref();
   count : number[] = new Array();
   orderlist=[];
+  information=[];
   todaymoney=0;
   totalcount=0;
   totalprice=0;
@@ -48,7 +49,16 @@ export class WtPage {
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
     var login=localStorage.getItem("login_data");
-
+    var newitem=[];
+    var mychildren=[];
+    mychildren.push({"name":"academypizza"})
+    newitem.push({"name":"action", 
+  "children":
+    mychildren
+})
+    this.information.push({"name":"bb","open":false})
+    this.information.push({"name":"cc","open":false})
+    console.log(this.information);
     // this.code = JSON.parse(login).code;
     console.log(login);
 
@@ -62,18 +72,33 @@ export class WtPage {
   gotopayment(){
     this.navCtrl.push(SignupPage);
   }
+  togglesection(i){
+    console.log(i)
+    console.log(this.orderlist);
+    console.log(this.orderlist[i]);
+    this.orderlist[i].open = !this.orderlist[i].open;
+    console.log(this.orderlist[i]);
+  }
   gotolink(value){
     if(value == 0){
       this.navCtrl.push(OrdermainPage,{flag:true}).then(() => {
         this.navCtrl.getActive().onDidDismiss(data => {
-          console.log("refresh...");
-          this.generate();
+          // console.log("refresh...");
+          // this.generate();
         });
       });
     }else if(value == 1){
     this.navCtrl.push(ParkingPage,{flag:true});
     }else if(value==2){
-      this.navCtrl.push(InfoPage,{flag:true});
+      this.navCtrl.push(InfoPage,{flag:true}).then(() => {
+        console.log("choice back")
+        this.navCtrl.getActive().onDidDismiss(data => {
+          console.log("off...")
+      this.firemain.child("company").child(this.company).child("roomlist").off();
+      this.generate();
+          // this.generate();
+        })
+      });
     }else if(value==3){
       this.navCtrl.push(AttendancePage,{flag:true});
     }else if(value==4){
@@ -111,15 +136,18 @@ generate(){
   this.orderlist=[];
   this.mainlist=[];
   this.todaymoney=0;
+  console.log(this.orderlist);
   this.firemain.child("company").child(this.company).child('roomlist').once('value').then((snap)=>{
     console.log(snap.val());
     if(snap.val()!=undefined){
       for(var a in snap.val()){
-        console.log(snap.val()[a]);
         for(var b in snap.val()[a].roomhistory){
           for(var c in snap.val()[a].roomhistory[b]){
               if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){
-                console.log(snap.val()[a].roomhistory[b][c]);
+                // if(snap.val()[a].roomhistory[b][c].end_date_full!=undefined){
+                //   console.log("pass because it end");
+                //   continue;
+                // };
                 if(snap.val()[a].roomhistory[b][c].wt!=this.nickname){
                   console.log("wt name diff");
                   continue;
@@ -128,9 +156,6 @@ generate(){
                 console.log(snap.val()[a].roomhistory[b][c]);
                 var mainlist=snap.val()[a].roomhistory[b][c];
 
-                console.log("is mainlist...")
-
-                console.log(mainlist);
         for(var d in mainlist.agasi){
           console.log(mainlist.agasi[d]);
             if(mainlist.agasi[d].findate!=undefined){
@@ -156,22 +181,17 @@ generate(){
       var chasamtotal=0;
       var tctotal=0;
       var yeontireason="";
-      console.log("room number"+mainlist.name);
-      console.log(numofangel);
       var numofpeople = snap.val()[a].roomhistory[b][c].numofpeople;
       var logic = snap.val()[a].roomhistory[b][c].logic;
       var inagasi = 0;
       for(var cccc in mainlist.agasi){
         inagasi++;
-        console.log(mainlist.agasi[cccc].tc)
         newtc += Math.floor(mainlist.agasi[cccc].tc)
 
         tarray.push({"tc":Math.floor(mainlist.agasi[cccc].tc),"name":mainlist.agasi[cccc].name,"angel":mainlist.agasi[cccc].angel, "date":mainlist.agasi[cccc].date});
         tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
         tctotal+=Number(Math.floor(mainlist.agasi[cccc].tc));
         chasamtotal+=Number((mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
-        console.log("add chasam...");
-        console.log(Number((mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) ));
         chasamarray.push( (mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
       
       }
@@ -183,9 +203,7 @@ generate(){
       if(chasamtotal==0){
         newchasamtotal="0";
       }
-      console.log(newchasamtotal);
       // newchasamtotal
-      console.log("chasamtotal"+chasamtotal);
       console.log(numofpeople+"newtc"+newtc);
       //어떤 아가씨가 술병수보다 완티가 많거나 같거나 하면. 그 아가씨는 제외하고, 손님수도 그아가씨 수만큼 제외하고
       // 나머지 완티의 갯수를 고려해서 계산. 
@@ -218,7 +236,7 @@ generate(){
                 console.log(tcarray.length)
                 if(logic){
                   tbottle=tbottle-1;
-                  yeontireason+="중/대방로직에 따른 술병 차감 -1 , "
+                  yeontireason+=" 술병 차감 -1 , "
                 }
                 if(tcarray.length>numofpeople){
 
@@ -332,7 +350,9 @@ generate(){
                 console.log(tcarray)
                 console.log("firstsumofv : "+firstsumofv);
                 var yeonti=firstsumofv;
-
+                if(yeonti<=0){
+                  yeonti=0;
+                }
                 console.log("yeontiiiii : "+this.yeonti);
                 console.log("total bottle : "+tbottle);
                   console.log(mainlist)
@@ -369,7 +389,17 @@ generate(){
                     orderdate = "-"
                     roomno="-"
                   }
-                  this.orderlist.push({"tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":snap.val()[a].roomhistory[b][c].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
+
+
+                  var enddate="";
+                  if(snap.val()[a].roomhistory[b][c].end_date_full!=undefined){
+                   
+                    enddate=snap.val()[a].roomhistory[b][c].end_date_full
+                  }else{
+                    orderdate = "";
+                  }
+                  
+                  this.orderlist.push({"open":false, "enddate":enddate, "tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":snap.val()[a].roomhistory[b][c].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
               }
              
               
@@ -416,14 +446,21 @@ generate(){
 ionViewDidLeave(){
   clearInterval(this.interval)
 }
+ionViewWillEnter(){
+  this.util.presentLoading();
+  this.generate();
+
+  this.util.dismissLoading();
+  this.interval = setInterval(()=>{
+    // console.log("setinterval...")
+    // this.util.presentLoading();
+    // this.generate();
+    // this.util.dismissLoading();
+  },1000*60)
+}
   ionViewDidLoad() {
     console.log('ionViewDidLoad wt page');
 
-    this.generate();
-    this.interval = setInterval(()=>{
-      console.log("setinterval...")
-      this.generate();
-    },1000*60)
 
 
   }

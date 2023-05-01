@@ -43,8 +43,14 @@ export class EditingroomPage {
   company:any;
   avec:any;
   directorList:any=[];
+  mainlist_finished=[];
+  mainlist=[];
+  rnumber=0;
   constructor(public util:UtilsProvider, public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
      this.a = this.navParams.get("a");
+    
+     this.mainlist= this.navParams.get("mainlist");
+      this.mainlist_finished= this.navParams.get("mainlist_finished");
      this.directorList=JSON.parse(localStorage.getItem("director"))
      console.log(this.directorList);
      this.company = localStorage.getItem("company");
@@ -54,8 +60,10 @@ export class EditingroomPage {
       this.allroom = this.navParams.get("allroom");
     console.log(this.a);
     this.room = this.a.name
+    this.rnumber=this.room;
     this.bu=this.a.bu;
     this.avec = this.a.avec;
+
     this.key=this.a.key;
     this.status = this.a.status;
     this.date=this.a.date;
@@ -111,7 +119,7 @@ export class EditingroomPage {
   }
   cancel(){
 
-    this.view.dismiss();
+    this.view.dismiss({"result":true});
   }
   addHours(numOfHours, date = new Date()) {
     date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
@@ -123,7 +131,19 @@ export class EditingroomPage {
 
     var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
     
-      
+    //check if the room is already reserved looping through mainlist and mainlist_finished
+    
+    for(var i in this.mainlist){
+      console.log(this.mainlist[i].name+",,,"+this.rnumber);
+      if(this.mainlist[i].name !=this.rnumber){
+        if(this.mainlist[i].name==this.room){
+          window.alert("이미 예약된 방입니다. 다시 입력해주세요.")
+          this.util.dismissLoading();
+          return;
+        }
+      }
+     
+    }
     console.log("confirm...........")
     console.log(this.smallroom);
     console.log(this.midroom);
@@ -481,7 +501,7 @@ export class EditingroomPage {
    
     
       
-    this.view.dismiss();
+    this.view.dismiss({"result":false});
   }
 
 }

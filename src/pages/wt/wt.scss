@@ -1,5 +1,42 @@
 page-wt {
 
+
+
+    .accordion-list{
+    }
+    .section{
+        background: white;
+        color:black;
+        margin-bottom:4px;
+    }
+    .section-active{
+        background: white;
+        color:black;
+        margin-bottom:4px;
+    }
+    .child{
+        color:white;
+    }
+    label label-md{
+        margin:0px !important;
+    }
+    .label-md{
+        margin:0px !important;
+    }
+    .child-item{
+        background-color: white;
+        color:black;
+        padding:10px;
+        p{
+            color:black;
+        }
+        span{
+            color:black;
+        }
+    }
+
+
+    
     .header {
         position: absolute;
         width: 100%;
@@ -187,7 +224,6 @@ page-wt {
         background-color: black;
         color: white;
         cursor: pointer;
-        padding: 18px;
         width: 100%;
         border: none;
         text-align: left;

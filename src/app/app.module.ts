@@ -28,9 +28,7 @@ import { LongPressModule } from 'ionic-long-press';
 
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { ExpandableComponent } from '../components/expandable/expandable';
-import { ParkingdetailPage } from '../pages/parkingdetail/parkingdetail';
+import { Geolocation } from '@ionic-native/geolocation/ngx';import { ParkingdetailPage } from '../pages/parkingdetail/parkingdetail';
 import { TestpagePage } from '../pages/testpage/testpage';
 import { UtilsProvider } from '../providers/utils/utils';
 import { DirectorpagePage } from '../pages/directorpage/directorpage';
@@ -104,7 +102,6 @@ initializeApp(firebaseConfig);
     BandPage,
     AttendancePage,
     ChoicedetailPage,
-    ExpandableComponent,
     ChoicejimyungPage,
     Choicemodal2Page,
     Choicemodal3Page,

@@ -238,9 +238,6 @@ export class ChoicePage {
                   
          
                 }
-                console.log(snap.val()[a].roomhistory[this.currentstartday][b])
-                console.log(snap.val()[a].roomhistory[this.currentstartday][b].name);
-                console.log(snap.val()[a].roomhistory[this.currentstartday][b].ss);
                   if(snap.val()[a].roomhistory[this.currentstartday][b].ss){
                     if(snap.val()[a].roomhistory[this.currentstartday][b].status=="fin"){
                       this.mainlist_finished_status.push({"v":snap.val()[a].roomhistory[this.currentstartday][b].v, "agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
@@ -511,6 +508,10 @@ if(snap.val()[a].roomhistory[this.currentstartday][b].status=="fin"){
       }
 
 
+      console.log(this.mainlist);
+      console.log(this.mainlist_finished);
+      console.log(this.mainlist_finished_status);
+      console.log(this.mainlist_angel);
     
       for(var c in this.mainlist){
         for(var d in this.mainlist[c].agasi){
@@ -546,6 +547,8 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
       }
     }
   }
+  console.log(this.mainlist_attend);
+  console.log(this.agasijungsan);
           this.standby=this.mainlist_attend.length-this.agasijungsan.length;
      
 });

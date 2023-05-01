@@ -524,21 +524,20 @@ this.util.dismissLoading();
     var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
     dte.setHours(dte.getHours()+9);
     var alreadyexist=false;
-    this.firemain.child("users").once("value",snap=>{
-      for(var b in snap.val()){
-        if(snap.val()[b].type=="agasi"){
-            console.log(c.name+",,,,"+snap.val()[b].nickname);
-            if(c.name == snap.val()[b].nickname){
+    this.firemain.child("users").child(c.name).once("value",snap=>{
+      console.log(snap.val());
+        if(snap.val().type=="agasi"){
+            console.log(c.name+",,,,"+snap.val().nickname);
               alreadyexist=true;
               console.log("matched one : ");
               console.log(c);
-              console.log(snap.val()[b]);
-              selectedid=snap.val()[b].id;
-              var selectedjopan=snap.val()[b].jopan;
+              console.log(snap.val());
+              selectedid=snap.val().id;
+              var selectedjopan=snap.val().jopan;
               console.log(selectedid);
               console.log("mmmm")
-              // this.firemain.child("users").child(snap.val()[b].id).child("current").remove();
-              // this.firemain.child("users").child(snap.val()[b].id).child("roomhistory").child(room).update({"end_date":hour+":"+min,"end_date_full":dte})
+              // this.firemain.child("users").child(snap.val().id).child("current").remove();
+              // this.firemain.child("users").child(snap.val().id).child("roomhistory").child(room).update({"end_date":hour+":"+min,"end_date_full":dte})
               this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).once('value').then((snap2)=>{
                 for(var d in snap2.val().agasi){
                   console.log(snap2.val().agasi[d]);
@@ -551,7 +550,7 @@ this.util.dismissLoading();
                      bantee=Number(this.util.getTC(snap2.val().agasi[d],snap2.val().agasi[d].pausetime).split(",")[2]);
                     var jjing=Math.round(tctotal);
                     if(Math.round(tctotal)>=1){
-                      console.log(snap.val()[b]);
+                      console.log(snap.val());
                       console.log(selectedjopan)
                       console.log(c);
                       this.firemain.child("company").child(this.company).child("jopanjjing").child(selectedjopan).child(this.currentstartday).push({"type":"wantee","values":jjing,"agasi":snap2.val().agasi[d].name,"room":mainlist.name, "jopan":selectedjopan, "date":snap2.val().agasi[d].date,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":mainlist.wt})
@@ -585,36 +584,6 @@ this.util.dismissLoading();
                         console.log("totalnum : "+totalnum);
                         console.log("tctotal : "+tctotal);
 
-              // 2 * 
-              // tc갯수 >방인원수 * 술 병수 
-              //   방인원수*술병수 -tc갯수 
-              // 만약에 술병수보다 아갓씨의 TC가  더 많으면, 해당아가씨의 TC에서 술병수를 뺀것이 연티로잡힘. 
-              
-
-              // 술 2 x 인원 1
-              // 가 3 나 4 다 1
-              // 이면. totaltc가 8 이므로 2X1보다 크므로, 
-              // 1*2-8 = -6 이므로 연티는 -6이됨.
-
-              // 술 2 손님 4명
-              // 가 3 나 1 다1 라6 
-              // 술갯수보다 각 아가씨의 tc가 크니까 먼저 고려하여 
-              // 6-2 = 4, 3-2 = 1 해서 연티가 5. 
-
-
-
-              // 만약에, 손님이 2명 x 술 2병이면 총 4 인데. 
-              // 아가씨는 가가 10 , 나나 2 다다2 라고 치면. 
-
-              // 가가가 10이니까. 10-술병 2병 해서 연티 8 발생. 
-
-              // 이제 손님 한명을 떨구고. 나면 
-              // 1명 x2병이니까 총 2이니까. 
-              // 2랑 나나, 다다의 tc 더한 4와 비교해서 2의 연티가 추가발생. 
-                        
-              //totaltc가 방인원수*술병수보다 크면,
-              //사람수 * 술병수 - tc갯수
-
                         if(totaltc>mainlist.numofpeople*totalnum){
                           yeonti = mainlist.numofpeople * totalnum -tctotal;
                           yeonti_reason=mainlist.numofpeople+"*"+totalnum+"-"+tctotal;
@@ -646,12 +615,10 @@ this.util.dismissLoading();
               });
               console.log("loop finisehd");
   
-            }
           }
           if(!alreadyexist){
             console.log("새로 등록된 아이임.")
           }
-      }
       if(f==2){
         console.log(this.company+','+room+'",,"'+this.currentstartday+'",'+mainlist.key)
         this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).update({"ss":true})

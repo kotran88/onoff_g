@@ -77,6 +77,7 @@
 
 <ion-content style="
 background: white; margin-top:45px;" padding>
+
 <div class="header">
 <div class="header-parking">
   <button style="
@@ -96,53 +97,62 @@ background: white; margin-top:45px;" padding>
 <hr class="header-parking-hr">
 
 
-<div style="    padding: 20px;" class="c">
+<div style="  " class="c">
   <div class="orderlisting" style="
   text-align: center; color:black;" *ngIf="orderlist.length==0">
     <p > 본 영업일에 주문처리된 내역이 없습니다. </p>
  
     </div>
-<div class="orderlisting" style="color:black;" *ngFor="let i of orderlist; let j = index;">
-  <p *ngIf="i.logic=='true'||i.logic==true" style="
-  margin: 0;">  <span style="    font-size: 16px;
-    background: yellow;">{{i.roomno}}T   {{i.incharge}}</span> / <span>중방/대방 ON</span> </p>
-  <p *ngIf="i.logic=='false'||i.logic==false" style="
-  margin: 0;">  <span style="    font-size: 16px;
-    background: yellow;">{{i.roomno}}T   {{i.incharge}}</span>  / <span>중방/대방 OFF</span></p>
-  <p style="
-  margin: 0;"> 주문일 : {{i.date}}</p>
-  <p style="
-  margin: 0;"> W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}</p>
-   <span *ngFor="let j of i.value">
-    
-    <p style="
-    margin: 0;" *ngIf="j.category=='주류'">{{j.name}} , {{j.num}}병, {{j.price.toLocaleString()}}원</p>
-    <p style="
-    margin: 0;"  *ngIf="j.category!='주류'">{{j.name}} , {{j.num}}개, {{j.price.toLocaleString()}}원</p>
-  </span>
- <p style="
-  margin: 0;"> 완티 : {{i.tcarray}} 차삼: {{i.chasamarray}}</p>
-  <p style="
-  margin: 0;">TC : {{i.tctotal}}.{{i.chasam}}개 , {{i.money.toLocaleString()}}원</p>
-  <p style="
-  margin: 0;">연티 : {{i.yeonti}} , 연티원인 : {{i.reason}}</p>
-  <p style="    font-size: 18px;
-  background: pink;
-  width: 120px;">합계 :  {{(i.tp+i.money+(i.yeonti*10000) ).toLocaleString()}}</p>
-  <!-- <p></p>
-  <p>주문일자 : {{i.date}}</p> -->
-  <hr>
-</div>
-</div>
-<hr style="width: 90%; height: 1px; background-color: black;">
+    <ion-list class="accordion-list">
+      <ion-list-header style="    box-shadow: 1px 1px 1px 1px;" *ngFor="let i of orderlist; let j = index;"no-lines no-padding>
+        <button ion-item detail-none [ngClass]="{'section-active':i.open, 'section':!i.open}" (click)="togglesection(j)">
+         <ion-icon item-left name="arrow-forward" *ngIf="!i.open"></ion-icon>
+         <ion-icon item-left name="arrow-down" *ngIf="i.open"></ion-icon>
+         <div class="centr">
 
-<div style="    padding: 20px;" class="c">
+          <span style="    font-size: 16px;
+          background: yellow;">{{i.roomno}}T   {{i.incharge}}</span> / <span>중방/대방 ON</span> 
+       
+           <p *ngIf="i.enddate!=''" style=" color:red;
+           margin: 0;"> W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}</p>
+             <p *ngIf="i.enddate==''" style=" color:black;
+             margin: 0;"> W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}</p>
+         </div>
+
+
+        </button>
+        <ion-item  *ngIf="i.open" class="child-item" >
+          <p style="
+          margin: 0;"> 주문일 : {{i.date}}</p>
+            <span *ngFor="let j of i.value">
+            
+            <p style="
+            margin: 0;" *ngIf="j.category=='주류'">{{j.name}} , {{j.num}}병, {{j.price.toLocaleString()}}원</p>
+            <p style="
+            margin: 0;"  *ngIf="j.category!='주류'">{{j.name}} , {{j.num}}개, {{j.price.toLocaleString()}}원</p>
+          </span>
+         <p style="
+          margin: 0;"> 완티 : {{i.tcarray}} 차삼: {{i.chasamarray}}</p>
+          <p style="
+          margin: 0;">TC : {{i.tctotal}}.{{i.chasam}}개 , {{i.money.toLocaleString()}}원</p>
+          <p style="
+          margin: 0;">연티 : {{i.yeonti}} <br>{{i.reason}}</p>
+          <p style="    font-size: 18px;
+          background: pink;
+          width: 120px;">합계 :  {{(i.tp+i.money+(i.yeonti*10000) ).toLocaleString()}}</p>
+        </ion-item>
+      </ion-list-header>
+     
+    </ion-list>
+
+  </div> 
+<!-- <div style="    padding: 20px;" class="c">
   <div class="orderlisting" style="
   text-align: center; color:black;" *ngIf="mainlist.length==0">
     <p > 본 영업일에 주차처리된 내역이 없습니다. </p>
  
     </div>
-  </div>
+  </div> -->
 <div  *ngFor="let i of mainlist; let j = index;">
 <button  ion-long-press [interval]="800"  (pressEnded)="released(i , j)" (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
   <div>
