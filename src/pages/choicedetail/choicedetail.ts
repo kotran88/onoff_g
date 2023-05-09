@@ -72,7 +72,6 @@ export class ChoicedetailPage {
 
   }
   ionViewWillLeave(){
-    this.firemain.child("company").child(this.company).child("roomlist").off();
     clearInterval(this.interval)
   }
   ionViewDidLeave(){
@@ -316,31 +315,31 @@ screenSwitch(values) : void {
     console.log('ionViewDidLoad ChoicedetailPage');
     this.refreshforeverymin();
 
-      //  "child_added", "child_changed", "child_removed", or "child_moved."
-      this.firemain.child("company").child(this.company).child("roomlist").on('child_removed', function(snap, prevChildKey) {
-        console.log("on on on on on child_removed.....")
-        console.log(snap.val());
-        console.log(prevChildKey);
-        // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-      });
-      this.firemain.child("company").child(this.company).child("roomlist").on('child_moved', function(snap, prevChildKey) {
-        console.log("on on on on on child_moved.....")
-        console.log(snap.val());
-        console.log(prevChildKey);
-        // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-      });
-      this.firemain.child("company").child(this.company).child("roomlist").on('child_added', function(snap, prevChildKey) {
-        console.log("on on on on on child_added.....")
-        console.log(snap.val());
-        // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-      });
-        this.firemain.child("company").child(this.company).child("roomlist").on('child_changed', (snap, prevChildKey) =>{
-          console.log("on on on on on child_changed.....")
-          console.log(snap.val());
-          console.log(prevChildKey);
-          // this.refreshChoice2();
-          // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
-        });
+      // //  "child_added", "child_changed", "child_removed", or "child_moved."
+      // this.firemain.child("company").child(this.company).child("roomlist").on('child_removed', function(snap, prevChildKey) {
+      //   console.log("on on on on on child_removed.....")
+      //   console.log(snap.val());
+      //   console.log(prevChildKey);
+      //   // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+      // });
+      // this.firemain.child("company").child(this.company).child("roomlist").on('child_moved', function(snap, prevChildKey) {
+      //   console.log("on on on on on child_moved.....")
+      //   console.log(snap.val());
+      //   console.log(prevChildKey);
+      //   // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+      // });
+      // this.firemain.child("company").child(this.company).child("roomlist").on('child_added', function(snap, prevChildKey) {
+      //   console.log("on on on on on child_added.....")
+      //   console.log(snap.val());
+      //   // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+      // });
+      //   this.firemain.child("company").child(this.company).child("roomlist").on('child_changed', (snap, prevChildKey) =>{
+      //     console.log("on on on on on child_changed.....")
+      //     console.log(snap.val());
+      //     console.log(prevChildKey);
+      //     // this.refreshChoice2();
+      //     // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
+      //   });
         
     this.refreshChoice2();
   }
@@ -393,15 +392,15 @@ screenSwitch(values) : void {
       }
       console.log("totalsumtc:"+totalsumtc);
       this.firemain.child("company").child(this.company).child("roomlist").child(room).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("message").push({"tc":totalsumtc,"date":endtime,"contents":"전체종료 ","type":"fin", "uploader":this.nickname, "name":"system"})
-     this.util.dismissLoading();
-       
+      
       // this.refreshChoice2();
 
       
     // this.activeclass="2";
       console.log("this is end all this is end all this is end all this is end all this is end all this is end all this is end all ")
     setTimeout(()=>{
-
+      this.util.dismissLoading();
+      
       this.refreshChoice2();
     },1000)
     // });
@@ -524,8 +523,12 @@ this.util.dismissLoading();
     var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
     dte.setHours(dte.getHours()+9);
     var alreadyexist=false;
+    console.log("c name : "+c.name);
     this.firemain.child("users").child(c.name).once("value",snap=>{
       console.log(snap.val());
+        if(snap.val()==null){
+          return;
+        }
         if(snap.val().type=="agasi"){
             console.log(c.name+",,,,"+snap.val().nickname);
               alreadyexist=true;
@@ -627,12 +630,11 @@ this.util.dismissLoading();
 
       console.log("end fin before");
   });
-  this.util.dismissLoading();
   console.log("end fin");
   setTimeout(()=>{
+    this.util.dismissLoading();
     this.refreshChoice2();
-  },1000)
-  // this.view.dismiss({"result":true});
+  },500)
   }
   refreshChoice2(){
     console.log("refreshchoice222")
@@ -772,23 +774,42 @@ this.util.dismissLoading();
                 console.log(totalagasi);
                 if(snap.val().ss==false){
 
+                  if(snap.val().numofpeople<=inagasi){
 
-                  this.mainlist.push({"agasi":snap.val().agasi,
-                  "date":snap.val().date,
-                "incharge":snap.val().incharge,
-              "insert_date":snap.val().insert_date,
-            "insert_date_full":snap.val().insert_date_full,
-            "directorId":snap.val().directorId,
-            "key":snap.val().key,
-            "message":messages,
-            "memo":memo,
-            "angel":snap.val().angel,
-            "name":snap.val().name,
-                "numofpeople":snap.val().numofpeople,
-                "status":snap.val().status,
-              "wt":snap.val().wt,
-            "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
-                }else if(snap.val().numofpeople<=totalagasi){
+                    this.mainlist_finished.push({"agasi":snap.val().agasi,
+                    "date":snap.val().date,
+                  "incharge":snap.val().incharge,
+                "insert_date":snap.val().insert_date,
+              "insert_date_full":snap.val().insert_date_full,
+              "directorId":snap.val().directorId,
+              "key":snap.val().key,
+              "message":messages,
+              "memo":memo,
+              "angel":snap.val().angel,
+              "name":snap.val().name,
+                  "numofpeople":snap.val().numofpeople,
+                  "status":snap.val().status,
+                "wt":snap.val().wt,
+              "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
+                  }else{
+                    this.mainlist.push({"agasi":snap.val().agasi,
+                    "date":snap.val().date,
+                  "incharge":snap.val().incharge,
+                "insert_date":snap.val().insert_date,
+              "insert_date_full":snap.val().insert_date_full,
+              "directorId":snap.val().directorId,
+              "key":snap.val().key,
+              "message":messages,
+              "memo":memo,
+              "angel":snap.val().angel,
+              "name":snap.val().name,
+                  "numofpeople":snap.val().numofpeople,
+                  "status":snap.val().status,
+                "wt":snap.val().wt,
+              "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
+                  }
+                 
+                }else if(snap.val().numofpeople<=inagasi){
                   //ㅇ 진행중인방으로 넘어가야함. 무조건. 
                   console.log("진행중인방!");
                   console.log(snap.val().name)
@@ -1231,8 +1252,8 @@ this.util.dismissLoading();
   abcd(aa){
     //main.lastupdated.split(" ")[1]
     const timeString = aa.trim();
-    var hours = timeString.split(':')[0];
-    var minutes = timeString.split(':')[1];
+    var hours = timeString.split(' ')[1].split(":")[0];
+    var minutes = timeString.split(' ')[1].split(":")[1];
     const meridiem = Number(hours) < 12 ? '오전' : '오후';
     const hours12 = ((Number(hours) + 11) % 12 + 1);
     const formattedTime = `${meridiem} ${hours12}시${minutes}분`;

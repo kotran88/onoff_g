@@ -21,7 +21,7 @@ export class Choicemodal2Page {
   jopanteam1:any;
   jopanlist=[];
   company:any;
-
+  originallength=0;
   lloading:any;
   currentstartday:any="";
   currentstart:any="";
@@ -40,6 +40,9 @@ export class Choicemodal2Page {
   a:any="";
   nickname:any="";
   constructor(public util:UtilsProvider, public loading:LoadingController,public view:ViewController, public navCtrl: NavController, public navParams: NavParams) {
+    var origianl=this.navParams.get("subscribedList");
+    console.log(origianl);
+    this.originallength=origianl;
     var aaa=this.navParams.get("agasi");
     console.log(aaa);
     console.log(this.agasilist);
@@ -135,8 +138,10 @@ export class Choicemodal2Page {
     console.log(this.qtd1);
     console.log(this.qtd2);
     var count=-1;
+    var newcount=0;
     for(var cc in this.agasilist){
       count++;
+      newcount++;
     console.log(this.agasilist[cc])
     console.log("value1=" + count);
     console.log(this.agasilist[cc].name);
@@ -160,7 +165,7 @@ export class Choicemodal2Page {
      
       }else{
         //출퇴근일경우 
-        this.firemain.child("users").child(this.agasilist[cc].name).child("current").update({"room":this.a,"enter_date":dte,"date":this.currentstartday})
+        // this.firemain.child("users").child(this.agasilist[cc].name).child("current").update({"room":this.a,"enter_date":dte,"date":this.currentstartday})
       }
       // this.firemain.child("users").child(this.agasilist[cc].name).child("current").update({"room":this.a.name,"enter_date":dte})
       if(this.flag=="attend"){
@@ -168,6 +173,13 @@ export class Choicemodal2Page {
         this.firemain.child("users").child(this.agasilist[cc].name).update({"jopan":this.quelist[count],"status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name,"nickname":this.agasilist[cc].name })
         this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":this.quelist[count],"name":this.agasilist[cc].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
       }else{
+
+        console.log(this.a.wt+"에 추가 +"+this.currentstartday+",,,,"+this.a.key);
+        console.log(this.originallength);
+        console.log(this.originallength+newcount+"");
+        this.firemain.child("users").child(this.a.wt).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(this.originallength+newcount-1+"").update({"angel": this.agasilist[cc].angel,"roomno":this.a.name,"incharge":this.a.incharge, "name":this.agasilist[cc].name,"writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
+        this.firemain.child("users").child(this.a.directorId).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(this.originallength+newcount-1+"").update({"angel": this.agasilist[cc].angel,"roomno":this.a.name,"incharge":this.a.incharge, "name":this.agasilist[cc].name,"writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
+            
         this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":this.quelist[count],"name":this.agasilist[cc].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
         this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
         this.firemain.child("users").child(this.agasilist[cc].name).update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name,"nickname":this.agasilist[cc].name ,"writer":this.agasilist[cc].writer})

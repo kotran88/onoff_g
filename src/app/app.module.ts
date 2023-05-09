@@ -57,6 +57,9 @@ import { HistoryPage } from '../pages/history/history';
 import { SplashscreenPage } from '../pages/splashscreen/splashscreen';
 import { Orderdetail2Page } from '../pages/orderdetail2/orderdetail2';
 import { ServinghistoryPage } from '../pages/servinghistory/servinghistory';
+import { SearchchoicePage } from '../pages/searchchoice/searchchoice';
+import { WaitingPage } from '../pages/waiting/waiting';
+import { WaitingmodalPage } from '../pages/waitingmodal/waitingmodal';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -104,7 +107,10 @@ initializeApp(firebaseConfig);
     ChoicedetailPage,
     ChoicejimyungPage,
     Choicemodal2Page,
+    WaitingPage,
     Choicemodal3Page,
+    WaitingmodalPage,
+    SearchchoicePage
   ],
   imports: [
     BrowserModule,
@@ -126,6 +132,7 @@ initializeApp(firebaseConfig);
     ChoicedetailPage,
     SplashscreenPage,
     OrdermainPage,
+    WaitingmodalPage,
     ChoicemodalPage,
     ChoicejimyungPage,
     ServinghistoryPage,
@@ -147,6 +154,7 @@ initializeApp(firebaseConfig);
     BandPage,
     AccountPage,
     AttendancePage,
+    WaitingPage,
     SignupPage,
     InfomodalPage,
     ParkingdetailPage,
@@ -155,6 +163,7 @@ initializeApp(firebaseConfig);
     TestpagePage,
     InfoPage,
     ReceiptPage,
+    SearchchoicePage
     // ChatroomlistPage,
   ],
   providers: [

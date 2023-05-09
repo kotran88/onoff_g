@@ -245,13 +245,9 @@ export class UtilsProvider {
   getTC(startdate,pauseTime){
 
     this.tc = localStorage.getItem("tc");
-    console.log("get tc..."+(this.tc));
     if(pauseTime==undefined){
       pauseTime=0;
     }
-    console.log("GETTC");
-    console.log(startdate);
-    console.log(pauseTime);
     var date = new Date();
     var year=date.getFullYear();
     var month=date.getMonth()+1;
@@ -268,10 +264,7 @@ export class UtilsProvider {
    
     var diff = now.getTime() - diffend.getTime();
     var diffMin = Math.ceil(diff / (1000) / 3600 * 60 );
-    console.log(diffMin)
-    console.log("is diffmin");
     diffMin=diffMin-pauseTime;
-    console.log("new diffmin"+diffMin);
     var tctotal=0;
     var chasam=0;
     var bantee=0;

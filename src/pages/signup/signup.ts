@@ -430,8 +430,7 @@ export class SignupPage {
       for(var aabb in snap.val()){
         console.log(snap.val()[aabb]);
         if(snap.val()[aabb].nickname==this.nickname){
-          if(snap.val()[aabb].registerDate!=undefined){
-            console.log("dupulicate")
+          if(snap.val()[aabb].name!=undefined){
             this.nick_checker=true;
             window.alert("이미 등록된 닉네임입니다")
             this.util.dismissLoading();

@@ -43,7 +43,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230430 v2.985';
+  version='20230508 v2.989';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -243,6 +243,7 @@ export class LoginpagePage {
             }
 
             localStorage.setItem("tc",snap2.val().tc);
+            localStorage.setItem("auto",snap2.val().autoflag);
             this.firemain.child("company").child(snap.val()[aa].company).child('openandclose').once('value').then((snap3)=>{
               
               console.log(snap3.val())

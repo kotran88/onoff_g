@@ -6,6 +6,7 @@ import { LoginpagePage } from '../loginpage/loginpage';
 import  firebase from 'firebase';
 import { EditingroomPage } from '../editingroom/editingroom';
 import { OrderPage } from '../order/order';
+import { OrderdetailPage } from '../orderdetail/orderdetail';
 /**
  * Generated class for the OrdermainPage page.
  *
@@ -93,10 +94,19 @@ export class OrdermainPage {
               if(snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
                 //주문내역이 없음
                 console.log("insert to mainlist_no_order");
-                this.mainlist_no_order.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                if(snap.val()[a].roomhistory[this.currentstartday][b].noflag==true){
+
+                }else{
+                   this.mainlist_no_order.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                }
+                
               }else{
                 console.log("insert to mainlist");
-                this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                if(snap.val()[a].roomhistory[this.currentstartday][b].noflag==true){
+
+                }else{
+                  this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                }
               }
               
             }
@@ -209,8 +219,50 @@ export class OrdermainPage {
     console.log("editing...")
     console.log(a);
     let modal = this.modal.create(OrderPage,{"a":a});
-    this.navCtrl.push(OrderPage,{"a":a}).then(() => {
-      this.navCtrl.getActive().onDidDismiss(url => {
+  //   this.navCtrl.push(OrderPage,{"a":a}).then(() => {
+  //     this.navCtrl.getActive().onDidDismiss(url => {
+
+  //     console.log("dismiss second!");
+  //     this.mainlist=[];
+  //     this.mainlist_no_order=[];
+
+  //     this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+  //       for(var a in snap.val()){
+  //         console.log("mmmm")
+  //         console.log(snap.val()[a]);
+  //         console.log(snap.val()[a].roomhistory)
+  //         if(snap.val()[a].roomhistory!=undefined){
+  //           console.log(snap.val()[a].roomhistory[this.currentstartday])
+  //           for(var b in snap.val()[a].roomhistory[this.currentstartday]){
+  //             console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+  //             if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
+  //               if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
+  //                 console.log(snap.val()[a].roomhistory[this.currentstartday][b].orderlist)
+  //                 if(snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
+  //                   //주문내역이 없음
+  //                   console.log("insert to mainlist_no_order");
+  //                   this.mainlist_no_order.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+  //                 }else{
+  //                   console.log("insert to mainlist");
+  //                   this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+  //                 }
+                  
+  //               }
+               
+  //             }
+  //           }
+  //         }
+  //       }
+  //       console.log(this.mainlist)
+  //       console.log(this.mainlist_no_order)
+  //     });
+  //   });
+
+  // });
+
+  this.navCtrl.push(OrderdetailPage,{"a":a,"flag":"more"}).then(() => {
+    this.navCtrl.getActive().onDidDismiss(data => {
+     
       console.log("dismiss second!");
       this.mainlist=[];
       this.mainlist_no_order=[];
@@ -233,7 +285,11 @@ export class OrdermainPage {
                     this.mainlist_no_order.push(snap.val()[a].roomhistory[this.currentstartday][b]);
                   }else{
                     console.log("insert to mainlist");
-                    this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    if(snap.val()[a].roomhistory[this.currentstartday][b].noflag==true){
+
+                    }else{
+                      this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    }
                   }
                   
                 }
@@ -245,9 +301,11 @@ export class OrdermainPage {
         console.log(this.mainlist)
         console.log(this.mainlist_no_order)
       });
-    });
+      
 
+    })
   });
+  
 }
   logout(){
       localStorage.setItem("loginflag", "false" )

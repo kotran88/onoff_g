@@ -85,6 +85,21 @@ background: white; margin-top:45px;" padding>
   color:black;
   margin-left: 20px;
   margin-top: 10px;" class="header_btn">입금하실금액 </button>
+  <button style="
+  margin-top: 15px;
+  background: white !important;" (click)="onrefresh();" ion-button icon-end>
+    <ion-icon  style="color:black;   
+    font-size: 24px;
+    padding: 0px;" name="refresh"></ion-icon>
+  </button>
+  
+<!-- <button style="
+float: left;
+color:black;
+margin-left: 20px;
+margin-top: 10px;" class="header_btn">
+<ion-icon name="refresh-outline"></ion-icon>
+ </button> -->
 
   <button style="
   float: right;
@@ -105,22 +120,58 @@ background: white; margin-top:45px;" padding>
     </div>
     <ion-list class="accordion-list">
       <ion-list-header style="    box-shadow: 1px 1px 1px 1px;" *ngFor="let i of orderlist; let j = index;"no-lines no-padding>
-        <button ion-item detail-none [ngClass]="{'section-active':i.open, 'section':!i.open}" (click)="togglesection(j)">
+        <button *ngIf="i.status=='fin'" style="background:gray;" ion-item detail-none [ngClass]="{'section-active':i.open, 'section':!i.open}" (click)="togglesection(j)">
          <ion-icon item-left name="arrow-forward" *ngIf="!i.open"></ion-icon>
          <ion-icon item-left name="arrow-down" *ngIf="i.open"></ion-icon>
-         <div class="centr">
+        
 
-          <span style="    font-size: 16px;
-          background: yellow;">{{i.roomno}}T   {{i.incharge}}</span> / <span>중방/대방 ON</span> 
-       
-           <p *ngIf="i.enddate!=''" style=" color:red;
-           margin: 0;"> W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}</p>
-             <p *ngIf="i.enddate==''" style=" color:black;
+         <div  class="centr">
+
+          <span *ngIf="i.logic" style="    font-size: 16px;
+          background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic" style="    font-size: 12px;
+          "> 중방/대방 ONN</span> 
+
+
+<span *ngIf="!i.logic" style="    font-size: 16px;
+background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic" style="    font-size: 12px;
+"> 중방/대방 OFFF</span> 
+     
+             <p *ngIf="i.noflag" style=" color:red;
+             margin: 0;"> W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}</p>
+             <p *ngIf="!i.noflag||i.noflag==undefined" style=" color:black;
              margin: 0;"> W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}</p>
          </div>
 
 
         </button>
+
+        <button *ngIf="i.status!='fin'"  ion-item detail-none [ngClass]="{'section-active':i.open, 'section':!i.open}" (click)="togglesection(j)">
+          <ion-icon item-left name="arrow-forward" *ngIf="!i.open"></ion-icon>
+          <ion-icon item-left name="arrow-down" *ngIf="i.open"></ion-icon>
+         
+ 
+          <div  class="centr">
+<!--  
+           <span *ngIf="i.logic" style="    font-size: 16px;
+           background: yellow;">{{i.roomno}}T   {{i.incharge}} / 중방/대방 ON</span> 
+         <span *ngIf="!i.logic" style="    font-size: 16px;
+         background: yellow;">{{i.roomno}}T   {{i.incharge}} / 중방/대방 OFF</span>  -->
+         <span *ngIf="i.logic" style="    font-size: 16px;
+         background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic" style="    font-size: 12px;
+         "> 중방/대방 ON.</span> 
+
+
+<span *ngIf="!i.logic" style="    font-size: 16px;
+background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="!i.logic" style="    font-size: 12px;
+"> 중방/대방 OFF.</span> 
+        <p *ngIf="i.noflag" style=" color:red;
+        margin: 0;"> W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}</p>
+        <p *ngIf="!i.noflag||i.noflag==undefined" style=" color:black;
+        margin: 0;"> W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}</p>
+          </div>
+ 
+ 
+         </button>
         <ion-item  *ngIf="i.open" class="child-item" >
           <p style="
           margin: 0;"> 주문일 : {{i.date}}</p>
@@ -136,7 +187,13 @@ background: white; margin-top:45px;" padding>
           <p style="
           margin: 0;">TC : {{i.tctotal}}.{{i.chasam}}개 , {{i.money.toLocaleString()}}원</p>
           <p style="
-          margin: 0;">연티 : {{i.yeonti}} <br>{{i.reason}}</p>
+          margin: 0;">연티 : {{i.yeonti}}</p>
+
+
+
+<p style="
+font-size: 12px;
+margin: 0;">{{i.reason}}</p>
           <p style="    font-size: 18px;
           background: pink;
           width: 120px;">합계 :  {{(i.tp+i.money+(i.yeonti*10000) ).toLocaleString()}}</p>

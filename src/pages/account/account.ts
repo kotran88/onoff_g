@@ -127,6 +127,7 @@ export class AccountPage {
   this.menuCtrl.open();
 }
   openmodal(v){
+    this.util.presentLoading();
     console.log(this.currentYear);
     console.log(this.currentMonth);
     console.log(v);
@@ -213,6 +214,8 @@ export class AccountPage {
 
   get_money_data(name)
   {
+    console.log("getmoneydata")
+    this.util.presentLoading();
     console.log("get_money_data"+name);
     this.selectedName=name;
     var bujangid=name.nickname;
@@ -223,6 +226,7 @@ export class AccountPage {
     var newdate = this.currentYear+"-"+this.currentMonth+"-"+this.selectedDate;
     console.log(newdate);
     this.generatedata(bujangid,newdate);
+
   }
   checkEvent(day){
     return false;
@@ -358,21 +362,25 @@ export class AccountPage {
     });
 
 
-    this.firemain.child("company").child(this.company).child('roomlist').once('value').then((snap)=>{
-      console.log(snap.val().roomhistory)
+    this.firemain.child("users").child(bujangid).child('roomhistory').child(newdate).once('value').then((snap)=>{
+      console.log(snap.val())
       console.log("INININININININININININ!")
       if(snap.val()!=undefined){
         for(var a in snap.val()){
-          for(var b in snap.val()[a].roomhistory){
-            for(var c in snap.val()[a].roomhistory[b]){
-              if(snap.val()[a].roomhistory[b][c].orderlist!=undefined){
-                if(snap.val()[a].roomhistory[b][c].date==nd){
-                  console.log(snap.val()[a].roomhistory[b][c].incharge);
+          console.log(a);
+          console.log(snap.val()[a]);
+          console.log(snap.val()[a].orderlist!)
+              if(snap.val()[a].orderlist!=undefined){
+                console.log("order is not undefined");
+                console.log(snap.val()[a]);
+                console.log(nd);
+                if(snap.val()[a].date==nd){
+                  console.log(snap.val()[a].incharge);
                   console.log(this.name);
                   console.log(this.nickname);
                   console.log(this.selectedName);
-                  if(snap.val()[a].roomhistory[b][c].incharge.trim()==this.selectedName.nickname.trim()){
-                    var mainlist=snap.val()[a].roomhistory[b][c];
+                  if(snap.val()[a].incharge.trim()==this.selectedName.nickname.trim()){
+                    var mainlist=snap.val()[a];
   
                     console.log("is mainlist...")
     
@@ -390,34 +398,34 @@ export class AccountPage {
                 }
             }
           console.log(mainlist);   
-                    console.log(snap.val()[a].roomhistory[b][c]);
-                    console.log(snap.val()[a].roomhistory[b][c].orderlist);
-                  console.log(snap.val()[a].roomhistory[b][c].orderlist.roomno);
+                    console.log(snap.val()[a]);
+                    console.log(snap.val()[a].orderlist);
+                  console.log(snap.val()[a].orderlist.roomno);
                   var orderl=[];
                   var orderprice=0;
                   var yeontireason="";
-                  var logic = snap.val()[a].roomhistory[b][c].logic;
+                  var logic = snap.val()[a].logic;
           
                   var tcarray = [];
                   var tp=0;
                   var tbottle=0;
-                  var numofpeople = snap.val()[a].roomhistory[b][c].numofpeople;
+                  var numofpeople = snap.val()[a].numofpeople;
                   for(var cccc in mainlist.agasi){
                     console.log(mainlist.agasi[cccc].tc)
                     tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
                   }
-                  for(var d in snap.val()[a].roomhistory[b][c].orderlist.orderlist){
-                    if(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].category=="주류"){
-                      tbottle+=Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num);
+                  for(var d in snap.val()[a].orderlist.orderlist){
+                    if(snap.val()[a].orderlist.orderlist[d].category=="주류"){
+                      tbottle+=Number(snap.val()[a].orderlist.orderlist[d].num);
                     }
-                    orderprice+= (Number(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price.replace(",","")) );
-                    console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d]);
-                    orderl.push(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d])
-                    console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price);
-                    console.log(snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num)
-                    tp += snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].price.replace(",","")* snap.val()[a].roomhistory[b][c].orderlist.orderlist[d].num;
-                    console.log(snap.val()[a].roomhistory[b][c].orderlist);
-                    console.log(snap.val()[a].roomhistory[b][c].orderlist.orderDate);
+                    orderprice+= (Number(snap.val()[a].orderlist.orderlist[d].price.replace(",","")) );
+                    console.log(snap.val()[a].orderlist.orderlist[d]);
+                    orderl.push(snap.val()[a].orderlist.orderlist[d])
+                    console.log(snap.val()[a].orderlist.orderlist[d].price);
+                    console.log(snap.val()[a].orderlist.orderlist[d].num)
+                    tp += snap.val()[a].orderlist.orderlist[d].price.replace(",","")* snap.val()[a].orderlist.orderlist[d].num;
+                    console.log(snap.val()[a].orderlist);
+                    console.log(snap.val()[a].orderlist.orderDate);
                   }
                   console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
                   var firstsumofv=0;
@@ -434,8 +442,8 @@ export class AccountPage {
                     firstsumofv=minVal+maxVal-tbottle
                     yeontireason += "인원수<아가씨, 가장큰 tc"+maxVal+"+가장작은 tc"+minVal+"에서 총술병"+tbottle+"를 뺀값."
                   }
-                  console.log(snap.val()[a].roomhistory[b][c])
-                    console.log(snap.val()[a].roomhistory[b][c].agasi)
+                  console.log(snap.val()[a])
+                    console.log(snap.val()[a].agasi)
                     var totaltc=0;
                     var totalmoney=0;
 
@@ -461,16 +469,125 @@ export class AccountPage {
                     }
                     console.log("tp ...r : "+tp);
                     totalmoney=totalmoney*10000;
-                    this.orderlist.push({"tp":tp,"yeonti":yeonti, "totalprice":orderprice,"tc":totaltc,"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].orderlist.wt,"date":snap.val()[a].roomhistory[b][c].orderlist.orderDate,"roomno":snap.val()[a].roomhistory[b][c].orderlist.roomno, "value":orderl});
+                    this.orderlist.push({"tp":tp,"yeonti":yeonti, "totalprice":orderprice,"tc":totaltc,"money":totalmoney, "wt":snap.val()[a].orderlist.wt,"date":snap.val()[a].orderlist.orderDate,"roomno":snap.val()[a].orderlist.roomno, "value":orderl});
                   }
                   
                 }
                
                 
+              }else{
+                //order가 없을때. 
+
+
+
+                if(snap.val()[a].date==nd){
+                  console.log(snap.val()[a].incharge);
+                  console.log(this.name);
+                  console.log(this.nickname);
+                  console.log(this.selectedName);
+                  if(snap.val()[a].incharge.trim()==this.selectedName.nickname.trim()){
+                    var mainlist=snap.val()[a];
+  
+                    console.log("is mainlist...")
+    
+                    console.log(mainlist);
+            for(var d in mainlist.agasi){
+                if(mainlist.agasi[d].findate!=undefined){
+      
+                }else{
+                  var totalmoney=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[0]);
+                  var tctotal=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[1]);
+                  var bantee=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[2]);
+                  mainlist.agasi[d].totalmoney=totalmoney;
+                  mainlist.agasi[d].tc=tctotal;
+                  mainlist.agasi[d].bantee=bantee;
+                }
+            }
+          console.log(mainlist);   
+                    console.log(snap.val()[a]);
+                  var orderl=[];
+                  var orderprice=0;
+                  var yeontireason="";
+                  var logic = snap.val()[a].logic;
+          
+                  var tcarray = [];
+                  var tp=0;
+                  var tbottle=0;
+                  var numofpeople = snap.val()[a].numofpeople;
+                  for(var cccc in mainlist.agasi){
+                    console.log(mainlist.agasi[cccc].tc)
+                    tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
+                  }
+                  console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
+                  var firstsumofv=0;
+                  var totalsum=0;
+                  if(logic){
+                    tbottle=tbottle-1;
+                    yeontireason+="중/대방로직에 따른 술병 차감 -1 , "
+                  }
+                  if(tcarray.length>numofpeople){
+                    var minVal = Math.min.apply(null, tcarray);
+                    console.log("minvalue : "+minVal);
+                    var maxVal = Math.max.apply(null, tcarray);
+                    console.log("maxvalue : "+maxVal);
+                    firstsumofv=minVal+maxVal-tbottle
+                    yeontireason += "인원수<아가씨, 가장큰 tc"+maxVal+"+가장작은 tc"+minVal+"에서 총술병"+tbottle+"를 뺀값."
+                  }
+                  console.log(snap.val()[a])
+                    console.log(snap.val()[a].agasi)
+                    var totaltc=0;
+                    var totalmoney=0;
+
+                console.log("firstsumofv : "+firstsumofv);
+                var yeonti=firstsumofv;
+                    for(var aga in mainlist.agasi){
+                      console.log("aga : ");
+                      console.log(mainlist.agasi[aga])
+                      console.log("tc:::"+mainlist.agasi[aga].tc);
+                      console.log("money:::"+mainlist.agasi[aga].totalmoney);
+                      if(mainlist.agasi[aga].tc==undefined){
+  
+                      }else{
+                        totaltc+=Number(mainlist.agasi[aga].tc);
+                        if(mainlist.agasi[aga].totalmoney==undefined){
+  
+                          totalmoney+=Number(mainlist.agasi[aga].money);
+                        }else{
+  
+                          totalmoney+=Number(mainlist.agasi[aga].totalmoney);
+                        }
+                      }
+                    }
+                    console.log("tp ...r : "+tp);
+                    totalmoney=totalmoney*10000;
+
+                    var orderdate="";
+                  var roomno="";
+                  if(snap.val()[a].orderlist!=undefined){
+                    orderdate = snap.val()[a].orderlist.orderDate
+                    roomno=snap.val()[a].orderlist.roomno;
+                  }else{
+                    orderdate = "-"
+                    roomno="-"
+                  }
+
+
+                  var enddate="";
+                  if(snap.val()[a].end_date_full!=undefined){
+                   
+                    enddate=snap.val()[a].end_date_full
+                  }else{
+                    orderdate = "";
+                  }
+
+                    this.orderlist.push({"tp":tp,"yeonti":yeonti, "totalprice":orderprice,"tc":totaltc,"money":totalmoney, "wt":snap.val()[a].wt,"date":orderdate,"roomno":roomno, "value":orderl});
+                  }
+                  
+                }
+               
+
               }
              
-            }
-          }
         }
       }
       for(var cc in this.orderlist){
@@ -486,6 +603,8 @@ export class AccountPage {
       }
       console.log(totalmoney)
       this.tomoney = totalmoney;
+
+    this.util.dismissLoading();
     });
   }
   set_month(num)

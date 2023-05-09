@@ -30,6 +30,11 @@
       <img  class="logo" src="assets/img/logo_wad.jpg" />
 
       <ion-buttons end>
+        <button (click)="searchstart();" style="color:white;"ion-button icon-only color="royal">
+          <ion-icon name="search"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-buttons end>
         <button  style="color:white;"ion-button icon-only color="royal">
           <ion-icon name="person-add"></ion-icon>
           <span>{{nickname}}</span>
@@ -96,8 +101,8 @@
   <div  class="ion-label-area">
     <div class="area" id="ion-label-area-1">
       <ion-list style="
-      height: 55%;
-      overflow-y: scroll;"  no-lines 
+      height: 90%;
+      overflow-y: scroll;" class="lll"  no-lines 
       reorder="true" 
       (ionItemReorder)="reorderItems($event);">
       <ion-item (click)="gotomorepage(main,1)" class="it" *ngFor="let main of mainlist">
@@ -140,9 +145,92 @@
       </div>
       </ion-item>
       </ion-list>
+      <div class="tabs-container">
+        <div style="    
+        width: 50%;
+        line-height: 5;
+        line-height: 55px;
+        font-size: 20px;
+        height: 75px;" class="tab">
+          <input type="checkbox" checked id="tab1" name="tab-group">
+          <label for="tab1">날개</label>
+          <div class="tab-content">
+            <ion-item  (click)="gotomorepage(main,4)"  class="it" style="height:60px !important; 
+      background: aliceblue;" *ngFor="let main of mainlist_angel">
+      <div class="chat-container">
+        <div class="chat-messages">
+          <div style="
+          height: 60px !important; border:unset !important;" class="message">
+            
 
+            <div class="message-content">
+              <div class="contentmain">
+                  <p style="    font-size: 20px;
+                  font-weight: 900;"> 
+                  #{{main.name}}</p>
+               
+                <span>{{main.incharge}}</span>&nbsp;<span>{{main.numofpeople}}명 </span>
+                <!-- <span *ngIf="main.numofagasi!=undefined">입장:{{main.numofagasi}}명</span>
+                <span *ngIf="main.numofagasi==undefined">입장:dd0명</span> -->
+                <span *ngIf="main.totalagasi==0">{{main.wt}} </span>
+                <span *ngIf="main.totalagasi!=0">{{main.wt}} </span>
+              </div>
+              <div class="latter">
+                <p>{{main.lastupdatedperson}} {{abcd(main.lastupdated.split(" ")[1])}} </p>
+              </div>
+            </div>
 
-      <p class="jimyung">날개초이스 </p>
+          </div>
+          
+        </div>
+      </div>
+      </ion-item>
+          </div>
+        </div>
+      
+        <div style="
+            left: 50%;
+   
+            width: 50%;
+    line-height: 5;
+    line-height: 55px;
+    font-size: 20px;
+    height: 75px;" class="tab">
+          <input type="checkbox" id="tab2" name="tab-group">
+          <label for="tab2">지명</label>
+          <div class="tab-content">
+            <ion-item  class="it" style="height:60px !important;" *ngFor="let main of jimyung">
+              <div class="chat-container">
+                <div class="chat-messages">
+                  <div style="
+                  height: 44px !important;" class="message">
+                    
+                    <div class="message-content">
+                      <div class="contentmain">
+                        
+                        <span>{{main.room}} , {{main.incharge}}</span>&nbsp;<span>{{main.agasi}}</span>
+                        <span (click)="deleting(main)" style="
+                        
+            border: solid 1px;
+            font-size: 12px;
+            padding: 3px;
+            margin-left: 10px;
+            float: right;
+            background: white;
+            position: absolute;
+            right: 20%;" >삭제</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              </ion-item>
+          </div>
+        </div>
+      </div>
+
+      <!-- <p class="jimyung">날개초이스 </p>
       <ion-list class="bottomlist"  no-lines 
       >
       <ion-item  (click)="gotomorepage(main,4)"  class="it" style="height:60px !important; 
@@ -161,7 +249,7 @@
                
                 <span>{{main.incharge}}</span>&nbsp;<span>{{main.numofpeople}}명 </span>
                 <!-- <span *ngIf="main.numofagasi!=undefined">입장:{{main.numofagasi}}명</span>
-                <span *ngIf="main.numofagasi==undefined">입장:dd0명</span> -->
+                <span *ngIf="main.numofagasi==undefined">입장:dd0명</span> 
                 <span *ngIf="main.totalagasi==0">{{main.wt}} </span>
                 <span *ngIf="main.totalagasi!=0">{{main.wt}} </span>
               </div>
@@ -211,7 +299,7 @@
         </div>
       </div>
       </ion-item>
-      </ion-list>
+      </ion-list> -->
     </div>
 
 

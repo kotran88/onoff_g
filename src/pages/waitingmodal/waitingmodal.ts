@@ -10,12 +10,18 @@ import { IonicPage, NavController,LoadingController, NavParams,ViewController } 
 
  import  firebase from 'firebase';
 import { UtilsProvider } from '../../providers/utils/utils';
-@IonicPage()
+/**
+ * Generated class for the WaitingmodalPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+
 @Component({
-  selector: 'page-infomodal',
-  templateUrl: 'infomodal.html',
+  selector: 'page-waitingmodal',
+  templateUrl: 'waitingmodal.html',
 })
-export class InfomodalPage {
+export class WaitingmodalPage {
   wt:any="";
   nomemo:any="";
   incharge:any="";
@@ -108,14 +114,19 @@ export class InfomodalPage {
     if(this.bujangid=="noname"){
       window.alert("없는담당자입니다. 담당자명을 확인하세요.")
 
+      this.util.dismissLoading();
+  this.view.dismiss({"result":true});
       return;
     }
     if(this.wt.trim().length==0){
       window.alert("웨이터는 필수입니다..")
 
+      this.util.dismissLoading();
+  this.view.dismiss({"result":true});
       return;
     }
     if(this.bujangyoung.length==0||this.bujangyoung.length==1){
+        window.alert(this.bujangyoung+",팀코드 부여가 안된 담당자. 다른 이름을 입력해주세요.");
         this.util.dismissLoading();
         return; 
     }
