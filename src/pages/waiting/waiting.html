@@ -93,7 +93,7 @@ border-radius
       <span class="text">룸 현황 {{mainlist.length}}개</span>
      
 
-      <div class="selecting">
+      <!-- <div class="selecting">
 
         <ion-list style="  
         width: 70px;
@@ -125,39 +125,29 @@ border-radius
         width: 35px;" (click)="searching();" ion-button icon-only color="royal">
           검색
         </button>
-      </div>
+      </div> -->
 
     </div>
 
     <div class="chart-div">
      
       <div class="name-keys">
-        <span>룸NO</span>
         <span>담당자</span>
-        <span>상태</span>
         <span>인원</span>
-        <span>WT</span>
-        <span>입실T</span>
-        <span>퇴실T</span>
+        <span>아벡</span>
+        <span>로직</span>
       </div>
       <div (click)="editing(a);" *ngIf="mainlist.length==0" class="datas">
         <span style="width:100%;">현재 활성화된 방이 없습니다 </span>
       </div>
       <div (click)="editing(a);" *ngFor="let a of mainlist" class="datas">
-        <span>{{a.name}}</span>
         <span>{{a.incharge}}</span>
-        <span *ngIf="a.status=='reserved'&&(a.noflag==false||a.noflag==undefined)"> 예약중 </span>
-        <span *ngIf="a.status=='entered'&&(a.noflag==false||a.noflag==undefined)"> 입실 </span>
-        <span *ngIf="a.status=='clean'&&(a.noflag==false||a.noflag==undefined)"> 정리중 </span>
-        <span *ngIf="a.status=='fin'&&(a.noflag==false||a.noflag==undefined)">완료  </span>
-        <span *ngIf="a.avec&&(a.noflag==false||a.noflag==undefined)">{{a.numofpeople}} 인 A </span>
-        <span *ngIf="!a.avec&&(a.noflag==false||a.noflag==undefined) ">{{a.numofpeople}} 인 </span>
-        <span *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.wt}}</span>
-        <span *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.insert_date}}</span>
-        <span *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.end_date}}</span>
-        <span style="
-        width: 70%; color:red; 
-    text-decoration: line-through;" *ngIf="a.noflag==true">{{a.nomemo}}</span>
+        <span>{{a.numofpeople}}인</span>
+        <span *ngIf="a.avec">A </span>
+        <span *ngIf="!a.avec">- </span>
+        <span *ngIf="a.logic==0">OFF</span>
+        <span *ngIf="a.logic==1">1ㅅㅌㅌ</span>
+        <span *ngIf="a.logic==2">2ㅅㅌㅌ</span>
       </div>
     </div>
   </div>
@@ -185,7 +175,7 @@ border-radius
     border: solid 1px black;
 " class="input-box" placeholder="인원" [(ngModel)]="numofpeople" type="number"></ion-input>
 
-<ion-input style="
+<!-- <ion-input style="
             
     margin-left: 10px;
     height: 40px;
@@ -194,9 +184,13 @@ border-radius
     width: 80px;
     float: left;
     border: solid 1px black;
-" class="input-box" placeholder="아벡Y/N" [(ngModel)]="avec" type="text"></ion-input>
+" class="input-box" placeholder="아벡Y/N" [(ngModel)]="avec" type="text"></ion-input> -->
+<span (click)="clicking2();" class="newspan"  *ngIf="avec"> A </span>
+                <span (click)="clicking2();" class="newspan" *ngIf="!avec"> - </span>
 
-
+                <span (click)="clickforlogic(0);" class="sspan" *ngIf="logic==0" > OFF </span>
+                <span (click)="clickforlogic(1);" class="sspan" *ngIf="logic==1" > 1ㅅㅌㅌ </span>
+                <span (click)="clickforlogic(2);" class="sspan" *ngIf="logic==2" > 2ㅅㅌㅌ </span>
 <button class="btn8" style="     margin-left: 5px;
 margin-top: 0px;
 height: 41px;
@@ -205,10 +199,10 @@ background: transparent;
 border: solid 1px;
 color: black !important;
 width: 35px;" (click)="confirmwaiting();" ion-button icon-only color="royal">
-  검색
+  입력
 </button>
   </div>
-  <div class="vacancy-current">
+  <!-- <div class="vacancy-current">
     <div class="title-div">
       <ion-icon class="square" name="square"></ion-icon>
       <span class="text">공실 현황</span>
@@ -239,8 +233,6 @@ width: 35px;" (click)="confirmwaiting();" ion-button icon-only color="royal">
       <div style="display: inline;" class="chart-datas">
         <span  style="background:wheat; width:100%;"  *ngIf="midroom.length==0"> 현재 공실이 없습니다. </span>
        
-        <!-- <span (click)="addRoom(a);" style="
-        border: solid 0.5px; background:wheat"  *ngFor="let a of midroom">{{a.name}}</span> -->
        
        <span (click)="addRoom(a);" style="
        border: solid 0.5px; background:wheat"  *ngFor="let a of midroom">{{a.name}}</span>
@@ -256,9 +248,7 @@ width: 35px;" (click)="confirmwaiting();" ion-button icon-only color="royal">
       <div style="display: inline;" class="chart-datas">
         <span  style="background:wheat; width:100%;"  *ngIf="bigroom.length==0"> 현재 공실이 없습니다. </span>
        
-        <!-- <span (click)="addRoom(a);" style="
-        border: solid 0.5px; background:wheat"  *ngFor="let a of bigroom">{{a.name}}</span> -->
-
+       
 
        <span (click)="addRoom(a);" style="
        border: solid 0.5px; background:wheat"  *ngFor="let a of bigroom">{{a.name}}</span>
@@ -268,7 +258,7 @@ width: 35px;" (click)="confirmwaiting();" ion-button icon-only color="royal">
        
       </div>
     </div>
-  </div>
+  </div> -->
 
 
   <!-- <div style="   

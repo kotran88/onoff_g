@@ -82,15 +82,14 @@ export class SignupPage {
         this.companies.push({"name":snap.val()[a].groupName,"address":snap.val()[a].address,"jopanlist":snap.val()[a].jopanlist,"younglist":snap.val()[a].younglist});
       }
     });
-      this.id = localStorage.getItem("id");
-      this.nickname = localStorage.getItem("nickname");
-      this.type = Number(localStorage.getItem("type"));
-      console.log(this.nickname)
-      console.log(this.id);
-      console.log(this.type);
+      // this.id = localStorage.getItem("id");
+      // this.nickname = localStorage.getItem("nickname");
+      // this.type = Number(localStorage.getItem("type"));
+      // console.log(this.nickname)
+      // console.log(this.id);
+      // console.log(this.type);
       if(this.type==NaN){
         this.stage=1;
-        window.alert("d")
         return;
 
       }
@@ -98,29 +97,29 @@ export class SignupPage {
       if(this.nickname!=null&&this.nickname!=undefined&&this.nickname.length!=0){
         try{
 
-        this.firemain.child("users").child(this.nickname).once('value').then((snap)=>{
-          console.log(snap.val());
-          if(snap.val()==null){
-            return;
-          }
+        // this.firemain.child("users").child(this.nickname).once('value').then((snap)=>{
+        //   console.log(snap.val());
+        //   if(snap.val()==null){
+        //     return;
+        //   }
 
-          console.log(snap.val().approved);
-          this.approved=snap.val().approved;
-          var payment=snap.val().payment;
-          console.log(payment);
-          console.log(this.approved);
-          if(this.approved==false){
-            this.stage=5;
+        //   console.log(snap.val().approved);
+        //   this.approved=snap.val().approved;
+        //   var payment=snap.val().payment;
+        //   console.log(payment);
+        //   console.log(this.approved);
+        //   if(this.approved==false){
+        //     this.stage=5;
             
-          }
-          if(this.approved==true&&payment==true){
-            this.stage=1;
-          }
-          if(this.approved==false&&payment==true){
-            window.alert("d")
-            this.stage=5;
-          }
-        });
+        //   }
+        //   if(this.approved==true&&payment==true){
+        //     this.stage=1;
+        //   }
+        //   if(this.approved==false&&payment==true){
+        //     window.alert("d")
+        //     this.stage=5;
+        //   }
+        // });
         }catch(e){
           window.alert("error:"+e);
           localStorage.setItem("id","");
@@ -425,10 +424,7 @@ export class SignupPage {
     this.nick_checker=false;
     console.log("nickname dupulicate check");
     this.firemain.child('users').once("value", (snap) => {
-      console.log("ddd")
-      console.log(snap.val())
       for(var aabb in snap.val()){
-        console.log(snap.val()[aabb]);
         if(snap.val()[aabb].nickname==this.nickname){
           if(snap.val()[aabb].name!=undefined){
             this.nick_checker=true;
@@ -437,7 +433,6 @@ export class SignupPage {
           }
         }
       }
-      console.log(this.nick_checker)
       if(!this.nick_checker){
         window.alert("사용가능한 닉네임입니다")
         this.util.dismissLoading();
@@ -454,12 +449,8 @@ export class SignupPage {
     this.phone_checker=false;
     console.log("ㅊㅊcell phone dupulicate check");
     this.firemain.child('users').once("value", (snap) => {
-      console.log("ddd")
-      console.log(snap.val())
       for(var aabb in snap.val()){
-        console.log(snap.val()[aabb]);
         if(snap.val()[aabb].ph==this.phone){
-          console.log("dupulicate")
           this.phone_checker=true;
           window.alert("이미 등록된 번호입니다.")
           this.util.dismissLoading();

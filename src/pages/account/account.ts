@@ -406,12 +406,20 @@ export class AccountPage {
                   var yeontireason="";
                   var logic = snap.val()[a].logic;
           
+      var tarray=[];
+      var tcarraywithoutagasi = [];
                   var tcarray = [];
                   var tp=0;
                   var tbottle=0;
                   var numofpeople = snap.val()[a].numofpeople;
                   for(var cccc in mainlist.agasi){
                     console.log(mainlist.agasi[cccc].tc)
+                    if(mainlist.agasi[cccc].angel==true||mainlist.agasi[cccc].angel=="true"){
+
+                    }else{
+                      tcarraywithoutagasi.push(Math.floor(mainlist.agasi[cccc].tc));
+                    }
+                    tarray.push({"tc":Math.floor(mainlist.agasi[cccc].tc),"name":mainlist.agasi[cccc].name,"angel":mainlist.agasi[cccc].angel, "date":mainlist.agasi[cccc].date});
                     tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
                   }
                   for(var d in snap.val()[a].orderlist.orderlist){
@@ -430,17 +438,121 @@ export class AccountPage {
                   console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
                   var firstsumofv=0;
                   var totalsum=0;
-                  if(logic){
-                    tbottle=tbottle-1;
-                    yeontireason+="중/대방로직에 따른 술병 차감 -1 , "
+                  if(tbottle==0){
+
+                  }else{
+                    if(logic==1){
+                      tbottle=tbottle-1;
+                      yeontireason+=" 술 -1 , "
+                    }if(logic==2){
+                      tbottle=tbottle-2;
+                      yeontireason+=" 술 -2, "
+                    }
                   }
-                  if(tcarray.length>numofpeople){
-                    var minVal = Math.min.apply(null, tcarray);
-                    console.log("minvalue : "+minVal);
-                    var maxVal = Math.max.apply(null, tcarray);
-                    console.log("maxvalue : "+maxVal);
-                    firstsumofv=minVal+maxVal-tbottle
-                    yeontireason += "인원수<아가씨, 가장큰 tc"+maxVal+"+가장작은 tc"+minVal+"에서 총술병"+tbottle+"를 뺀값."
+                  if(tcarraywithoutagasi.length>numofpeople){
+                    yeontireason="";
+                    firstsumofv=0;
+                    console.log("날개 제외 아가씨 수가 사람수보다 많다면....")
+                    console.log(tarray);
+                    tarray.sort(function(a,b){
+                      //////console.log(a.date+",,,"+b.date)
+                      if (a.date < b.date) {
+                        return -1;
+                      }
+                      if (a.date > b.date) {
+                        return 1;
+                      }
+                      return 0;
+                    });
+                    console.log(tarray);
+                    var cvalue=-1;
+                    var stop=0;
+                    for(var abab in tarray){
+                      cvalue++;
+                      console.log(cvalue+"????"+numofpeople);
+                      if(cvalue<numofpeople){
+                        console.log(tarray[abab]);
+                        if(tarray[abab].angel!=true){
+                          stop++;
+                          firstsumofv+=tarray[abab].tc
+                          yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함."
+                        }else if(tarray[abab].angel){
+                          if(tarray[abab].tc - tbottle>=0){
+  
+                             firstsumofv+= tarray[abab].tc - tbottle;
+                             yeontireason+="//날개"+tarray[abab].name+"의 tc"+tarray[abab].tc+"-"+tbottle+""
+                     
+                          }
+                        }
+                        // firstsumofv+=tarray[abab].tc
+                        // yeontireason+="//"+tarray[abab].name+"의 tc:"+tarray[abab].tc+"개를 더함??"
+                      }
+                      if(cvalue>=numofpeople){
+  
+                        console.log(tarray[abab]);
+                        if(tarray[abab].angel!=true){
+                          stop++;
+                          firstsumofv+=tarray[abab].tc
+                          yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함!!!"
+                        }else if(tarray[abab].angel){
+                          if(tarray[abab].tc - tbottle>=0){
+  
+                             firstsumofv+= tarray[abab].tc - tbottle;
+                             yeontireason+="//날개"+tarray[abab].name+"의 tc"+tarray[abab].tc+"-"+tbottle+"."
+                     
+                          }
+                        }
+                      }
+                      totalsum+=tcarray[abab];
+                    }
+                      // yeontireason+=","+firstsumofv+"에서 술병"+tbottle*numofpeople+"를 뺌. ";
+                      for(var ii=0; ii<numofpeople; ii++){
+  
+                        // firstsumofv= firstsumofv - tbottle;
+                      }
+                  }else if (tcarraywithoutagasi.length==numofpeople){
+                    console.log("날개 제외 아가씨 수가 사람수와 같다면....");
+                    console.log(tarray);
+                    console.log(tcarraywithoutagasi);
+                  for(var abab in tarray){
+                    totalsum+=tarray[abab].tc;
+  
+                    if(tarray[abab].angel!=true){
+                      firstsumofv+=tarray[abab].tc
+                      yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함.."
+                    }else if(tarray[abab].angel){
+                      console.log("angel!!!");
+                      console.log(tarray[abab].tc);
+                      console.log(tbottle);
+                      if(tarray[abab].tc - tbottle>=0){
+                         console.log("in")
+                         firstsumofv+= tarray[abab].tc - tbottle;
+                         yeontireason+="//날개"+tarray[abab].name+"의 tc"+tarray[abab].tc+"-"+tbottle+"."
+                 
+                      }else{
+                        yeontireason+=tarray[abab].tc+"-"+tbottle+"=0 ,연티:0"
+                      }
+                    }
+  
+                  }
+                  firstsumofv= numofpeople*tbottle-totalsum
+                  console.log(firstsumofv);
+                  if(firstsumofv>0){
+                    firstsumofv=0;
+                  }
+                  yeontireason += "인원*병-완티 "+numofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;                
+                }else if(tcarraywithoutagasi.length<numofpeople){
+                  console.log("날개 제외 아가씨 수가 사람수보다 작다면....");
+                  for(var abab in tcarray){
+                    totalsum+=tcarray[abab];
+                  }
+                    firstsumofv=0;
+                    var newnumofpeople=tcarray.length;
+                    firstsumofv= newnumofpeople*tbottle-totalsum
+                    if(firstsumofv>0){
+                      firstsumofv=0;
+                    }
+                     yeontireason = ""+tcarray.length+"로조정."+" 인원*병-완티 "+newnumofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;  
                   }
                   console.log(snap.val()[a])
                     console.log(snap.val()[a].agasi)
@@ -449,6 +561,13 @@ export class AccountPage {
 
                 console.log("firstsumofv : "+firstsumofv);
                 var yeonti=firstsumofv;
+                if(yeonti<=0){
+                  yeonti=Math.abs(yeonti)
+                }
+                if(tbottle==0){
+                  yeonti=0;
+                  yeontireason+="술이 0병이므로 연티 0"
+                }
                     for(var aga in mainlist.agasi){
                       console.log("aga : ");
                       console.log(mainlist.agasi[aga])

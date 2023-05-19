@@ -104,7 +104,102 @@ export class Choicemodal3Page {
     
     
   }
+  filterDuplicates(arr) {
+    var seen = {};
+    console.log("Filter....");
+    var dupflag=false;
+    arr.filter(function(obj) {
+      if (seen.hasOwnProperty(obj.name)) {
+        console.log("is false");
+        window.alert(obj.name+"은 이미 입력한 이름입니다."+arr.length);
+        dupflag =  true
+        return false;
+      }else{
+          seen[obj.name] = true;
+          return true;
+      }
+    });
+    return dupflag;
+  }
+  getRoomList(v,newlist,subscribedList,currentstartday,modal,length,view,firemain,company){
+   
+    this.firemain.child("users").child(v.name).once("value",function(snapshot){
+      console.log(snapshot.val());
+      console.log(v.name);
+      var dte = new Date();
+                dte.setHours(dte.getHours()+9);
+                var agasidate = new Date(v.date);
+                agasidate.setHours(agasidate.getHours()+9);
+
+      if(snapshot.val()==null){
+        //최초등록
+        console.log(v.name+'first so push to newlist')
+        newlist.push({ "name":v.name,
+        "date": v.date ,"writer":v.writer});
+      }else if (snapshot.val().jopan==undefined){
+
+      console.log(snapshot.val().jopan);
+        console.log(v.name+"already")
+       // 이미등록되었지만 조판팀 설정안되있음. 
+      }else{
+
+
+      console.log(snapshot.val().jopan);
+        console.log(v.name+"already real")
+
+        var date = new Date();
+  
+      
+        var hour = date.getHours();
+        var min = date.getMinutes();
+
+        firemain.child("users").child(v.name.trim()).child("attendance").child(currentstartday).update({"currentStatus":"attend"})
+        firemain.child("users").child(v.name.trim()).child("attendance").child(currentstartday).child("attend").update({"team":snapshot.val().jopan,"name":v.name,"date":currentstartday,"flag":"attend","time":hour+":"+min})
+        firemain.child("users").child(v.name.trim()).update({"jopan":snapshot.val().jopan,"name":v.name,type:"agasi",writer:v.writer,status:false,id:v.name,company:company})
+        firemain.child("attendance").child(company).child(currentstartday).child(v.name).child("attend").update({ "team":snapshot.val().jopan,"name":v.name,"flag":"attend","date":currentstartday, "time":hour+":"+min})
+
+        subscribedList.push({"id":v.name,"name":v.name});
+
+         // 이미등록됨
+      }
+
+
+      var date = new Date();
+  
+      
+      var hour = date.getHours();
+      var min = date.getMinutes();
+
+      console.log(newlist);
+      console.log(subscribedList);
+      console.log(newlist.length);
+      console.log(subscribedList.length);
+      if(subscribedList.length + newlist.length == length){
+        console.log("Fin!!!")
+        if(newlist.length==0){
+          view.dismiss();
+        }else{
+          let modal2 = modal.create(Choicemodal2Page,{"agasi":newlist,"flag":"attend",  "subscribedList":subscribedList,"room":"100","currentstartday":currentstartday,"hour":hour,"min":min});
+          modal2.onDidDismiss(url => {
+            //console.log(url);
+            if(url==undefined){
+              return;
+            }else{
+              if(url.result=="ok"){
+                window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
+                //console.log(this.originalList);
+                view.dismiss();
+              }
+            }
+            
+          });
+      modal2.present();
+        }
+       
+      }
+    });  }
   confirm(){
+    this.agasilist=[];
     this.util.presentLoading();
     //console.log("출근부 출근 처리 시작")
     if(this.writer.length==0){
@@ -197,15 +292,23 @@ export class Choicemodal3Page {
     //if dupflag is true, then show alert
     //if dupflag is false, then save to firebase
     var dupflag=false;
+    var dupname = "";
     for(var a in this.agasilist){
       for(var b in this.a){
         if(this.agasilist[a].name.trim() == this.a[b].name.trim()){
           dupflag=true;
+          dupname = this.a[b].name;
         }
       }
     }
+    var result= this.filterDuplicates(this.agasilist);
+    if(result==true)
+    {
+      this.util.dismissLoading();
+      return;
+    }
     if(dupflag==true){
-      window.alert("이미 출근처리된 이름입니다.");
+      window.alert(dupname+" :  출근처리된 이름입니다.");
       this.util.dismissLoading();
       return;
     }
@@ -214,6 +317,16 @@ export class Choicemodal3Page {
       index === self.findIndex((t) => (t.name === arr.name)))
       //console.log(clean)
       this.agasilist=clean;
+
+      console.log(this.agasilist);
+      var newlist = [];
+      var subscribedList = [];
+      var n:any=0;
+      for(var a in this.agasilist){
+         n=this.getRoomList(this.agasilist[a],newlist,subscribedList,this.currentstartday,this.modal,this.agasilist.length,this.view,this.firemain,this.company);
+      }
+      this.util.dismissLoading();
+      return;
       for(var a in this.agasilist){
         this.originalList.push(this.agasilist[a]);
       }

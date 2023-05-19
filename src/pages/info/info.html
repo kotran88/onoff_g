@@ -22,9 +22,16 @@
         width: 30px" class="logo" src="assets/img/back1.png" />
       </button>
     </ion-buttons>
-
-      <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
-
+      <div style="position: absolute;
+      left: 45%;
+      top: 0;
+      display: grid;" class="centerlogo">
+        <img style="
+        width: 40px;
+        float:left;
+    " class="logo2" src="assets/img/logo_wad.jpg" />
+        <span style="float:left; font-size:11px;">{{currentstartday}}</span>
+      </div>
       <ion-buttons end>
         <button  style="color:white;"ion-button icon-only color="royal">
           <ion-icon name="person-add"></ion-icon>

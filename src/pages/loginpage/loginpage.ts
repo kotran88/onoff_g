@@ -43,7 +43,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230508 v2.989';
+  version='20230517 v2.993';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -179,9 +179,11 @@ export class LoginpagePage {
       }
       else{
         console.log(this.id);
-        console.log(this.id.length);
-       
+        console.log("dsfdf"+this.id.length);
+       console.log(this.firemain)
         this.firemain.child("users").once("value",(snap)=>{
+          console.log("users...");
+          console.log(snap.val());
           var flag=false;
           for(var aa in snap.val()){
             if(snap.val()[aa].id==this.id&&snap.val()[aa].pass==this.password){
@@ -244,58 +246,58 @@ export class LoginpagePage {
 
             localStorage.setItem("tc",snap2.val().tc);
             localStorage.setItem("auto",snap2.val().autoflag);
-            this.firemain.child("company").child(snap.val()[aa].company).child('openandclose').once('value').then((snap3)=>{
-              
-              console.log(snap3.val())
-              
-              localStorage.setItem("flag",snap3.val().flag);
-              if(snap3.val().flag==true){
-                localStorage.setItem("startDate",snap3.val().startDate);
-                localStorage.setItem("start",snap3.val().start);
+            localStorage.setItem("flag",snap2.val().openandclose.flag);
 
-                this.login_flag_update();
-                console.log(snap.val()[aa])
-                var price = snap2.val().price;
-                console.log(price);
-                localStorage.setItem("price",price)
-                console.log("gogo type is : "+type);
-                if(type == "park")
-                {
-                  //주차
-                  this.navCtrl.push(ParkingPage).then(() => {
-                    this.navCtrl.getActive().onDidDismiss(data => {
-                      console.log("login ondiddismiss...")
-                      this.check=false;
-                      localStorage.setItem("loginflag","false")
-                    });
-                  });
-                }
-                else if(type == "director")
-                {
-                  //부장 
-                  this.navCtrl.push(DirectorpagePage,{"user":this.directorList});
-                }else if(type == "account"){
-                  //경리 
-                this.navCtrl.push(AccountPage);
-                }else if(type=="info"){
-                  //인포  
-                  this.navCtrl.push(InfoPage,{"user":this.directorList})
-                }else if(type=="agasi"){
-                  //아가씨 
-                  this.navCtrl.push(AgasiPage)
-                }else if(type=="band"){
-                  //band 
-                  this.navCtrl.push(BandPage)
-                }else if(type=="wt"){
-                  //wt 
-                  this.navCtrl.push(WtPage)
-                }else if(type=="kyungri"){
-                  this.navCtrl.push(InfoPage,{"user":this.directorList})
-                }
-              }else{
-                window.alert("업장 개시하지 않았습니다 매니저에게 문의하세요")
-              }
-            });
+            this.login_flag_update();
+            console.log(snap.val()[aa])
+            var price = snap2.val().price;
+            console.log(price);
+            localStorage.setItem("price",price)
+            console.log("gogo type is : "+type);
+            if(snap2.val().openandclose.flag==true){
+              localStorage.setItem("startDate",snap2.val().openandclose.startDate);
+              localStorage.setItem("start",snap2.val().openandclose.start);
+
+            }else{
+              window.alert("업장 개시하지 않았습니다 매니저에게 문의하세요")
+              return;
+            }
+            
+            if(type == "park")
+            {
+              //주차
+              this.navCtrl.push(ParkingPage).then(() => {
+                this.navCtrl.getActive().onDidDismiss(data => {
+                  console.log("login ondiddismiss...")
+                  this.check=false;
+                  localStorage.setItem("loginflag","false")
+                });
+              });
+            }
+            else if(type == "director")
+            {
+              //부장 
+              this.navCtrl.push(DirectorpagePage,{"user":this.directorList});
+            }else if(type == "account"){
+              //경리 
+            this.navCtrl.push(AccountPage);
+            }else if(type=="info"){
+              //인포  
+              this.navCtrl.push(InfoPage,{"user":this.directorList})
+            }else if(type=="agasi"){
+              //아가씨 
+              this.navCtrl.push(AgasiPage)
+            }else if(type=="band"){
+              //band 
+              this.navCtrl.push(BandPage)
+            }else if(type=="wt"){
+              //wt 
+              this.navCtrl.push(WtPage)
+            }else if(type=="kyungri"){
+              this.navCtrl.push(InfoPage,{"user":this.directorList})
+            }
+            
+            
           });
 
 

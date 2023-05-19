@@ -56,16 +56,16 @@ export class AttendancePage {
     this.hour = date.getHours();
     this.min = date.getMinutes();
     this.selectedday=this.currentstartday
-    //console.log(this.currentstartday);
+    console.log(this.currentstartday);
   }
   editing(a){
     if(a.team=="미지정"){
-      //console.log("editing...")
-    //console.log(a);
+      console.log("editing...")
+    console.log(a);
 
     let modal = this.modal.create(Choicemodal2Page,{"agasi":a,"flag":"attend","currentstartday":this.currentstartday});
     modal.onDidDismiss(url => {
-      //console.log(url);
+      console.log(url);
       this.generating();
 
     });
@@ -76,11 +76,11 @@ export class AttendancePage {
     
   }
   attending(){
-    //console.log("attending??");
+    console.log("attending??");
 
     let modal = this.modal.create(Choicemodal3Page,{ "a":this.mainlist });
     modal.onDidDismiss(url => {
-        //console.log(url);
+        console.log(url);
         if(url==undefined){
           this.generating();
         }else if(url.result=="cancel"){
@@ -101,25 +101,25 @@ export class AttendancePage {
 
   }
   searching(){
-    //console.log(this.inputtext)
-    //console.log(this.selected)
+    console.log(this.inputtext)
+    console.log(this.selected)
 
 
     this.mainlist=[];
     this.mainlist_no=[];
     this.firemain.child('attendance').child(this.company).once('value').then((snap)=>{
-      //console.log(snap.val())
+      console.log(snap.val())
 
       for(var a in snap.val()){
-        //console.log(a)
-        //console.log(snap.val()[a])
+        console.log(a)
+        console.log(snap.val()[a])
         if(a==this.currentstartday){
-          //console.log("mmmm")
+          console.log("mmmm")
           for(var b in snap.val()[a]){
-            //console.log(snap.val()[a][b]);
+            console.log(snap.val()[a][b]);
             if(this.selected==1){
               if(snap.val()[a][b].attend.name.trim()==this.inputtext.trim()){
-                //console.log(snap.val()[a][b].attend.flag);
+                console.log(snap.val()[a][b].attend.flag);
               if(snap.val()[a][b].attend!=undefined){
                 this.mainlist.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team});
               }
@@ -131,7 +131,7 @@ export class AttendancePage {
               }
             }else{
               if(snap.val()[a][b].attend.team.trim().toUpperCase()==this.inputtext.trim().toUpperCase()){
-                //console.log(snap.val()[a][b].attend.flag);
+                console.log(snap.val()[a][b].attend.flag);
               if(snap.val()[a][b].attend!=undefined){
                 this.mainlist.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team});
               }
@@ -154,8 +154,8 @@ export class AttendancePage {
   }
   generateaatendance(){
 
-    //console.log("ionViewWillEnter");
-    //console.log(this.company);
+    console.log("ionViewWillEnter");
+    console.log(this.company);
    
 
     this.totalagasi=[];
@@ -167,16 +167,16 @@ export class AttendancePage {
     this.jopanjjinglist = [];
     this.jopanjjinglist2 = [];
 
-    this.firemain.child("company").child(this.company).child('roomlist').once('value').then((snap)=>{
+    this.firemain.child("company").child(this.company).child('madelist').child(this.currentstartday).once('value').then((snap)=>{
      
       if(snap.val()!=undefined){
         for(var a in snap.val()){
   
-          for(var b in snap.val()[a].roomhistory){
-            for(var c in snap.val()[a].roomhistory[b]){
-                if(snap.val()[a].roomhistory[b][c].date==this.currentstartday){
-                  var mainlist=snap.val()[a].roomhistory[b][c];
-  
+            for(var b in snap.val()[a]){
+              console.log(b);
+                if(snap.val()[a][b].date==this.currentstartday){
+                  var mainlist=snap.val()[a][b];
+  console.log(mainlist);
           for(var d in mainlist.agasi){
                  
             if(mainlist.agasi[d].findate!=undefined){
@@ -200,21 +200,20 @@ export class AttendancePage {
               mainlist.agasi[d].bantee=bantee;
               this.agasijungsantotal.push({"bantee":mainlist.agasi[d].bantee,"chasam":0,"name":mainlist.agasi[d].name,"date":mainlist.agasi[d].date,"incharge":mainlist.agasi[d].incharge,"money":mainlist.agasi[d].money,"tc":mainlist.agasi[d].tc,"wantee":Math.floor(mainlist.agasi[d].tc)});
             this.agasijungsan.push({"bantee":mainlist.agasi[d].bantee,"chasam":0,"name":mainlist.agasi[d].name,"date":mainlist.agasi[d].date,"incharge":mainlist.agasi[d].incharge,"money":mainlist.agasi[d].money,"tc":mainlist.agasi[d].tc,"wantee":Math.floor(mainlist.agasi[d].tc)});
-            //console.log("is  having findate so this agasi is in bang")
-            //console.log(mainlist.agasi[d].name);
+            console.log("is  having findate so this agasi is in bang")
+            console.log(mainlist.agasi[d].name);
               this.mainlistfromcompany.push({"name":mainlist.agasi[d].name,"wantee":Math.floor(mainlist.agasi[d].tc), "tc":mainlist.agasi[d].tc,"bantee":mainlist.agasi[d].bantee,"money":mainlist.agasi[d].money})
             }
           }
 
         }
-    }
   }
 }
-//console.log("for loop finfin")
+console.log("for loop finfin")
 
-//console.log(this.agasijungsan);
+console.log(this.agasijungsan);
 this.numberofIn=this.agasijungsan.length;
-//console.log(this.mainlistfromcompany);
+console.log(this.mainlistfromcompany);
 var newvaluearray=[];
 for(var a in this.mainlistfromcompany){
   var check=0;
@@ -238,23 +237,23 @@ for(var a in this.mainlistfromcompany){
     }
       }
 }
-//console.log(newvaluearray);
+console.log(newvaluearray);
 this.mainlistfromcompany=newvaluearray;
 this.mainlist=[];
 this.firemain.child('attendance').child(this.company).once('value').then((snap)=>{
-  //console.log("attendance check...");
+  console.log("attendance check...");
   for(var a in snap.val()){
     if(a==this.currentstartday){
-      //console.log("mmmm")
+      console.log("mmmm")
       for(var b in snap.val()[a]){
         if(snap.val()[a][b].attend!=undefined){
-          //console.log(snap.val()[a][b].attend)
-          this.mainlist.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});
+          console.log(snap.val()[a][b].attend)
+          this.mainlist.push({"name":snap.val()[a][b].attend.name,"time": snap.val()[a][b].attend.time, "status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});
        
           for(var abba in this.mainlistfromcompany){
             if(this.mainlistfromcompany[abba].name == snap.val()[a][b].attend.name){
-              //console.log(snap.val()[a][b].attend);
-              //console.log(this.mainlistfromcompany[abba])
+              console.log(snap.val()[a][b].attend);
+              console.log(this.mainlistfromcompany[abba])
 
               // this.agasijungsantotal.push({"bantee":this.mainlistfromcompany[abba].bantee,"chasam":0,"name":this.mainlistfromcompany[abba].name,"date":snap.val()[a].roomhistory[aa][b][c].date,"incharge":snap.val()[a].roomhistory[aa][b][c].incharge,"money":snap.val()[a].roomhistory[aa][b][c].money,"tc":snap.val()[a].roomhistory[aa][b][c].tc,"wantee":Math.floor(snap.val()[a].roomhistory[aa][b][c].tc)});
               for(var abw in this.mainlist){
@@ -264,7 +263,7 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
                 }
                 
               }
-              this.mainlist.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team,"tc":this.mainlistfromcompany[abba].tc,"wantee":this.mainlistfromcompany[abba].wantee,"money":this.mainlistfromcompany[abba].money,"bantee":this.mainlistfromcompany[abba].bantee});
+              this.mainlist.push({"name":snap.val()[a][b].attend.name,"time": snap.val()[a][b].attend.time,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team,"tc":this.mainlistfromcompany[abba].tc.toFixed(1),"wantee":this.mainlistfromcompany[abba].wantee,"money":this.mainlistfromcompany[abba].money,"bantee":this.mainlistfromcompany[abba].bantee});
          
                 }
           }
@@ -273,20 +272,29 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
         }
         if(snap.val()[a][b].noattend!=undefined){
           this.totalout++;
-          this.mainlist_no.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].noattend.flag,"team":snap.val()[a][b].noattend.team});
+          this.mainlist_no.push({"name":snap.val()[a][b].attend.name,"time": snap.val()[a][b].attend.time, "status":snap.val()[a][b].noattend.flag,"team":snap.val()[a][b].noattend.team});
         }
 
       }
     }
 
   }
-  //console.log(this.mainlist)
-  //console.log(this.mainlistfromcompany)
+  this.mainlist.sort(function(a, b) {
+    var timeA = a.time.split(":"); // split time string into hours and minutes
+    var timeB = b.time.split(":");
+    if (timeA[0] === timeB[0]) { // if hours are equal, compare minutes
+      return timeA[1] - timeB[1];
+    } else { // otherwise, compare hours
+      return timeA[0] - timeB[0];
+    }
+  });
+  console.log(this.mainlist)
+  console.log(this.mainlistfromcompany)
   
  
-  //console.log("okdoneeeee")
-  //console.log(this.agasijungsan);
-  //console.log(this.agasijungsantotal);
+  console.log("okdoneeeee")
+  console.log(this.agasijungsan);
+  console.log(this.agasijungsantotal);
   // this.util.dismissLoading();
 
 this.numofstandby=this.mainlist.length - this.numberofIn;
@@ -299,7 +307,7 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
 
   }
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad AttendancePage');
+    console.log('ionViewDidLoad AttendancePage');
     this.util.presentLoading();
     this.goToday();
     setTimeout(()=>{
@@ -317,19 +325,21 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
   }
 
   generating(){
-    //console.log("gggggenerating...");
-    
+    console.log("gggggenerating...");
+    this.mainlist=[];
+    this.mainlist_no=[];
+    this.mainlistfromcompany=[];
     this.generateaatendance();
     this.firemain.child("company").child(this.company).child("jopanjjing").once("value", (snap) => {
-      //console.log("jopanjjing come")
+      console.log("jopanjjing come")
       for(var a in snap.val()){
-        //console.log(snap.val()[a][this.selectedday])
+        console.log(snap.val()[a][this.selectedday])
         if(snap.val()[a][this.selectedday]!=undefined){
           for(var b in snap.val()[a][this.selectedday]){
-            //console.log(b);
-            //console.log(this.selectedday);
-            //console.log(snap.val()[a][this.selectedday])
-            //console.log(snap.val()[a][this.selectedday][b])
+            console.log(b);
+            console.log(this.selectedday);
+            console.log(snap.val()[a][this.selectedday])
+            console.log(snap.val()[a][this.selectedday][b])
   
   
             var jopanjjing = snap.val()[a][this.selectedday][b].values;
@@ -346,7 +356,7 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
             this.jopanjjinglist[team].push({"agasi":agasi,"incharge":incharge,"date":date,"jopan":team,"values":jopanjjing});
             this.jopanjjinglist2[team].push({"dummy":0});
             for(var aa in this.jopanjjinglist[team]){
-              //console.log(this.jopanjjinglist[team][aa]);
+              console.log(this.jopanjjinglist[team][aa]);
               
               totaljjing+=parseInt(this.jopanjjinglist[team][aa].values);
               this.jopanjjinglist2[team].totaljjing = totaljjing;
@@ -358,29 +368,29 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
         
       }
 
-        //console.log(this.jopanjjinglist);
+        console.log(this.jopanjjinglist);
         for(var abc in this.jopanjjinglist){
-          //console.log(abc);
-          //console.log(this.jopanjjinglist[abc])
+          console.log(abc);
+          console.log(this.jopanjjinglist[abc])
         }
-        //console.log(this.jopanjjinglist2);
+        console.log(this.jopanjjinglist2);
         this.newlist=[];
         for(var abdc in this.jopanjjinglist2){
-          //console.log(abdc);
+          console.log(abdc);
           this.newlist.push({"teamname":this.jopanjjinglist2[abdc].teamname,"jjing":this.jopanjjinglist2[abdc].totaljjing})
-          //console.log(this.jopanjjinglist2[abdc].totaljjing)
-          //console.log(this.jopanjjinglist2[abdc].teamname)
+          console.log(this.jopanjjinglist2[abdc].totaljjing)
+          console.log(this.jopanjjinglist2[abdc].teamname)
         }
-        //console.log(this.newlist);
+        console.log(this.newlist);
 
 
 
     });
-    //console.log(this.agasijungsan);
-    //console.log(this.agasijungsantotal);
+    console.log(this.agasijungsan);
+    console.log(this.agasijungsantotal);
   }
   openclose(){
-    //console.log("open and cloe");
+    console.log("open and cloe");
     // this.menuCtrl.open();
     this.view.dismiss();
   }
@@ -393,7 +403,7 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
           document.getElementById("ion-label-area-" + e.value).style.display = "";
           this.zone.run(()=>{
             this.activeclass=e.value;
-            //console.log(this.activeclass)
+            console.log(this.activeclass)
           })
         },500)
       }else{
@@ -402,7 +412,7 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
         this.zone.run(()=>{
 
           this.activeclass=e.value;
-          //console.log(this.activeclass)
+          console.log(this.activeclass)
         })
       }
 
@@ -430,18 +440,18 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
     return false;
   }
   gotocalendardetail(day,flag){
-    //console.log("gotocalendardetail");
-    //console.log(flag);
-    //console.log(this.currentYear);
-    //console.log(this.currentMonth);
-    //console.log(this.currentDate);
-    //console.log("clicked"+day);
+    console.log("gotocalendardetail");
+    console.log(flag);
+    console.log(this.currentYear);
+    console.log(this.currentMonth);
+    console.log(this.currentDate);
+    console.log("clicked"+day);
     this.selectedday=this.currentYear+"-"+this.currentMonth+"-"+day;
 
       this.generating();
   }
   getDaysOfMonth() {
-    //console.log("getDaysofMonth...")
+    console.log("getDaysofMonth...")
     this.daysInThisMonth = [];
     this.daysInLastMonth = [];
     this.daysInNextMonth = [];
@@ -492,9 +502,9 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
   }
 
   goToNextMonth() {
-    //console.log("gotonextmonth")
-    //console.log(this.date.getFullYear()+",,,,"+this.date.getMonth()+2, 0);
-    //console.log(this.date);
+    console.log("gotonextmonth")
+    console.log(this.date.getFullYear()+",,,,"+this.date.getMonth()+2, 0);
+    console.log(this.date);
     this.date = new Date(this.date.getFullYear(), this.date.getMonth()+2, 0);
     // this.zone.run(()=>{
       this.getDaysOfMonth();

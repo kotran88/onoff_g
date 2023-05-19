@@ -50,9 +50,9 @@ export class OrderdetailPage {
     this.currentstartday=localStorage.getItem("startDate");
     if(this.flag=="more"){
       //console.log("추가주문");
-      this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").once("value",snap=>{
+      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("orderlist").once("value",snap=>{
         for(var a in snap.val()){
-          //console.log(snap.val()[a]);
+          console.log(snap.val()[a]);
             for(var b in snap.val()[a]){
               //console.log(b);
               //console.log(snap.val()[a][b]);
@@ -143,7 +143,7 @@ export class OrderdetailPage {
    
     this.firemain.child("users").child(this.a.directorId).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
    
-    this.firemain.child("company").child(this.company).child("roomlist").child(this.a.name).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
     //console.log("2222");
     this.firemain.child("users").child(this.a.directorId).child("incentive").child(this.currentstartday).child(this.a.key).child("ordertype").update({"bu":this.a.bu, "type":"order", "roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
     window.alert("주문이 완료되었습니다.");

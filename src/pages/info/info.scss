@@ -332,7 +332,16 @@ page-info {
             font-size: 20px;
           }
         }
-
+.centerlogo{
+  position: absolute;
+  left: 45%;
+  top: 0;
+  display: grid;
+}
+.logo2{
+  float:left;
+  width:40px;
+}
         .chart-div
         {
           color: black;

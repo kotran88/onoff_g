@@ -138,7 +138,9 @@ export class WtPage {
     this.navCtrl.setRoot(LoginpagePage)
 }
 onrefresh(){
+  this.util.presentLoading();
   this.generate();
+  this.util.dismissLoading();
 }
 generate(){
   this.noflaglist=[];
@@ -154,7 +156,7 @@ generate(){
                   continue;
                 }
 
-                console.log(snap.val()[a]);
+                //console.log(snap.val()[a]);
       console.log(snap.val()[a].name);
                 var numofangel =0;
                 //////console.log(snap.val()[a]);
@@ -262,16 +264,22 @@ generate(){
                 var firstsumofv=0;
                 var totalsum=0;
                 var allzero=false;
-                if(logic){
-                  tbottle=tbottle-1;
-                  yeontireason+=" 술병 차감 -1 , "
-                }
-                if(tcarraywithoutagasi.length>numofpeople){
+                if(tbottle==0){
 
+                }else{
+                  if(logic==1){
+                    tbottle=tbottle-1;
+                    yeontireason+=" 술 -1 , "
+                  }if(logic==2){
+                    tbottle=tbottle-2;
+                    yeontireason+=" 술 -2, "
+                  }
+                }
+                
+                if(tcarraywithoutagasi.length>numofpeople){
                   yeontireason="";
                   firstsumofv=0;
                   console.log("날개 제외 아가씨 수가 사람수보다 많다면....")
-
                   console.log(tarray);
                   tarray.sort(function(a,b){
                     //////console.log(a.date+",,,"+b.date)
@@ -293,8 +301,8 @@ generate(){
                       console.log(tarray[abab]);
                       if(tarray[abab].angel!=true){
                         stop++;
-                        firstsumofv+=tarray[abab].tc
-                        yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함."
+                        firstsumofv+=tarray[abab].tc-tbottle
+                        yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"더하고 뺌"+tbottle+""
                       }else if(tarray[abab].angel){
                         if(tarray[abab].tc - tbottle>=0){
 
@@ -308,11 +316,11 @@ generate(){
                     }
                     if(cvalue>=numofpeople){
 
-                      console.log(tarray[abab]);
+                      console.log("cvalue>=numofpeople"+tarray[abab]);
                       if(tarray[abab].angel!=true){
                         stop++;
                         firstsumofv+=tarray[abab].tc
-                        yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함!!!"
+                        yeontireason+="/"+tarray[abab].name+"의tc"+tarray[abab].tc+"를 더함.!!!"
                       }else if(tarray[abab].angel){
                         if(tarray[abab].tc - tbottle>=0){
 
@@ -373,7 +381,7 @@ generate(){
                   }
                    yeontireason = ""+tcarray.length+"로조정."+" 인원*병-완티 "+newnumofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;  
                 }
-               
+               console.log(yeontireason)
                 var yeonti=firstsumofv;
                 if(yeonti<=0){
                   yeonti=Math.abs(yeonti)
@@ -390,6 +398,10 @@ generate(){
                   console.log("totalmoney....")
                   totalmoney=totalmoney*10000;
 
+                  console.log("calcuu");
+                  console.log(this.todaymoney )
+                  console.log(tp);
+                  console.log(yeonti);
                   console.log(totalmoney);
                   this.todaymoney += tp+totalmoney+Number(yeonti*10000);
                   console.log(this.todaymoney);
@@ -411,11 +423,11 @@ generate(){
                   }else{
                     orderdate = "";
                   }
-                  if(snap.val()[a].noflag){
-                    this.noflaglist.push({"open":false,"status":snap.val()[a].status,"noflag":snap.val()[a].noflag,  "enddate":enddate,"key":snap.val()[a].key, "tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":snap.val()[a].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].wt,"date":orderdate,"roomno":snap.val()[a].name, "value":orderl});
-                  }else{
+                  // if(snap.val()[a].noflag||!snap.val()[a].noflag){
+                  //   // this.noflaglist.push({"open":false,"status":snap.val()[a].status,"noflag":snap.val()[a].noflag,  "enddate":enddate,"key":snap.val()[a].key, "tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":snap.val()[a].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].wt,"date":orderdate,"roomno":snap.val()[a].name, "value":orderl});
+                  // }else{
                     this.orderlist.push({"open":false,"status":snap.val()[a].status,"noflag":snap.val()[a].noflag,  "enddate":enddate,"key":snap.val()[a].key, "tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":snap.val()[a].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].wt,"date":orderdate,"roomno":snap.val()[a].name, "value":orderl});
-                  }
+                  // }
                      }
              
               
@@ -425,7 +437,6 @@ generate(){
     }
     // this.orderlist.
     //sort if orderlist's enddate is empty or not 
-    console.log(this.noflaglist);
     this.orderlist.sort(function(a,b){
       if(a.enddate==""){
         return -1;
@@ -437,11 +448,11 @@ generate(){
     })
     
     console.log(this.orderlist);
-    for(var aeq in this.noflaglist){
-      this.orderlist.push({
-        "open":false,"status":this.noflaglist[aeq].status,"noflag":this.noflaglist[aeq].noflag,  "enddate":enddate,"key":this.noflaglist[aeq].key, "tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":this.noflaglist[aeq].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":this.noflaglist[aeq].wt,"date":orderdate,"roomno":this.noflaglist[aeq].roomno, "value":orderl
-      })
-    }
+    // for(var aeq in this.noflaglist){
+    //   this.orderlist.push({
+    //     "open":false,"status":this.noflaglist[aeq].status,"noflag":this.noflaglist[aeq].noflag,  "enddate":enddate,"key":this.noflaglist[aeq].key, "tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":this.noflaglist[aeq].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":this.noflaglist[aeq].wt,"date":orderdate,"roomno":this.noflaglist[aeq].roomno, "value":orderl
+    //   })
+    // }
     console.log(this.orderlist);
     //////console.log("end!");
   });
@@ -460,8 +471,9 @@ ionViewWillEnter(){
 
 }
 refreshoneroom(mainlist){
-  //////console.log("refreshoneroom ");
-  ////console.log(mainlist);
+  console.log("refreshoneroom ");
+  console.log(mainlist);
+  this.todaymoney=0;
   if(mainlist==undefined){
     this.generate();
     return;
@@ -593,10 +605,12 @@ refreshoneroom(mainlist){
                 cvalue++;
                 console.log(cvalue+"????"+numofpeople);
                 if(cvalue<numofpeople){
+                  console.log("cvalue<numofpeople");
+
                   if(tarray[abab].angel!=true){
                     stop++;
-                    firstsumofv+=tarray[abab].tc
-                    yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함."
+                    firstsumofv+=(tarray[abab].tc-tbottle)
+                    yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+",,"+tbottle+"뺌."
                   }else if(tarray[abab].angel){
                     if(tarray[abab].tc - tbottle>=0){
 
@@ -605,14 +619,14 @@ refreshoneroom(mainlist){
                
                     }
                   }
-                  firstsumofv+=tarray[abab].tc
-                  yeontireason+="//"+tarray[abab].name+"의 tc:"+tarray[abab].tc+"개를 더함."
+                  firstsumofv+=tarray[abab].tc-tbottle
+                  yeontireason+="//"+tarray[abab].name+"의 tc:"+tarray[abab].tc+","+tbottle+"뺌."
                 }
                 if(cvalue>=numofpeople){
                   if(tarray[abab].angel!=true){
                     stop++;
                     firstsumofv+=tarray[abab].tc
-                    yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함."
+                    yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함?."
                   }else if(tarray[abab].angel){
                     if(tarray[abab].tc - tbottle>=0){
 
@@ -667,7 +681,11 @@ refreshoneroom(mainlist){
               console.log(tp);
               console.log("totalmoney....")
               totalmoney=totalmoney*10000;
+              console.log("calcu");
 
+              console.log(this.todaymoney )
+              console.log(tp);
+              console.log(yeonti);
               console.log(totalmoney);
               this.todaymoney += tp+totalmoney+Number(yeonti*10000);
               console.log(this.todaymoney);
@@ -723,50 +741,49 @@ refreshoneroom(mainlist){
     //////console.log('ionViewDidLoad wt page');
 
       //  "child_added", "child_changed", "child_removed", or "child_moved."
-      this.firemain.child("company").child(this.company).child("roomlist").on('child_removed', function(snap, prevChildKey) {
+      this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_removed', function(snap, prevChildKey) {
         //////console.log("child_removedchild_removedchild_removedchild_removed");
         //////console.log(snap.val());
         //////console.log(prevChildKey);
         // this.firemain.child("compan
         // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
       });
-      this.firemain.child("company").child(this.company).child("roomlist").on('child_moved', function(snap, prevChildKey) {
+      this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_moved', function(snap, prevChildKey) {
         //////console.log("child_movedchild_movedchild_movedchild_moved");
         //////console.log(snap.val());
         //////console.log(prevChildKey);
         // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
       });
-      this.firemain.child("company").child(this.company).child("roomlist").on('child_added', function(snap, prevChildKey) {
+      this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_added', function(snap, prevChildKey) {
         //////console.log("child_addedchild_addedchild_addedchild_added");
         //////console.log(snap.val());
         //////console.log(prevChildKey);
         // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
       });
-        this.firemain.child("company").child(this.company).child("roomlist").on('child_changed', (snap, prevChildKey) =>{
-          //////console.log("child_changedchild_changedchild_changedchild_changedchild_changed");
-          //////console.log(snap.val());
-          for(var date in snap.val().roomhistory){
-            if(date==this.currentstartday){
-              // for(var sdate in snap.val().roomhistory[date]){
-              //   this.refreshoneroom(snap.val().roomhistory[date][sdate]);
-              // }
-              var flagging=false;
-              for(var room in this.orderlist){
-                for(var sdate in snap.val().roomhistory[date]){
-                  //////console.log(this.orderlist[room].roomno);
-                  //////console.log(snap.val().roomhistory[date][sdate]);
-                if(this.orderlist[room].key == snap.val().roomhistory[date][sdate].key){
-                  flagging=true;
-                  //////console.log("match!!!");
-                  this.refreshoneroom(snap.val().roomhistory[date][sdate]);
-                    }
-                }
-              }
-              if(!flagging){
-                this.refreshoneroom(snap.val().roomhistory[date][sdate]);
-              }
-            }
-          }
+      this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_changed', (snap, prevChildKey) =>{
+          console.log("child_changedchild_changedchild_changedchild_changedchild_changed");
+          console.log(snap.val());
+          this.generate();
+          // for(var date in snap.val()){
+          //   console.log("date:"+date);
+          //     // for(var sdate in snap.val().roomhistory[date]){
+          //     //   this.refreshoneroom(snap.val().roomhistory[date][sdate]);
+          //     // }
+          //     var flagging=false;
+          //     for(var room in this.orderlist){
+          //         console.log(this.orderlist[room].key);
+          //         console.log(snap.val().key);
+                  
+          //       if(this.orderlist[room].key == snap.val().key){
+          //         //////console.log("match!!!");
+          //         flagging=true;
+                
+          //           }
+          //     }
+          //     if(!flagging){
+          //       this.refreshoneroom(snap.val());
+          //     }
+          // }
           // this.refreshChoice2();
           // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
         });

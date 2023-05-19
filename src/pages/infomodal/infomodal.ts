@@ -20,7 +20,7 @@ export class InfomodalPage {
   nomemo:any="";
   incharge:any="";
   numofpeople:any="";
-  booleanValue:any=false;
+  booleanValue:any=0;
   booleanValue2:any=false;
   booleanValue3:any=false;
   lloading:any;
@@ -39,15 +39,35 @@ export class InfomodalPage {
   constructor(public util:UtilsProvider, public navCtrl: NavController,public loading:LoadingController,public view:ViewController, public navParams: NavParams) {
    this.room= this.navParams.get("room");
     this.bu= this.navParams.get("bu");
-    this.directorList =  localStorage.getItem("director");
     this.nickname=localStorage.getItem("nickname");
     //console.log(this.directorList)
-    this.directorList= JSON.parse(this.directorList);
     
    this.company = localStorage.getItem("company");
    this.currentstart=localStorage.getItem("start");
    this.name = localStorage.getItem("name");
    this.currentstartday=localStorage.getItem("startDate");
+   var incharge=this.navParams.get("selectedIncharge");
+   if(incharge!=undefined){
+    if(incharge.length>0){
+      this.incharge=incharge;
+    }
+   }
+   
+
+   var logic=this.navParams.get("selectedLogic");
+   if(logic!=undefined){
+      this.booleanValue=logic;
+   }
+
+   var avec=this.navParams.get("selectedAvec");
+   if(avec!=undefined){
+    if(avec){
+      this.booleanValue2=avec;
+    }else{
+       this.booleanValue2=false;
+    }
+   }
+
    //console.log(this.currentstartday);
    //console.log("room",this.room);
    //console.log(this.company)
@@ -70,10 +90,19 @@ export class InfomodalPage {
     this.view.dismiss({"result":true});
   }
   myChange(v){
-    //console.log(this.booleanValue)
+    console.log(this.booleanValue)
+    if(v==0){
+      console.log("change to 1");
+      this.booleanValue=1;
+      console.log(this.booleanValue);
+    }if(v==1){
+      this.booleanValue=2;
+    }if(v==2){
+      this.booleanValue=0;
+    }
   }
   myChange2(v){
-    //console.log(this.booleanValue2)
+    console.log(this.booleanValue2)
   }
   myChange3(v){
     console.log(v.checked);
@@ -84,112 +113,190 @@ export class InfomodalPage {
     }
   }
   confirm(){
+    
+    var date = new Date();
+    
+    var year=date.getFullYear();
+    var month=date.getMonth()+1;
+    var day = date.getDate();
+    var hour = date.getHours();
+    var min = date.getMinutes();
+
+    var dte = new Date();
+    var fulldate = this.currentstartday;
+    var key = this.firemain.child('rooms').child(fulldate).push().key;
     this.util.presentLoading();
-    for(var abab in this.directorList){
-      if(this.directorList[abab].nickname.trim()==this.incharge){
+    if(this.incharge.length==0){
+      var wt="no";
+      var numofpeople=0;
 
-
-          this.bujangid=this.directorList[abab].nickname;
-          this.bujangjopan = this.directorList[abab].jopan;
-          this.bujangyoung = this.directorList[abab].young;
-          if(this.directorList[abab].young==undefined){
-            this.bujangyoung=this.directorList[abab].uniqueid.substring(0,1);
-          }
-          if(this.directorList[abab].jopan==undefined){
-            this.bujangjopan="no";
-          }
-        
-      }
-      
-    }
-    //console.log(this.bujangid);
-    //console.log(this.bujangjopan);
-    //console.log(this.bujangyoung);
-    if(this.bujangid=="noname"){
-      window.alert("없는담당자입니다. 담당자명을 확인하세요.")
-
-      return;
-    }
-    if(this.wt.trim().length==0){
-      window.alert("웨이터는 필수입니다..")
-
-      return;
-    }
-    if(this.bujangyoung.length==0||this.bujangyoung.length==1){
-        this.util.dismissLoading();
-        return; 
-    }
-      
-
-  var countingvalue=0;
-  var fin_countingvalue=0;
-      var flag = this.containsOnlyNumbers(this.numofpeople);
-      if(this.booleanValue3){
-
+      if(this.wt.length==0){
+        wt="no";
       }else{
-        if(!flag){
-          window.alert("인원은 숫자만 입력해주세요")
-          this.util.dismissLoading();
-         
-  
-          return;
-        }
+        wt=this.wt;
       }
-     
-      this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+      if(this.numofpeople.length==0){
+        numofpeople=0;
+      }else{
+        numofpeople=this.numofpeople;
+      }
+      this.wt=wt;
+      this.numofpeople=numofpeople;
+      var countingvalue=0;
+      var fin_countingvalue =0;
+      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).once('value').then((snap)=>{
         for(var a in snap.val()){
-            if(snap.val()[a].roomhistory!=undefined){
-              for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-                if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
-                  if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
-                    if(snap.val()[a].roomhistory[this.currentstartday][b].angel!=true){
-                     countingvalue++;
-                    }
+          for(var b in snap.val()[a]){
+              if(snap.val()[a][b].end_date_full==undefined){
+                if(snap.val()[a][b].date!=undefined){
+                  if(snap.val()[a][b].angel!=true){
+                   countingvalue++;
                   }
-                }
-                if(snap.val()[a].roomhistory[this.currentstartday][b].end_date_full==undefined){
-                  if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
-                    fin_countingvalue++;
-                  }
-                }
                 }
               }
+              if(snap.val()[a][b].end_date_full==undefined){
+                if(snap.val()[a][b].date!=undefined){
+                  fin_countingvalue++;
+                }
+              }
+          }
+              
             }
   
   
   
-            var date = new Date();
-  
-      var year=date.getFullYear();
-      var month=date.getMonth()+1;
-      var day = date.getDate();
-      var hour = date.getHours();
-      var min = date.getMinutes();
-  
-      var dte = new Date();
-      var fulldate = this.currentstartday;
-      var key = this.firemain.child('rooms').child(fulldate).push().key;
         if(countingvalue==undefined){
           countingvalue=1;
         }
-        if(this.booleanValue3){
+      });
+      console.log({"logic":this.booleanValue,"avec":this.booleanValue2, "nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3,"name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()});
 
-        }else{
-
-        }
-       
-      this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).child("roomhistory").child(this.currentstartday+"").child(key).update({"logic":this.booleanValue,"nomemo":this.nomemo,"noflag":this.booleanValue3, "avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
-      this.firemain.child("users").child(this.wt).child("roomhistory").child(this.currentstartday).child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "nomemo":this.nomemo,"noflag":this.booleanValue3,"name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
-      
-      this.firemain.child("users").child(this.incharge).child("roomhistory").child(this.currentstartday).child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"nomemo":this.nomemo,"noflag":this.booleanValue3, "wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
-      
-      
+      this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).update({"flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").child(this.room.name).child(key).update({"logic":this.booleanValue,"nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3, "avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
       this.util.dismissLoading();
       this.view.dismiss({"result":false});
+    }else{
+      this.firemain.child("users").child(this.incharge).once("value",snap=>{
+        console.log(snap.val())
+        if(snap.numChildren()==0){
+          window.alert("없는 담당자입니다.");
+        }else{
+          this.bujangid=snap.val().nickname;
+          this.bujangjopan = snap.val().jopan;
+          this.bujangyoung = snap.val().young;
+        }
+        console.log("user loop finished");
+      console.log(this.bujangjopan)
+      if(this.bujangjopan==undefined){
+        this.bujangjopan="no";
+      }
+      console.log(this.bujangjopan);
+      console.log(this.bujangyoung);
+      if(this.booleanValue3){
   
+      }else{
+        if(this.incharge.trim().length==0){
+          window.alert("담당자는 필수입니다..")
+    
+          return;
+        }
+      if(this.wt.trim().length==0){
+        window.alert("웨이터는 필수입니다..")
   
+        this.util.dismissLoading();
+        return;
+      }
+      }
+      if(this.bujangyoung.length==0||this.bujangyoung.length==1){
+        window.alert("해당 담당자는 팀이 설정되어있지않습니다.")
+        this.util.dismissLoading();
+          return; 
+      }
   
-          });
+    var countingvalue=0;
+    var fin_countingvalue=0;
+        var flag = this.containsOnlyNumbers(this.numofpeople);
+        if(this.booleanValue3){
+  
+        }else{
+          if(!flag){
+            window.alert("인원은 숫자만 입력해주세요")
+            this.util.dismissLoading();
+           
+    
+            return;
+          }
+        }
+       
+        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).once('value').then((snap)=>{
+          for(var a in snap.val()){
+            for(var b in snap.val()[a]){
+                  if(snap.val()[a][b].end_date_full==undefined){
+                    if(snap.val()[a][b].date!=undefined){
+                      if(snap.val()[a][b].angel!=true){
+                       countingvalue++;
+                      }
+                    }
+                  }
+                  if(snap.val()[a][b].end_date_full==undefined){
+                    if(snap.val()[a][b].date!=undefined){
+                      fin_countingvalue++;
+                    }
+                  }
+              }
+            }
+    
+    
+    
+          if(countingvalue==undefined){
+            countingvalue=1;
+          }
+          if(this.booleanValue3){
+            var wt="no";
+            var numofpeople=0;
+  
+            if(this.wt.length==0){
+              wt="no";
+            }else{
+              wt=this.wt;
+            }
+            if(this.numofpeople.length==0){
+              numofpeople=0;
+            }else{
+              numofpeople=this.numofpeople;
+            }
+            this.wt=wt;
+            this.numofpeople=numofpeople;
+            console.log({"logic":this.booleanValue,"avec":this.booleanValue2, "nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3,"name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()});
+  
+            this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).update({"flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+            this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").child(this.room.name).child(key).update({"logic":this.booleanValue,"nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3, "avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+            // this.firemain.child("users").child(this.wt).child("roomhistory").child(this.currentstartday).child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3,"name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+            
+            // this.firemain.child("users").child(this.incharge).child("roomhistory").child(this.currentstartday).child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3, "wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+            
+          }else{
+            this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).update({"flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+            this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").child(this.room.name).child(key).update({"logic":this.booleanValue,"nomemo":this.nomemo,"firstflag":this.booleanValue3, "noflag":this.booleanValue3, "avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+            this.firemain.child("users").child(this.wt).child("roomhistory").child(this.currentstartday).child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3,"name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+            
+            this.firemain.child("users").child(this.incharge).child("roomhistory").child(this.currentstartday).child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3, "wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+            
+          }
+        
+        
+        this.util.dismissLoading();
+        this.view.dismiss({"result":false});
+    
+    
+    
+            });
+  
+      });
+    }
+    
+
+      
       
 
 

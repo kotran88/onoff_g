@@ -30,6 +30,9 @@ import { WaitingPage } from '../waiting/waiting';
 })
 export class InfoPage {
   mainlist:any = [];
+  selectedIncharge:any;
+  selectedAvec:any;
+  selectedLogic:any;
   noagasi:any=0;
   agasinum:any=0;
   inputtext:any="";
@@ -90,7 +93,27 @@ export class InfoPage {
 
   }
   gotowaiting(){
-    this.navCtrl.push(WaitingPage);
+    this.navCtrl.push(WaitingPage,{flag:true}).then(() => {
+      console.log("WaitingPage back")
+      this.navCtrl.getActive().onDidDismiss(data => {
+        console.log("off...")
+        console.log(data);
+        if(data==undefined){
+          return;
+        }
+        if(data.result=="waiting"){
+          window.alert("방을 선택하세요.");
+          console.log(data.data);
+          console.log(data.data.incharge);
+          this.selectedIncharge=data.data.incharge;
+          this.selectedAvec = data.data.avec;
+          this.selectedLogic = data.data.logic;
+          console.log(data.data.avec);
+          console.log(data.data.logic);
+        }
+    // this.firemain.child("company").child(this.company).child("roomlist").off();
+      })
+    });
   }
   ionViewWillLeave(){
     // this.firemain.child("company").child(this.company).child("roomlist").off();
@@ -276,12 +299,13 @@ gotopayment(){
          if(flag==undefined){
           flag=false;
          }
+         console.log(name+"is:"+flag+"and cat : "+cat);
         this.allroom.push({"name":name,"category":cat,"flag":flag});
         if(cat=="소"){
           if(flag){
-            //console.log(flag+"small not add")
+            console.log(flag+"small not add")
           }else{
-            //console.log(name);
+            console.log(name);
             //console.log(name.substring(0,1));
             if(name.substring(0,1)==1){
               //console.log("name : "+name);
@@ -295,9 +319,9 @@ gotopayment(){
           }
         }else if(cat=="중"){
           if(flag){
-            //console.log(flag+"mid not add")
+            console.log(flag+"mid not add")
           }else{
-
+            console.log(name);
             if(name.substring(0,1)==1){
               //console.log("name : "+name);
               this.midroom.push({"name":name,"category":cat,"flag":flag});
@@ -310,7 +334,7 @@ gotopayment(){
           }
         }else if(cat=="대"){
           if(flag){
-            //console.log(flag+"big not add")
+            console.log(flag+"big not add")
           }else{
             if(name.substring(0,1)==1){
               //console.log("name : "+name);
@@ -324,23 +348,23 @@ gotopayment(){
           }
         }
 
-        for(var b in snap.val()[a].roomhistory){
-          if(b==this.currentstartday){
-            for(var c in snap.val()[a].roomhistory[b]){
-              if(c!="lastupdated"&&c!="flag"){
-                //console.log(snap.val()[a].roomhistory[b][c])
-                if(snap.val()[a].roomhistory[b][c].end_date_full!=undefined){
-                  //완료된방
-                }else{
+        // for(var b in snap.val()[a].roomhistory){
+        //   if(b==this.currentstartday){
+        //     for(var c in snap.val()[a].roomhistory[b]){
+        //       if(c!="lastupdated"&&c!="flag"){
+        //         //console.log(snap.val()[a].roomhistory[b][c])
+        //         if(snap.val()[a].roomhistory[b][c].end_date_full!=undefined){
+        //           //완료된방
+        //         }else{
 
-                roomin.push(snap.val()[a].roomhistory[b][c].name);
-                }
-              }
-              //flase 는 종료 
+        //         roomin.push(snap.val()[a].roomhistory[b][c].name);
+        //         }
+        //       }
+        //       //flase 는 종료 
               
-            }
-          }
-        }
+        //     }
+        //   }
+        // }
       }
         //console.log("roomin");
         //console.log(roomin);
@@ -349,49 +373,50 @@ gotopayment(){
   
       //if smallroom have value of roomin then delete
       
-      for(var bba in roomin){
-        for(var aba in this.smallroom){
-          if(this.smallroom[aba].name==roomin[bba]){
-            //console.log("smallroom delete")
-            this.smallroom.splice(Number(aba),1);
-          }
-        }
-        for(var aba in this.smallroom2){
-          if(this.smallroom2[aba].name==roomin[bba]){
-            //console.log("smallroom2222 delete")
-            this.smallroom2.splice(Number(aba),1);
-          }
-        }
-        for(var aba in this.midroom){
-          if(this.midroom[aba].name==roomin[bba]){
-            //console.log("midroom delete")
-            this.midroom.splice(Number(aba),1);
-          }
-        }
-        for(var aba in this.bigroom){
-          if(this.bigroom[aba].name==roomin[bba]){
-            //console.log("bigroom delete")
-            this.bigroom.splice(Number(aba),1);
-          }
-        }
+      // for(var bba in roomin){
+      //   for(var aba in this.smallroom){
+      //     if(this.smallroom[aba].name==roomin[bba]){
+      //       //console.log("smallroom delete")
+      //       this.smallroom.splice(Number(aba),1);
+      //     }
+      //   }
+      //   for(var aba in this.smallroom2){
+      //     if(this.smallroom2[aba].name==roomin[bba]){
+      //       //console.log("smallroom2222 delete")
+      //       this.smallroom2.splice(Number(aba),1);
+      //     }
+      //   }
+      //   for(var aba in this.midroom){
+      //     if(this.midroom[aba].name==roomin[bba]){
+      //       //console.log("midroom delete")
+      //       this.midroom.splice(Number(aba),1);
+      //     }
+      //   }
+      //   for(var aba in this.bigroom){
+      //     if(this.bigroom[aba].name==roomin[bba]){
+      //       //console.log("bigroom delete")
+      //       this.bigroom.splice(Number(aba),1);
+      //     }
+      //   }
 
 
-        for(var aba in this.midroom2){
-          if(this.midroom2[aba].name==roomin[bba]){
-            //console.log("midroom2 delete")
-            this.midroom2.splice(Number(aba),1);
-          }
-        }
-        for(var aba in this.bigroom2){
-          if(this.bigroom2[aba].name==roomin[bba]){
-            //console.log("bigroom2 delete")
-            this.bigroom2.splice(Number(aba),1);
-          }
-        }
-      }
-      //console.log(this.midroom);
-      //console.log(this.bigroom);
-      //console.log(this.allroom)
+      //   for(var aba in this.midroom2){
+      //     if(this.midroom2[aba].name==roomin[bba]){
+      //       //console.log("midroom2 delete")
+      //       this.midroom2.splice(Number(aba),1);
+      //     }
+      //   }
+      //   for(var aba in this.bigroom2){
+      //     if(this.bigroom2[aba].name==roomin[bba]){
+      //       //console.log("bigroom2 delete")
+      //       this.bigroom2.splice(Number(aba),1);
+      //     }
+      //   }
+      // }
+      console.log(this.smallroom);
+      console.log(this.midroom);
+      console.log(this.bigroom);
+      console.log(this.allroom)
     });
   }
   buchange(){
@@ -429,12 +454,11 @@ gotopayment(){
   }
   generate(){
     //console.log("generate come");
-    this.generateroomcategory()
     this.mainlist=[];
     this.mainlist_finished=[];
     this.noagasi=0;
     this.agasinum=0;
-    this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
+    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").once('value').then((snap)=>{
       for(var a in snap.val()){
         var flag = snap.val()[a].flag;
         // for(var b in snap.val()[a].roomhistory){
@@ -444,35 +468,41 @@ gotopayment(){
         //     //console.log(snap.val()[a].roomhistory[b].flag)
         //   }
         // }
-          if(snap.val()[a].roomhistory!=undefined){
-            for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-              if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
-                if(snap.val()[a].roomhistory[this.currentstartday][b].end_date==undefined){
-                  if(snap.val()[a].roomhistory[this.currentstartday][b].flag){
-                    this.mainlist.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+        console.log(snap.val()[a])
+            for(var b in snap.val()[a]){
+              console.log(snap.val()[a][b]);
+              if(snap.val()[a][b].date!=undefined){
+                if(snap.val()[a][b].end_date==undefined){
+                  if(snap.val()[a][b].flag){
+                    if(!snap.val()[a][b].noflag&&snap.val()[a][b].firstflag==true){
+                      
+                    }else{
+
+                    this.mainlist.push(snap.val()[a][b]);
+                    }
                   }
                   }else{
                     //console.log("this is finished room");
-                    //console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-                    if(snap.val()[a].roomhistory[this.currentstartday][b].agasi==undefined&&snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
+                    //console.log(snap.val()[a][b]);
+                    if(snap.val()[a][b].agasi==undefined&&snap.val()[a][b].orderlist==undefined){
                       //이방은 OB처리해야함. 
-                      //console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+                      //console.log(snap.val()[a][b]);
                       //console.log("this bang should be ob ++ ");
                       this.noagasi++;
                     }else{
                       
-                      //console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
+                      //console.log(snap.val()[a][b]);
                       //console.log("this bang should not be ob ++ ");
                       this.agasinum++;
                     }
-                    //iterate through snap.val()[a].roomhistory[this.currentstartday][b] 
+                    //iterate through snap.val()[a][b] 
                     //and push to mainlist_finished
-                    // this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    // this.mainlist_finished.push(snap.val()[a][b]);
                     var agasi = [];
-                    if(snap.val()[a].roomhistory[this.currentstartday][b].agasi==undefined){
+                    if(snap.val()[a][b].agasi==undefined){
                       agasi = [];
                     }else{
-                      agasi = snap.val()[a].roomhistory[this.currentstartday][b].agasi;
+                      agasi = snap.val()[a][b].agasi;
                     }
                     //console.log("agasi length : "+agasi.length);
                     //console.log(agasi);
@@ -481,36 +511,39 @@ gotopayment(){
                     }else{
                     }
                     var orderlist = [];
-                    if(snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
+                    if(snap.val()[a][b].orderlist==undefined){
                       orderlist = [];
                     }else{
-                      orderlist = snap.val()[a].roomhistory[this.currentstartday][b].orderlist;
+                      orderlist = snap.val()[a][b].orderlist;
                     }
                     //console.log(agasi);
                     //console.log(orderlist);
-                   
-                    this.mainlist_finished.push({
-                      "v":snap.val()[a].roomhistory[this.currentstartday][b].v, "agasi":agasi,
-                          "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
-                        "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
-                      "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
-                    "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
-                            "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
-                          "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
-                          "avec":snap.val()[a].roomhistory[this.currentstartday][b].avec,
-                          "lastupdatedperson":snap.val()[a].roomhistory[this.currentstartday][b].lastupdatedperson,
-                          "lastupdated":snap.val()[a].roomhistory[this.currentstartday][b].lastupdated,
-                          "directorId":snap.val()[a].roomhistory[this.currentstartday][b].directorId,
-                        "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
-                        "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
-                      "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt
-                    })
-                    // this.mainlist_finished.push(snap.val()[a].roomhistory[this.currentstartday][b]);
+                    if(snap.val()[a][b].firstflag){
+
+                    }else{
+                      this.mainlist_finished.push({
+                        "v":snap.val()[a][b].v, "agasi":agasi,
+                            "date":snap.val()[a][b].date,
+                          "incharge":snap.val()[a][b].incharge,
+                        "insert_date":snap.val()[a][b].insert_date,
+                      "insert_date_full":snap.val()[a][b].insert_date_full,
+                              "key":snap.val()[a][b].key,
+                            "name":snap.val()[a][b].name,
+                            "avec":snap.val()[a][b].avec,
+                            "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
+                            "lastupdated":snap.val()[a][b].lastupdated,
+                            "directorId":snap.val()[a][b].directorId,
+                          "numofpeople":snap.val()[a][b].numofpeople,
+                          "status":snap.val()[a][b].status,
+                        "wt":snap.val()[a][b].wt
+                      })
+                    }
+                    
+                    // this.mainlist_finished.push(snap.val()[a][b]);
                   }
               }
               
             }
-          }
       
       }
 
@@ -539,7 +572,10 @@ gotopayment(){
         return timeA[0]-timeB[0] || timeA[1]-timeB[1];
         
     });
+
     });
+
+    this.generateroomcategory()
     //console.log(this.mainlist);
   }
   editing(a){
@@ -552,22 +588,22 @@ gotopayment(){
     console.log(a.name);
     let modal = this.modal.create(EditingroomPage,{"user":this.directorList, "mainlist":this.mainlist,"mainlist_finished":this.mainlist_finished, "a":a,"allroom":this.allroom,"bu":this.bu});
     modal.onDidDismiss(url => {
-      //console.log("EditingroomPageEditingroomPageEditingroomPageEditingroomPageEditingroomPage");
-      //console.log(url);
+      console.log("EditingroomPageEditingroomPageEditingroomPageEditingroomPageEditingroomPage");
+      console.log(url);
       if(url!=undefined){
         if(url.result){
           
-        //console.log("do nothing1");
+        console.log("do nothing1");
         }else{
 
-        //console.log("do refresh");
+        console.log("do refresh");
           setTimeout(()=>{
     
             this.generate();
-          },1500)
+          },500)
         }
       }else{
-        //console.log("do nothing");
+        console.log("do nothing");
       }
     });
 
@@ -585,7 +621,7 @@ gotopayment(){
     }
     //console.log("ad room come");
     //console.log(room);
-    let modal = this.modal.create(InfomodalPage,{"room":room,"bu":this.bu});
+    let modal = this.modal.create(InfomodalPage,{"room":room,"bu":this.bu,"selectedIncharge":this.selectedIncharge,"selectedAvec":this.selectedAvec,"selectedLogic":this.selectedLogic});
     modal.onDidDismiss(url => {
       if(url!=undefined){
         if(url.result){

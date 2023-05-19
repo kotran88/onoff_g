@@ -89,16 +89,16 @@
             <div  *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
               <div *ngFor="let b of a.agasi" class="looping" >
                   <div class="mainmain">
-                    <span *ngIf="!b.angel" style="
+                    <span *ngIf="b.angel!=undefined&&!b.angel" style="
                     margin: 0px !important; 
     line-height: 50px; text-align: center;">
                     {{b.name}}</span>
 
 
-                    <span *ngIf="b.angel" style="
+                    <span *ngIf="b.angel!=undefined&&b.angel" style="
                     margin: 0px !important; 
      text-align: center;"><span style="
-    margin: 0px !important;" *ngIf="b.angel">
+    margin: 0px !important;" *ngIf="b.angel!=undefined&&b.angel">
                       <img style="width:24px; height:24px;" class="logo" src="assets/img/angel.png" />
                     </span> 
                     {{b.name}}</span>

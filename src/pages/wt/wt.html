@@ -127,14 +127,16 @@ margin-top: 10px;" class="header_btn">
 
          <div  class="centr">
 
-          <span *ngIf="i.logic" style="    font-size: 16px;
-          background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic" style="    font-size: 12px;
-          "> 중방/대방 ONN</span> 
-
+          <span *ngIf="i.logic==1" style="    font-size: 16px;
+         background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic==1" style="    font-size: 12px;
+         "> 1ㅅㅌㅌ</span> 
+<span *ngIf="i.logic==2" style="    font-size: 16px;
+background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic==2" style="    font-size: 12px;
+"> 2ㅅㅌㅌ</span> 
 
 <span *ngIf="!i.logic" style="    font-size: 16px;
-background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic" style="    font-size: 12px;
-"> 중방/대방 OFFF</span> 
+background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic==0||i.logic==false||i.logic==undefined" style="    font-size: 12px;
+"> 중방/대방 OFF.</span> 
      
              <p *ngIf="i.noflag" style=" color:red;
              margin: 0;"> W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}</p>
@@ -156,13 +158,15 @@ background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic
            background: yellow;">{{i.roomno}}T   {{i.incharge}} / 중방/대방 ON</span> 
          <span *ngIf="!i.logic" style="    font-size: 16px;
          background: yellow;">{{i.roomno}}T   {{i.incharge}} / 중방/대방 OFF</span>  -->
-         <span *ngIf="i.logic" style="    font-size: 16px;
-         background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic" style="    font-size: 12px;
-         "> 중방/대방 ON.</span> 
-
+         <span *ngIf="i.logic==1" style="    font-size: 16px;
+         background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic==1" style="    font-size: 12px;
+         "> 1ㅅㅌㅌ</span> 
+<span *ngIf="i.logic==2" style="    font-size: 16px;
+background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic==2" style="    font-size: 12px;
+"> 2ㅅㅌㅌ</span> 
 
 <span *ngIf="!i.logic" style="    font-size: 16px;
-background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="!i.logic" style="    font-size: 12px;
+background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic==0||i.logic==false||i.logic==undefined" style="    font-size: 12px;
 "> 중방/대방 OFF.</span> 
         <p *ngIf="i.noflag" style=" color:red;
         margin: 0;"> W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}</p>

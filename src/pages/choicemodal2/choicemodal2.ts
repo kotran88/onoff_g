@@ -142,6 +142,9 @@ export class Choicemodal2Page {
     for(var cc in this.agasilist){
       count++;
       newcount++;
+      if(this.agasilist[cc].angel==undefined){
+        this.agasilist[cc].angel=false;
+      }
     console.log(this.agasilist[cc])
     console.log("value1=" + count);
     console.log(this.agasilist[cc].name);
@@ -159,6 +162,7 @@ export class Choicemodal2Page {
       console.log(this.flag);
       console.log(this.a);
       console.log(this.agasilist[cc])
+      console.log(this.a);
       if(this.flag==undefined){
         //초이스일경우,
         this.firemain.child("users").child(this.agasilist[cc].name).child("current").update({"room":this.a.name,"enter_date":dte,"date":this.currentstartday})
@@ -167,6 +171,7 @@ export class Choicemodal2Page {
         //출퇴근일경우 
         // this.firemain.child("users").child(this.agasilist[cc].name).child("current").update({"room":this.a,"enter_date":dte,"date":this.currentstartday})
       }
+      var newnum = this.originallength;
       // this.firemain.child("users").child(this.agasilist[cc].name).child("current").update({"room":this.a.name,"enter_date":dte})
       if(this.flag=="attend"){
         this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).child("attend").update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name});
@@ -180,6 +185,10 @@ export class Choicemodal2Page {
         this.firemain.child("users").child(this.a.wt).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(this.originallength+newcount-1+"").update({"angel": this.agasilist[cc].angel,"roomno":this.a.name,"incharge":this.a.incharge, "name":this.agasilist[cc].name,"writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
         this.firemain.child("users").child(this.a.directorId).child("roomhistory").child(this.currentstartday).child(this.a.key).child("agasi").child(this.originallength+newcount-1+"").update({"angel": this.agasilist[cc].angel,"roomno":this.a.name,"incharge":this.a.incharge, "name":this.agasilist[cc].name,"writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
             
+        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).update({"lastupdatedperson":this.nickname, "lastupdated":year+"-"+month+"-"+day +" "+hour+":"+min+""})
+        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("agasi").child(newnum+"").update({"angel": this.agasilist[cc].angel, "roomno":this.a.name, "name":this.agasilist[cc].name,"incharge":this.a.incharge, "writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min});
+        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("message").push({"date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드..","agasi":this.agasilist[cc].name,"uploader":this.nickname,"type":"assigned", "name":"system"})
+
         this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":this.quelist[count],"name":this.agasilist[cc].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
         this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
         this.firemain.child("users").child(this.agasilist[cc].name).update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name,"nickname":this.agasilist[cc].name ,"writer":this.agasilist[cc].writer})

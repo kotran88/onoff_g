@@ -11,6 +11,7 @@ import { IonicPage, ViewController,LoadingController,ModalController,NavControll
 export class UtilsProvider {
   lloading:any;
   tc:any=0;
+  newnumber:any=0;
   constructor(public loading:LoadingController) {
     console.log('Hello UtilsProvider Provider');
   }
