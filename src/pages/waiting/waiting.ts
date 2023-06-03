@@ -10,7 +10,6 @@ import { GongjiPage } from '../gongji/gongji';
 import  firebase from 'firebase';
 import { EditingroomPage } from '../editingroom/editingroom';
 import { E } from '@angular/core/src/render3';
-import { generate } from 'rxjs';
 import { SignupPage } from '../signup/signup';
 import { AccountPage } from '../account/account';
 import { OrderPage } from '../order/order';
@@ -58,7 +57,6 @@ export class WaitingPage {
   nowtime:any=""
   paymentflag:any=false;
   interval:any;
-  directorList:any=[];
   code:any="";
   nickname:any="";
   id:any="";
@@ -67,7 +65,6 @@ export class WaitingPage {
   constructor(public util:UtilsProvider, public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
     this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
-    this.directorList = this.navParams.get("user");
     this.currentstartday=localStorage.getItem("startDate");
     this.nickname = localStorage.getItem("nickname");
     this.name = localStorage.getItem("name");
@@ -229,11 +226,18 @@ gotopayment(){
     });
     //console.log(this.mainlist);
   }
+  remove(a){
+    console.log(a);
+    console.log("remove");
+    this.firemain.child("company").child(this.company).child("waiting").child(this.currentstartday+"").child(a.key).remove();
+    this.generate();
+  }
   editing(a){
     if(!this.paymentflag){
       window.alert("결제전 이용 불가합니다.")
       return;
     }
+    console.log(a);
     this.view.dismiss({"result":"waiting","data":a});
   }
   logout(){
@@ -265,7 +269,7 @@ gotopayment(){
     var dte = new Date();
     var fulldate = this.currentstartday;
     var key =  this.firemain.child("company").child(this.company).child("waiting").child(this.currentstartday+"").push().key ;
-    this.firemain.child("company").child(this.company).child("waiting").child(this.currentstartday+"").child(key).update({"avec":this.avec,"logic":this.logic, "incharge":this.incharge,"numofpeople":this.numofpeople,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+    this.firemain.child("company").child(this.company).child("waiting").child(this.currentstartday+"").child(key).update({"avec":this.avec, "logic":this.logic, "incharge":this.incharge,"numofpeople":this.numofpeople,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
     this.generate();
   }
   addRoom(room){

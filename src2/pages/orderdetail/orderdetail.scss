@@ -1,0 +1,172 @@
+page-orderdetail {
+    .btn{
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        background: aliceblue;
+        background-color: black;
+        padding: 20px;
+  box-shadow: 1px 1px 10px #999;
+  margin: 2px;
+  display: inline-block;
+  vertical-align: top;
+    }
+    .container {
+      overflow-x: auto;
+      white-space: nowrap;
+  }
+  .room-current
+  {
+    padding: 3%;
+    padding-top:0%;
+    padding-bottom:0%;
+    .title-div
+    {
+      .square
+      {
+        color: rgb(254, 184, 45);
+      }
+      .text
+      {
+        color: black;
+        font-size: 20px;
+      }
+    }
+
+    .chart-div
+    {
+      color: black;
+      text-align: center;
+      .name-keys, .datas{
+
+        line-height: 30px;
+height: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        span{
+          display: inline-block;
+          width: calc(100% / 5);
+        }
+        span:nth-child(n+1)
+        {
+          border-left: solid 1px white;
+        }
+      }
+      .name-keys
+      {
+        background-color: rgb(255,240,200);
+        border-bottom: solid 1px black;
+      }
+      .datas
+      {
+        background-color: rgb(240, 240, 240);
+        border-bottom: solid 1px rgb(176, 176, 176);
+      }
+    }
+  }
+  .column {
+      display: inline-block;
+      vertical-align: top;
+      width: 100%;
+  }
+  .minus{
+
+    margin-left: 20px;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+  }
+  .toolbar-background{
+    background: #fdd734 !important;
+  }
+  .toolbar{
+  }
+  
+  .button {
+   
+        display: inline-block;
+        padding: 10px;
+        margin: 5px;
+        background-color: #ccc;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        height: 80px;
+        width: 125px;
+        color: black;
+  }
+
+    .wrapper {
+        background: #EFEFEF;
+        box-shadow: 1px 1px 10px #999;
+        margin: auto;
+        text-align: center;
+        position: relative;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        margin-bottom: 20px !important;
+        width: 100%;
+        padding-top: 5px;
+      }
+      .scrolls {
+        overflow-x: scroll;
+        overflow-y: hidden;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        height: 160px;
+        white-space: nowrap
+      }
+      .scrolls div {
+        padding: 20px;
+        box-shadow: 1px 1px 10px #999;
+        margin: 2px;
+        display: inline-block;
+        vertical-align: top;
+      }
+    .tt{
+       
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 160px;
+  white-space: nowrap
+        
+    }
+    .horizon{
+        background: #EFEFEF;
+        box-shadow: 1px 1px 10px #999;
+        margin: auto;
+        text-align: center;
+        position: relative;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        margin-bottom: 20px !important;
+        width: 100%;
+        padding-top: 5px;
+    }
+    .active{
+        
+    background-color: red;
+    }
+    .item-md{
+      font-weight: 900;
+      font-size:15px;
+      background: #a3bcd3;
+    }
+    .item item-block item-md{
+      background: #a3bcd3;
+  }
+    .bott{
+      button{
+        background: #fdd734;
+      }
+      background: #a3bcd3;
+    }
+}

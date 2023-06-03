@@ -37,6 +37,8 @@ export class AccountPage {
   incen1:any=0;
   incen2:any=0;
   selectedDate:any=0;
+  selectedMonth:any=0;
+  selectedYear:any=0;
   name:any="";
   nickname:any="";
   login_data:any = {};
@@ -57,6 +59,7 @@ export class AccountPage {
   currentMonth:number = 0; // 현재 월
   currentDate:number = 0; // 현재 일
 
+  directorList:any=[];
   paymentflag:any=false;
   firstflag=false;
   constructor(public util:UtilsProvider, public menuCtrl:MenuController,public view:ViewController,public modal:ModalController,public navCtrl: NavController, public navParams: NavParams) {
@@ -66,6 +69,8 @@ export class AccountPage {
     this.company = localStorage.getItem("company");
     this.currentstartday=localStorage.getItem("startDate");
     this.firstflag = this.navParams.get("flag");
+
+    this.directorList = JSON.parse(localStorage.getItem("director"));
     this.get_team_list();
 
     this.goToday();
@@ -126,18 +131,25 @@ export class AccountPage {
   console.log("open and cloe");
   this.menuCtrl.open();
 }
-  openmodal(v){
+  openmodal(v,month,year){
+    console.log(year+","+month+","+v);
+    this.selectedMonth=month;
+    this.selectedYear=year;
+    console.log("openmodalopenmodalopenmodalopenmodalopenmodalopenmodalopenmodalopenmodal");
     this.util.presentLoading();
     console.log(this.currentYear);
-    console.log(this.currentMonth);
-    console.log(v);
     console.log(this.currentDate);
     this.selectedDate=v;
-    console.log(this.selectedDate)
+
+
+    console.log(this.today.getMonth()+1+",,,,"+this.currentMonth);
+    console.log("1111");
+    console.log(this.today.getFullYear()+"comparedto : "+this.currentYear);
+
+    console.log("2222");
+    console.log(v+",,,"+this.selectedDate);
+    console.log("3333");
     console.log(this.selectedName)
-
-
-
 
 
 
@@ -164,9 +176,11 @@ export class AccountPage {
 
   get_team_list()
   {
+    this.view_list = [];
+   
     this.firemain.child('company').child(this.login_data.company).child("younglist").once('value').then((snap)=>{
       console.log(snap.val());
-      this.view_list = [];
+     
       for(var i in snap.val())
       {
         this.view_list.push(snap.val()[i]);
@@ -185,38 +199,75 @@ export class AccountPage {
     localStorage.setItem("loginflag", "false" )
     this.navCtrl.setRoot(LoginpagePage)
 }
+gotoview(view_list){
+  this.view_list=view_list;
+
+}
   get_charge_person(team)
   {
     this.util.presentLoading();
     console.log(team);
     this.option_title_ch = 1;
-    this.firemain.child('users').orderByChild("young").once('value').then((snap)=>{
-      this.view_list = [];
-      for(var i in snap.val())
-      {
-        if(snap.val()[i].young!=undefined){
-          if(snap.val()[i].young.indexOf(team) > -1){
-            this.view_list.push(snap.val()[i]);
-          };
-        }
-          
+    this.view_list = [];
+    var util = this.util;
+    var view_list=[];
+    var sort_temp_list=[];
+    var a = this;
+    for(var aabb in this.directorList){
+      if(this.directorList[aabb].young!=undefined&&this.directorList[aabb].young.indexOf(team)>-1){
+        view_list.push(this.directorList[aabb]);
       }
-      this.sort_temp_list = [];
-      for(var j = 0; j < (this.view_list.length % 3); j++)
+    }
+    sort_temp_list = [];
+      for(var j = 0; j < (view_list.length % 3); j++)
       {
-        this.sort_temp_list.push(0)
+        sort_temp_list.push(0)
       }
-      console.log(this.view_list);
+      console.log(view_list);
+      a.gotoview(view_list);
+      util.dismissLoading();
 
-    this.util.dismissLoading();
-    })
+    // var orderedQuery = this.firemain.child("users").orderByChild("young");
+    // orderedQuery.once("value", function(snap) {
+    //   for(var i in snap.val())
+    //   {
+    //     if(snap.val()[i].young!=undefined){
+    //       if(snap.val()[i].young.indexOf(team) > -1){
+    //         view_list.push(snap.val()[i]);
+    //       };
+    //     }
+    //   }
+      
+
+    // });
+
+    // this.firemain.child('users').orderByChild("young").once('value').then((snap)=>{
+      
+    //   for(var i in snap.val())
+    //   {
+    //     if(snap.val()[i].young!=undefined){
+    //       if(snap.val()[i].young.indexOf(team) > -1){
+    //         this.view_list.push(snap.val()[i]);
+    //       };
+    //     }
+    //   }
+    //   this.sort_temp_list = [];
+    //   for(var j = 0; j < (this.view_list.length % 3); j++)
+    //   {
+    //     this.sort_temp_list.push(0)
+    //   }
+    //   console.log(this.view_list);
+
+    // this.util.dismissLoading();
+    // })
   }
 
   get_money_data(name)
   {
     console.log("getmoneydata")
     this.util.presentLoading();
-    console.log("get_money_data"+name);
+    console.log("get_money_data");
+    console.log(name);
     this.selectedName=name;
     var bujangid=name.nickname;
     this.option_title_ch = 2;
@@ -241,16 +292,310 @@ export class AccountPage {
     this.tomoney=0;
     this.todaymoney=0;
     var newdate = this.currentYear+"-"+this.currentMonth+"-"+this.selectedDate;
+    console.log("newdate : "+newdate);
+    console.log(this.currentstartday);
+    this.firemain.child("users").child(bujangid).child('roomhistory').child(newdate).once('value').then((snap)=>{
+      if(snap.val()!=undefined){
+        for(var a in snap.val()){
+          console.log(snap.val()[a]);
+                if(snap.val()[a].date==this.currentstartday){
+                  if(snap.val()[a].incharge!=bujangid){
+                    continue;
+                  }
+  
+                  //console.log(snap.val()[a]);
+        console.log(snap.val()[a].name);
+                  var numofangel =0;
+                  //////console.log(snap.val()[a]);
+                  var mainlist=snap.val()[a];
+                  //////console.log("mainlist...");
+                  //////console.log(mainlist);
+         console.log(snap.val()[a]);
+
+
+
+
+
+         var newtc=0;
+      var tcarray = [];
+      var tcarraywithoutagasi = [];
+      var tarray=[];
+      var chasamarray=[];
+      var chasamtotal=0;
+      var tctotal=0;
+      var yeontireason="";
+      console.log(snap.val()[a].roomno);
+      var numofpeople = snap.val()[a].numofpeople;
+      var logic = snap.val()[a].logic;
+      var inagasi = 0;
+      var totaltc=0;
+      var totalmoney=0;
+      console.log(mainlist);
+      for(var cccc in mainlist.agasi){
+        console.log("looping each agasi");
+
+        if(mainlist.agasi[cccc].findate!=undefined){
+          //진행중임...
+          totaltc+=Number(mainlist.agasi[cccc].tc);
+          totalmoney+=Number(mainlist.agasi[cccc].money);
+        }else{
+          var totalmoney=Number(this.util.getTC(mainlist.agasi[cccc],mainlist.agasi[cccc].pausetime).split(",")[0]);
+          // if(mainlist.agasi[cccc].tc!=undefined){
+
+          // }
+          var tctotal=Number(this.util.getTC(mainlist.agasi[cccc],mainlist.agasi[cccc].pausetime).split(",")[1]);
+          var bantee=Number(this.util.getTC(mainlist.agasi[cccc],mainlist.agasi[cccc].pausetime).split(",")[2]);
+          mainlist.agasi[cccc].totalmoney=totalmoney;
+          totaltc+=tctotal;
+          totalmoney+=Number(totalmoney);
+          mainlist.agasi[cccc].tc=tctotal;
+          mainlist.agasi[cccc].bantee=bantee;
+          //////console.log(mainlist.agasi[cccc]);
+          if(mainlist.agasi[cccc].angel){
+            numofangel++;
+          }
+        }
+
+        inagasi++;
+        newtc += Math.floor(mainlist.agasi[cccc].tc)
+        if(mainlist.agasi[cccc].angel==true||mainlist.agasi[cccc].angel=="true"){
+
+        }else{
+          tcarraywithoutagasi.push(Math.floor(mainlist.agasi[cccc].tc));
+        }
+        tarray.push({"tc":Math.floor(mainlist.agasi[cccc].tc),"name":mainlist.agasi[cccc].name,"angel":mainlist.agasi[cccc].angel, "date":mainlist.agasi[cccc].date});
+        tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
+        console.log("tc add: "+Math.floor(mainlist.agasi[cccc].tc) );
+        tctotal+=Number(Math.floor(mainlist.agasi[cccc].tc));
+        chasamtotal+=Number((mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
+        chasamarray.push( (mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
+      
+      }
+      console.log(mainlist.name);
+      console.log("totalmoney ::::"+totalmoney);
+      chasamtotal=Number(chasamtotal.toFixed(2));
+      console.log("chasamtotal:"+chasamtotal);
+      var newchasamtotal=chasamtotal.toString();
+      //can you make it like this? newchasamtotal should be look like 1.8 and I want it to be 0.18 
+      newchasamtotal = newchasamtotal.split(".")[0]+newchasamtotal.split(".")[1];
+      newchasamtotal = ""+newchasamtotal;
+      if(chasamtotal==0){
+        newchasamtotal="0";
+      }
+      // newchasamtotal
+      console.log(numofpeople+"newtc"+newtc+",,,,"+newchasamtotal);
+      tctotal=newtc;
+      //어떤 아가씨가 술병수보다 완티가 많거나 같거나 하면. 그 아가씨는 제외하고, 손님수도 그아가씨 수만큼 제외하고
+      // 나머지 완티의 갯수를 고려해서 계산.  
+      //////console.log(snap.val()[a].orderlist);
+      var orderl=[];
+      var orderprice=0;
+      var tp=0;
+      var tbottle=0;
+      
+
+                if(snap.val()[a].orderlist==undefined){
+
+                }else{
+                  for(var d in snap.val()[a].orderlist.orderlist){
+
+                    if(snap.val()[a].orderlist.orderlist[d].category=="주류"){
+                      tbottle+=Number(snap.val()[a].orderlist.orderlist[d].num);
+                    }
+                    orderprice+= (Number(snap.val()[a].orderlist.orderlist[d].price) );
+                    orderl.push(snap.val()[a].orderlist.orderlist[d])
+                    tp += snap.val()[a].orderlist.orderlist[d].price.replace(",","")* snap.val()[a].orderlist.orderlist[d].num;
+                  }
+                }
+               
+               
+                //console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
+                var firstsumofv=0;
+                var totalsum=0;
+                var allzero=false;
+                if(tbottle==0){
+
+                }else{
+                  if(logic==1){
+                    tbottle=tbottle-1;
+                    yeontireason+=" 술 -1 , "
+                  }if(logic==2){
+                    tbottle=tbottle-2;
+                    yeontireason+=" 술 -2, "
+                  }
+                }
+                
+                if(tcarraywithoutagasi.length>numofpeople){
+                  yeontireason="";
+                  firstsumofv=0;
+                  console.log("날개 제외 아가씨 수가 사람수보다 많다면....")
+                  console.log(tarray);
+                  tarray.sort(function(a,b){
+                    //////console.log(a.date+",,,"+b.date)
+                    if (a.date < b.date) {
+                      return -1;
+                    }
+                    if (a.date > b.date) {
+                      return 1;
+                    }
+                    return 0;
+                  });
+                  console.log(tarray);
+                  var cvalue=-1;
+                  var stop=0;
+                  for(var abab in tarray){
+                    cvalue++;
+                    console.log(cvalue+"????"+numofpeople);
+                    if(cvalue<numofpeople){
+                      console.log(tarray[abab]);
+                      if(tarray[abab].angel!=true){
+                        stop++;
+                        firstsumofv+=tarray[abab].tc-tbottle
+                        yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"더하고 뺌"+tbottle+""
+                      }else if(tarray[abab].angel){
+                        if(tarray[abab].tc - tbottle>=0){
+
+                           firstsumofv+= tarray[abab].tc - tbottle;
+                           yeontireason+="//날개"+tarray[abab].name+"의 tc"+tarray[abab].tc+"-"+tbottle+""
+                   
+                        }
+                      }
+                      // firstsumofv+=tarray[abab].tc
+                      // yeontireason+="//"+tarray[abab].name+"의 tc:"+tarray[abab].tc+"개를 더함??"
+                    }
+                    if(cvalue>=numofpeople){
+
+                      console.log("cvalue>=numofpeople"+tarray[abab]);
+                      if(tarray[abab].angel!=true){
+                        stop++;
+                        firstsumofv+=tarray[abab].tc
+                        yeontireason+="/"+tarray[abab].name+"의tc"+tarray[abab].tc+"를 더함.!!!"
+                      }else if(tarray[abab].angel){
+                        if(tarray[abab].tc - tbottle>=0){
+
+                           firstsumofv+= tarray[abab].tc - tbottle;
+                           yeontireason+="//날개"+tarray[abab].name+"의 tc"+tarray[abab].tc+"-"+tbottle+"."
+                   
+                        }
+                      }
+                    }
+                    totalsum+=tcarray[abab];
+                  }
+                    // yeontireason+=","+firstsumofv+"에서 술병"+tbottle*numofpeople+"를 뺌. ";
+                    for(var ii=0; ii<numofpeople; ii++){
+
+                      // firstsumofv= firstsumofv - tbottle;
+                    }
+                }else if (tcarraywithoutagasi.length==numofpeople){
+                  console.log("날개 제외 아가씨 수가 사람수와 같다면....");
+                  console.log(tarray);
+                  console.log(tcarraywithoutagasi);
+                for(var abab in tarray){
+                  totalsum+=tarray[abab].tc;
+
+                  if(tarray[abab].angel!=true){
+                    firstsumofv+=tarray[abab].tc
+                    yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함.."
+                  }else if(tarray[abab].angel){
+                    console.log("angel!!!");
+                    console.log(tarray[abab].tc);
+                    console.log(tbottle);
+                    if(tarray[abab].tc - tbottle>=0){
+                       console.log("in")
+                       firstsumofv+= tarray[abab].tc - tbottle;
+                       yeontireason+="//날개"+tarray[abab].name+"의 tc"+tarray[abab].tc+"-"+tbottle+"."
+               
+                    }else{
+                      yeontireason+=tarray[abab].tc+"-"+tbottle+"=0 ,연티:0"
+                    }
+                  }
+
+                }
+                firstsumofv= numofpeople*tbottle-totalsum
+                console.log(firstsumofv);
+                if(firstsumofv>0){
+                  firstsumofv=0;
+                }
+                yeontireason += "인원*병-완티 "+numofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;                
+              }else if(tcarraywithoutagasi.length<numofpeople){
+                console.log("날개 제외 아가씨 수가 사람수보다 작다면....");
+                for(var abab in tcarray){
+                  totalsum+=tcarray[abab];
+                }
+                  firstsumofv=0;
+                  var newnumofpeople=tcarray.length;
+                  firstsumofv= newnumofpeople*tbottle-totalsum
+                  if(firstsumofv>0){
+                    firstsumofv=0;
+                  }
+                   yeontireason = ""+tcarray.length+"로조정."+" 인원*병-완티 "+newnumofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;  
+                }
+               console.log(yeontireason)
+                var yeonti=firstsumofv;
+                if(yeonti<=0){
+                  yeonti=Math.abs(yeonti)
+                }
+                if(tbottle==0){
+                  yeonti=0;
+                  yeontireason+="술이 0병이므로 연티 0"
+                }
+                console.log("yeontiiiii : "+yeonti);
+              console.log(yeontireason)
+                console.log("total bottle : "+tbottle);
+                  console.log(mainlist)
+                  console.log(tp);
+                  console.log("totalmoney....")
+                  totalmoney=totalmoney*10000;
+
+                  console.log("calcuu");
+                  console.log(this.todaymoney )
+                  console.log(tp);
+                  console.log(yeonti);
+                  if(yeonti==undefined){
+                    yeonti=0;
+                  }
+                  console.log(totalmoney);
+                  this.todaymoney += tp+totalmoney+Number(yeonti*10000);
+                  console.log(this.todaymoney);
+                  var orderdate="";
+                  var roomno="";
+                  if(snap.val()[a].orderlist!=undefined){
+                    orderdate = snap.val()[a].orderlist.orderDate
+                    roomno=snap.val()[a].orderlist.roomno;
+                  }else{
+                    orderdate = "-"
+                    roomno="-"
+                  }
+
+
+                  var enddate="";
+                  if(snap.val()[a].end_date_full!=undefined){
+                   
+                    enddate=snap.val()[a].end_date_full
+                  }else{
+                    orderdate = "";
+                  }
+
+
+                  this.tomoney+=tp+totalmoney+(yeonti*10000);
+                  this.detailarray.push({"open":false,"status":snap.val()[a].status,"noflag":snap.val()[a].noflag,  "enddate":enddate,"key":snap.val()[a].key, "tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":snap.val()[a].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].wt,"date":orderdate,"roomno":snap.val()[a].name, "value":orderl});
+              
+                }
+              }
+            }
+          });
     this.firemain.child("users").child(bujangid).once('value').then((snap)=>{
+      if(snap.val())
       console.log(snap.val());
+      if(snap.val().accounting==undefined){
+      }else{
+
       console.log(snap.val().incentive);
       
       console.log(snap.val().accounting);
       console.log(snap.val().accounting.incoming);
       this.accumuls=snap.val().accounting.incoming;
       console.log(this.currentstartday);
-      if(snap.val().accounting==undefined){
-      }else{
         console.log(snap.val().accounting[nd]);
       this.todaymoney=0;
       for(var a in snap.val().accounting){
@@ -266,8 +611,15 @@ export class AccountPage {
             console.log(snap.val().accounting[a][c]);
             console.log(snap.val().accounting[a][c].card);
             console.log(snap.val().accounting[a][c].cash);
-            this.todaymoney+=Number(Number(snap.val().accounting[a][c].card*0.85).toFixed(0));
-            this.todaymoney+=Number(snap.val().accounting[a][c].cash);
+            if(snap.val().accounting[a][c].withdraw!=undefined){
+              //출금 
+              this.todaymoney-=Number(Number(snap.val().accounting[a][c].card*0.85).toFixed(0));
+              this.todaymoney-=Number(snap.val().accounting[a][c].cash);
+            }else{
+              this.todaymoney+=Number(Number(snap.val().accounting[a][c].card*0.85).toFixed(0));
+              this.todaymoney+=Number(snap.val().accounting[a][c].cash);
+            }
+           
 
           }
         }
@@ -297,55 +649,55 @@ export class AccountPage {
       console.log(this.accountmessage);
       console.log(this.todaymoney);
 
-      if(snap.val().incentive==undefined){
+      // if(snap.val().incentive==undefined){
 
-      }else{
-        for(var a in snap.val().incentive){
-          var date = a;
-          console.log(date);
-          console.log(a);
-          console.log(this.currentstartday);
-          console.log(newdate)
-          if(a==newdate){
-            var context = snap.val().incentive[a];
-            console.log(context);
-            for(var b in context){
-              var detail = context[b];
-              var aaaa;
-              console.log(detail)
-              detail.bottle=0;
-              if(context[b].ordertype==undefined){
-                return;
-              }
-              var orderlist = context[b].ordertype.orderlist;
-              aaaa = detail.ordertype;
-              aaaa.bottle=0;
-              console.log(orderlist);
-              var totalsumprice=0;
-              for(var a in orderlist){
-                console.log(orderlist[a]);
-                if(orderlist[a].category=="주류"){
-                  console.log(orderlist[a].price);
-                  var price = orderlist[a].price.replace(",","");
-                  totalsumprice += Number(price)*Number(orderlist[a].num)
-                  console.log(orderlist[a].num)
-                  aaaa.bottle+=Number(orderlist[a].num);
-                  aaaa.totalsumprice= totalsumprice
-                }
-              }
-              console.log(detail);
+      // }else{
+      //   for(var a in snap.val().incentive){
+      //     var date = a;
+      //     console.log(date);
+      //     console.log(this.currentstartday);
+      //     console.log(a);
+      //     console.log(newdate)
+      //     if(a==newdate){
+      //       var context = snap.val().incentive[a];
+      //       console.log(context);
+      //       for(var b in context){
+      //         var detail = context[b];
+      //         var aaaa;
+      //         console.log(detail)
+      //         detail.bottle=0;
+      //         if(context[b].ordertype==undefined){
+      //           return;
+      //         }
+      //         var orderlist = context[b].ordertype.orderlist;
+      //         aaaa = detail.ordertype;
+      //         aaaa.bottle=0;
+      //         console.log(orderlist);
+      //         var totalsumprice=0;
+      //         for(var a in orderlist){
+      //           console.log(orderlist[a]);
+      //           if(orderlist[a].category=="주류"){
+      //             console.log(orderlist[a].price);
+      //             var price = orderlist[a].price.replace(",","");
+      //             totalsumprice += Number(price)*Number(orderlist[a].num)
+      //             console.log(orderlist[a].num)
+      //             aaaa.bottle+=Number(orderlist[a].num);
+      //             aaaa.totalsumprice= totalsumprice
+      //           }
+      //         }
+      //         console.log(detail);
               
-              console.log("aaaaa");
-              console.log(aaaa);
-              this.detailarray.push(aaaa);
+      //         console.log("aaaaa");
+      //         console.log(aaaa);
+      //         this.detailarray.push(aaaa);
     
     
     
-            }
-          }
+      //       }
+      //     }
         
-        }
-      }
+      //   }
+      // }
      
       console.log(this.detailarray)
     });
@@ -361,370 +713,13 @@ export class AccountPage {
 
     });
 
-
-    this.firemain.child("users").child(bujangid).child('roomhistory').child(newdate).once('value').then((snap)=>{
-      console.log(snap.val())
-      console.log("INININININININININININ!")
-      if(snap.val()!=undefined){
-        for(var a in snap.val()){
-          console.log(a);
-          console.log(snap.val()[a]);
-          console.log(snap.val()[a].orderlist!)
-              if(snap.val()[a].orderlist!=undefined){
-                console.log("order is not undefined");
-                console.log(snap.val()[a]);
-                console.log(nd);
-                if(snap.val()[a].date==nd){
-                  console.log(snap.val()[a].incharge);
-                  console.log(this.name);
-                  console.log(this.nickname);
-                  console.log(this.selectedName);
-                  if(snap.val()[a].incharge.trim()==this.selectedName.nickname.trim()){
-                    var mainlist=snap.val()[a];
-  
-                    console.log("is mainlist...")
-    
-                    console.log(mainlist);
-            for(var d in mainlist.agasi){
-                if(mainlist.agasi[d].findate!=undefined){
-      
-                }else{
-                  var totalmoney=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[0]);
-                  var tctotal=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[1]);
-                  var bantee=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[2]);
-                  mainlist.agasi[d].totalmoney=totalmoney;
-                  mainlist.agasi[d].tc=tctotal;
-                  mainlist.agasi[d].bantee=bantee;
-                }
-            }
-          console.log(mainlist);   
-                    console.log(snap.val()[a]);
-                    console.log(snap.val()[a].orderlist);
-                  console.log(snap.val()[a].orderlist.roomno);
-                  var orderl=[];
-                  var orderprice=0;
-                  var yeontireason="";
-                  var logic = snap.val()[a].logic;
-          
-      var tarray=[];
-      var tcarraywithoutagasi = [];
-                  var tcarray = [];
-                  var tp=0;
-                  var tbottle=0;
-                  var numofpeople = snap.val()[a].numofpeople;
-                  for(var cccc in mainlist.agasi){
-                    console.log(mainlist.agasi[cccc].tc)
-                    if(mainlist.agasi[cccc].angel==true||mainlist.agasi[cccc].angel=="true"){
-
-                    }else{
-                      tcarraywithoutagasi.push(Math.floor(mainlist.agasi[cccc].tc));
-                    }
-                    tarray.push({"tc":Math.floor(mainlist.agasi[cccc].tc),"name":mainlist.agasi[cccc].name,"angel":mainlist.agasi[cccc].angel, "date":mainlist.agasi[cccc].date});
-                    tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
-                  }
-                  for(var d in snap.val()[a].orderlist.orderlist){
-                    if(snap.val()[a].orderlist.orderlist[d].category=="주류"){
-                      tbottle+=Number(snap.val()[a].orderlist.orderlist[d].num);
-                    }
-                    orderprice+= (Number(snap.val()[a].orderlist.orderlist[d].price.replace(",","")) );
-                    console.log(snap.val()[a].orderlist.orderlist[d]);
-                    orderl.push(snap.val()[a].orderlist.orderlist[d])
-                    console.log(snap.val()[a].orderlist.orderlist[d].price);
-                    console.log(snap.val()[a].orderlist.orderlist[d].num)
-                    tp += snap.val()[a].orderlist.orderlist[d].price.replace(",","")* snap.val()[a].orderlist.orderlist[d].num;
-                    console.log(snap.val()[a].orderlist);
-                    console.log(snap.val()[a].orderlist.orderDate);
-                  }
-                  console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
-                  var firstsumofv=0;
-                  var totalsum=0;
-                  if(tbottle==0){
-
-                  }else{
-                    if(logic==1){
-                      tbottle=tbottle-1;
-                      yeontireason+=" 술 -1 , "
-                    }if(logic==2){
-                      tbottle=tbottle-2;
-                      yeontireason+=" 술 -2, "
-                    }
-                  }
-                  if(tcarraywithoutagasi.length>numofpeople){
-                    yeontireason="";
-                    firstsumofv=0;
-                    console.log("날개 제외 아가씨 수가 사람수보다 많다면....")
-                    console.log(tarray);
-                    tarray.sort(function(a,b){
-                      //////console.log(a.date+",,,"+b.date)
-                      if (a.date < b.date) {
-                        return -1;
-                      }
-                      if (a.date > b.date) {
-                        return 1;
-                      }
-                      return 0;
-                    });
-                    console.log(tarray);
-                    var cvalue=-1;
-                    var stop=0;
-                    for(var abab in tarray){
-                      cvalue++;
-                      console.log(cvalue+"????"+numofpeople);
-                      if(cvalue<numofpeople){
-                        console.log(tarray[abab]);
-                        if(tarray[abab].angel!=true){
-                          stop++;
-                          firstsumofv+=tarray[abab].tc
-                          yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함."
-                        }else if(tarray[abab].angel){
-                          if(tarray[abab].tc - tbottle>=0){
-  
-                             firstsumofv+= tarray[abab].tc - tbottle;
-                             yeontireason+="//날개"+tarray[abab].name+"의 tc"+tarray[abab].tc+"-"+tbottle+""
-                     
-                          }
-                        }
-                        // firstsumofv+=tarray[abab].tc
-                        // yeontireason+="//"+tarray[abab].name+"의 tc:"+tarray[abab].tc+"개를 더함??"
-                      }
-                      if(cvalue>=numofpeople){
-  
-                        console.log(tarray[abab]);
-                        if(tarray[abab].angel!=true){
-                          stop++;
-                          firstsumofv+=tarray[abab].tc
-                          yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함!!!"
-                        }else if(tarray[abab].angel){
-                          if(tarray[abab].tc - tbottle>=0){
-  
-                             firstsumofv+= tarray[abab].tc - tbottle;
-                             yeontireason+="//날개"+tarray[abab].name+"의 tc"+tarray[abab].tc+"-"+tbottle+"."
-                     
-                          }
-                        }
-                      }
-                      totalsum+=tcarray[abab];
-                    }
-                      // yeontireason+=","+firstsumofv+"에서 술병"+tbottle*numofpeople+"를 뺌. ";
-                      for(var ii=0; ii<numofpeople; ii++){
-  
-                        // firstsumofv= firstsumofv - tbottle;
-                      }
-                  }else if (tcarraywithoutagasi.length==numofpeople){
-                    console.log("날개 제외 아가씨 수가 사람수와 같다면....");
-                    console.log(tarray);
-                    console.log(tcarraywithoutagasi);
-                  for(var abab in tarray){
-                    totalsum+=tarray[abab].tc;
-  
-                    if(tarray[abab].angel!=true){
-                      firstsumofv+=tarray[abab].tc
-                      yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함.."
-                    }else if(tarray[abab].angel){
-                      console.log("angel!!!");
-                      console.log(tarray[abab].tc);
-                      console.log(tbottle);
-                      if(tarray[abab].tc - tbottle>=0){
-                         console.log("in")
-                         firstsumofv+= tarray[abab].tc - tbottle;
-                         yeontireason+="//날개"+tarray[abab].name+"의 tc"+tarray[abab].tc+"-"+tbottle+"."
-                 
-                      }else{
-                        yeontireason+=tarray[abab].tc+"-"+tbottle+"=0 ,연티:0"
-                      }
-                    }
-  
-                  }
-                  firstsumofv= numofpeople*tbottle-totalsum
-                  console.log(firstsumofv);
-                  if(firstsumofv>0){
-                    firstsumofv=0;
-                  }
-                  yeontireason += "인원*병-완티 "+numofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;                
-                }else if(tcarraywithoutagasi.length<numofpeople){
-                  console.log("날개 제외 아가씨 수가 사람수보다 작다면....");
-                  for(var abab in tcarray){
-                    totalsum+=tcarray[abab];
-                  }
-                    firstsumofv=0;
-                    var newnumofpeople=tcarray.length;
-                    firstsumofv= newnumofpeople*tbottle-totalsum
-                    if(firstsumofv>0){
-                      firstsumofv=0;
-                    }
-                     yeontireason = ""+tcarray.length+"로조정."+" 인원*병-완티 "+newnumofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;  
-                  }
-                  console.log(snap.val()[a])
-                    console.log(snap.val()[a].agasi)
-                    var totaltc=0;
-                    var totalmoney=0;
-
-                console.log("firstsumofv : "+firstsumofv);
-                var yeonti=firstsumofv;
-                if(yeonti<=0){
-                  yeonti=Math.abs(yeonti)
-                }
-                if(tbottle==0){
-                  yeonti=0;
-                  yeontireason+="술이 0병이므로 연티 0"
-                }
-                    for(var aga in mainlist.agasi){
-                      console.log("aga : ");
-                      console.log(mainlist.agasi[aga])
-                      console.log("tc:::"+mainlist.agasi[aga].tc);
-                      console.log("money:::"+mainlist.agasi[aga].totalmoney);
-                      if(mainlist.agasi[aga].tc==undefined){
-  
-                      }else{
-                        totaltc+=Number(mainlist.agasi[aga].tc);
-                        if(mainlist.agasi[aga].totalmoney==undefined){
-  
-                          totalmoney+=Number(mainlist.agasi[aga].money);
-                        }else{
-  
-                          totalmoney+=Number(mainlist.agasi[aga].totalmoney);
-                        }
-                      }
-                    }
-                    console.log("tp ...r : "+tp);
-                    totalmoney=totalmoney*10000;
-                    this.orderlist.push({"tp":tp,"yeonti":yeonti, "totalprice":orderprice,"tc":totaltc,"money":totalmoney, "wt":snap.val()[a].orderlist.wt,"date":snap.val()[a].orderlist.orderDate,"roomno":snap.val()[a].orderlist.roomno, "value":orderl});
-                  }
-                  
-                }
-               
-                
-              }else{
-                //order가 없을때. 
-
-
-
-                if(snap.val()[a].date==nd){
-                  console.log(snap.val()[a].incharge);
-                  console.log(this.name);
-                  console.log(this.nickname);
-                  console.log(this.selectedName);
-                  if(snap.val()[a].incharge.trim()==this.selectedName.nickname.trim()){
-                    var mainlist=snap.val()[a];
-  
-                    console.log("is mainlist...")
-    
-                    console.log(mainlist);
-            for(var d in mainlist.agasi){
-                if(mainlist.agasi[d].findate!=undefined){
-      
-                }else{
-                  var totalmoney=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[0]);
-                  var tctotal=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[1]);
-                  var bantee=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[2]);
-                  mainlist.agasi[d].totalmoney=totalmoney;
-                  mainlist.agasi[d].tc=tctotal;
-                  mainlist.agasi[d].bantee=bantee;
-                }
-            }
-          console.log(mainlist);   
-                    console.log(snap.val()[a]);
-                  var orderl=[];
-                  var orderprice=0;
-                  var yeontireason="";
-                  var logic = snap.val()[a].logic;
-          
-                  var tcarray = [];
-                  var tp=0;
-                  var tbottle=0;
-                  var numofpeople = snap.val()[a].numofpeople;
-                  for(var cccc in mainlist.agasi){
-                    console.log(mainlist.agasi[cccc].tc)
-                    tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
-                  }
-                  console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
-                  var firstsumofv=0;
-                  var totalsum=0;
-                  if(logic){
-                    tbottle=tbottle-1;
-                    yeontireason+="중/대방로직에 따른 술병 차감 -1 , "
-                  }
-                  if(tcarray.length>numofpeople){
-                    var minVal = Math.min.apply(null, tcarray);
-                    console.log("minvalue : "+minVal);
-                    var maxVal = Math.max.apply(null, tcarray);
-                    console.log("maxvalue : "+maxVal);
-                    firstsumofv=minVal+maxVal-tbottle
-                    yeontireason += "인원수<아가씨, 가장큰 tc"+maxVal+"+가장작은 tc"+minVal+"에서 총술병"+tbottle+"를 뺀값."
-                  }
-                  console.log(snap.val()[a])
-                    console.log(snap.val()[a].agasi)
-                    var totaltc=0;
-                    var totalmoney=0;
-
-                console.log("firstsumofv : "+firstsumofv);
-                var yeonti=firstsumofv;
-                    for(var aga in mainlist.agasi){
-                      console.log("aga : ");
-                      console.log(mainlist.agasi[aga])
-                      console.log("tc:::"+mainlist.agasi[aga].tc);
-                      console.log("money:::"+mainlist.agasi[aga].totalmoney);
-                      if(mainlist.agasi[aga].tc==undefined){
-  
-                      }else{
-                        totaltc+=Number(mainlist.agasi[aga].tc);
-                        if(mainlist.agasi[aga].totalmoney==undefined){
-  
-                          totalmoney+=Number(mainlist.agasi[aga].money);
-                        }else{
-  
-                          totalmoney+=Number(mainlist.agasi[aga].totalmoney);
-                        }
-                      }
-                    }
-                    console.log("tp ...r : "+tp);
-                    totalmoney=totalmoney*10000;
-
-                    var orderdate="";
-                  var roomno="";
-                  if(snap.val()[a].orderlist!=undefined){
-                    orderdate = snap.val()[a].orderlist.orderDate
-                    roomno=snap.val()[a].orderlist.roomno;
-                  }else{
-                    orderdate = "-"
-                    roomno="-"
-                  }
-
-
-                  var enddate="";
-                  if(snap.val()[a].end_date_full!=undefined){
-                   
-                    enddate=snap.val()[a].end_date_full
-                  }else{
-                    orderdate = "";
-                  }
-
-                    this.orderlist.push({"tp":tp,"yeonti":yeonti, "totalprice":orderprice,"tc":totaltc,"money":totalmoney, "wt":snap.val()[a].wt,"date":orderdate,"roomno":roomno, "value":orderl});
-                  }
-                  
-                }
-               
-
-              }
-             
-        }
-      }
-      for(var cc in this.orderlist){
-        console.log(this.orderlist[cc].value);
-      }
-      
-      console.log(this.orderlist)
-      //looping through this.orderlist and get sum of tp and money 
-      var totalmoney=0;
-      for(var c in this.orderlist){
-        console.log("money : "+this.orderlist[c].money+",,,tp : "+this.orderlist[c].tp);
-        totalmoney+=Number(this.orderlist[c].money)+Number(this.orderlist[c].tp)+Number(this.orderlist[c].yeonti*10000);
-      }
-      console.log(totalmoney)
-      this.tomoney = totalmoney;
-
     this.util.dismissLoading();
-    });
+
+    // this.firemain.child("users").child(bujangid).child('roomhistory').child(newdate).once('value').then((snap)=>{
+    //   console.log(snap.val())
+    //   console.log("INININININININININININ!")
+    
+    // });
   }
   set_month(num)
   {
@@ -744,7 +739,11 @@ export class AccountPage {
     } else {
       this.currentDate = 999;
     }
+    this.selectedYear = this.currentstartday.split("-")[0];
+    this.selectedMonth = this.currentstartday.split("-")[1];
     this.selectedDate = this.currentstartday.split("-")[2];
+    
+    console.log(this.selectedYear+","+this.selectedMonth+",,"+this.selectedDate);
     var firstDayThisMonth = new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay();
     var prevNumOfDays = new Date(this.date.getFullYear(), this.date.getMonth(), 0).getDate();
     for(var i = prevNumOfDays-(firstDayThisMonth-1); i <= prevNumOfDays; i++) {

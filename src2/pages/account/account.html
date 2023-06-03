@@ -1,0 +1,206 @@
+
+  <ion-header>
+    <ion-toolbar>
+      
+    <ion-buttons  *ngIf="!firstflag||firstflag==undefined"  style="
+    position: absolute;
+    left: 0;
+    z-index: 9999;
+    ;" start>
+      <button (click)="openclose();" menuToggle ion-button icon-only color="royal">
+        <img style="
+        width: 30px" class="logo" src="assets/img/hamburger.png" />
+      </button>
+    </ion-buttons>
+
+    <ion-buttons *ngIf="firstflag" style="
+    position: absolute;
+    left: 0;
+    z-index: 9999;
+    color: white;" start>
+      <button (click)="close();"  ion-button icon-only color="royal">
+        <img style="
+        width: 30px" class="logo" src="assets/img/back1.png" />
+      </button>
+    </ion-buttons>
+
+      <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
+
+      <ion-buttons end>
+        <button  style="color:white;"ion-button icon-only color="royal">
+          <ion-icon name="person"></ion-icon>
+          <span>{{nickname}}</span>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-menu type="overlay" [content]="mycontent">
+    <ion-content>
+     
+
+      <ion-list *ngIf="!paymentflag">
+        <ion-item (click)="gotopayment();">결제진행</ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item (click)="logout();">로그아웃</ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-nav #mycontent [root]="rootPage"></ion-nav>
+<ion-content style="background: white; margin-top:45px;" padding>
+
+  <div class="option-title" *ngIf="option_title_ch < 2">
+    <div></div>
+    <span>{{option_title[option_title_ch]}}</span>
+  </div>
+
+  <div *ngIf="option_title_ch == 0" class="users-div">
+    <div *ngFor="let item of view_list" (click)="get_charge_person(item.name)">{{item.name}}</div>
+    <div class="disable" *ngFor="let item of sort_temp_list"></div>
+  </div>
+
+  <div *ngIf="option_title_ch == 1" class="users-div">
+    <div *ngFor="let item of view_list" (click)="get_money_data(item)">{{item.nickname}}</div>
+    <div class="disable" *ngFor="let item of sort_temp_list"></div>
+  </div>
+
+  <div *ngIf="option_title_ch == 2" class="sssss">
+    <div class="top-bar">
+      <div class="synthesis">
+        <div class="over" *ngIf="todaymoney-tomoney>0">과입금액 : {{(todaymoney-tomoney).toLocaleString()}} </div>
+        <div class="over" *ngIf="todaymoney-tomoney<=0">과입금액 : - </div>
+        <div class="syn">
+          <span>누적미수금액 {{ accumuls.toLocaleString() }}</span>
+          <span>오늘입금할금액 {{tomoney.toLocaleString()}}</span>
+          <span>오늘입금하신금액 {{todaymoney.toLocaleString()}}</span>
+        </div>
+      </div>
+      <div class="months">
+        <!-- <span [ngClass]="currentMonth==1 ? 'active' : ''" (click)="set_month(1)">1월</span>
+        <span [ngClass]="currentMonth==2 ? 'active' : ''" (click)="set_month(2)">2월</span>
+        <span [ngClass]="currentMonth==3 ? 'active' : ''" (click)="set_month(3)">3월</span>
+        <span [ngClass]="currentMonth==4 ? 'active' : ''" (click)="set_month(4)">4월</span>
+        <span [ngClass]="currentMonth==5 ? 'active' : ''" (click)="set_month(5)">5월</span>
+        <span [ngClass]="currentMonth==6 ? 'active' : ''" (click)="set_month(6)">6월</span>
+        <span [ngClass]="currentMonth==7 ? 'active' : ''" (click)="set_month(7)">7월</span>
+        <span [ngClass]="currentMonth==8 ? 'active' : ''" (click)="set_month(8)">8월</span>
+        <span [ngClass]="currentMonth==9 ? 'active' : ''" (click)="set_month(9)">9월</span>
+        <span [ngClass]="currentMonth==10 ? 'active' : ''" (click)="set_month(10)">10월</span>
+        <span [ngClass]="currentMonth==11 ? 'active' : ''" (click)="set_month(11)">11월</span>
+        <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span> -->
+        
+  <button (click)="confirm()" class="newbtn">입금 </button>
+  <button (click)="withdraw()" class="newbtn">출금 </button>
+      </div>
+    </div>
+
+    <div class="calendar-main" style="">
+      <ion-row class="calendar-header">
+        <ion-col col-2 (click)="goToLastMonth()">
+          <ion-icon name="arrow-back">
+          </ion-icon>
+        </ion-col>
+
+        <ion-col
+        style="font-size: 18px;" col-8
+        (click)="goToday()">
+          {{currentYear}}년 {{currentMonth}}월
+        </ion-col>
+
+        <ion-col col-2 (click)="goToNextMonth()">
+          <ion-icon name="arrow-forward"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+      <div class="calendar-body">
+        <div class="weeks">
+          <span>일</span>
+          <span>월</span>
+          <span>화</span>
+          <span>수</span>
+          <span>목</span>
+          <span>금</span>
+          <span>토</span>
+        </div>
+        <div class="dates">
+          <span *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</span>
+          <!-- <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span> -->
+          <span  *ngFor="let day of daysInThisMonth" > 
+            <span  (click)="openmodal(day)" style="
+            width: 40px;    border: solid 1px;" class="currentDate" *ngIf="(
+              currentDate === day &&
+              today.getMonth()+1 === currentMonth &&
+              today.getFullYear() === currentYear
+              ); else otherDate">{{day}}</span><br>
+              <div (click)="openmodal(day)" style="width: 7px;
+                  height: 7px;
+                  color: #E74371 ;
+                  background: #E74371 ;
+                  border-radius: 20px;
+  margin-left: 20px;
+  margin-top: -40px;" class="event-bullet" *ngIf="(
+              currentDate === day &&
+              today.getMonth()+1 === currentMonth &&
+              today.getFullYear() === currentYear
+              ) && checkEvent(day)" >
+                  </div>
+              <ng-template #otherDate class="otherDate">
+                  <span *ngIf="(
+                    day == selectedDate &&
+                    today.getMonth()+1 == currentMonth &&
+                    today.getFullYear() == currentYear
+                    )" style="background: pink;
+                    border-radius: 20px;
+                    height: 20px;
+                    width: 20px;" (click)="openmodal(day)">{{day}}</span>
+                  
+                  <span *ngIf="(
+                    day != selectedDate &&
+                    today.getMonth()+1 == currentMonth &&
+                    today.getFullYear() == currentYear
+                    )" style="
+                  width: 20px;" (click)="openmodal(day)">{{day}}</span>
+
+
+                      <span *ngIf="(
+                        
+                        today.getMonth()+1 != currentMonth &&
+                        today.getFullYear() == currentYear
+                        )" style="
+                      width: 20px;" (click)="openmodal(day)">{{day}}</span>
+                  <br>
+                  <div  style="width: 7px;
+                  height: 7px;
+                  color: #E74371 ;
+                  background: #E74371 ;
+                  border-radius: 20px;
+  margin-left: 20px;
+  margin-top: -40px;" class="event-bullet" *ngIf="checkEvent(day)" >
+
+                  </div>
+              </ng-template>  
+          </span>
+
+          <span *ngFor="let nextDay of daysInNextMonth" class="last-month" (click)="goToNextMonth()">{{nextDay}}</span>
+        </div>
+      </div>
+
+   
+    </div>
+    <div class="b">
+      <div class="listing">
+        <ion-list *ngFor="let a of detailarray">
+          <ion-item style="font-size:12px;" >#{{a.roomno}} {{a.incharge}} 연티 : {{a.yeonti}}  합계:{{(a.tp+a.money+(a.yeonti*10000) ).toLocaleString()}}원  </ion-item>
+        </ion-list>
+      </div>
+      <div class="listing">
+        <ion-list *ngFor="let a of accountmessage">
+          <ion-item style="font-size:12px;" >{{a.type}} {{a.name}}  카드: {{a.card.toLocaleString()}}  현금: {{a.cash.toLocaleString()}} 입력일: {{a.time}}</ion-item>
+        </ion-list>
+      </div>
+    </div>
+    
+    
+  </div>
+</ion-content>

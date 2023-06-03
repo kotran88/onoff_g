@@ -29,7 +29,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class='contents' class="contents" padding>
+<ion-content class='contents' class="contents" #targetElement (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd($event)" padding>
   <ion-segment style="
   margin-top: 20px;" class="ion-segment"  (ionChange)="screenSwitch($event)">
     <ion-segment-button [ngClass]="activeclass=='1' ? 'segactive' : 'segactiveno'" value="1">
@@ -89,38 +89,49 @@
             <div  *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
               <div *ngFor="let b of a.agasi" class="looping" >
                   <div class="mainmain">
-                    <span *ngIf="b.angel!=undefined&&!b.angel" style="
+                    <span *ngIf="!b.angel&&b.findate==undefined&&modifyflag" style="
                     margin: 0px !important; 
-    line-height: 50px; text-align: center;">
-                    {{b.name}}</span>
-
-
-                    <span *ngIf="b.angel!=undefined&&b.angel" style="
+          line-height: 50px; text-align: center;">
+                   {{b.name}}</span>
+                    <span *ngIf="!b.angel&&b.findate==undefined&&!modifyflag" style="
                     margin: 0px !important; 
-     text-align: center;"><span style="
-    margin: 0px !important;" *ngIf="b.angel!=undefined&&b.angel">
-                      <img style="width:24px; height:24px;" class="logo" src="assets/img/angel.png" />
-                    </span> 
-                    {{b.name}}</span>
+          line-height: 50px; text-align: center;">
+                   {{b.name}}</span>
+                    <span *ngIf="!b.angel&&b.findate!=undefined&&!modifyflag" style="
+                    margin: 0px !important; 
+          line-height: 50px; text-align: center;">
+                   {{b.name}}</span>
+                    <span *ngIf="!b.angel&&b.findate!=undefined&&modifyflag" style="
+                    margin: 0px !important; 
+          line-height: 50px; text-align: center;">
+                     <input [(ngModel)]='b.name' style="    width: 40px;
+                     border: solid 2px;
+              height: 30px;
+                     border-radius: 10px;
+                     text-align: center;"  value="{{b.name}}" type="text">
+                     
+                    </span>
 
-                    <span style="line-height: 40px; width:40px; text-align: center;">{{b.date.split(" ")[1]}}</span>
+                    <span style="line-height: 40px; 
+                    font-size: 12px !important; width:40px; text-align: center;">{{b.date.split(" ")[1]}}</span>
                     
                   
                     <span *ngIf="(b.findate!=undefined&&!modifyflag)" style="line-height: 40px; width:40px; text-align: center;">{{b.findate.split(" ")[1]}}</span>
                     <span *ngIf="(b.findate==undefined&&!modifyflag)" style="line-height: 40px; width:40px; text-align: center;">-</span>
-                    <span *ngIf="b.tc!=undefined&&!modifyflag" style="line-height: 20px; width:40px; text-align: center;">{{b.tc}}개 <br>{{b.money}}만원</span>
+                    <span *ngIf="b.tc!=undefined&&!modifyflag" style="line-height: 20px; font-size:13px !important; width:40px; text-align: center;">{{b.tc}}개 <br>{{b.money}}만원</span>
                    <div *ngIf="modifyflag" style="
                    width: 50px;
                    line-height: 25px;" class="aaa">
-                   <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined" style="line-height: 20px; width:40px; text-align: center;">
+                   <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined" style="line-height: 20px; 
+                   font-size: 13px !important;  width:40px; text-align: center;">
                      <input [(ngModel)]='b.tc' style="    width: 40px;
                    border: solid 2px;
                    border-radius: 10px;
                    text-align: center;" *ngIf="b.tc!=undefined&&modifyflag" value="{{b.tc}}" type="text">
-                    <br>{{b.money}}만원</span>
+                    <br>{{b.money}}만원...</span>
 
-                    <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate==undefined" style="line-height: 20px; width:40px; text-align: center;">
-                      {{b.tc}}개 <br>{{b.money}}만원
+                    <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate==undefined" style="line-height: 20px; font-size: 13px !important; width:40px; text-align: center;">
+                     . {{b.tc}}개 <br>{{b.money}}....
                   </span>
                     </div>
 <!--                     
@@ -129,27 +140,40 @@
                    <span *ngIf="b.tc!=undefined" style="line-height: 20px; width:40px; text-align: center;">{{b.tc}}개 <br>{{b.money}}만원</span> -->
 
         <span *ngIf="b.writer==undefined" style="line-height: 40px; width:40px; text-align: center;">-?</span>
-                   <span *ngIf="b.writer!=undefined" style="line-height: 40px; width:40px; text-align: center;">{{b.writer}}</span>
+                   <span *ngIf="b.writer!=undefined" style="line-height: 40px; width:40px; 
+                   font-size: 12px !important; text-align: center;">{{b.writer}}</span>
                    <span *ngIf="b.date!=undefined" style="
-                   line-height: 40px;
-                   font-size: 5;
-                   width: 64px;
-                   font-size: 8px;">{{abcd(b.date)}}</span> 
+                  
+    line-height: 50px;
+    font-size: 11px !important;
+    width: 55px;
+    margin: 0px;
+">{{abcd(b.date)}}</span> 
                    <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,1)" style="
                        display: block;
     margin: 5px;
-    width: 40px;
+    width: 55px;
+    border-radius: 15px;
+    background: white;
+    font-size: 15px;
     height: 40px;
+    color:black;
+    padding-left:0px;
+    padding-right:0px;
     text-align: center;
-    font-size: 12px; ">종료</button>
+     ">종료</button>
                    <button (click)="reinit(b,a.name,a,1)" *ngIf="b.findate!=undefined&&b.findate.length!=0" style="
                          display: block;
     margin: 5px;
-    width: 40px;
+    width: 55px;
     height: 40px;
-    font-size: 10px;
+    border-radius: 15px;
+    color:black;
+    background: white !important;
     text-align: center;
-    font-size: 10px;
+    font-size: 13px;
+    padding-left:0px;
+    padding-right:0px;
                   ">재진행</button>
                   </div>
                  
@@ -163,92 +187,104 @@
             <div style="
     " class="messagessss">
               <div *ngFor="let aa of a.message" class="messagediv">
-              <p style="
+              <!-- <p style="
               font-weight: 600;
               margin-left: 10px;
-              margin-top: 3px;">{{aa.uploader}}</p>
+              margin-top: 3px;"></p> -->
               <span style=" 
               left: 15px;
   
+              font-size: 15px !important;
               margin-left: 10px;
-              color:black;">{{aa.contents}} {{aa.tc}} {{aa.agasi}}</span> <span style=" 
+              color:black;">{{aa.uploader}} {{aa.contents}} {{aa.tc}} {{aa.agasi}}</span> <span style=" 
               right: 40px;
               font-size: 11px;
               color:black; 
       float: right;
+    font-size: 15px !important;
       margin-right: 10px;">{{aa.date}}</span> 
             </div>
             </div>
             <div class="memo">
-              {{a.memo}}
+              <span *ngIf="a.memo!=undefined&&a.memo.length>0"> {{a.memo}}</span>
             </div>
         </div> 
-      </div>                                             
-      <div style="    bottom: 5%;
-      width: 100%;
-      text-align: center;
-    padding-top: 21px;
-      position: fixed;
-      text-align: center;
-      align-items: center;
-      background: white;
-      z-index: 2000;
-      border-top: solid 1px;
-      
-    height: 72px;">
+
+
+        <div class="bottomdiv">
        
         <button *ngIf="!modifyflag" class="btnbottom" (click)="choicestart();" style="
-        margin-left: 10px;
+        margin-left: 5px;
         height: 40px;
-        background: transparent;
-        border: solid 1px;
-        border-radius: 10px;
-        width: 70px;
+      background: transparent;
+      border: solid 1px !important;
+    width: 58px;
+    font-size: 14px;
+      color:black !important;
+      border-radius: 10px;
+        width: 55px;
+      padding-left:0px !important;
+      padding-right:0px !important;
+    background: white !important;
         top: 0px;
         margin-top: -10px;">메이드</button>
 
-      <button *ngIf="!modifyflag" class="btnbottom" (click)="endall(a,a.name,a)" style="
-      margin-left: 10px;
+      <button *ngIf="!modifyflag" class="btnbottom" (click)="endall(a,a.name,a,1)" style="
+      margin-left: 5px;
       height: 40px;
       background: transparent;
-      border: solid 1px;
+      border: solid 1px !important;
+      color:black !important;
       border-radius: 10px;
+      padding-left:0px !important;
+      padding-right:0px !important;
       width: 70px;
       top: 0px;
-    font-size: 5px !important;
+    font-size: 16px;
       margin-top: -10px;">전체종료</button>
 
       <button *ngIf="!modifyflag" class="btnbottom" (click)="ss(a,a.name,a)" style="
-      margin-left: 10px;
+      margin-left: 5px;
       height: 40px;
       background: transparent;
-      border: solid 1px;
+      border: solid 1px !important;
+      color:black !important;
       border-radius: 10px;
-      width: 70px;
-    font-size: 5px !important;
-      font-size:11px;
+      width: 60px;
+      padding-left:0px !important;
+      padding-right:0px !important;
+    font-size: 14px;
       top: 0px;
-      margin-top: -10px;">초이스<br>ㅅㅅ</button>
+      margin-top: -10px;">초이스ㅅㅅ</button>
 
 
 <button *ngIf="!modifyflag" class="btnbottom" (click)="memo(a,a.name,a)" style="
-margin-left: 10px;
+margin-left: 5px;
 height: 40px;
-background: transparent;
-border: solid 1px;
+      background: transparent;
+      border: solid 1px !important;
+      color:black !important;
 border-radius: 10px;
-width: 70px;
+
+padding-left:0px !important;
+      padding-right:0px !important;
+    font-size: 15px;
+width: 55px;
 top: 0px;
 margin-top: -10px;">메모</button>
 
 
 <button *ngIf="!modifyflag" class="btnbottom" (click)="modify0(a,a.name,a)" style="
-margin-left: 10px;
+margin-left: 5px;
 height: 40px;
-background: transparent;
-border: solid 1px;
+      background: transparent;
+      border: solid 1px !important;
+      color:black !important;
 border-radius: 10px;
-width: 50px;
+      padding-left:0px !important;
+      padding-right:0px !important;
+    font-size: 15px;
+width: 58px;
 top: 0px;
 margin-top: -10px; ">수정</button>
 
@@ -256,10 +292,12 @@ margin-top: -10px; ">수정</button>
 <button *ngIf="modifyflag" class="btnbottom" (click)="modifyfin0(a,a.name,a)" style="
 margin-left: 10px;
 height: 40px;
-background: transparent;
-border: solid 1px;
+      background: transparent;
+      border: solid 1px !important;
+      color:black !important;
 border-radius: 10px;
-width: 50px;
+    font-size: 16px;
+width: 55px;
       font-size:11px;
 top: 0px;
 margin-top: -10px; ">완료</button>
@@ -271,11 +309,14 @@ height: 40px;
 background: transparent;
 border: solid 1px;
 border-radius: 10px;
+    font-size: 18px;
 width: 50px;
-      font-size:11px;
 top: 0px;
 margin-top: -10px; ">취소</button>
       </div>
+
+      </div>                                             
+      
     </div>
     <div class="area" [ngClass]="activeclass=='2' ? 'show' : 'noshow'" id="ion-label-area-2">
       <div style="    width: 100%;
@@ -321,12 +362,28 @@ margin-top: -10px; ">취소</button>
   <div style="margin-top:33px;" *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
     <div *ngFor="let b of a.agasi" class="looping" >
         <div class="mainmain">
-          <span *ngIf="!b.angel" style="
+          <span *ngIf="!b.angel&&b.findate==undefined&&modifyflag" style="
           margin: 0px !important; 
 line-height: 50px; text-align: center;">
-          {{b.name}}</span>
-
-
+         {{b.name}}</span>
+          <span *ngIf="!b.angel&&b.findate==undefined&&!modifyflag" style="
+          margin: 0px !important; 
+line-height: 50px; text-align: center;">
+         {{b.name}}</span>
+          <span *ngIf="!b.angel&&b.findate!=undefined&&!modifyflag" style="
+          margin: 0px !important; 
+line-height: 50px; text-align: center;">
+         {{b.name}}</span>
+          <span *ngIf="!b.angel&&b.findate!=undefined&&modifyflag" style="
+          margin: 0px !important; 
+line-height: 50px; text-align: center;">
+           <input [(ngModel)]='b.name' style="    width: 40px;
+           border: solid 2px;
+    height: 30px;
+           border-radius: 10px;
+           text-align: center;"  value="{{b.name}}" type="text">
+           
+          </span>
           <span *ngIf="b.angel" style="
           margin: 0px !important; 
 text-align: center;"><span style="
@@ -334,23 +391,25 @@ margin: 0px !important;" *ngIf="b.angel">
             <img style="width:24px; height:24px;" class="logo" src="assets/img/angel.png" />
           </span> 
           {{b.name}}</span>
-          <span style="line-height: 40px; text-align: center; width:40px;">{{b.date.split(" ")[1]}}</span>
+          <span style="line-height: 40px; 
+          font-size: 12px !important; text-align: center; width:40px;">{{b.date.split(" ")[1]}}</span>
           
         <!-- <input *ngIf="b.findate!=undefined&&modifyflag" value="{{b.findate.split(' ')[1]}}" type="text"> -->
          <span *ngIf="b.findate!=undefined&&!modifyflag" style="line-height: 40px; width:40px; text-align: center;">{{b.findate.split(" ")[1]}}</span>
          <span *ngIf="b.findate==undefined&&!modifyflag" style="line-height: 40px; width:40px; text-align: center;">-</span>
-         <span *ngIf="b.tc!=undefined&&!modifyflag" style="line-height: 20px; width:40px; text-align: center;">{{b.tc}}개 <br>{{b.money}}만원</span>
+         <span *ngIf="b.tc!=undefined&&!modifyflag" style="line-height: 20px; 
+         font-size: 12px !important; width:40px; text-align: center;">{{b.tc}}개 <br>{{b.money}}만원</span>
         <div *ngIf="modifyflag" style="
         width: 50px;
         line-height: 25px;" class="aaa">
-        <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined" style="line-height: 20px; width:40px; text-align: center;">
+        <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined" style="line-height: 20px; font-size: 12px !important; width:40px; text-align: center;">
           <input [(ngModel)]='b.tc' style="    width: 40px;
         border: solid 2px;
         border-radius: 10px;
         text-align: center;" *ngIf="b.tc!=undefined&&modifyflag" value="{{b.tc}}" type="text">
          <br>{{b.money}}만원</span>
 
-         <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate==undefined" style="line-height: 20px; width:40px; text-align: center;">
+         <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate==undefined" style="line-height: 20px; font-size: 12px !important; width:40px; text-align: center;">
           {{b.tc}}개 <br>{{b.money}}만원
       </span>
          <!-- <input [(ngModel)]='b.money' style="    width: 40px;
@@ -358,28 +417,39 @@ margin: 0px !important;" *ngIf="b.angel">
          border-radius: 10px;
          text-align: center;" *ngIf="b.money!=undefined&&modifyflag" value="{{b.money}}" type="text"> -->
         </div>
-         <span *ngIf="b.writer!=undefined" style="line-height: 40px; width:40px; text-align: center;">{{b.writer}}</span>
+         <span *ngIf="b.writer!=undefined" style="font-size: 12px !important; line-height: 40px; width:40px; text-align: center;">{{b.writer}}</span>
         
          <span *ngIf="b.date!=undefined" style="
-         line-height: 40px;
-         font-size: 5;
-         width: 64px;
-         font-size: 8px;">{{abcd(b.date)}}</span>  
+         
+    line-height: 50px;
+    font-size: 11px !important;
+    width: 55px;
+    margin: 0px;
+">{{abcd(b.date)}}</span>  
 <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,2)" style="
-display: block;
-margin: 5px;
-width: 40px;
-height: 40px;
-text-align: center;
-font-size: 12px;  ">종료</button>
-<button (click)="reinit(b,a.name,a,2)" *ngIf="b.findate!=undefined&&b.findate.length!=0" style="
-display: block;
+ display: block;
     margin: 5px;
-    width: 40px;
+    width: 55px;
+    border-radius: 15px;
+    background: white;
+    font-size: 15px;
     height: 40px;
-    font-size: 10px;
+    color:black;
+    padding-left:0px;
+    padding-right:0px;
+    text-align: center;  ">종료</button>
+<button (click)="reinit(b,a.name,a,2)" *ngIf="b.findate!=undefined&&b.findate.length!=0" style="
+           display: block;
+    margin: 5px;
+    width: 55px;
+    height: 40px;
+    border-radius: 15px;
+    color:black;
+    background: white !important;
     text-align: center;
-    font-size: 10px; ">재진행</button>
+    font-size: 13px;
+    padding-left:0px;
+    padding-right:0px; ">재진행</button>
 
         </div>
        
@@ -391,62 +461,89 @@ display: block;
   <div style="
   " class="messagessss">
             <div *ngFor="let aa of a.message" class="messagediv">
-            <p style="
-            font-weight: 600;
-            margin-left: 10px;
-            margin-top: 3px;">{{aa.uploader}}</p>
+           
             <span style=" 
             left: 15px;
 
+            font-size: 15px !important;
             margin-left: 10px;
-            color:black;">{{aa.contents}} {{aa.tc}} {{aa.agasi}}</span> <span style=" 
+            color:black;">{{aa.uploader}} {{aa.contents}} {{aa.tc}} {{aa.agasi}}</span> <span style=" 
             right: 40px;
-            font-size: 11px;
+    font-size: 15px !important;
             color:black; 
     float: right;
     margin-right: 10px;">{{aa.date}}</span> 
           </div>
           </div>
-          <div class="memo">
-            {{a.memo}}
+            <div class="memo">
+              <span *ngIf="a.memo!=undefined&& a.memo.length>0"> {{a.memo}}</span>
           </div>
       </div> 
-    </div>                                             
-    <div style="    bottom: 5%;
-    width: 100%;
-    text-align: center;
-    padding-top: 21px;
-    position: fixed;
-    text-align: center;
-    align-items: center;
-    background: white;
-    z-index: 2000;
-    border-top: solid 1px;
-    height: 72px;">
-       
-        <button *ngIf="!modifyflag" (click)="choicestart();" style="
-        margin-left: 10px;
+      <div  class="bottomdiv">
+         
+          <button *ngIf="!modifyflag" (click)="choicestart();" style="
+         margin-left: 5px;
         height: 40px;
-        background: transparent;
-        border: solid 1px;
-        border-radius: 10px;
-        width: 50px;
+      background: transparent;
+      border: solid 1px !important;
+    width: 58px;
+    font-size: 14px;
+      color:black !important;
+      border-radius: 10px;
+        width: 55px;
+      padding-left:0px !important;
+      padding-right:0px !important;
+    background: white !important;
         top: 0px;
         margin-top: -10px;">메이드</button>
-
-      <button *ngIf="!modifyflag" (click)="endall(a,a.name,a)" style="
-      margin-left: 10px;
+  
+        <button *ngIf="!modifyflag" (click)="endall(a,a.name,a,2)" style="
+      
+      margin-left: 5px;
       height: 40px;
       background: transparent;
-      border: solid 1px;
+      border: solid 1px !important;
+      color:black !important;
       border-radius: 10px;
-      width: 50px;
+      padding-left:0px !important;
+      padding-right:0px !important;
+      width: 70px;
       top: 0px;
-      font-size:9px;
+    font-size: 16px;
       margin-top: -10px;">전체종료</button>
-      <div *ngFor="let aa of mainlist_finished" class="c">
+        <div *ngFor="let aa of mainlist_finished" class="c">
+  
+          <button *ngIf="!modifyflag&&aa.numofagasi==aa.numofpeople"  (click)="ss3(a,a.name,a)" style="
+         margin-left: 5px;
+      height: 40px;
+      background: transparent;
+      border: solid 1px !important;
+      color:black !important;
+      border-radius: 10px;
+      width: 60px;
+      padding-left:0px !important;
+      padding-right:0px !important;
+    font-size: 14px;
+      top: 0px;
+      margin-top: -10px;">날개</button>
+  
+  <button *ngIf="!modifyflag&&aa.numofagasi!=aa.numofpeople" (click)="ss2(a,a.name,a)" style="
+  
+margin-left: 5px;
+height: 40px;
+      background: transparent;
+      border: solid 1px !important;
+      color:black !important;
+border-radius: 10px;
 
-        <button *ngIf="!modifyflag&&aa.numofagasi==aa.numofpeople"  (click)="ss3(a,a.name,a)" style="
+padding-left:0px !important;
+      padding-right:0px !important;
+    font-size: 15px;
+width: 55px;
+top: 0px;
+margin-top: -10px;">재초</button>
+        </div>
+        <!-- <button (click)="ss2(a,a.name,a)" style="
         margin-left: 10px;
         height: 40px;
         background: transparent;
@@ -454,72 +551,68 @@ display: block;
         border-radius: 10px;
         width: 50px;
         top: 0px;
-        margin-top: -10px;">날개</button>
-
-<button *ngIf="!modifyflag&&aa.numofagasi!=aa.numofpeople" (click)="ss2(a,a.name,a)" style="
-margin-left: 10px;
+        margin-top: -10px;">빵꾸{{a.lack}}</button> -->
+  
+      <button *ngIf="!modifyflag" class="btnbottom" (click)="memo(a,a.name,a)" style="
+      
+margin-left: 5px;
 height: 40px;
-background: transparent;
-border: solid 1px;
-border-radius: 10px;
-width: 50px;
-top: 0px;
-margin-top: -10px;">재초</button>
-      </div>
-      <!-- <button (click)="ss2(a,a.name,a)" style="
-      margin-left: 10px;
-      height: 40px;
       background: transparent;
-      border: solid 1px;
-      border-radius: 10px;
-      width: 50px;
-      top: 0px;
-      margin-top: -10px;">빵꾸{{a.lack}}</button> -->
-
-    <button *ngIf="!modifyflag" class="btnbottom" (click)="memo(a,a.name,a)" style="
-    margin-left: 10px;
-    height: 40px;
-    background: transparent;
-    border: solid 1px;
-    border-radius: 10px;
-    width: 70px;
-    top: 0px;
-    margin-top: -10px;">메모</button>
-
-<button *ngIf="!modifyflag" (click)="modify(a,a.name,a)" style="
-margin-left: 10px;
-height: 40px;
-background: transparent;
-border: solid 1px;
+      border: solid 1px !important;
+      color:black !important;
 border-radius: 10px;
-width: 50px;
+
+padding-left:0px !important;
+      padding-right:0px !important;
+    font-size: 15px;
+width: 55px;
 top: 0px;
-margin-top: -10px; ">수정</button>
+margin-top: -10px;">메모</button>
+  
 
+  <button *ngIf="!modifyflag" class="btnbottom" (click)="modify(a,a.name,a)" style="
+      
+  margin-left: 5px;
+  height: 40px;
+        background: transparent;
+        border: solid 1px !important;
+        color:black !important;
+  border-radius: 10px;
+  
+  padding-left:0px !important;
+        padding-right:0px !important;
+      font-size: 15px;
+  width: 55px;
+  top: 0px;
+  margin-top: -10px;">수정</button>
 
-<button *ngIf="modifyflag" (click)="modifyfin(a,a.name,a)" style="
-margin-left: 10px;
-height: 40px;
-background: transparent;
-border: solid 1px;
-border-radius: 10px;
-width: 50px;
-      font-size:11px;
-top: 0px;
-margin-top: -10px; ">완료</button>
-
-
-<button *ngIf="modifyflag" (click)="modifycancel(a,a.name,a)" style="
-margin-left: 10px;
-height: 40px;
-background: transparent;
-border: solid 1px;
-border-radius: 10px;
-width: 50px;
-      font-size:11px;
-top: 0px;
-margin-top: -10px; ">취소</button>
-      </div>
+  
+  
+  <button *ngIf="modifyflag" (click)="modifyfin(a,a.name,a)" style="
+  margin-left: 5px;
+  height: 55px;
+  background: transparent;
+  border: solid 1px;
+  border-radius: 10px;
+  width: 55px;
+        font-size:14px;
+  top: 0px;
+  margin-top: -10px; ">완료</button>
+  
+  
+  <button *ngIf="modifyflag" (click)="modifycancel(a,a.name,a)" style="
+  margin-left: 10px;
+  height: 40px;
+  background: transparent;
+  border: solid 1px;
+  border-radius: 10px;
+  width: 50px;
+        font-size:11px;
+  top: 0px;
+  margin-top: -10px; ">취소</button>
+        </div>
+    </div>                                             
+   
     </div>
     <div class="area" [ngClass]="activeclass=='3' ? 'show' : 'noshow'" id="ion-label-area-3">
       <div style="    width: 100%;
@@ -577,10 +670,10 @@ margin-top: -10px; ">취소</button>
     <div *ngFor="let b of a.agasi" class="looping" >
         <div class="mainmain">
           <span style="line-height: 40px; width:40px; text-align: center;">{{b.name}}</span>
-          <span style="line-height: 40px; width:40px; text-align: center;">{{b.date.split(" ")[1]}}</span>
+          <span style="line-height: 40px; width:40px; font-size: 12px !important; text-align: center;">{{b.date.split(" ")[1]}}</span>
           
          <span *ngIf="b.findate!=undefined&&!modifyflag" style="line-height: 40px; width:40px; text-align: center;">{{b.findate.split(" ")[1]}}</span>
-         <span *ngIf="b.tc!=undefined&&!modifyflag" style="line-height: 20px; width:40px; text-align: center;">{{b.tc}}개 <br>{{b.money}}만원</span>
+         <span *ngIf="b.tc!=undefined&&!modifyflag" style="line-height: 20px; font-size: 12px !important; width:40px; text-align: center;">{{b.tc}}개 <br>{{b.money}}만원</span>
          <div style="
         width: 50px;
         line-height: 25px;" class="aaa">
@@ -594,55 +687,52 @@ margin-top: -10px; ">취소</button>
          border-radius: 10px;
          text-align: center;" *ngIf="b.money!=undefined&&modifyflag" value="{{b.money}}" type="text"> -->
         </div>
-        <span *ngIf="b.writer==undefined" style="line-height: 40px; width:40px; text-align: center;">-</span>
-        <span *ngIf="b.writer!=undefined" style="line-height: 40px; width:40px; text-align: center;">{{b.writer}}</span>
+        <span *ngIf="b.writer==undefined" style="line-height: 40px;font-size: 12px !important;  width:40px; text-align: center;">-</span>
+        <span *ngIf="b.writer!=undefined" style="line-height: 40px; font-size: 12px !important; width:40px; text-align: center;">{{b.writer}}</span>
         <span *ngIf="b.date!=undefined" style="
-        line-height: 40px;
-        font-size: 5;
-        width: 64px;
-        font-size: 8px;">{{abcd(b.date)}}</span> 
+        
+    line-height: 50px;
+    font-size: 11px !important;
+    width: 55px;
+    margin: 0px;
+">{{abcd(b.date)}}</span> 
         </div>
        
         
         
     </div>
-  
+    
   </div>
 
 
   <div style="
   " class="messagessss">
             <div *ngFor="let aa of a.message" class="messagediv">
-            <p style="
+            <!-- <p style="
             font-weight: 600;
             margin-left: 10px;
-            margin-top: 3px;">{{aa.uploader}}</p>
+    font-size: 14px !important;
+            margin-top: 3px;"></p> -->
             <span style=" 
             left: 15px;
   
+            font-size: 14px !important;
             margin-left: 10px;
             color:black;
-            position: absolute;">{{aa.contents}}  {{aa.agasi}} {{aa.tc}}</span> <span style=" 
+            position: absolute;"> {{aa.uploader}} {{aa.contents}}  {{aa.agasi}} {{aa.tc}}</span> <span style=" 
             right: 40px;
-            font-size: 11px;
+    font-size: 14px !important;
             color:black;
             position: absolute;">{{aa.date}}</span> 
           </div>
           </div>
+          <div class="memo">
+            <span *ngIf="a.memo!=undefined&&a.memo.length>0"> {{a.memo}}</span>
+        </div>
 </div>
 
 
-<div  style="    bottom: 5%;
-      width: 100%;
-      text-align: center;
-    padding-top: 21px;
-      position: fixed;
-      text-align: center;
-      align-items: center;
-      background: white;
-      z-index: 2000;
-      border-top: solid 1px;
-      height: 80px;">
+<div   class="bottomdiv">
 <button (click)="modify(a,a.name,a)" style="
 margin-left: 10px;
 height: 40px;
@@ -718,15 +808,15 @@ margin-top: -10px; ">수정완료</button>
               <div *ngFor="let b of a.agasi" class="looping" >
                   <div class="mainmain">
                     <span style="line-height: 40px;width:40px; text-align: center;">{{b.name}}</span>
-                    <span style="line-height: 40px; width:40px; text-align: center;">{{b.date.split(" ")[1]}}</span>
+                    <span style="line-height: 40px; width:40px; font-size: 12px !important; text-align: center;">{{b.date.split(" ")[1]}}</span>
                     
                   
-                   <span *ngIf="b.findate!=undefined" style="line-height: 40px; width:40px; text-align: center;">{{b.findate.split(" ")[1]}}</span>
-                   <span *ngIf="b.findate==undefined" style="line-height: 40px; width:40px; text-align: center;">-</span>
-                   <span *ngIf="b.tc!=undefined" style="line-height: 20px; width:40px; text-align: center;">{{b.tc}}개 <br>{{b.money}}만원</span>
+                   <span *ngIf="b.findate!=undefined" style="line-height: 40px; width:40px; font-size: 12px !important; text-align: center;">{{b.findate.split(" ")[1]}}</span>
+                   <span *ngIf="b.findate==undefined" style="line-height: 40px; width:40px;  font-size: 12px !important; text-align: center;">-</span>
+                   <span *ngIf="b.tc!=undefined" style="line-height: 20px; width:40px; font-size: 12px !important; text-align: center;">{{b.tc}}개 <br>{{b.money}}만원</span>
 
-        <span *ngIf="b.writer==undefined" style="line-height: 40px; width:40px; text-align: center;">-?</span>
-                   <span *ngIf="b.writer!=undefined" style="line-height: 40px; width:40px; text-align: center;">{{b.writer}}</span>
+        <span *ngIf="b.writer==undefined" style="line-height: 40px; width:40px; font-size: 12px !important; text-align: center;">-</span>
+                   <span *ngIf="b.writer!=undefined" style="line-height: 40px; font-size: 12px !important; width:40px; text-align: center;">{{b.writer}}</span>
                    <span *ngIf="b.date!=undefined" style="line-height: 20px; 
                    text-align: center; width:45px;">{{b.date.substring(5)}}</span>
                    <button *ngIf="b.findate==undefined" (click)="end(b,a.name,a,1)" style="
@@ -734,16 +824,21 @@ margin-top: -10px; ">수정완료</button>
     margin: 5px;
     width: 40px;
     height: 40px;
+    border-radius: 15px;
+    background: white;
     text-align: center;
-    font-size: 12px; ">종료</button>
+    
+    font-size: 18px; ">종료</button>
                    <button (click)="reinit(b,a.name,a,1)" *ngIf="b.findate!=undefined" style="
                          display: block;
     margin: 5px;
     width: 40px;
+    border-radius: 15px;
+    background: white;
     height: 40px;
-    font-size: 10px;
+    font-size: 16px;
     text-align: center;
-    font-size: 10px;
+    font-size: 12px;
                   ">재진행</button>
                   </div>
                  
@@ -779,36 +874,28 @@ margin-top: -10px; ">수정완료</button>
                       <p style="
                       font-weight: 600;
                       margin-left: 10px;
+    font-size: 14px !important;
                       margin-top: 3px;">{{aa.uploader}}</p>
                       <span style=" 
                       left: 15px;
           
+    font-size: 14px !important;
                       margin-left: 10px;
                       color:black;">{{aa.contents}} {{aa.tc}} {{aa.agasi}}</span> <span style=" 
                       right: 40px;
-                      font-size: 11px;
+    font-size: 14px !important;
                       color:black; 
               float: right;
               margin-right: 10px;">{{aa.date}}</span> 
                     </div>
                     </div>
-                    <div class="memo">
-                      {{a.memo}}
-                    </div>
+                   
+            <div class="memo">
+              <span *ngIf="a.memo!=undefined&&a.memo.length>0"> {{a.memo}}</span>
+          </div>
         </div> 
       </div>                                             
-      <div style="    bottom: 5%;
-      width: 100%;
-      text-align: center;
-    padding-top: 21px;
-      position: fixed;
-      text-align: center;
-      align-items: center;
-      background: white;
-      z-index: 2000;
-      border-top: solid 1px;
-      
-    height: 72px;">
+      <div  class="bottomdiv">
        
         <button (click)="choicestart();" style="
         margin-left: 10px;
@@ -820,7 +907,7 @@ margin-top: -10px; ">수정완료</button>
         top: 0px;
         margin-top: -10px;">메이드</button>
 
-      <button (click)="endall(a,a.name,a)" style="
+      <button (click)="endall(a,a.name,a,3)" style="
       margin-left: 10px;
       height: 40px;
       background: transparent;

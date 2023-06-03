@@ -31,7 +31,7 @@ export class UtilsProvider {
   }
 
    dismissLoading() {
-    console.log("dismissLoading ");
+    console.log("ddddddismissLoading ");
     console.log(this.lloading);
     if(this.lloading!=undefined){
       this.lloading.dismiss();
@@ -309,7 +309,7 @@ var cha3=0;
       }
     }else if(diffMin>=81&&diffMin<=100){
       tctotal = 1.6;
-      bantee=2;
+      bantee=1;
       cha3=3;
       chasam=19;
     }else if(diffMin>=101&&diffMin<=120){
@@ -328,7 +328,7 @@ var cha3=0;
       }
     }else if(diffMin>=141&&diffMin<=160){
       tctotal = 2.6;
-      bantee=3;
+      bantee=1;
       chasam=32;
     }else if(diffMin>=161&&diffMin<=180){
       tctotal = 3;
@@ -345,7 +345,7 @@ var cha3=0;
       }
   }else if(diffMin>=201&&diffMin<=220){
       tctotal = 3.6;
-      bantee=4;
+      bantee=1;
       chasam=43;
   }else if(diffMin>=221&&diffMin<=240){
       tctotal = 4;
@@ -362,7 +362,7 @@ var cha3=0;
       }
     }else if(diffMin>=261&&diffMin<=280){
       tctotal = 4.6;
-      bantee=5;
+      bantee=1;
     }else if(diffMin>=281&&diffMin<=300){
       tctotal = 5;
       chasam=this.tc*5;
@@ -395,7 +395,7 @@ var cha3=0;
         }
     }else if(diffMin>=381&&diffMin<=400){
       tctotal = 6.6;
-      bantee=7;
+      bantee=1;
       chasam=84;
     }else if(diffMin>=401&&diffMin<=420){
       tctotal = 7;
@@ -413,7 +413,7 @@ var cha3=0;
 
     }else if(diffMin>=441&&diffMin<=460){
       tctotal = 7.6;
-      bantee=8;
+      bantee=1;
       chasam = 97;
     }else if(diffMin>=461&&diffMin<=480){
       tctotal = 8;
@@ -430,7 +430,7 @@ var cha3=0;
       }
     }else if(diffMin>=501&&diffMin<=520){
       tctotal = 8.6;
-      bantee=9;
+      bantee=1;
       chasam=110;
     }else if(diffMin>=521&&diffMin<=540){
       tctotal = 9;
@@ -448,7 +448,7 @@ var cha3=0;
 
     }else if(diffMin>=561&&diffMin<=580){
       tctotal = 9.6;
-      bantee=10;
+      bantee=1;
       chasam=123;
     }else if(diffMin>=581&&diffMin<=600){
       tctotal = 10;
@@ -466,7 +466,7 @@ var cha3=0;
     }else if(diffMin>=621&&diffMin<=640){
       tctotal = 10.6;
       chasam=136;
-      bantee=11;
+      bantee=1;
     }else if(diffMin>=641&&diffMin<=660){
       tctotal = 11;
       bantee=0;
@@ -499,7 +499,7 @@ var cha3=0;
       }
     }else if(diffMin>=741&&diffMin<=760){
       tctotal = 12.6;
-      bantee=13;
+      bantee=1;
       chasam=162;
     }else if(diffMin>=761&&diffMin<=780){
       tctotal = 13;
@@ -516,7 +516,7 @@ var cha3=0;
       }
     }else if(diffMin>=801&&diffMin<=820){
       tctotal = 13.6;
-      bantee=14;
+      bantee=1;
       chasam=175;
     }else if(diffMin>=821&&diffMin<=840){
       tctotal = 14;
@@ -533,7 +533,7 @@ var cha3=0;
       }
     }else if(diffMin>=861&&diffMin<=880){
       tctotal = 14.6;
-      bantee=15;
+      bantee=1;
       chasam=188;
     }else if(diffMin>=881&&diffMin<=900){
       tctotal = 15;
@@ -550,7 +550,7 @@ var cha3=0;
       }
     }else if(diffMin>=921&&diffMin<=940){
       tctotal = 15.6;
-      bantee=16;
+      bantee=1;
       chasam=201;
     }else if(diffMin>=941&&diffMin<=960){
       tctotal = 16;
@@ -567,7 +567,7 @@ var cha3=0;
       }
     }else if(diffMin>=981&&diffMin<=1000){
       tctotal = 16.6;
-      bantee=17;
+      bantee=1;
       chasam=214;
     }
 

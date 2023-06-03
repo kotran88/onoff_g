@@ -16,9 +16,14 @@ import { UtilsProvider } from '../../providers/utils/utils';
   templateUrl: 'attendance.html',
 })
 export class AttendancePage {
-  selected:any=1;
+
+
+  nowtime:any=""
   inputtext:any="";
+  selected:any="1";
+  searchon:any = false;
   numofstandby:any=0;
+  original_mainlist=[];
   numberofIn:any=0;
   jopanjjinglist2:any=[];
   jopanlist:any=[];       
@@ -36,7 +41,9 @@ export class AttendancePage {
   year:any="";
   newlist:any=[];
   month:any="";
+  bu:any=0;
   day:any="";
+  interval:any;
   hour:any="";
   min:any="";
   totalagasi:any=[];
@@ -57,6 +64,22 @@ export class AttendancePage {
     this.min = date.getMinutes();
     this.selectedday=this.currentstartday
     console.log(this.currentstartday);
+
+this.interval=setInterval(()=>{
+  var now = new Date();
+  var hour = now.getHours();
+  var min = now.getMinutes();
+  if(min<10){
+    this.nowtime=hour+":0"+min;
+  }else{
+    this.nowtime=hour+":"+min;
+  }
+}
+,1000)
+  }
+
+  searchstart(){
+    this.searchon = !this.searchon;
   }
   editing(a){
     if(a.team=="미지정"){
@@ -104,52 +127,74 @@ export class AttendancePage {
     console.log(this.inputtext)
     console.log(this.selected)
 
+    console.log("searching come");
+    
+    console.log(this.original_mainlist);
+    var input = this.inputtext;
+    console.log(input);
+    if(this.selected=="1"){
+      var filteredList = this.original_mainlist.filter(function(item) {
+        return item.name.includes(input);
+      });
+      //console.log(filteredList);
+      this.mainlist=filteredList;
+    }else if(this.selected=="2"){
+      
+      var filteredList2 = this.original_mainlist.filter(function(item) {
+        //console.log(item.incharge.includes(inputtext));
+        return item.team.includes(input);
+      });
 
-    this.mainlist=[];
-    this.mainlist_no=[];
-    this.firemain.child('attendance').child(this.company).once('value').then((snap)=>{
-      console.log(snap.val())
+      //console.log(filteredList);
+      this.mainlist=filteredList2;
+    }else{
+      this.mainlist=[];
+      this.mainlist=this.original_mainlist;
+    }
 
-      for(var a in snap.val()){
-        console.log(a)
-        console.log(snap.val()[a])
-        if(a==this.currentstartday){
-          console.log("mmmm")
-          for(var b in snap.val()[a]){
-            console.log(snap.val()[a][b]);
-            if(this.selected==1){
-              if(snap.val()[a][b].attend.name.trim()==this.inputtext.trim()){
-                console.log(snap.val()[a][b].attend.flag);
-              if(snap.val()[a][b].attend!=undefined){
-                this.mainlist.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team});
-              }
-              if(snap.val()[a][b].noattend!=undefined){
-                this.mainlist_no.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].noattend.flag,"team":snap.val()[a][b].noattend.team});
-              }
-              }else{
+    // this.firemain.child('attendance').child(this.company).once('value').then((snap)=>{
+    //   console.log(snap.val())
+
+    //   for(var a in snap.val()){
+    //     console.log(a)
+    //     console.log(snap.val()[a])
+    //     if(a==this.currentstartday){
+    //       console.log("mmmm")
+    //       for(var b in snap.val()[a]){
+    //         console.log(snap.val()[a][b]);
+    //         if(this.selected==1){
+    //           if(snap.val()[a][b].attend.name.trim()==this.inputtext.trim()){
+    //             console.log(snap.val()[a][b].attend.flag);
+    //           if(snap.val()[a][b].attend!=undefined){
+    //             this.mainlist.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team});
+    //           }
+    //           if(snap.val()[a][b].noattend!=undefined){
+    //             this.mainlist_no.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].noattend.flag,"team":snap.val()[a][b].noattend.team});
+    //           }
+    //           }else{
   
-              }
-            }else{
-              if(snap.val()[a][b].attend.team.trim().toUpperCase()==this.inputtext.trim().toUpperCase()){
-                console.log(snap.val()[a][b].attend.flag);
-              if(snap.val()[a][b].attend!=undefined){
-                this.mainlist.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team});
-              }
-              if(snap.val()[a][b].noattend!=undefined){
-                this.mainlist_no.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].noattend.flag,"team":snap.val()[a][b].noattend.team});
-              }
-              }else{
+    //           }
+    //         }else{
+    //           if(snap.val()[a][b].attend.team.trim().toUpperCase()==this.inputtext.trim().toUpperCase()){
+    //             console.log(snap.val()[a][b].attend.flag);
+    //           if(snap.val()[a][b].attend!=undefined){
+    //             this.mainlist.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team});
+    //           }
+    //           if(snap.val()[a][b].noattend!=undefined){
+    //             this.mainlist_no.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].noattend.flag,"team":snap.val()[a][b].noattend.team});
+    //           }
+    //           }else{
   
-              }
-            }
+    //           }
+    //         }
            
             
 
-          }
-        }
+    //       }
+    //     }
 
-      }
-    });
+    //   }
+    // });
 
   }
   generateaatendance(){
@@ -248,6 +293,8 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
       for(var b in snap.val()[a]){
         if(snap.val()[a][b].attend!=undefined){
           console.log(snap.val()[a][b].attend)
+          this.original_mainlist.push({"name":snap.val()[a][b].attend.name,"time": snap.val()[a][b].attend.time, "status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});
+       
           this.mainlist.push({"name":snap.val()[a][b].attend.name,"time": snap.val()[a][b].attend.time, "status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});
        
           for(var abba in this.mainlistfromcompany){
@@ -263,6 +310,8 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
                 }
                 
               }
+              this.original_mainlist.push({"name":snap.val()[a][b].attend.name,"time": snap.val()[a][b].attend.time, "status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});
+       
               this.mainlist.push({"name":snap.val()[a][b].attend.name,"time": snap.val()[a][b].attend.time,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team,"tc":this.mainlistfromcompany[abba].tc.toFixed(1),"wantee":this.mainlistfromcompany[abba].wantee,"money":this.mainlistfromcompany[abba].money,"bantee":this.mainlistfromcompany[abba].bantee});
          
                 }
@@ -306,13 +355,27 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
   ionViewWillEnter(){
 
   }
+ionViewDidLeave(){
+  clearInterval(this.interval)
+}
   ionViewDidLoad() {
     console.log('ionViewDidLoad AttendancePage');
     this.util.presentLoading();
     this.goToday();
+    this.firemain.child("company").child(this.company).once('value').then((snap2)=>{
+      //console.log(snap2.val().bu)
+      if(snap2.val().bu==undefined){
+  
+        this.bu=0;
+      }else{
+  
+        this.bu=snap2.val().bu;
+      }
+    });
     setTimeout(()=>{
 
     this.generating();
+    this.screenSwitch(1);
     this.util.dismissLoading();
     }
     ,50)
@@ -395,28 +458,44 @@ this.numofstandby=this.mainlist.length - this.numberofIn;
     this.view.dismiss();
   }
     /** 탭바 영역 클리시 호출되는 함수) 화면이 바뀐다. */
-    screenSwitch(e : any) : void {
-      if(e.value==3){
 
-        setTimeout(()=>{
-          for (let i = 1; i <= 3; i++) { document.getElementById("ion-label-area-" + i).style.display = "none"; }
-          document.getElementById("ion-label-area-" + e.value).style.display = "";
-          this.zone.run(()=>{
-            this.activeclass=e.value;
-            console.log(this.activeclass)
-          })
-        },500)
-      }else{
-        for (let i = 1; i <= 3; i++) { document.getElementById("ion-label-area-" + i).style.display = "none"; }
-        document.getElementById("ion-label-area-" + e.value).style.display = "";
+
+    screenSwitch(values) : void {
+      console.log("screenSwitch"+values);
+     
+        for (let i = 1; i <= 3; i++) { 
+          console.log(document.getElementById("ion-label-area-"+i));
+          document.getElementById("ion-label-area-"+i).style.display = "none"; 
+        }
+        document.getElementById("ion-label-area-" + values).style.display = "";
         this.zone.run(()=>{
-
-          this.activeclass=e.value;
-          console.log(this.activeclass)
+    
+          this.activeclass=values;
         })
-      }
-
     }
+    
+    // screenSwitch(e : any) : void {
+    //   if(e.value==3){
+
+    //     setTimeout(()=>{
+    //       for (let i = 1; i <= 3; i++) { document.getElementById("ion-label-area-" + i).style.display = "none"; }
+    //       document.getElementById("ion-label-area-" + e.value).style.display = "";
+    //       this.zone.run(()=>{
+    //         this.activeclass=e.value;
+    //         console.log(this.activeclass)
+    //       })
+    //     },500)
+    //   }else{
+    //     for (let i = 1; i <= 3; i++) { document.getElementById("ion-label-area-" + i).style.display = "none"; }
+    //     document.getElementById("ion-label-area-" + e.value).style.display = "";
+    //     this.zone.run(()=>{
+
+    //       this.activeclass=e.value;
+    //       console.log(this.activeclass)
+    //     })
+    //   }
+
+    // }
 
 
   today:Date; // 오늘 날짜

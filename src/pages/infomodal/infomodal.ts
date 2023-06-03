@@ -10,7 +10,6 @@ import { IonicPage, NavController,LoadingController, NavParams,ViewController } 
 
  import  firebase from 'firebase';
 import { UtilsProvider } from '../../providers/utils/utils';
-@IonicPage()
 @Component({
   selector: 'page-infomodal',
   templateUrl: 'infomodal.html',
@@ -35,6 +34,7 @@ export class InfomodalPage {
   bujangid :any="noname";
   bujangjopan:any="";
   directorList:any=[];
+  key:any="";
   firemain = firebase.database().ref();
   constructor(public util:UtilsProvider, public navCtrl: NavController,public loading:LoadingController,public view:ViewController, public navParams: NavParams) {
    this.room= this.navParams.get("room");
@@ -47,13 +47,17 @@ export class InfomodalPage {
    this.name = localStorage.getItem("name");
    this.currentstartday=localStorage.getItem("startDate");
    var incharge=this.navParams.get("selectedIncharge");
+   this.key = this.navParams.get("selectedKey");
    if(incharge!=undefined){
     if(incharge.length>0){
       this.incharge=incharge;
     }
    }
    
-
+   var number=this.navParams.get("selectedNumber");
+   if(number!=undefined){
+      this.numofpeople=number;
+   }
    var logic=this.navParams.get("selectedLogic");
    if(logic!=undefined){
       this.booleanValue=logic;
@@ -174,7 +178,7 @@ export class InfomodalPage {
       this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).update({"flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").child(this.room.name).child(key).update({"logic":this.booleanValue,"nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3, "avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
       this.util.dismissLoading();
-      this.view.dismiss({"result":false});
+      this.view.dismiss({"result":false,"roomname":this.room.name,"category":this.room.category});
     }else{
       this.firemain.child("users").child(this.incharge).once("value",snap=>{
         console.log(snap.val())
@@ -283,10 +287,13 @@ export class InfomodalPage {
             this.firemain.child("users").child(this.incharge).child("roomhistory").child(this.currentstartday).child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3, "wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
             
           }
+          if(this.key!=undefined){
+            this.firemain.child("company").child(this.company).child("waiting").child(this.currentstartday+"").child(this.key).remove();
+          }
         
         
         this.util.dismissLoading();
-        this.view.dismiss({"result":false});
+        this.view.dismiss({"result":false,"roomname":this.room.name,"category":this.room.category});
     
     
     

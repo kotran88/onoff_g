@@ -56,7 +56,7 @@ export class EditingroomPage {
      this.mainlist= this.navParams.get("mainlist");
       this.mainlist_finished= this.navParams.get("mainlist_finished");
      this.directorList=JSON.parse(localStorage.getItem("director"))
-     //console.log(this.directorList);
+     console.log(this.directorList);
      this.company = localStorage.getItem("company");
      this.name = localStorage.getItem("name");
      this.currentstart=localStorage.getItem("start");
@@ -173,6 +173,7 @@ export class EditingroomPage {
     return date;
   }
   confirm(){
+    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").off();
     console.log(this.a);
     this.util.presentLoading();
     var dte = new Date();
@@ -207,7 +208,6 @@ export class EditingroomPage {
     
     
     })
-    this.util.dismissLoading();
     this.view.dismiss({"result":false});
     
     return;
@@ -241,10 +241,12 @@ export class EditingroomPage {
     var vacancy=false;
     for(var iii in this.directorList){
       //compare the name of the person who is in charge of the room
-      
-      if(this.directorList[iii].nickname.trim()==this.incharge.trim()){
-        vacancy=true;
+      if(this.directorList[iii].nickname!=undefined){
+        if(this.directorList[iii].nickname.trim()==this.incharge.trim()){
+          vacancy=true;
+        }
       }
+      
     }
     
 
@@ -265,90 +267,123 @@ export class EditingroomPage {
     //console.log(this.status);
     // end_date_full = this.end_date.setHours(this.end_date.getHours()+9);
     // //console.log(this.end_date);
+
+
+
+    
     if(this.status=="fin"){
+     console.log("this is fin...");
       this.firemain.child("company").child(this.company).child("roomlist").child(this.room).update({"flag":false})
       //완료처리...!
+     console.log("1111.");
       var countingvalue=0;
       var fin_countingvalue=0;
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).once('value').then((snap)=>{
+      console.log(this.key);
+      console.log(this.a.name);
+      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.key).once('value').then((snap)=>{
         
-        for(var a in snap.val()){
+     console.log("2222.");
 
-                    if(snap.val()[a].end_date_full!=undefined){
-                      // //console.log("fin")
-                    }
-                    for(var ba in snap.val()[a]){
-                      console.log(ba);
-                      console.log(snap.val()[a][ba])
+     //finish all agasi...
+     console.log(snap.val());
+     for(var aa in snap.val().agasi){
+      console.log("snap.val().agasi : ");
+      console.log(snap.val().agasi[aa]);
+        var totalmoney=Number(this.util.getTC(snap.val().agasi[aa],snap.val().agasi[aa].pausetime).split(",")[0]);
+        var tctotal=Number(this.util.getTC(snap.val().agasi[aa],snap.val().agasi[aa].pausetime).split(",")[1]);
+        var bantee=Number(this.util.getTC(snap.val().agasi[aa],snap.val().agasi[aa].pausetime).split(",")[2]);
 
-                        if(this.a.key == snap.val()[a][ba].key){
+        this.firemain.child("users").child(snap.val().agasi[aa].name).child("current").remove();
+        var dte = new Date();
 
-                          //console.log("result....333")
-                          //console.log("this should be deleted and pulled in a row")
-                          //console.log("v")
-                          //console.log(snap.val()[a].key)
-                          //console.log(this.a.key)
+        var date = new Date();
+        var year=date.getFullYear();
+        var month=date.getMonth()+1;
+        var day = date.getDate();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        this.firemain.child("users").child(snap.val().agasi[aa].name).child("current").remove();
+  // this.firemain.child("users").child(this.id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update({"name":snap.val().agasi[aa].name,  "date":snap.val().agasi[aa].date,"incharge":this.a.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":this.a.wt})
+        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("agasi").child(aa).update({"roomno":this.a.name, "incharge":this.a.incharge, "findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"money":totalmoney,"wt":this.a.wt})
+
+
+
+
+        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("message").push({"tc":tctotal,"agasi":"", "bantee":bantee,"totalmoney":totalmoney,"date":endtime,"contents":"방 종료 ","type":"roomfin", "uploader":this.name, "name":"system"})
+
+    }
+    console.log("snap.val() : ");
+    console.log(snap.val());
+
+
+                      console.log("key:::"+this.a.key);
+                        if(this.a.key == snap.val().key){
+
+                          console.log("result....333")
+                          console.log("this should be deleted and pulled in a row")
+                          console.log("v")
+                          console.log(snap.val().key)
+                          console.log(this.a.key)
                           this.newarrayfin.push({"bu":this.bu,
-                          "date":snap.val()[a][ba].date,
-                          "flag":snap.val()[a][ba].flag,
-                          "incharge":snap.val()[a][ba].incharge,
-                          "incharge_date_full":snap.val()[a][ba].incharge_date_full,
-                          "key":snap.val()[a][ba].key,
-                          "last_updated":snap.val()[a][ba].last_updated,
-                          "lastupdated":snap.val()[a][ba].lastupdated,
-                          "lastupdatedperson":snap.val()[a][ba].lastupdatedperson,
-                          "name":snap.val()[a][ba].name,
-                          "numofpeople":snap.val()[a][ba].numofpeople,
-                          "status":snap.val()[a][ba].status,
-                          "wt":snap.val()[a][ba].wt,
-                          "v":snap.val()[a][ba].v})
+                          "date":snap.val().date,
+                          "flag":snap.val().flag,
+                          "incharge":snap.val().incharge,
+                          "incharge_date_full":snap.val().incharge_date_full,
+                          "key":snap.val().key,
+                          "last_updated":snap.val().last_updated,
+                          "lastupdated":snap.val().lastupdated,
+                          "lastupdatedperson":snap.val().lastupdatedperson,
+                          "name":snap.val().name,
+                          "numofpeople":snap.val().numofpeople,
+                          "status":snap.val().status,
+                          "wt":snap.val().wt,
+                          "v":snap.val().v})
                         }else{
                           
-                          //console.log("result....222")
-                        if(snap.val()[a][ba].end_date_full!=undefined){
+                          console.log("resulttttt....222")
+                        if(snap.val().end_date_full!=undefined){
                           this.newarrayfin.push({"bu":this.bu,
-                          "date":snap.val()[a][ba].date,
-                          "flag":snap.val()[a][ba].flag,
+                          "date":snap.val().date,
+                          "flag":snap.val().flag,
                           "avec":this.avec,
-                          "incharge":snap.val()[a][ba].incharge,
-                          "incharge_date_full":snap.val()[a][ba].incharge_date_full,
-                          "key":snap.val()[a][ba].key,
-                          "last_updated":snap.val()[a][ba].last_updated,
-                          "lastupdated":snap.val()[a][ba].lastupdated,
-                          "lastupdatedperson":snap.val()[a][ba].lastupdatedperson,
-                          "name":snap.val()[a][ba].name,
-                          "numofpeople":snap.val()[a][ba].numofpeople,
-                          "status":snap.val()[a][ba].status,
-                          "wt":snap.val()[a][ba].wt,
-                          "v":snap.val()[a][ba].v})
+                          "incharge":snap.val().incharge,
+                          "incharge_date_full":snap.val().incharge_date_full,
+                          "key":snap.val().key,
+                          "last_updated":snap.val().last_updated,
+                          "lastupdated":snap.val().lastupdated,
+                          "lastupdatedperson":snap.val().lastupdatedperson,
+                          "name":snap.val().name,
+                          "numofpeople":snap.val().numofpeople,
+                          "status":snap.val().status,
+                          "wt":snap.val().wt,
+                          "v":snap.val().v})
                         }else{
-                          //console.log("result....333")
+                          console.log("result....333")
                           this.newarray.push({"bu":this.bu,
-                          "date":snap.val()[a][ba].date,
-                          "flag":snap.val()[a][ba].flag,
+                          "date":snap.val().date,
+                          "flag":snap.val().flag,
     
                           "avec":this.avec,
-                          "incharge":snap.val()[a][ba].incharge,
-                          "incharge_date_full":snap.val()[a][ba].incharge_date_full,
-                          "key":snap.val()[a][ba].key,
-                          "last_updated":snap.val()[a][ba].last_updated,
-                          "lastupdated":snap.val()[a][ba].lastupdated,
-                          "lastupdatedperson":snap.val()[a][ba].lastupdatedperson,
-                          "name":snap.val()[a][ba].name,
-                          "numofpeople":snap.val()[a][ba].numofpeople,
-                          "status":snap.val()[a][ba].status,
-                          "wt":snap.val()[a][ba].wt,
-                          "v":snap.val()[a][ba].v})
+                          "incharge":snap.val().incharge,
+                          "incharge_date_full":snap.val().incharge_date_full,
+                          "key":snap.val().key,
+                          "last_updated":snap.val().last_updated,
+                          "lastupdated":snap.val().lastupdated,
+                          "lastupdatedperson":snap.val().lastupdatedperson,
+                          "name":snap.val().name,
+                          "numofpeople":snap.val().numofpeople,
+                          "status":snap.val().status,
+                          "wt":snap.val().wt,
+                          "v":snap.val().v})
                         }
                          
                         }
-                    }
                    
                     
                   
-        }
 
 
+        console.log("this.newarray initialized")
         console.log(this.newarray);
         console.log(this.newarrayfin);
         for(var i=0; i<this.newarrayfin.length; i++){
@@ -367,8 +402,8 @@ export class EditingroomPage {
         this.newarray.sort(function(a, b) {
           return a.v - b.v;
         });
-        //console.log("this.newarray")
-        //console.log(this.newarray)
+        console.log("this.newarray")
+        console.log(this.newarray)
         for(var i=0; i<this.newarray.length; i++){
           //console.log(this.newarray[i].v);
           this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.newarray[i].name).child(this.newarray[i].key).update({"v":this.newarray[i].v})
@@ -381,22 +416,21 @@ export class EditingroomPage {
       });
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).update({"flag":false})
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).once("value",snap=>{
-          this.firemain.child("users").once("value",snap2=>{
-            for(var b in snap2.val()){
-              if(b==this.incharge){
-                //console.log(snap2.val()[b]);
-                this.team = snap2.val()[b].young
-                this.jopan = snap2.val()[b].jopan;
-                this.id=snap2.val()[b].nickname;
-              }
-              if(snap2.val()[b].type=="agasi"){
+          this.firemain.child("users").child(this.incharge).once("value",snap2=>{
+
+                console.log(snap2.val());
+                this.team = snap2.val().young
+                this.jopan = snap2.val().jopan;
+                this.id=snap2.val().nickname;
+              if(snap2.val().type=="agasi"){
                 for(var aa in snap.val().agasi){
-                  if(snap2.val()[b].name == snap.val().agasi[aa].name){
+                  console.log("snap.val().agasi : ");
+                  console.log(snap.val().agasi[aa]);
                     var totalmoney=Number(this.util.getTC(snap.val().agasi[aa],snap.val().agasi[aa].pausetime).split(",")[0]);
                     var tctotal=Number(this.util.getTC(snap.val().agasi[aa],snap.val().agasi[aa].pausetime).split(",")[1]);
                     var bantee=Number(this.util.getTC(snap.val().agasi[aa],snap.val().agasi[aa].pausetime).split(",")[2]);
 
-                    this.firemain.child("users").child(snap2.val()[b].id).child("current").remove();
+                    this.firemain.child("users").child(snap2.val().id).child("current").remove();
                     var dte = new Date();
 
                     var date = new Date();
@@ -405,18 +439,17 @@ export class EditingroomPage {
                     var day = date.getDate();
                     var hour = date.getHours();
                     var min = date.getMinutes();
-              this.firemain.child("users").child(snap2.val()[b].id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update({"name":snap.val().agasi[aa].name,  "date":snap.val().agasi[aa].date,"incharge":this.a.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":this.a.wt})
+                    this.firemain.child("users").child(snap.val().agasi[aa].name).child("current").remove();
+              this.firemain.child("users").child(this.id).child("roomhistory").child(this.a.name).child(this.currentstartday).child(this.a.key).update({"name":snap.val().agasi[aa].name,  "date":snap.val().agasi[aa].date,"incharge":this.a.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":this.a.wt})
                     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("agasi").child(aa).update({"roomno":this.a.name, "incharge":this.a.incharge, "findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"money":totalmoney,"wt":this.a.wt})
 
 
 
 
-                    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("message").push({"tc":tctotal,"agasi":snap2.val()[b].name, "bantee":bantee,"totalmoney":totalmoney,"date":endtime,"contents":"방 종료 ","type":"roomfin", "uploader":this.name, "name":"system"})
+                    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("message").push({"tc":tctotal,"agasi":snap2.val().name, "bantee":bantee,"totalmoney":totalmoney,"date":endtime,"contents":"방 종료 ","type":"roomfin", "uploader":this.name, "name":"system"})
 
-                  }
                 }
               }
-            }
 
           });
 
@@ -424,22 +457,20 @@ export class EditingroomPage {
       });
       
     }else{
+      ///not fin
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).update({"flag":true})
     }
-    this.firemain.child("users").once("value",snap2=>{
-      for(var b in snap2.val()){
-      if(b==this.incharge){
+
+    this.firemain.child("users").child(this.incharge).once("value",snap2=>{
         //console.log(snap2.val()[b]);
-        this.team = snap2.val()[b].young
-        if(snap2.val()[b].jopan==undefined){
+        this.team = snap2.val().young
+        if(snap2.val().jopan==undefined){
           this.jopan = "팀없음";
         }else{
-          this.jopan=snap2.val()[b].jopan;
+          this.jopan=snap2.val().jopan;
         }
         
-        this.id=snap2.val()[b].nickname;
-      }
-    }
+        this.id=snap2.val().nickname;
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).once("value",snap=>{
       //console.log(snap.val());
       var agasi=[];
@@ -454,10 +485,11 @@ export class EditingroomPage {
       }else{
         agasi=snap.val().agasi;
       }
-      //console.log("agasi is:"+agasi);
+
+      console.log(snap.val());
+      console.log("agasi is:"+agasi);
       //console.log("ss is:"+ss);
      
-          //console.log(snap.val());
           //console.log(snap.val().logic);
           var orderlist=[];
           if(snap.val().orderlist==undefined){
@@ -742,8 +774,7 @@ export class EditingroomPage {
           
           }
       });
-
-      this.util.dismissLoading();
+console.log("edit room finished!!!");
   });
    
    

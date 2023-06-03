@@ -1,0 +1,41 @@
+
+
+
+
+<ion-content class="main-view" style="background: transparent;
+background-color: transparent;
+height: 40%;
+top: 30%;" padding>
+
+  <div class="modal_content">
+
+        <div class="img">
+          <div style="width: 100%; height:auto;">
+            <button style="width:70px; margin:10px; height:50px;" *ngFor="let a of b">abc {{a}}</button>
+            <!-- <div style="
+            width: 30%;
+            margin: 0px !important;
+            float: left;
+    line-height: 50px;
+    font-size: 24px;
+            background: brown;" class="input-title">담당자</div>
+            <ion-input style="
+            
+    color: white;
+    font-size: 20px;
+    float: right;
+    width: 150px;
+    border: solid 1px;
+    background: red;
+    " class="input-box" placeholder=" " [(ngModel)]="incharge" type="text"></ion-input> -->
+          </div>
+
+          <!-- <button class="btn" (click)="takeVideo()" ion-button>동영상</button> -->
+        <button class="btn" ion-button (click)="confirm()">저장</button>
+        <button class="btn" ion-button (click)="cancel()">취소</button>
+      </div>
+
+
+
+  </div>
+  </ion-content>
