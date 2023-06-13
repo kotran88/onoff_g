@@ -180,34 +180,6 @@ font-weight: 900;">{{nowtime}}</span>
             <span *ngIf="a.status=='noattend'">퇴근</span>
           </div>
         </div>
-
-
-
-        <!-- <div class="title-div">
-          <ion-icon class="square" name="square"></ion-icon>
-          <span style="color:black;" class="text">오늘의 퇴근 현황</span>
-        </div>
-
-        <div class="chart-div">
-          <div class="name-keys">
-            <span>팀</span>
-            <span>아가씨</span>
-            <span>개수</span>
-            <span>TC</span>
-            <span>상태</span>
-          </div>
-          <div  *ngIf="mainlist_no.length==0" class="datas">
-            <span style="    width: 100%;">퇴근 데이터가없습니다.</span>
-           
-          </div>
-          <div (click)="editing(a);" *ngFor="let a of mainlist_no" class="datas">
-            <span>{{a.team}}</span>
-            <span>{{a.name}}</span>
-            <span >0  </span>
-            <span>0</span>
-            <span >퇴근</span>
-          </div>
-        </div> -->
       </div>
 
       <div style="    height: 10%;
@@ -219,10 +191,6 @@ font-weight: 900;">{{nowtime}}</span>
         <div style="
        
     " class="chart-div">
-    <!-- <div class="name-keys">
-      <span style="width:50%;">총 아가씨 수</span>
-      <span style="width:50%;">{{totalagasi.length}}명 </span>
-    </div> -->
           <div class="name-keys">
             <span style="width:50%;">총 출근</span>
             <span style="width:50%;">{{totalin}}명 </span>
@@ -242,25 +210,6 @@ font-weight: 900;">{{nowtime}}</span>
 
     <div class="area" id="ion-label-area-3">
 
-      <div class="top-bar">
-        <!-- <div class="synthesis">
-          <span>{{currentYear}}</span>
-        </div>
-        <div class="months">
-          <span [ngClass]="currentMonth==1 ? 'active' : ''" (click)="set_month(1)">1월</span>
-          <span [ngClass]="currentMonth==2 ? 'active' : ''" (click)="set_month(2)">2월</span>
-          <span [ngClass]="currentMonth==3 ? 'active' : ''" (click)="set_month(3)">3월</span>
-          <span [ngClass]="currentMonth==4 ? 'active' : ''" (click)="set_month(4)">4월</span>
-          <span [ngClass]="currentMonth==5 ? 'active' : ''" (click)="set_month(5)">5월</span>
-          <span [ngClass]="currentMonth==6 ? 'active' : ''" (click)="set_month(6)">6월</span>
-          <span [ngClass]="currentMonth==7 ? 'active' : ''" (click)="set_month(7)">7월</span>
-          <span [ngClass]="currentMonth==8 ? 'active' : ''" (click)="set_month(8)">8월</span>
-          <span [ngClass]="currentMonth==9 ? 'active' : ''" (click)="set_month(9)">9월</span>
-          <span [ngClass]="currentMonth==10 ? 'active' : ''" (click)="set_month(10)">10월</span>
-          <span [ngClass]="currentMonth==11 ? 'active' : ''" (click)="set_month(11)">11월</span>
-          <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span>
-        </div> -->
-      </div>
 
       <div class="calendar-main" style="">
         <ion-row class="calendar-header">
@@ -326,26 +275,6 @@ font-weight: 900;">{{nowtime}}</span>
 
     <div style="    height: 90%;" class="area" id="ion-label-area-2">
 
-      <div class="top-bar">
-        <!-- <div class="synthesis">
-          <span>{{currentYear}}</span>
-        </div>
-        <div class="months">
-          <span [ngClass]="currentMonth==1 ? 'active' : ''" (click)="set_month(1)">1월</span>
-          <span [ngClass]="currentMonth==2 ? 'active' : ''" (click)="set_month(2)">2월</span>
-          <span [ngClass]="currentMonth==3 ? 'active' : ''" (click)="set_month(3)">3월</span>
-          <span [ngClass]="currentMonth==4 ? 'active' : ''" (click)="set_month(4)">4월</span>
-          <span [ngClass]="currentMonth==5 ? 'active' : ''" (click)="set_month(5)">5월</span>
-          <span [ngClass]="currentMonth==6 ? 'active' : ''" (click)="set_month(6)">6월</span>
-          <span [ngClass]="currentMonth==7 ? 'active' : ''" (click)="set_month(7)">7월</span>
-          <span [ngClass]="currentMonth==8 ? 'active' : ''" (click)="set_month(8)">8월</span>
-          <span [ngClass]="currentMonth==9 ? 'active' : ''" (click)="set_month(9)">9월</span>
-          <span [ngClass]="currentMonth==10 ? 'active' : ''" (click)="set_month(10)">10월</span>
-          <span [ngClass]="currentMonth==11 ? 'active' : ''" (click)="set_month(11)">11월</span>
-          <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span>
-        </div> -->
-      
-      </div>
 
       <div class="calendar-main" style="">
         <ion-row class="calendar-header">
@@ -445,31 +374,6 @@ font-weight: 900;">{{nowtime}}</span>
 
       </div>
    
-
-      <!-- <div class="room-current">
-<div class="chart-div">
-  <div class="name-keys">
-
-    <span>순번</span>
-    <span>team</span>
-    <span>찡</span>
-  </div>
-
-  <div   *ngIf="jopanlist.length==0" class="datas">
-    <p >  완료된 방 내역이 없습니다. </p>
- 
-    </div>
-  <div   *ngFor="let a of jopanlist let j = index" class="datas">
-    <div (click)="gotodetail(a);" class="main">
-      <span>{{j+1}}</span>
-      <span>{{a.team}}</span>
-      <span>{{a.value}}</span>
-   
-
-    </div>
-  </div>
-</div>
-</div> -->
 <div class="room-current">
   <div class="title-div">
     <ion-icon class="square" name="square"></ion-icon>

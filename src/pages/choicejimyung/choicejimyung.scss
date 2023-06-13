@@ -105,12 +105,12 @@ min-height: 35px !important;
       
         .modal_content {
           text-align: center;
-          background: white;
-          position: absolute;
-          top: calc(20% - (40%/2));
-          left: 0;
-          overflow: scroll;
-          right: 0;
+    position: absolute;
+    top: calc(20% - (40%/2));
+    left: 0;
+    overflow: scroll;
+    right: 0;
+    z-index: 999999999999999999;
           width: 80%;
           padding: 10px;
           z-index: 100;

@@ -44,11 +44,9 @@ top: 30%;" padding>
                   <input *ngIf="firststatus" disabled style="
                   width: 59px !important;
                   margin-left: 7px;"  class="input-box"  [(ngModel)]="incharge" type="text"/></span>
-                <span style="margin-left : 18px !important; " (click)="clicking(1);" style="
-                width: 53px !important;" class="newspan" *ngIf="status=='reserved'" > 예약중 </span>
                 <span (click)="clicking(2);" class="newspan" *ngIf="status=='entered'" > 입실 </span>
-                <span (click)="clicking(3);" class="newspan" *ngIf="status=='clean'" > 정리중 </span>
-                <span (click)="clicking(4);" class="newspan" *ngIf="status=='fin'" > 완료 </span>
+                <span (click)="clicking(3);" class="newspan" *ngIf="status=='clean'" > 예약 </span>
+                <span (click)="clicking(4);" class="newspan" *ngIf="status=='fin'" > 종료 </span>
                 
                 <span (click)="clicking2(a);" class="newspan"  *ngIf="avec"> A </span>
                 <span (click)="clicking2(a);" class="newspan" *ngIf="!avec"> - </span>

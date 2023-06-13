@@ -65,6 +65,7 @@ import * as Hammer from 'hammerjs';
 import { SlidetestPage } from '../pages/slidetest/slidetest';
 import { RequestkoreaPage } from '../pages/requestkorea/requestkorea';
 import { Cameraselect2Page } from '../pages/cameraselect2/cameraselect2';
+import { Editingroom2Page } from '../pages/editingroom2/editingroom2';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -94,6 +95,7 @@ export class CustomHammerConfig extends HammerGestureConfig{
     GongjiPage,
     TestpagePage,
     ServinghistoryPage,
+    Editingroom2Page,
     AccountPage,
     InfomodalPage,
     OrdermainPage,
@@ -148,6 +150,7 @@ export class CustomHammerConfig extends HammerGestureConfig{
     SlidetestPage,
     SplashscreenPage,
     OrdermainPage,
+    Editingroom2Page,
     WaitingmodalPage,
     ChoicemodalPage,
     ChoicejimyungPage,

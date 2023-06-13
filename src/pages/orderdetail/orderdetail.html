@@ -126,13 +126,13 @@ background: white;" padding>
  bottom: 0;
  width: 100%;
     border-top: solid 2px;
- height: 20%;
+ height: 25%;
  " class="bott">
 
   <ion-list style="
   overflow-y: scroll;
-  height: 60%;">
-    <ion-item *ngFor="let a of selectedList">{{a.name}} , {{a.num}} , {{(a.price.replace(',','')*a.num).toLocaleString() }} <button (click)="minus(a,selectedList);" class="minus">-</button> <button (click)="plus(a,selectedList);" class="minus">+</button> </ion-item>
+  height: 80%;">
+    <ion-item *ngFor="let a of selectedList">{{a.name}}  {{a.num}}병  {{(a.price.replace(',','')*a.num).toLocaleString() }} <button (click)="minus(a,selectedList);" class="minus">-</button> <button (click)="plus(a,selectedList);" class="minus">+</button> </ion-item>
   </ion-list>
 
   <button style="

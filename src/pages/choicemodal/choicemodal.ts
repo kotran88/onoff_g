@@ -658,6 +658,7 @@ export class ChoicemodalPage {
   }
  
   getRoomList(v,newlist,subscribedList,currentstartday,modal,length,view,firemain,company,a,nickname,newnum,duflag,agasiname){
+    console.log("getRoomListgetRoomListgetRoomListgetRoomListgetRoomList");
     console.log(v);
     console.log(v.name);
     console.log("newnum add " +newnum);
@@ -669,8 +670,11 @@ export class ChoicemodalPage {
         subscribedList.push({"id":v.name,"name":v.name});
         window.alert(v.name+""+currentflag.room+"번 방에 "+currentflag.enter_date.split("T")[0]+" "+currentflag.enter_date.split("T")[1].split(":")[0]+"시"+currentflag.enter_date.split("T")[1].split(":")[1]+"분에 입장하여, 추가할수없습니다.");
         duflag=true;
+        view.dismiss({"result":true});
         return;
       }
+
+      console.log("not dupulicated so start add");
             var dte = new Date();
               dte.setHours(dte.getHours()+9);
 
@@ -688,7 +692,7 @@ export class ChoicemodalPage {
       }else if (snapshot.val().jopan==undefined){
 
       console.log(snapshot.val().jopan);
-        console.log(v.name+"already")
+        console.log(v.name+" jopan is not set")
         newlist.push({ "name":v.name,
         "date": v.date ,"writer":v.writer,"angel":v.angel});
       console.log(newlist);
@@ -888,14 +892,7 @@ export class ChoicemodalPage {
         var newnum = Number(num)-1;
         var totalagasi=[];
       //   //console.log(b);
-       
-
-
-
-
-
         var dupflag=false;
-
         var newlist = [];
         var subscribedList = [];
         var duflag=false;

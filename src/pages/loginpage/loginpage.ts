@@ -43,7 +43,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230603 v3.0';
+  version='20230610 v4.2';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -67,8 +67,6 @@ export class LoginpagePage {
   // }
   constructor(public httpClient: HttpClient,public h:HttpModule, public http:HttpClientModule,public util : UtilsProvider,public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
    
-    this.directorList=this.navParams.get("director");
-    console.log(this.directorList)
 
             var headers = new HttpHeaders();
             headers.append("Accept", 'application/json');

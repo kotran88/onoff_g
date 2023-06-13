@@ -30,7 +30,6 @@ export class MyApp {
     this.app=app;
     this.platform.ready().then(() => {
 
-
     platform.registerBackButtonAction(() => { 
       const av = this.nav.getActive();
       const activePage = av ? av.instance : null;

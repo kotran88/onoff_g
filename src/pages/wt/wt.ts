@@ -319,6 +319,7 @@ generate(){
       var chasamtotal=0;
       var tctotal=0;
       var yeontireason="";
+      console.log("generating....");
       console.log(snap.val()[a].roomno);
       var numofpeople = snap.val()[a].numofpeople;
       var logic = snap.val()[a].logic;

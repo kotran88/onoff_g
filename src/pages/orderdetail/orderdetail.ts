@@ -93,19 +93,27 @@ export class OrderdetailPage {
     return self.indexOf(value) === index;
   }
   minus(a,selectedList){
-    //console.log("minus");
+    console.log("minus");
     //console.log(a)
     //console.log(selectedList)
     //console.log(this.selectedList);
     for(var aa in this.selectedList){
-      //console.log(this.selectedList[aa])
-      //console.log(a.name);
-      //console.log("mmm")
+      console.log(aa);
+      console.log(this.selectedList[aa])
+      console.log(a.name);
+      console.log("mmm")
       if(this.selectedList[aa].name==a.name){
         if(Number(this.selectedList[aa].num)==0){
           return;
         }
         this.selectedList[aa].num=Number(this.selectedList[aa].num)-1;
+        console.log(this.selectedList[aa].num);
+        if(this.selectedList[aa].num==0){
+          //삭제처리 하기 
+          //remove this.selectedList[aa] 
+          this.selectedList.splice(Number(aa),1);
+
+        }
       }
     }
   }
@@ -141,7 +149,6 @@ export class OrderdetailPage {
     //console.log(this.company+"/"+this.a.name+"/"+this.currentstartday+"/"+this.a.key+"/"+hour+":"+min+":"+sec);
     //console.log(this.a);
     //console.log("1111");
-    
     this.firemain.child("users").child(this.a.wt).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
    
     this.firemain.child("users").child(this.a.directorId).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
@@ -153,7 +160,8 @@ export class OrderdetailPage {
     this.view.dismiss({"result":true})
   }
   clicked(b){
-    //console.log(b);
+    console.log(b);
+    console.log(this.selectedList);
     b.selected=true;
     if(b.num==undefined){
       b.num=1;
@@ -161,9 +169,9 @@ export class OrderdetailPage {
     var flag=false;
     var num=1;
     for(var a in this.selectedList){
-      if(this.selectedList[a].name==b.name){
-        //console.log("a is "+a);
-        //console.log(this.selectedList[a])
+      if(this.selectedList[a].name==b.name&&this.selectedList[a].subcategory==b.subcategory){
+        console.log("a is "+a);
+        console.log(this.selectedList[a])
         this.selectedList[a].num=this.selectedList[a].num+1;
         //console.log(this.selectedList[a].num)
         //console.log(this.selectedList)

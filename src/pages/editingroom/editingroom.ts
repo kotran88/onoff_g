@@ -55,10 +55,21 @@ export class EditingroomPage {
     
      this.mainlist= this.navParams.get("mainlist");
       this.mainlist_finished= this.navParams.get("mainlist_finished");
-     this.directorList=JSON.parse(localStorage.getItem("director"))
+
+      var orderedQuery = this.firemain.child("users").orderByChild("type");
+      orderedQuery.once("value", (snapshot) => {
+       snapshot.forEach((childSnapshot) => {
+         var childData = childSnapshot.val();
+          this.directorList.push(childData);
+       })
+  
+      });
+
+    //  this.directorList=JSON.parse(localStorage.getItem("director"))
+
      console.log(this.directorList);
      this.company = localStorage.getItem("company");
-     this.name = localStorage.getItem("name");
+     this.name = localStorage.getItem("nickname");
      this.currentstart=localStorage.getItem("start");
      this.currentstartday=localStorage.getItem("startDate");
       this.allroom = this.navParams.get("allroom");
@@ -125,9 +136,6 @@ export class EditingroomPage {
       window.alert("변경불가");
       return;
     }
-    if(v==1){
-      this.status="entered";
-    }
     if(v==2){
       this.status="clean";
     }
@@ -135,7 +143,7 @@ export class EditingroomPage {
       this.status="fin";
     }
     if(v==4){
-      this.status="reserved";
+      this.status="entered";
     }
   }
 
@@ -488,6 +496,8 @@ export class EditingroomPage {
 
       console.log(snap.val());
       console.log("agasi is:"+agasi);
+      console.log(agasi);
+     
       //console.log("ss is:"+ss);
      
           //console.log(snap.val().logic);
@@ -498,7 +508,12 @@ export class EditingroomPage {
           }
   
           if(this.status=="fin"){
-
+            if(agasi.length!=0){
+              for(var aga in agasi){
+                console.log(agasi[aga].name);
+                this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(agasi[aga].name).child("attend").update({"flag":"standby"});
+              }
+            }
             this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).update({
               "name":this.room,
               "bu":this.bu,
@@ -580,6 +595,7 @@ export class EditingroomPage {
                 "v":snap.val().v
             })
           }else{
+            
             this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.room).child(this.a.key).update({
               "agasi":snap.val().agasi,
               "bujangjopan":this.jopan,
@@ -643,6 +659,7 @@ export class EditingroomPage {
                   "v":snap.val().v
               })
             }else{
+              
               this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.room).child(this.a.key).update({
                 "agasi":snap.val().agasi,
                 "bujangjopan":this.jopan,

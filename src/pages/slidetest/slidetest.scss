@@ -20,6 +20,104 @@ page-slidetest {
     .child-item{
       display: contents;
     }
+    .calendar-main
+    {
+      width:90%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      display: inline-block;
+
+      border: solid 1px black;
+      border-radius: 10px;
+      background-color: white;
+      text-align: center;
+
+      .calendar-header
+      {
+        ion-col:nth-child(2n+1)
+        {
+          color: #E74371;
+          font-weight: bolder;
+        }
+        ion-icon
+        {
+          font-size: 1.5em;
+        }
+      }
+
+      .calendar-body
+      {
+        .weeks, .dates
+        {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-evenly;
+          span
+          {
+            display: inline-block;
+            width: calc(100% / 7);
+          }
+        }
+
+        .weeks
+        {
+          padding: 5px 0;
+          margin: 5px 0;
+          span:first-child{color: red;}
+          span:last-child{color: blue;}
+          border-top: solid 1px black;
+          border-bottom: solid 1px black;
+        }
+
+        .dates
+        {
+          .last-month, .next-month
+          {
+            color: grey;
+          }
+          span
+          {
+            height: 25px;
+            width:50px;
+          }
+        }
+      }
+    }
+
+    .contentmainn{
+
+      height: 30px;
+        position: relative;
+      }
+      .contentmainn::before {
+    content: "";
+    position: absolute;
+    bottom: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+  
+    background-color: red;
+  
+  }
+
+       .norowww{
+
+    height: 30px;
+      position: relative;
+    }
+    .norowww::before {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+
+  background-color: red;
+
+}
     .notselected{
         border: solid 1px;
         width: 61px;
@@ -77,6 +175,8 @@ page-slidetest {
         color:white;
     }
     .scroll-content{
+
+    overflow: scroll !important;
         padding:0px !important;
         margin-top:0px !important;
     }
@@ -218,7 +318,7 @@ page-slidetest {
     }
 
     .ion-label {
-        color: white;
+        color: black;
     }
 
  
@@ -523,44 +623,79 @@ page-slidetest {
 
       //choice ts
 
-      .avatartext{
-        color: white;
-        margin-top: 2px;
-        font-size: 20px;
-        margin-left: 2px;
-      }
-      .ion-label{
-        color:black;
-      }
-      .container {
-        overflow-x: scroll;
-        white-space: nowrap;
-      }
-      .avatar img {
-        border-radius: 50%;
-      }
+    //   .avatartext{
+    //     color: white;
+    //     margin-top: 2px;
+    //     font-size: 20px;
+    //     margin-left: 2px;
+    //   }
+    //   .ion-label{
+    //     color:black;
+    //   }
+    //   .container {
+    //     overflow-x: scroll;
+    //     white-space: nowrap;
+    //   }
+    //   .avatar img {
+    //     border-radius: 50%;
+    //   }
       
-    .avatar {  
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: red;
-        color: #fff;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        margin-left:5px;
-        margin-right:5px;
-        padding: 5px;
-        display: inline-block;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        font-size: 16px;
-      }
+    // .avatar {  
+    //     width: 40px;
+    //     height: 40px;
+    //     border-radius: 50%;
+    //     background-color: red;
+    //     color: #fff;
+    //     margin-top: 5px;
+    //     margin-bottom: 5px;
+    //     margin-left:5px;
+    //     margin-right:5px;
+    //     padding: 5px;
+    //     display: inline-block;
+    //     justify-content: center;
+    //     align-items: center;
+    //     font-weight: bold;
+    //     font-size: 16px;
+    //   }
     
-      .avatar img {
-        border-radius: 50%;
-      }
+    //   .avatar img {
+    //     border-radius: 50%;
+    //   }
+    .container {
+      width: 100%;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS devices */
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 18px;
+  }     
+  ::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  }     
+  ::-webkit-scrollbar-thumb {
+      background: #fdd734;
+  }
+  ::-webkit-scrollbar-thumb:window-inactive {
+      background: rgba(255,0,0,0.4); 
+  }
+    .avatars {
+      display: flex;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS devices */
+      overflow: auto; /* Enable scrolling on Android devices */
+      -ms-overflow-style: -ms-autohiding-scrollbar; /* Hide scrollbars on Internet Explorer and Edge */
+    }
+    
+    .avatar {
+      flex: 0 0 auto;
+      padding: 10px;
+    }
+    
+    .avatartext {
+      text-align: center;
+    }
+
   
       .contentmain{
         float: left;
@@ -573,11 +708,22 @@ page-slidetest {
     width: 100%;
     height: 100%;
       }
+      .scroll-content{
+
+    overflow: hidden;
+      }
+      .padding{
+        width: 95%;
+        height: 100px;
+        display: grid;
+      }
       .lll{
-        height: 60% !important;
-    overflow-y: scroll;
-    position: absolute;
-    width: 100%;
+        height: 55% !important;
+        overflow-y: scroll;
+        position: absolute;
+        top: 8%;
+        width: 100%;
+        margin-bottom: 0px;
       }
       .ion-label-area {
 
@@ -588,12 +734,26 @@ page-slidetest {
     .label-ios{
         margin:0px !important;
     }
+    .noflag{
+      position: relative;
+    }
+    .noflag::before {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+
+  background-color: red;
+
+}
     .tabs-container{
 
-        bottom: 21%;
+        bottom: 28%;
         position: absolute;
         width: 100%;
-        height: 60px;
+        height: 50px;
         
     }
 
@@ -695,10 +855,11 @@ page-slidetest {
       }
       .jimyung{
         background: #fdd734;
-        height: 30px;
+        
+    height: 38px;
         padding-left: 20px;
         font-weight: 800;
-        line-height: 30px;
+        line-height: 35px;
         font-size:16px;
         width: 100%;
         margin: 0px;

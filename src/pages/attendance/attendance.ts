@@ -25,6 +25,7 @@ export class AttendancePage {
   numofstandby:any=0;
   original_mainlist=[];
   numberofIn:any=0;
+
   jopanjjinglist2:any=[];
   jopanlist:any=[];       
   jopanjjinglist:any=[];
@@ -511,6 +512,7 @@ ionViewDidLeave(){
 
   set_month(num)
   {
+
     this.date.setMonth(num-1);
     this.getDaysOfMonth();
   }
@@ -530,6 +532,7 @@ ionViewDidLeave(){
       this.generating();
   }
   getDaysOfMonth() {
+    
     console.log("getDaysofMonth...")
     this.daysInThisMonth = [];
     this.daysInLastMonth = [];

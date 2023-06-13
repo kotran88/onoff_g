@@ -51,6 +51,7 @@ export class ChoicedetailPage {
   mainlist_finished:any = [];
   mainlist_finished_origin:any = [];
   mainlist:any = [];
+  tempmainlist:any=[];
   firemain = firebase.database().ref();
   key:any;
   roomno:any;
@@ -284,12 +285,11 @@ export class ChoicedetailPage {
     }
     console.log("r is....");
     console.log(this.a);
-    console.log(this.inagasi);
-    console.log(this.numofpeople);
-    console.log(this.angelcount);
-    let modal = this.modal.create(ChoicemodalPage,{"a":this.a,"numofpeople":this.numofpeople,"inagasi":this.inagasi,"angelcount":this.angelcount});
+    this.firemain.child("company").child(this.company).child("choice").child(this.a.key).update({"status":"start","key":this.a.key, "name":this.a.name, "startdate":new Date()});
+    let modal = this.modal.create(ChoicemodalPage,{"a":this.a,"numofpeople":this.numofpeople,"inagasi":this.inagasi,"angelcount":this.angelcount})
     modal.onDidDismiss(url => {
-
+      this.firemain.child("company").child(this.company).child("choice").child(this.a.key).update({"status":"end","name":this.a.name, "enddate":new Date()});
+    
       console.log(url);
       if(url==undefined){
         this.view.dismiss();
@@ -361,16 +361,22 @@ screenSwitch(values) : void {
     this.refreshChoice2();
   }
   endall(c,room,mainlist,num) {
-
+    console.group(num);
+    console.log(this.mainlist_finished);
     this.util.presentLoading();
     
     console.log(c);
     console.log(room);
     console.log(mainlist);
-    console.log(mainlist);
     console.log(mainlist.agasi);
+    if(num==2){
+      mainlist.agasi = this.mainlist_finished[0].agasi;
+    }else if (num==1){
+      mainlist.agasi = this.mainlist[0].agasi;
+    }
     console.log("----------endall----------");
 
+    console.log(mainlist.agasi);
     var date = new Date();
 
     var year=date.getFullYear();
@@ -386,10 +392,10 @@ screenSwitch(values) : void {
       // console.log(snap2.val())
       var totalsumtc="";
       for(var f in mainlist.agasi){
-
+        console.log(mainlist.agasi[f])
         if(mainlist.agasi[f].findate==undefined){
           var tctotal=0;
-          console.log(mainlist.agasi[f])
+         
             console.log(mainlist.agasi[f].name)
               var totalmoney=0;
               console.log(mainlist.agasi[f]);
@@ -401,12 +407,13 @@ screenSwitch(values) : void {
               var bantee=Number(this.util.getTC(mainlist.agasi[f],0).split(",")[2]);
               console.log("totalmoney : "+totalmoney)
               console.log(tctotal);
-              this.getIdOfagaci(this.currentstartday,mainlist.agasi[f].name,totalmoney,room,c.key,f,tctotal,mainlist.wt,mainlist.incharge,mainlist,bantee)+"";
+               this.getIdOfagaci(this.currentstartday,mainlist.agasi[f].name,totalmoney,room,c.key,f,tctotal,mainlist.wt,mainlist.incharge,mainlist,bantee)+"";
             
         }else{
 
         }
       }
+
       console.log("totalsumtc:"+totalsumtc);
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"tc":totalsumtc,"date":endtime,"contents":"전체종료 ","type":"fin", "uploader":this.nickname, "name":"system"})
       console.log(this.currentstartday+",,,"+room+"////"+mainlist.key);
@@ -495,6 +502,7 @@ this.util.presentLoading();
                 }
                 console.log("user:"+user);
                 console.log("room:"+room+",,,"+this.currentstartday+","+mainlist.key+","+num);
+                console.log("jopan : "+jopan);
                 // this.firemain.child("users").child(user).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update(postData);
                 this.firemain.child("company").child(this.company).child("jopanjjing").child(jopan).child(this.currentstartday).once("value",snap=>{
                   for(var aaa in snap.val()){
@@ -528,11 +536,13 @@ this.util.presentLoading();
     console.log("loop finish in reinit")
     // this.refreshChoice2();
     console.log("refreshchoice2 fin");
-this.util.dismissLoading();
   console.log("end fin");
 
   setTimeout(()=>{
+
     this.refreshChoice2();
+
+this.util.dismissLoading();
   },500)
     });
         
@@ -640,26 +650,25 @@ this.util.dismissLoading();
               console.log("mmmm")
               // this.firemain.child("users").child(snap.val().id).child("current").remove();
               // this.firemain.child("users").child(snap.val().id).child("roomhistory").child(room).update({"end_date":hour+":"+min,"end_date_full":dte})
-              this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).once('value').then((snap2)=>{
-                for(var d in snap2.val().agasi){
-                  console.log(snap2.val().agasi[d]);
-                  if(snap2.val().agasi[d].name==c.name){
+                for(var d in mainlist.agasi){
+                  console.log(mainlist.agasi[d]);
+                  if(mainlist.agasi[d].name==c.name){
 
                     //chasam
-                     totalmoney=Number(this.util.getTC(snap2.val().agasi[d],snap2.val().agasi[d].pausetime).split(",")[0]);
+                     totalmoney=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[0]);
                     
-                     tctotal=Number(this.util.getTC(snap2.val().agasi[d],snap2.val().agasi[d].pausetime).split(",")[1]);
-                     bantee=Number(this.util.getTC(snap2.val().agasi[d],snap2.val().agasi[d].pausetime).split(",")[2]);
+                     tctotal=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[1]);
+                     bantee=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[2]);
                     var jjing=Math.round(tctotal);
                     console.log("jjing : "+jjing);
                     if(Math.round(tctotal)>=1){
                       console.log(snap.val());
                       console.log(selectedjopan)
                       console.log(c);
-                      this.firemain.child("company").child(this.company).child("jopanjjing").child(selectedjopan).child(this.currentstartday).push({"type":"wantee","values":jjing,"key":mainlist.key, "agasi":snap2.val().agasi[d].name,"room":mainlist.name, "jopan":selectedjopan, "date":snap2.val().agasi[d].date,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":mainlist.wt})
+                      this.firemain.child("company").child(this.company).child("jopanjjing").child(selectedjopan).child(this.currentstartday).push({"type":"wantee","values":jjing,"key":mainlist.key, "agasi":mainlist.agasi[d].name,"room":mainlist.name, "jopan":selectedjopan, "date":mainlist.agasi[d].date,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":mainlist.wt})
                     }
                     if(bantee>=1){
-                      this.firemain.child("company").child(this.company).child("jopanjjing").child(selectedjopan).child(this.currentstartday).push({"type":"bantee", "values":bantee,"key":mainlist.key,"room":mainlist.name,  "agasi":snap2.val().agasi[d].name, "jopan":selectedjopan, "date":snap2.val().agasi[d].date,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":mainlist.wt})
+                      this.firemain.child("company").child(this.company).child("jopanjjing").child(selectedjopan).child(this.currentstartday).push({"type":"bantee", "values":bantee,"key":mainlist.key,"room":mainlist.name,  "agasi":mainlist.agasi[d].name, "jopan":selectedjopan, "date":mainlist.agasi[d].date,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":mainlist.wt})
                     }
                     
                     //아래에 연티가 들어가야함. 연티는 룸히스토리에 들어가야함.
@@ -699,17 +708,17 @@ this.util.dismissLoading();
                         
                         console.log("this room's yeonti is : "+yeonti+"and yeontireason"+yeonti_reason);
                         this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).update({"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+"","yeonti":yeonti,"yeonti_reason":yeonti_reason})
-                        this.firemain.child("users").child(selectedid).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"room":room, "name":snap2.val().agasi[d].name,  "date":this.currentstartday,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"bantee":bantee,"wt":mainlist.wt,"yeonti":yeonti,"yeonti_reason":yeonti_reason})
+                        this.firemain.child("users").child(selectedid).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"room":room, "name":mainlist.agasi[d].name,  "date":this.currentstartday,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"bantee":bantee,"wt":mainlist.wt,"yeonti":yeonti,"yeonti_reason":yeonti_reason})
 
                       }else{
                         this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).update({"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
-                        this.firemain.child("users").child(selectedid).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"room":room, "name":snap2.val().agasi[d].name,  "date":this.currentstartday,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"bantee":bantee,"wt":mainlist.wt})
+                        this.firemain.child("users").child(selectedid).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"room":room, "name":mainlist.agasi[d].name,  "date":this.currentstartday,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"bantee":bantee,"wt":mainlist.wt})
                       }
                   this.firemain.child("users").child(selectedid).child("current").remove();
                       console.log("d is "+d);
                       var angel = false;
-                    if(snap2.val().agasi[d].angel!=undefined){
-                      angel=snap2.val().agasi[d].angel;
+                    if(mainlist.agasi[d].angel!=undefined){
+                      angel=mainlist.agasi[d].angel;
                     }
                     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(d).update({"roomno":room,"incharge":mainlist.incharge,"angel":angel, "findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"bantee":bantee, "money":totalmoney,"wt":mainlist.wt,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
                     
@@ -721,10 +730,10 @@ this.util.dismissLoading();
                 }
                 console.log(snap.val().agasi)
 
-                this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"tc":tctotal,"bantee":bantee,"totalmoney":totalmoney, "date":endtime,"contents":"종료 "+tctotal+"개","type":"fin", "uploader":this.nickname,"agasi":c.name, "name":"system"})
+                this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(c.name).child("attend").update({"flag":"standby"})
+                this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"tc":tctotal,"bantee":bantee,"totalmoney":totalmoney, "date":endtime,"contents":"종료 ","type":"fin", "uploader":this.nickname,"agasi":c.name, "name":"system"})
      
                 console.log("501!!!")
-              });
               console.log("loop finisehd");
   
           }
@@ -738,12 +747,12 @@ this.util.dismissLoading();
       
 
       console.log("end fin before");
+      setTimeout(()=>{
+        this.util.dismissLoading();
+        this.refreshChoice2();
+      },500)
   });
-  console.log("end fin");
-  setTimeout(()=>{
-    this.util.dismissLoading();
-    this.refreshChoice2();
-  },1000)
+
   }
   refreshChoice2(){
     console.log("refreshchoice222")
@@ -756,7 +765,8 @@ this.util.dismissLoading();
     
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).once("value", (snap)=>{
 
-    this.util.loadingnew();
+    // this.firemain.child("users").child(this.a.wt).child("roomhistory").child(this.currentstartday).child(this.a.key).once("value", (snap)=>{
+
         console.log(snap.val())
         console.log(snap.val().agasi);
         console.log(snap.val().logic);
@@ -819,8 +829,9 @@ this.util.dismissLoading();
               findate = snap.val().findate;
             }
             console.log("findate is "+findate);
-
+            console.log(snap.val().ss);
             if(snap.val().ss){
+              console.log("snap.val().ss is true")
               if(snap.val().status=="fin"){
                 this.mainlist_finished_status.push({"agasi":snap.val().agasi,
                 "date":snap.val().date,
@@ -853,7 +864,23 @@ this.util.dismissLoading();
               "status":snap.val().status,
             "wt":snap.val().wt,
           "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
-           
+
+          this.mainlist_finished.push({"agasi":snap.val().agasi,
+          "date":snap.val().date,
+        "incharge":snap.val().incharge,
+      "insert_date":snap.val().insert_date,
+    "insert_date_full":snap.val().insert_date_full,
+            "key":snap.val().key,
+          "name":snap.val().name,
+          "message":messages,
+
+          "memo":memo,
+      "angel":snap.val().angel,
+          "numofpeople":snap.val().numofpeople,
+        "status":snap.val().status,
+      "wt":snap.val().wt,
+      "directorId":snap.val().directorId,
+    "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
 
               }else{
 
@@ -924,8 +951,27 @@ this.util.dismissLoading();
                 "wt":snap.val().wt,
               "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
                
+
+                      this.mainlist_finished.push({"agasi":snap.val().agasi,
+                      "date":snap.val().date,
+                    "incharge":snap.val().incharge,
+                  "insert_date":snap.val().insert_date,
+                "insert_date_full":snap.val().insert_date_full,
+                "directorId":snap.val().directorId,
+                "key":snap.val().key,
+                "message":messages,
+                "memo":memo,
+                "angel":snap.val().angel,
+                "name":snap.val().name,
+                    "numofpeople":snap.val().numofpeople,
+                    "status":snap.val().status,
+                  "wt":snap.val().wt,
+                "numofagasi":inagasi,"lack":snap.val().numofpeople-inagasi});
+
     
                   }else if(snap.val().ss==false||snap.val().ss==undefined){
+                    console.log("not fin not angle");
+                    console.log(snap.val().numofpeople+",,,"+inagasi);
                     if(snap.val().numofpeople<=inagasi){
                       this.mainlist_finished.push({"agasi":snap.val().agasi,
                       "date":snap.val().date,
@@ -1008,384 +1054,140 @@ this.util.dismissLoading();
 this.mainlist_finished_origin = this.mainlist_finished[0];
 console.log("this.mainlist_finished_origin");
 console.log(this.mainlist_finished_origin);
+
+var count=-1;
+var newarray=[];
+if(this.mainlist[0]!=undefined){
+  console.log(this.mainlist[0].agasi);
+  for(var a in this.mainlist[0].agasi){
+    count++;
+    newarray.push(this.mainlist[0].agasi[a]);
+    console.log(a);
+    console.log(this.mainlist[0].agasi[a])
+  }
+  this.mainlist[0].agasi=(newarray);
+  this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist[0].name).child(this.mainlist[0].key).child("agasi").remove();
+  this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist[0].name).child(this.mainlist[0].key).child("agasi").update(newarray);
+}
+
+var count=-1;
+var newarray=[];
+if(this.mainlist_finished[0]!=undefined){
+  console.log(this.mainlist_finished[0].agasi);
+  for(var a in this.mainlist_finished[0].agasi){
+    count++;
+    newarray.push(this.mainlist_finished[0].agasi[a]);
+    console.log(a);
+    console.log(this.mainlist_finished[0].agasi[a])
+  }
+  this.mainlist_finished[0].agasi=(newarray);
+  this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_finished[0].name).child(this.mainlist_finished[0].key).child("agasi").remove();
+  this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_finished[0].name).child(this.mainlist_finished[0].key).child("agasi").update(newarray);
+}
+
+var count=-1;
+var newarray=[];
+if(this.mainlist_angel[0]!=undefined){
+  console.log(this.mainlist_angel[0].agasi);
+  for(var a in this.mainlist_angel[0].agasi){
+    count++;
+    newarray.push(this.mainlist_angel[0].agasi[a]);
+    console.log(a);
+    console.log(this.mainlist_angel[0].agasi[a])
+  }
+  this.mainlist_angel[0].agasi=(newarray);
+  this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_angel[0].name).child(this.mainlist_angel[0].key).child("agasi").remove();
+  this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_angel[0].name).child(this.mainlist_angel[0].key).child("agasi").update(newarray);
+}
+
+var count=-1;
+var newarray=[];
+if(this.mainlist_finished_status[0]!=undefined){
+  console.log(this.mainlist_finished_status[0].agasi);
+  for(var a in this.mainlist_finished_status[0].agasi){
+    count++;
+    newarray.push(this.mainlist_finished_status[0].agasi[a]);
+    console.log(a);
+    console.log(this.mainlist_finished_status[0].agasi[a])
+  }
+  this.mainlist_finished_status[0].agasi=(newarray);
+  this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_finished_status[0].name).child(this.mainlist_finished_status[0].key).child("agasi").remove();
+  this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_finished_status[0].name).child(this.mainlist_finished_status[0].key).child("agasi").update(newarray);
+}
+console.log(this.mainlist);
+  console.log(this.mainlist_finished);
+  if(this.mainlist_finished[0]!=undefined){
+    this.mainlist_finished[0].agasi.sort(function(a, b) {
+      //if each's findate is undefined, it should be at the bottom of array 
+      if(a.findate==undefined){
+        return -1;
+      }
+      if(b.findate==undefined){
+        return -1;
+      }
+      //if each's findate is defined, it should be sorted by findate
+      if(a.findate!=undefined&&b.findate!=undefined){
+        return a.findate<b.findate ? -1 : a.findate>b.findate ? 1 : 0;
+      }
+  
+    })
+  }
+  if(this.mainlist[0]!=undefined){
+    this.mainlist[0].agasi.sort(function(a, b) {
+      //if each's findate is undefined, it should be at the bottom of array
+      if(a.findate==undefined){
+        return -1;
+      }
+      if(b.findate==undefined){
+        return -1;
+      }
+      //if each's findate is defined, it should be sorted by findate
+      if(a.findate!=undefined&&b.findate!=undefined){
+        return a.findate<b.findate ? -1 : a.findate>b.findate ? 1 : 0;
+      }
+    })
+  }
+  if(this.mainlist_finished_status[0]!=undefined){
+    this.mainlist_finished_status[0].agasi.sort(function(a, b) {
+      //if each's findate is undefined, it should be at the bottom of array
+      if(a.findate==undefined){
+        return -1;
+      }
+      if(b.findate==undefined){
+        return -1;
+      }
+      //if each's findate is defined, it should be sorted by findate
+      if(a.findate!=undefined&&b.findate!=undefined){
+        return a.findate<b.findate ? -1 : a.findate>b.findate ? 1 : 0;
+      }
+    })
+  }
+  if(this.mainlist_angel[0]!=undefined){
+    this.mainlist_angel[0].agasi.sort(function(a, b) {
+      //if each's findate is undefined, it should be at the bottom of array
+      if(a.findate==undefined){
+        return -1;
+      }
+      if(b.findate==undefined){
+        return -1;
+      }
+      //if each's findate is defined, it should be sorted by findate
+      if(a.findate!=undefined&&b.findate!=undefined){
+        return a.findate<b.findate ? -1 : a.findate>b.findate ? 1 : 0;
+      }
+    })
+  }
+  
+  //sorting this.mainlist_finished's agasi node by findate is undefined or not . undefined should be more top and undefined should be bottom 
+
+
+  console.log(this.mainlist_finished_status)
+  
+console.log("refresh didloaded")
+
 this.refresheverymin();
-this.util.dismissLoading();
     });
-//     this.firemain.child("company").child(this.company).child("roomlist").once("value", (snap)=>{
 
-//       console.log("in ")
-//     this.mainlist=[];
-//     this.mainlist_finished=[];
-//     this.mainlist_finished_status=[];
-//     this.mainlist_angel=[];
-//     console.log("in refreshchoice2")
-//     console.log(snap.val())
-//       for(var a in snap.val()){
-//         console.log(snap.val()[a])
-//           if(snap.val()[a].roomhistory!=undefined){
-//             console.log(a+",,,"+this.a.name);
-//       if(a==this.a.name){
-//             for(var b in snap.val()[a].roomhistory[this.currentstartday]){
-//                 if(snap.val()[a].roomhistory[this.currentstartday][b].date!=undefined){
-//                   var inagasi = 0;
-//               if(snap.val()[a].roomhistory[this.currentstartday][b].agasi!=undefined){
-
-//                 for(var c in snap.val()[a].roomhistory[this.currentstartday][b].agasi){
-//                   if(snap.val()[a].roomhistory[this.currentstartday][b].agasi[c].findate!=undefined){
-//                     //종료됨. 
-//                   }else{
-//                     inagasi++;
-//                     //종료 안됨. 들어가있는 상황 . 
-//                   }
-//                 }
-//               }else{
-//                 //agasi가 없는 경우.
-//               }
-//               var memo = "";
-//               memo = snap.val()[a].roomhistory[this.currentstartday][b].memo;
-//               var messages=[];
-//               for(var dd in snap.val()[a].roomhistory[this.currentstartday][b].message){
-//                 messages.push(snap.val()[a].roomhistory[this.currentstartday][b].message[dd]);
-//               }
-//               //sort message by date
-//               messages.sort(function(a, b) {
-//                 var dateA = new Date("2023-" + a.date.replace(/-/g, "/"));
-//                   var dateB = new Date("2023-" + b.date.replace(/-/g, "/"));
-
-//                   // Compare dates
-//                   if (dateA > dateB) {
-//                     return -1; // Sort b before a
-//                   } else if (dateA < dateB) {
-//                     return 1; // Sort a before b
-//                   } else {
-//                     return 0; // Keep order unchanged
-//                   }
-//               });
-//               console.log(snap.val()[a].roomhistory[this.currentstartday][b])
-//                   if(snap.val()[a].roomhistory[this.currentstartday][b].ss){
-//                     if(snap.val()[a].roomhistory[this.currentstartday][b].status=="fin"){
-//                       this.mainlist_finished_status.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
-//                       "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
-//                     "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
-//                   "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
-//                 "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
-//                         "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
-//                         "message":messages,
-//                         "memo":memo,
-//                         "angel":snap.val()[a].roomhistory[this.currentstartday][b].angel,
-//                         "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
-//                     "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
-//                     "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
-//                   "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
-//                 "numofagasi":inagasi,"lack":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi});
-            
-//                      }else if(snap.val()[a].roomhistory[this.currentstartday][b].angel==true){
-
-//                       this.mainlist_angel.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
-//                       "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
-//                     "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
-//                   "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
-//                 "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
-//                         "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
-//                         "message":messages,
-//                         "memo":memo,
-//                         "angel":snap.val()[a].roomhistory[this.currentstartday][b].angel,
-//                         "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
-//                     "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
-//                     "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
-//                   "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
-//                 "numofagasi":inagasi,"lack":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi});
-                 
-
-//                     }else{
-
-//                       //초이스 ㅅㅅ 방에다가 날개가아니고 완료도 아닌 경우.
-//                               this.mainlist_finished.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
-//                               "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
-//                             "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
-//                           "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
-//                         "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
-//                                 "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
-//                               "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
-//                               "message":messages,
-
-//                               "memo":memo,
-//                           "angel":snap.val()[a].roomhistory[this.currentstartday][b].angel,
-//                               "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
-//                             "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
-//                           "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
-//                           "directorId":snap.val()[a].roomhistory[this.currentstartday][b].directorId,
-//                         "numofagasi":inagasi,"lack":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi});
-                    
-//                     }
-//                     }else{
-                      
-//                       console.log(" 초이스 ㅅㅅ 이 아님. 그러면 재초거나 undefined else...flag ")
-//                       console.log(snap.val()[a].roomhistory[this.currentstartday][b]);
-//                       var orderlist="";
-//                       if(snap.val()[a].roomhistory[this.currentstartday][b].orderlist==undefined){
-//                         orderlist="no"
-//                       }else{
-//                         orderlist=snap.val()[a].roomhistory[this.currentstartday][b].orderlist;
-//                       }
-                     
-
-//                       if(snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi<=0){
-//                         //진행중인방으로 넘어가야함. 무조건. 
-//                         if(snap.val()[a].roomhistory[this.currentstartday][b].status=="fin"){
-//                           this.mainlist_finished_status.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
-//                           "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
-//                         "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
-//                       "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
-//                     "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
-//                     "directorId":snap.val()[a].roomhistory[this.currentstartday][b].directorId,
-//                     "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
-//                     "message":messages,
-//                     "memo":memo,
-//                     "angel":snap.val()[a].roomhistory[this.currentstartday][b].angel,
-//                     "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
-//                         "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
-//                         "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
-//                       "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
-//                     "numofagasi":inagasi,"lack":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi});
-                
-//                         }else if(snap.val()[a].roomhistory[this.currentstartday][b].angel==true){
-  
-//                           this.mainlist_angel.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
-//                           "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
-//                         "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
-//                       "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
-//                     "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
-//                             "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
-//                             "message":messages,
-//                             "memo":memo,
-//                             "angel":snap.val()[a].roomhistory[this.currentstartday][b].angel,
-//                             "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
-//                         "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
-//                         "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
-//                       "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
-//                     "numofagasi":inagasi,"lack":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi});
-                     
-    
-//                         }else{
-  
-//                                   this.mainlist_finished.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
-//                                   "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
-//                                 "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
-//                               "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
-//                             "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
-//                             "directorId":snap.val()[a].roomhistory[this.currentstartday][b].directorId,
-//                             "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
-//                             "message":messages,
-//                             "memo":memo,
-//                             "angel":snap.val()[a].roomhistory[this.currentstartday][b].angel,
-//                             "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
-//                                 "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
-//                                 "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
-//                               "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
-//                             "numofagasi":inagasi,"lack":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi});
-//                         }
-//                       }else{
-//                         if(snap.val()[a].roomhistory[this.currentstartday][b].status=="fin"){
-//                           this.mainlist_finished_status.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
-//                           "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
-//                         "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
-//                       "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
-//                     "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
-//                     "directorId":snap.val()[a].roomhistory[this.currentstartday][b].directorId,
-//                     "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
-//                     "message":messages,
-//                     "memo":memo,
-//                     "angel":snap.val()[a].roomhistory[this.currentstartday][b].angel,
-//                     "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
-//                         "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
-//                         "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
-//                       "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
-//                     "numofagasi":inagasi,"lack":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi});
-                
-//                         }else if(snap.val()[a].roomhistory[this.currentstartday][b].angel==true){
-  
-//                           this.mainlist_angel.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
-//                           "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
-//                         "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
-//                       "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
-//                     "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
-//                             "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
-//                             "message":messages,
-//                             "memo":memo,
-//                             "angel":snap.val()[a].roomhistory[this.currentstartday][b].angel,
-//                             "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
-//                         "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
-//                         "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
-//                       "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
-//                     "numofagasi":inagasi,"lack":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi});
-                     
-    
-//                         }else{
-  
-//                                   this.mainlist.push({"agasi":snap.val()[a].roomhistory[this.currentstartday][b].agasi,
-//                                   "date":snap.val()[a].roomhistory[this.currentstartday][b].date,
-//                                 "incharge":snap.val()[a].roomhistory[this.currentstartday][b].incharge,
-//                               "insert_date":snap.val()[a].roomhistory[this.currentstartday][b].insert_date,
-//                             "insert_date_full":snap.val()[a].roomhistory[this.currentstartday][b].insert_date_full,
-//                             "directorId":snap.val()[a].roomhistory[this.currentstartday][b].directorId,
-//                             "key":snap.val()[a].roomhistory[this.currentstartday][b].key,
-//                             "message":messages,
-//                             "memo":memo,
-//                             "angel":snap.val()[a].roomhistory[this.currentstartday][b].angel,
-//                             "name":snap.val()[a].roomhistory[this.currentstartday][b].name,
-//                                 "numofpeople":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople,
-//                                 "status":snap.val()[a].roomhistory[this.currentstartday][b].status,
-//                               "wt":snap.val()[a].roomhistory[this.currentstartday][b].wt,
-//                             "numofagasi":inagasi,"lack":snap.val()[a].roomhistory[this.currentstartday][b].numofpeople-inagasi});
-//                         }
-//                       }
-                      
-                   
-//                   }
-
-//                   console.log("ttttthis.mainlist_finished");
-//                   console.log(this.mainlist);
-//                   console.log(this.mainlist_finished);
-//                   console.log(this.mainlist_finished_status);
-//                 //   this.mainlist_finished.sort(function(a,b){
-//                 //     console.log(a.status+",,,"+b.status)
-//                 //     if (a.status < b.status) {
-//                 //       return -1;
-//                 //     }
-//                 //     if (a.status > b.status) {
-//                 //       return 1;
-//                 //     }
-//                 //     return 0;
-
-                  
-//                 // });
-//                 // console.log(this.mainlist_finished);
-//               }
-              
-//             }
-//       }else{
-       
-//       }
-      
-//           }
-       
-        
-//       }
-//       for(var c in this.mainlist){
-//         console.log(this.mainlist[c].agasi)
-//         for(var d in this.mainlist[c].agasi){
-//           console.log(this.mainlist[c].agasi[d].name)
-//           if(this.mainlist[c].agasi[d].findate!=undefined){
-
-//           }else{
-//             var totalmoney=Number(this.util.getTC(this.mainlist[c].agasi[d],this.mainlist[c].agasi[d].pausetime).split(",")[0]);
-//             var tctotal=Number(this.util.getTC(this.mainlist[c].agasi[d],this.mainlist[c].agasi[d].pausetime).split(",")[1]);
-//             console.log(totalmoney);
-//             console.log(tctotal);
-//             this.mainlist[c].agasi[d].totalmoney=totalmoney;
-//             this.mainlist[c].agasi[d].tc=tctotal;
-//             console.log(this.mainlist[c].agasi[d])
-//           }
-//         }
-//       }
-
-
-//       for(var c in this.mainlist_finished){
-//         console.log(this.mainlist_finished[c].agasi)
-//         for(var d in this.mainlist_finished[c].agasi){
-//           console.log(this.mainlist_finished[c].agasi[d].name)
-//           if(this.mainlist_finished[c].agasi[d].findate!=undefined){
-
-//           }else{
-//             var totalmoney=Number(this.util.getTC(this.mainlist_finished[c].agasi[d],this.mainlist_finished[c].agasi[d].pausetime).split(",")[0]);
-//             var tctotal=Number(this.util.getTC(this.mainlist_finished[c].agasi[d],this.mainlist_finished[c].agasi[d].pausetime).split(",")[1]);
-//             console.log(totalmoney);
-//             console.log(tctotal);
-//             this.mainlist_finished[c].agasi[d].money=totalmoney;
-//             this.mainlist_finished[c].agasi[d].tc=tctotal;
-//             console.log(this.mainlist_finished[c].agasi[d])
-//           }
-//         }
-//       }
-
-
-//       console.log("start refresh evermin")
-
-//     console.log(this.mainlist);
-//       console.log(this.mainlist_finished);
-//       console.log(this.mainlist_finished_status)
-      
-//       console.log("refresh didloaded")
-      
-    
-// this.refreshforeverymin();
-//     });
-
-    var count=-1;
-    var newarray=[];
-    if(this.mainlist[0]!=undefined){
-      console.log(this.mainlist[0].agasi);
-      for(var a in this.mainlist[0].agasi){
-        count++;
-        newarray.push(this.mainlist[0].agasi[a]);
-        console.log(a);
-        console.log(this.mainlist[0].agasi[a])
-      }
-      this.mainlist[0].agasi=(newarray);
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist[0].name).child(this.mainlist[0].key).child("agasi").remove();
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist[0].name).child(this.mainlist[0].key).child("agasi").update(newarray);
-    }
-
-    var count=-1;
-    var newarray=[];
-    if(this.mainlist_finished[0]!=undefined){
-      console.log(this.mainlist_finished[0].agasi);
-      for(var a in this.mainlist_finished[0].agasi){
-        count++;
-        newarray.push(this.mainlist_finished[0].agasi[a]);
-        console.log(a);
-        console.log(this.mainlist_finished[0].agasi[a])
-      }
-      this.mainlist_finished[0].agasi=(newarray);
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_finished[0].name).child(this.mainlist_finished[0].key).child("agasi").remove();
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_finished[0].name).child(this.mainlist_finished[0].key).child("agasi").update(newarray);
-    }
-
-    var count=-1;
-    var newarray=[];
-    if(this.mainlist_angel[0]!=undefined){
-      console.log(this.mainlist_angel[0].agasi);
-      for(var a in this.mainlist_angel[0].agasi){
-        count++;
-        newarray.push(this.mainlist_angel[0].agasi[a]);
-        console.log(a);
-        console.log(this.mainlist_angel[0].agasi[a])
-      }
-      this.mainlist_angel[0].agasi=(newarray);
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_angel[0].name).child(this.mainlist_angel[0].key).child("agasi").remove();
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_angel[0].name).child(this.mainlist_angel[0].key).child("agasi").update(newarray);
-    }
-
-    var count=-1;
-    var newarray=[];
-    if(this.mainlist_finished_status[0]!=undefined){
-      console.log(this.mainlist_finished_status[0].agasi);
-      for(var a in this.mainlist_finished_status[0].agasi){
-        count++;
-        newarray.push(this.mainlist_finished_status[0].agasi[a]);
-        console.log(a);
-        console.log(this.mainlist_finished_status[0].agasi[a])
-      }
-      this.mainlist_finished_status[0].agasi=(newarray);
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_finished_status[0].name).child(this.mainlist_finished_status[0].key).child("agasi").remove();
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_finished_status[0].name).child(this.mainlist_finished_status[0].key).child("agasi").update(newarray);
-    }
-    console.log(this.mainlist);
-      console.log(this.mainlist_finished);
-      console.log(this.mainlist_finished_status)
-      
-    console.log("refresh didloaded")
 
   
   }
@@ -1412,7 +1214,6 @@ this.util.dismissLoading();
     console.log(incharge)
     console.log(mainlist);
     console.log(bantee)
-
     var selectedid ="";
 
     var alreadyexist=false;
@@ -1427,9 +1228,9 @@ this.util.dismissLoading();
     var min = date.getMinutes();
     var dte = new Date();
     var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
-   
-    this.firemain.child("users").child(name).once("value",snap=>{
+    await this.firemain.child("users").child(name).once("value",snap=>{
       console.log(snap.val());
+      console.log(snap.val().name);
         if(snap.val()==null){
           return;
         }
@@ -1442,27 +1243,33 @@ this.util.dismissLoading();
               var selectedjopan=snap.val().jopan;
               console.log(selectedid);
               console.log("mmmm")
+
               // this.firemain.child("users").child(snap.val().id).child("current").remove();
               // this.firemain.child("users").child(snap.val().id).child("roomhistory").child(room).update({"end_date":hour+":"+min,"end_date_full":dte})
-              this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).once('value').then((snap2)=>{
-                for(var d in snap2.val().agasi){
-                  console.log(snap2.val().agasi[d]);
-                  if(snap2.val().agasi[d].name==name){
+                for(var d in mainlist.agasi){
+                  console.log(mainlist.agasi[d]);
+                  console.log("looping...");
 
+                  if(mainlist.agasi[d].name==name){
+
+                this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(name).child("attend").update({"flag":"standby"})
+                    console.log("d start is...."+d);
+                    console.log(mainlist.agasi[d].name);
                     //chasam
-                     totalmoney=Number(this.util.getTC(snap2.val().agasi[d],snap2.val().agasi[d].pausetime).split(",")[0]);
+                     totalmoney=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[0]);
                     
-                     tctotal=Number(this.util.getTC(snap2.val().agasi[d],snap2.val().agasi[d].pausetime).split(",")[1]);
-                     bantee=Number(this.util.getTC(snap2.val().agasi[d],snap2.val().agasi[d].pausetime).split(",")[2]);
+                     tctotal=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[1]);
+                     bantee=Number(this.util.getTC(mainlist.agasi[d],mainlist.agasi[d].pausetime).split(",")[2]);
                     var jjing=Math.round(tctotal);
                     console.log("jjing : "+jjing);
                     if(Math.round(tctotal)>=1){
                       console.log(snap.val());
                       console.log(selectedjopan)
-                      this.firemain.child("company").child(this.company).child("jopanjjing").child(selectedjopan).child(this.currentstartday).push({"type":"wantee","values":jjing,"key":mainlist.key, "agasi":snap2.val().agasi[d].name,"room":mainlist.name, "jopan":selectedjopan, "date":snap2.val().agasi[d].date,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":mainlist.wt})
+                      window.alert("jopancjjing");
+                      this.firemain.child("company").child(this.company).child("jopanjjing").child(selectedjopan).child(this.currentstartday).push({"type":"wantee","values":jjing,"key":mainlist.key, "agasi":mainlist.agasi[d].name,"room":mainlist.name, "jopan":selectedjopan, "date":mainlist.agasi[d].date,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":mainlist.wt})
                     }
                     if(bantee>=1){
-                      this.firemain.child("company").child(this.company).child("jopanjjing").child(selectedjopan).child(this.currentstartday).push({"type":"bantee", "values":bantee,"key":mainlist.key,"room":mainlist.name,  "agasi":snap2.val().agasi[d].name, "jopan":selectedjopan, "date":snap2.val().agasi[d].date,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":mainlist.wt})
+                      this.firemain.child("company").child(this.company).child("jopanjjing").child(selectedjopan).child(this.currentstartday).push({"type":"bantee", "values":bantee,"key":mainlist.key,"room":mainlist.name,  "agasi":mainlist.agasi[d].name, "jopan":selectedjopan, "date":mainlist.agasi[d].date,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"wt":mainlist.wt})
                     }
                     
                     //아래에 연티가 들어가야함. 연티는 룸히스토리에 들어가야함.
@@ -1502,11 +1309,11 @@ this.util.dismissLoading();
                         
                         console.log("this room's yeonti is : "+yeonti+"and yeontireason"+yeonti_reason);
                         this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).update({"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+"","yeonti":yeonti,"yeonti_reason":yeonti_reason})
-                        this.firemain.child("users").child(selectedid).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"room":room, "name":snap2.val().agasi[d].name,  "date":this.currentstartday,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"bantee":bantee,"wt":mainlist.wt,"yeonti":yeonti,"yeonti_reason":yeonti_reason})
+                        this.firemain.child("users").child(selectedid).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"room":room, "name":mainlist.agasi[d].name,  "date":this.currentstartday,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"bantee":bantee,"wt":mainlist.wt,"yeonti":yeonti,"yeonti_reason":yeonti_reason})
 
                       }else{
                         this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).update({"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
-                        this.firemain.child("users").child(selectedid).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"room":room, "name":snap2.val().agasi[d].name,  "date":this.currentstartday,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"bantee":bantee,"wt":mainlist.wt})
+                        this.firemain.child("users").child(selectedid).child("roomhistory").child(room).child(this.currentstartday).child(mainlist.key).update({"room":room, "name":mainlist.agasi[d].name,  "date":this.currentstartday,"incharge":mainlist.incharge, "end_date_full":dte,"tc":tctotal,"money":totalmoney,"bantee":bantee,"wt":mainlist.wt})
                       }
                   this.firemain.child("users").child(selectedid).child("current").remove();
                       console.log("d is "+d);
@@ -1523,7 +1330,6 @@ this.util.dismissLoading();
                 this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"tc":tctotal,"bantee":bantee,"totalmoney":totalmoney, "date":endtime,"contents":"종료 "+tctotal+"개","type":"fin", "uploader":this.nickname,"agasi":name, "name":"system"})
      
                 console.log("501!!!")
-              });
               console.log("loop finisehd");
   
           }
@@ -1692,7 +1498,6 @@ this.util.dismissLoading();
     var dte = new Date();
     var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).update({"ss":true})
-    // this.firemain.child("company").child(this.company).child("roomlist").off();
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"date":endtime,"contents":"초이스 ㅅㅅ ","type":"ss", "uploader":this.nickname, "name":"system"})
       
 
@@ -1725,16 +1530,19 @@ this.util.dismissLoading();
 
     this.view.dismiss();
   }
-  modify0(c,room,mainlist) {
+  modify0(c) {
     this.modifyflag=true;
     console.log("modify0modify0modify0modify0 come")
     console.log(c);
-    console.log(room);
-    console.log(mainlist);
+    console.log(this.mainlist);
+    this.tempmainlist=this.mainlist[0];
+    console.log("tempmainlist : ");
+    console.log(this.tempmainlist);
   }
 
 
-  modifycancel0(c,room,mainlist) {
+  modifycancel0(c,room,mainlist,aga) {
+    console.log(aga);
     var falseflag=false;
     this.modifyflag=!this.modifyflag;
     console.log("modifycancel0modifycancel0modifycancel0 come")
@@ -1742,7 +1550,8 @@ this.util.dismissLoading();
     console.log(room);
     console.log(mainlist);
   }
-  modifyfin0(c,room,mainlist) {
+  modifyfin0(c,room,mainlist,aga) {
+    console.log(aga);
     var falseflag=false;
     this.modifyflag=false;
     console.log("modifyfin0modifyfin0modifyfin0modifyfin0modifyfin0 come")
@@ -1764,12 +1573,17 @@ this.util.dismissLoading();
     var day = this.currentstartday;
     var countingv=-1;
     var finnum=0;
+    console.log(this.mainlist);
+    console.log(this.mainlist.length);
+    console.log(this.mainlist[0]);
     for(var a in this.mainlist[0].agasi){
       countingv++;
+      console.log(this.mainlist[0].agasi[a]);
+      console.log(this.tempmainlist.agasi[countingv]);
 
-      if(this.mainlist[0].agasi[a].name!=c.agasi[countingv].name){
+      if(this.mainlist[0].agasi[a].name!=this.tempmainlist.agasi[countingv].name){
 
-        var flag =  this.getNameChanged(c.agasi[countingv].name, this.mainlist[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day);
+        var flag =  this.getNameChanged(this.tempmainlist.agasi[countingv].name, this.mainlist[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day);
               console.log(flag);
         if(flag==false){
           window.alert("ok! no continue");
@@ -1778,9 +1592,9 @@ this.util.dismissLoading();
 
       }
       console.log("compare...");
-      if(this.mainlist[0].agasi[a].name!=c.agasi[countingv].name){
+      if(this.mainlist[0].agasi[a].name!=this.tempmainlist.agasi[countingv].name){
         console.log("not same");
-        console.log(c.agasi[countingv].name);
+        console.log(this.tempmainlist.agasi[countingv].name);
       }
       count++;
       if(this.mainlist[0].agasi[a].findate==undefined){
@@ -1823,6 +1637,9 @@ this.util.dismissLoading();
     console.log(this.mainlist[0].key);
     console.log(agasi);
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(this.mainlist[0].key).update({agasi})
+
+    this.firemain.child("users").child(mainlist.incharge).child("roomhistory").child(this.currentstartday).child(this.mainlist[0].key).update({agasi})
+    this.firemain.child("users").child(mainlist.wt).child("roomhistory").child(this.currentstartday).child(this.mainlist[0].key).update({agasi})
     setTimeout(()=>{
       this.refreshChoice2();
     },1000)
@@ -1834,6 +1651,7 @@ this.util.dismissLoading();
     console.log(room);
     console.log(mainlist);
 
+    this.tempmainlist=this.mainlist_finished[0];
 
     
   }
@@ -1919,9 +1737,9 @@ this.util.dismissLoading();
     for(var a in this.mainlist_finished[0].agasi){
       countingv++;
 
-      if(this.mainlist_finished[0].agasi[a].name!=c.agasi[countingv].name){
+      if(this.mainlist_finished[0].agasi[a].name!=this.tempmainlist.agasi[countingv].name){
 
-        var flag =  this.getNameChanged(c.agasi[countingv].name, this.mainlist_finished[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day);
+        var flag =  this.getNameChanged(this.tempmainlist.agasi[countingv].name, this.mainlist_finished[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day);
               console.log(flag);
         if(flag==false){
           window.alert("ok! no continue");
@@ -1930,9 +1748,9 @@ this.util.dismissLoading();
 
       }
       console.log("compare...");
-      if(this.mainlist_finished[0].agasi[a].name!=c.agasi[countingv].name){
+      if(this.mainlist_finished[0].agasi[a].name!=this.tempmainlist.agasi[countingv].name){
         console.log("not same");
-        console.log(c.agasi[countingv].name);
+        console.log(this.tempmainlist.agasi[countingv].name);
       }
       count++;
       if(this.mainlist_finished[0].agasi[a].findate==undefined){
@@ -1956,7 +1774,7 @@ this.util.dismissLoading();
       console.log(agasi);
     }
     if(falseflag){
-      window.alert("잘못된 값입니다.");
+      window.alert("tc계산이 잘못된 값입니다.(최대 tc : 24)");
       this.view.dismiss();
       return;
     }
@@ -1965,6 +1783,9 @@ this.util.dismissLoading();
     console.log(this.mainlist_finished[0].key);
     console.log(agasi);
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(this.mainlist_finished[0].key).update({agasi})
+    
+    this.firemain.child("users").child(mainlist.incharge).child("roomhistory").child(this.currentstartday).child(this.mainlist_finished[0].key).update({agasi})
+    this.firemain.child("users").child(mainlist.wt).child("roomhistory").child(this.currentstartday).child(this.mainlist_finished[0].key).update({agasi})
     setTimeout(()=>{
       this.refreshChoice2();
     },1000)

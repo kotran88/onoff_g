@@ -158,11 +158,12 @@ generating(){
   this.orderlist=[];
   this.mainlist=[];
   this.todaymoney=0;
-  this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).once('value').then((snap)=>{
+  this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.selectedDate).once('value').then((snap)=>{
     if(snap.val()!=undefined){
       for(var a in snap.val()){
         console.log(snap.val()[a]);
-              if(snap.val()[a].date==this.currentstartday){
+        console.log(snap.val()[a].date);
+        console.log(this.selectedDate);
                 if(snap.val()[a].wt!=this.nickname){
                   continue;
                 }
@@ -439,7 +440,6 @@ generating(){
                   // }else{
                     this.orderlist.push({"open":false,"status":snap.val()[a].status,"noflag":snap.val()[a].noflag,  "enddate":enddate,"key":snap.val()[a].key, "tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":snap.val()[a].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].wt,"date":orderdate,"roomno":snap.val()[a].name, "value":orderl});
                   // }
-                     }
              
               
             

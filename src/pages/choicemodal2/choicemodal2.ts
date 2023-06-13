@@ -73,7 +73,6 @@ export class Choicemodal2Page {
       console.log(snap.val().jopanlist);
       console.log(snap.val().jopanlist.length);
       this.jopanlist=snap.val().jopanlist;
-      this.jopanlist.push({"name":"미지정"});
       console.log(this.jopanlist);
     });
 
@@ -180,7 +179,7 @@ export class Choicemodal2Page {
       if(this.flag=="attend"){
         this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).child("attend").update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name});
         this.firemain.child("users").child(this.agasilist[cc].name).update({"jopan":this.quelist[count],"status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name,"nickname":this.agasilist[cc].name })
-        this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":this.quelist[count],"name":this.agasilist[cc].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
+        this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":this.quelist[count],"name":this.agasilist[cc].name,"flag":"justcome","date":this.currentstartday, "time":hour+":"+min})
       }else{
 
         console.log(this.a.wt+"에 추가 +"+this.currentstartday+",,,,"+this.a.key);
@@ -193,8 +192,8 @@ export class Choicemodal2Page {
         this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("agasi").child(newnum+"").update({"angel": this.agasilist[cc].angel, "roomno":this.a.name, "name":this.agasilist[cc].name,"incharge":this.a.incharge, "writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min});
         this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("message").push({"date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드..","agasi":this.agasilist[cc].name,"uploader":this.nickname,"type":"assigned", "name":"system"})
 
-        this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":this.quelist[count],"name":this.agasilist[cc].name,"flag":"attend","date":this.currentstartday, "time":hour+":"+min})
-        this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).update({"currentStatus":"attend"})
+        this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(this.agasilist[cc].name).child("attend").update({ "team":this.quelist[count],"name":this.agasilist[cc].name,"flag":"justcome","date":this.currentstartday, "time":hour+":"+min})
+        this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).update({"currentStatus":"justcome"})
         this.firemain.child("users").child(this.agasilist[cc].name).update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name,"nickname":this.agasilist[cc].name ,"writer":this.agasilist[cc].writer})
         this.firemain.child("users").child(this.agasilist[cc].name).child("attendance").child(this.currentstartday).child("attend").update({"jopan":this.quelist[count], "status":false, "type":"agasi","company":this.company,"id":this.agasilist[cc].name,"name":this.agasilist[cc].name});
       }

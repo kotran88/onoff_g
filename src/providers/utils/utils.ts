@@ -237,7 +237,102 @@ export class UtilsProvider {
       totaltc=this.tc*tc;
     }else if(tc==12.1){
       totaltc=157;
+    }else if(tc==12.3){
+      totaltc=159;
+    }else if(tc==12.6){
+      totaltc=160;
+    }else if(tc==13){
+      totaltc=this.tc*tc;
+    }else if(tc==13.1){
+      totaltc=170;
+    }else if(tc==13.3){
+      totaltc=172;
+    }else if(tc==13.6){
+      totaltc=173;
+    }else if(tc==14){
+      totaltc=this.tc*tc;
+    }else if(tc==14.1){
+      totaltc=183;
+    }else if(tc==14.3){
+      totaltc=185;
+    }else if(tc==14.6){
+      totaltc=186;
+    }else if(tc==15){
+      totaltc=this.tc*tc;
+    }else if(tc==15.1){
+      totaltc=196;
+    }else if(tc==15.3){
+      totaltc=198;
+    }else if(tc==15.6){
+      totaltc=199;
+    }else if(tc==16){
+      totaltc=this.tc*tc;
+    }else if(tc==16.1){
+      totaltc=209;
+    }else if(tc==16.3){
+      totaltc=211;
+    }else if(tc==16.6){
+      totaltc=212;
+    }else if(tc==17){
+      totaltc=this.tc*tc;
+    }else if(tc==17.1){
+      totaltc=222;
+    }else if(tc==17.3){
+      totaltc=224;
+    }else if(tc==17.6){
+      totaltc=225;
+    }else if(tc==18){
+      totaltc=this.tc*tc;
+    }else if(tc==18.1){
+      totaltc=235;
+    }else if(tc==18.3){
+      totaltc=237;
+    }else if(tc==18.6){
+      totaltc=238;
+    }else if(tc==19){
+      totaltc=this.tc*tc;
+    }else if(tc==19.1){
+      totaltc=248;
+    }else if(tc==19.3){
+      totaltc=250;
+    }else if(tc==19.6){
+      totaltc=251;
+    }else if(tc==20){
+      totaltc=this.tc*tc;
+    }else if(tc==20.1){ 
+      totaltc=261;
+    }else if(tc==20.3){
+      totaltc=263;
+    }else if(tc==20.6){
+      totaltc=264;
+    }else if(tc==21){
+      totaltc=this.tc*tc;
+    }else if(tc==21.1){
+      totaltc=274;
+    }else if(tc==21.3){
+      totaltc=276;
+    }else if(tc==21.6){
+      totaltc=277;
+    }else if(tc==22){
+      totaltc=this.tc*tc;
+    }else if(tc==22.1){
+      totaltc=287;
+    }else if(tc==22.3){
+      totaltc=289;
+    }else if(tc==22.6){
+      totaltc=290;
+    }else if(tc==23){
+      totaltc=this.tc*tc;
+    }else if(tc==23.1){
+      totaltc=300;
+    }else if(tc==23.3){
+      totaltc=302;
+    }else if(tc==23.6){
+      totaltc=303;
+    }else if(tc==24){
+      totaltc=this.tc*tc;
     }
+
 
 
     console.log(totaltc)
@@ -569,6 +664,130 @@ var cha3=0;
       tctotal = 16.6;
       bantee=1;
       chasam=214;
+    }else if(diffMin>=1001&&diffMin<=1020){
+      tctotal = 17;
+      bantee=0;
+      chasam=this.tc*17;
+    }else if(diffMin>=1021&&diffMin<=1040){
+      bantee=0;
+      if(diffMin>=1021&&diffMin<=1026){
+        tctotal = 17.1;
+        chasam=222;
+      }else if(diffMin>=1026&&diffMin<=1040){
+        tctotal = 17.3;
+        chasam=224;
+      }
+    }else if(diffMin>=1041&&diffMin<=1060){
+      tctotal = 17.6;
+      bantee=1;
+      chasam=227;
+    }else if(diffMin>=1061&&diffMin<=1080){
+      tctotal = 18;
+      chasam=this.tc*18;
+      bantee=0;
+      
+    }else if(diffMin>=1081&&diffMin<=1100){
+      bantee=0;
+      if(diffMin>=1081&&diffMin<=1086){
+        tctotal = 18.1;
+        chasam=235;
+      }else if(diffMin>=1086&&diffMin<=1100){
+        tctotal = 18.3;
+        chasam=237;
+      }
+    }else if(diffMin>=1101&&diffMin<=1120){
+      tctotal = 18.6;
+      bantee=1;
+      chasam=240;
+    }else if(diffMin>=1121&&diffMin<=1140){
+      tctotal = 19;
+      bantee=0;
+      chasam=this.tc*19;
+    }else if(diffMin>=1141&&diffMin<=1160){
+      bantee=0;
+      if(diffMin>=1141&&diffMin<=1146){
+        tctotal = 19.1;
+        chasam=248;
+      }else if(diffMin>=1146&&diffMin<=1160){
+        tctotal = 19.3;
+        chasam=250;
+      }
+    }else if(diffMin>=1161&&diffMin<=1180){
+      tctotal = 19.6;
+      bantee=1;
+      chasam=253;
+    }else if(diffMin>=1181&&diffMin<=1200){
+      tctotal = 20;
+      chasam=this.tc*20;
+      bantee=0;
+    }else if(diffMin>=1201&&diffMin<=1220){
+      bantee=0;
+      if(diffMin>=1201&&diffMin<=1206){
+        tctotal = 20.1;
+        chasam=261;
+      }else if(diffMin>=1206&&diffMin<=1220){
+        tctotal = 20.3;
+        chasam=263;
+      }
+    }else if(diffMin>=1221&&diffMin<=1240){
+      tctotal = 20.6;
+      bantee=1;
+      chasam=266;
+    }else if(diffMin>=1241&&diffMin<=1260){
+      tctotal = 21;
+      bantee=0;
+      chasam=this.tc*21;
+    }else if(diffMin>=1261&&diffMin<=1280){
+      bantee=0;
+      if(diffMin>=1261&&diffMin<=1266){
+        tctotal = 21.1;
+        chasam=274;
+      }else if(diffMin>=1266&&diffMin<=1280){
+        tctotal = 21.3;
+        chasam=276;
+      }
+    }else if(diffMin>=1281&&diffMin<=1300){
+      tctotal = 21.6;
+      bantee=1;
+      chasam=279;
+    }else if(diffMin>=1301&&diffMin<=1320){
+      tctotal = 22;
+      chasam=this.tc*22;
+      bantee=0;
+    }else if(diffMin>=1321&&diffMin<=1340){
+      bantee=0;
+      if(diffMin>=1321&&diffMin<=1326){
+        tctotal = 22.1;
+        chasam=287;
+      }else if(diffMin>=1326&&diffMin<=1340){
+        tctotal = 22.3;
+        chasam=289;
+      }
+    }else if(diffMin>=1341&&diffMin<=1360){
+      tctotal = 22.6;
+      bantee=1;
+      chasam=292;
+    }else if(diffMin>=1361&&diffMin<=1380){
+      tctotal = 23;
+      bantee=0;
+      chasam=this.tc*23;
+    }else if(diffMin>=1381&&diffMin<=1400){
+      bantee=0;
+      if(diffMin>=1381&&diffMin<=1386){
+        tctotal = 23.1;
+        chasam=300;
+      }else if(diffMin>=1386&&diffMin<=1400){
+        tctotal = 23.3;
+        chasam=302;
+      }
+    }else if(diffMin>=1401&&diffMin<=1420){
+      tctotal = 23.6;
+      bantee=1;
+      chasam=305;
+    }else if(diffMin>=1421&&diffMin<=1440){
+      tctotal = 24;
+      chasam=this.tc*24;
+      bantee=0;
     }
 
     // 10분 -> 0.17 

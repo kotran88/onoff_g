@@ -106,7 +106,18 @@ export class SlidetestPage {
     this.tc=localStorage.getItem("tc");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
-    this.directorList=JSON.parse(localStorage.getItem("director"));
+    var orderedQuery = this.firemain.child("users").orderByChild("type");
+    orderedQuery.once("value", (snapshot) => {
+     snapshot.forEach((childSnapshot) => {
+       var childData = childSnapshot.val();
+        this.directorList.push(childData);
+     })
+
+    });
+
+  //  this.directorList=JSON.parse(localStorage.getItem("director"))
+
+   console.log(this.directorList);
     var login=localStorage.getItem("login_data");
     
     this.code = JSON.parse(login).young;
@@ -129,23 +140,7 @@ this.interval=setInterval(()=>{
     //console.log(JSON.parse(login).payment);
     this.paymentflag=JSON.parse(login).payment;
   }
-  refreshChoiceonlyjimyung(){
-    //console.log(this.company);
-
-    this.jimyungnumber=0;
-    this.firemain.child("company").child(this.company).child("jimyung").child(this.currentstartday).on("value",snap=>{
-      //console.log(snap.val());
-      this.jimyung=[];
-      //console.log("jimyung...")
-      for(var abc in snap.val()){
-        this.jimyungnumber++;
-        //console.log(snap.val()[abc]);
-        this.jimyung.push({"room":snap.val()[abc].room,key:abc,v:snap.val()[abc].v,agasi:snap.val()[abc].agasi,"incharge":snap.val()[abc].incharge});
-      }
-    
-
-    });
-  }
+ 
   write(){
     
     let modal = this.modal.create(ChoicejimyungPage,{});
@@ -913,7 +908,19 @@ refreshoneroom(mainlist){
               //console.log(this.orderlist);
 }
   ionViewDidLoad() {
+    this.firemain.child("company").child(this.company).child("jimyung").child(this.currentstartday).on("value",snap=>{
+      //console.log(snap.val());
+      //console.log("jimyung...")
+      this.jimyung=[];
+      this.jimyungnumber=0;
+      for(var abc in snap.val()){
+        this.jimyungnumber++;
+        //console.log(snap.val()[abc]);
+        this.jimyung.push({"room":snap.val()[abc].room,key:abc,v:snap.val()[abc].v,agasi:snap.val()[abc].agasi,"incharge":snap.val()[abc].incharge});
+      }
     
+
+    });
       //  "child_added", "child_changed", "child_removed", or "child_moved."
       this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_removed', function(snap, prevChildKey) {
         //console.log("child_removedchild_removedchild_removedchild_removed");

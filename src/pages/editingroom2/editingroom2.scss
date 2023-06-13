@@ -1,4 +1,4 @@
-page-infomodal {
+page-editingroom2 {
     .image{
         width: 35%;
         height: 100%;
@@ -6,7 +6,7 @@ page-infomodal {
         float: left;
     }
     .content_main{
-        width: 80%;
+        width: 90%;
         text-align: center;
         height: 20%;
         margin-left: auto;
@@ -20,53 +20,28 @@ page-infomodal {
       margin:auto !important;
       margin-top:12px !important;
         
-    height: 45px;
 width: 80%;
-    }
-    .b{
-    margin-top: 70px;
+min-height: 35px !important;
     }
 
     .left2{
 
+    margin-top: 50px;
       float: left;
       width: 100%;
       height: 40px;
       position: absolute;
-      left: 5%;
+      left: 0%;
+      top: 13%;
   }
-  .roomnameshow{
+  .b{
 
-    float: left;
-    position: absolute;
-    left: 45%;
-    top: -5%;
-    p{
-    font-size: 30px;
-    }
+    margin-top: 50px;
   }
-    .left{
-
-      float: left;
-      width: 50%;
-      height: 40px;
-      position: absolute;
-      left: 5%;
-  }
-    .right{
-
-    float: right;
-    width: 50%;
-    height: 40px;
-    position: absolute;
-    right: 0%;
-    }
-    .upper{
-      height:40px;
-    }
    .img{
     width: 100%;
     text-align: center;
+    
    }
     .content{
         height: 85%;
@@ -115,20 +90,73 @@ width: 80%;
           width: 25%;
       }
 
+      .chart-div
+        {
+          color: black;
+          text-align: center;
+          .name-keys, .datas{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            span{
+              display: inline-block;
+              width: calc(100% / 2);
+            }
+            span:nth-child(n+1)
+            {
+              border-left: solid 1px white;
+            }
+          }
+          .name-keys
+          {
+            background-color: #fff0c8;
+            height: 25px;
+            border-bottom: solid 1px black;
+            line-height: 25px;
+            span{
+              font-size:15px;
+            }
+          }
+          .datas
+          {
+            background-color: rgb(240, 240, 240);
+            border-bottom: solid 1px rgb(176, 176, 176);
+          }
+          span{
+            font-size:8px;
+          }
+        }
+
       .btn{
-        color: black;
-      background: white !important;
-      border: solid 1px;
-        width:100% !important;
-      margin:auto !important;
-      margin-top:12px !important;
-        
-      width: 80%;
-      min-height: 35px !important;
-    }
+        border: none;
+        background: aliceblue;
+border-radius:10px;
+margin-top: 1em;
+margin-right:1em;
+width: 50px !important;
+border:solid 1px;
+min-height: 25px;
+      }
+      .newspan{
+        line-height: 25px;
+              margin: auto;
+    width: 45px !important;
+    display: inline-grid;
+      }
       input{
-        font-size:22px !important;
-        letter-spacing: 4px !important;
+        width:60px;
+      }
+      .datas{
+        background-color: #f0f0f0;
+        border-bottom: solid 1px #b0b0b0;
+        span{
+          height: 50px;
+          line-height: 40px;
+        }
+        span:nth-child(n+1)
+        {
+          border-left: solid 1px white;
+        }
       }
       button.nav{
           background-color:transparent;
@@ -142,8 +170,7 @@ width: 80%;
           top: calc(20% - (40%/2));
           left: 0;
           right: 0;
-          background: #fdd734;
-          width: 80%;
+          width: 95%;
           height: 100%;
           padding: 10px;
           z-index: 100;

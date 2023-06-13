@@ -21,18 +21,19 @@ export class SplashscreenPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     var a = this.directorList;
     var nav = this.navCtrl;
-    var orderedQuery = this.firemain.child("users").orderByChild("type");
-    orderedQuery.once("value", function(snapshot) {
-     snapshot.forEach(function(childSnapshot) {
-       var childData = childSnapshot.val();
-       console.log(childData)
-        a.push(childData);
-     })
-     console.log(a);
-     localStorage.setItem("director",JSON.stringify(a))
-     nav.setRoot(LoginpagePage,{"director":a});
+    // var orderedQuery = this.firemain.child("users").orderByChild("type");
+    // orderedQuery.once("value", function(snapshot) {
+    //  snapshot.forEach(function(childSnapshot) {
+    //    var childData = childSnapshot.val();
+    //    console.log(childData)
+    //     a.push(childData);
+    //  })
+    //  console.log(a);
+    //  localStorage.setItem("director",JSON.stringify(a))
+    //  nav.setRoot(LoginpagePage,{"director":a});
 
-    });
+    // });
+    this.navCtrl.setRoot(LoginpagePage);
     // this.firemain.child("users").orderByChild("type").once("value",snap=>{
     //   console.log(snap.val())
     //   for(var b in snap.val()){

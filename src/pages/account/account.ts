@@ -70,7 +70,19 @@ export class AccountPage {
     this.currentstartday=localStorage.getItem("startDate");
     this.firstflag = this.navParams.get("flag");
 
-    this.directorList = JSON.parse(localStorage.getItem("director"));
+    var orderedQuery = this.firemain.child("users").orderByChild("type");
+    orderedQuery.once("value", (snapshot) => {
+     snapshot.forEach((childSnapshot) => {
+       var childData = childSnapshot.val();
+        this.directorList.push(childData);
+     })
+
+    });
+
+  //  this.directorList=JSON.parse(localStorage.getItem("director"))
+
+   console.log(this.directorList);
+   
     this.get_team_list();
 
     this.goToday();
