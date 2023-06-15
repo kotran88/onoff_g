@@ -43,7 +43,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230610 v4.2';
+  version='20230613 v4.22';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -310,14 +310,16 @@ export class LoginpagePage {
         this.login_success();
       }
       else{
+        console.log("else...")
        var a = this.id;
        var b = this.password;
        var c = this;
-       var orderedQuery = this.firemain.child("users").orderByChild("id");
-       orderedQuery.once("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
+       this.firemain.child("users").orderByChild("id").equalTo(a).once("value", snap => {
+        console.log(snap.val());
+        snap.forEach((childSnapshot)=> {
           var childData = childSnapshot.val();
-          if(childData!=undefined&&childData.id!=undefined&&childData.nickname!=undefined){
+              console.log(childData);
+                   if(childData!=undefined&&childData.id!=undefined&&childData.nickname!=undefined){
             if((childData.id==a&&childData.pass==b)){
               c.functiontogotopage(childData.nickname)
               return;
@@ -325,7 +327,22 @@ export class LoginpagePage {
             }
           }
         });
-      });
+       });
+      //  var orderedQuery = this.firemain.child("users").orderByChild("id").equalTo(a);
+      //  orderedQuery.once("value", function(snapshot) {
+      //   console.log(snapshot.val())
+      //   snapshot.forEach(function(childSnapshot) {
+      //     var childData = childSnapshot.val();
+      //     console.log(childData);
+      //     if(childData!=undefined&&childData.id!=undefined&&childData.nickname!=undefined){
+      //       if((childData.id==a&&childData.pass==b)){
+      //         c.functiontogotopage(childData.nickname)
+      //         return;
+      //       }else{
+      //       }
+      //     }
+      //   });
+      // });
         
       }
     }

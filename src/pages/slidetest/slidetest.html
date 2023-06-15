@@ -29,7 +29,11 @@
     </ion-buttons>
      
     <img style="margin-left:96px;" class="logo" src="assets/img/logo_wad.jpg" />
- 
+    <ion-buttons end>
+      <button (click)="searchstart();" style="color:white;"ion-button icon-only color="royal">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-buttons end>
       <button  style="color:white;"ion-button icon-only color="royal">
         <ion-icon style="
@@ -94,6 +98,9 @@ margin-top: 60px;" class="upside">
 
   <button  [ngClass]="page==3 ? 'selected' : 'notselected'"    ion-button  (click)="goToSlide(3)">
     출근부
+  </button>
+  <button  [ngClass]="page==4 ? 'selected' : 'notselected'"    ion-button  (click)="goToSlide(4)">
+    검색
   </button>
 
 </div>
@@ -283,7 +290,7 @@ margin: 0;">{{i.reason}}</p>
           <div  *ngIf="mainlist_info.length==0" class="datas">
             <span style="width:100%;">현재 활성화된 방이 없습니다 </span>
           </div>
-          <div *ngFor="let a of mainlist_info" class="datas">
+          <div *ngFor="let a of paginatedArray" class="datas">
             <span (click)="editing(a);" >{{a.name}}</span>
             <span (click)="editing(a);" >{{a.incharge}}</span>
             <span (click)="editing(a);"  *ngIf="a.status=='reserved'&&(a.noflag==false||a.noflag==undefined)"> 예약중 </span>
@@ -299,6 +306,11 @@ margin: 0;">{{i.reason}}</p>
             width: 70%; " *ngIf="a.noflag==true">{{a.nomemo}}</span>
           </div>
         </div>
+
+      <div class="pagination">
+        <button ion-button *ngFor="let page of pageNumbers" (click)="goToPage(page)" [disabled]="currentPage === page">{{ page }}</button>
+      </div>
+      
       </div>
 
 
@@ -680,7 +692,7 @@ margin: 0;">{{i.reason}}</p>
 
       <div *ngIf="mainlist2_mine.length!=0" class="container">
         <div class="avatars">
-        <div (click)="godetail(b,1)" *ngFor="let b of mainlist2_mine" class="avatar">
+        <div (click)="godetail(b,2)" *ngFor="let b of mainlist2_mine" class="avatar">
           <div class="avatartext">{{b.name}}</div>
         </div>
       </div>
@@ -1102,6 +1114,57 @@ z-index: 9999999999;  " *ngIf="activeclass_att==1" bottom right >
     </div>
     </ion-slide>
 
+    <ion-slide  style="    width: 100%;
+    height: 100%;
+    display: block;" >
+<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+page5..searcharea
+
+<ion-list style="
+overflow-y: scroll;" class="lll"  no-lines >
+<ion-item (click)="gotomorepage(main.item,main.no)" class="it" *ngFor="let main of searchResult">
+  <div class="chat-container">
+    <div class="chat-messages">
+      <div class="message">
+        
+        <div class="message-content">
+          <div *ngIf="main.item.numofpeople!=''" class="contentmain">
+            <p *ngIf="main.item.avec" style="    font-size: 18px;
+            font-weight: 900;"> #{{main.item.name}}  <span class="sm">A{{main.item.incharge}}</span> <span class="sm" style="    color: black;
+            background: pink;" *ngIf="main.item.totalagasi==0&&main.item.numofagasi==0"> 신규{{main.item.lack}} </span>
+            <span class="sm" style="color: black;
+            background: yellow;" *ngIf="main.item.numofpeople-main.item.numofagasi>0&&main.item.totalagasi!=0"> 빵{{main.item.lack}} </span>  <span></span></p>
+            <p *ngIf="!main.item.avec" style="    font-size: 18px;
+            font-weight: 900;"> #{{main.item.name}} <span class="sm">{{main.item.incharge}} {{main.item.numofpeople}}명 {{main.item.wt}}</span> <span class="sm" style="    color: black;
+            background: pink;" *ngIf="main.item.totalagasi==0&&main.item.numofagasi==0"> 신규{{main.item.lack}} </span>
+            <span class="sm" style="color: black;
+            background: yellow;" *ngIf="main.item.numofpeople-main.item.numofagasi>0&&main.item.totalagasi!=0"> 빵{{main.item.lack}} </span>  <img *ngIf="main.item.onStatus!=undefined&&main.item.onStatus" style="    width: 47px;
+height: 36px;
+margin: auto;" src="assets/img/load.gif"/> </p>
+          
+            <!-- <span *ngIf="main.item.numofagasi!=undefined">입장:{{main.item.numofagasi}}명</span>
+            <span *ngIf="main.item.numofagasi==undefined">입장:dd0명</span> -->
+            
+
+           
+            <span  style="
+            border: solid 1px;
+            font-size: 12px;
+            padding: 3px;
+            margin-left: 10px;
+            background: white;" *ngIf="main.item.status=='fin'">종료</span>
+          </div>
+          <div class="latter">
+            <p style="font-size:18px;" *ngIf="main.item.memo!=undefined">{{main.item.memo}}</p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  </ion-item>
+</ion-list>
+    </ion-slide>
   </ion-slides>
   </ion-content>
   

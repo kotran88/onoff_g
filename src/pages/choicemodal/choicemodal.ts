@@ -723,7 +723,9 @@ export class ChoicemodalPage {
         firemain.child("users").child(v.name).child("current").update({"room":a.name,"enter_date":dte,"date":currentstartday})
         firemain.child("attendance").child(company).child(currentstartday).child(v.name).child("attend").update({ "team":snapshot.val().jopan,"name":v.name,"flag":"attend","date":currentstartday, "time":hour+":"+min})
         firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).update({"lastupdatedperson":nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
-        firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).child("agasi").child(newnum+"").update({"angel": v.angel,"roomno":a.name,"incharge":a.incharge, "name":v.name,"writer":nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
+        
+        window.alert(v.name+","+newnum);
+        firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).child("agasi").child(newnum+"").update({"angel": v.angel,"num":newnum,"roomno":a.name,"incharge":a.incharge, "name":v.name,"writer":nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
         firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).child("message").push({ "date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드 ","type":"assigned", "agasi":v.name,"uploader":nickname, "name":"system"})
     
         subscribedList.push({"id":v.name,"name":v.name});

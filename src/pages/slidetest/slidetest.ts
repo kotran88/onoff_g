@@ -70,7 +70,7 @@ export class SlidetestPage {
   @ViewChild('slider') slider: Slides;
   page = 0;
 
-
+  inputtext:any="";
 
 
 
@@ -85,6 +85,9 @@ export class SlidetestPage {
   bigroom=[];
   midroom2=[];
   bigroom2=[];
+  paginatedArray: any[] = [];
+  pageSize = 5;
+  currentPage = 1;
 
   selectedIncharge:any;
   selectedKey:any;
@@ -102,6 +105,7 @@ export class SlidetestPage {
   searchon:any=false;
   searchon_att:any=false;
   mainlist_mine:any=[];
+  searchResult:any=[];
   mainlist_choice:any=[];
   mainlist2_mine:any=[];
   mainlist_finished_choice:any=[];
@@ -287,6 +291,141 @@ this.interval=setInterval(()=>{
       this.firemain.child("company").child(this.company).update({"bu":this.bu});
     }
     
+
+  }
+
+  getItems(ev: any) {
+    // Reset items back to all of the items
+
+    // set val to the value of the searchbar
+    const val = ev.target.value;
+    console.log(val);
+    this.inputtext=val;
+    this.searching();
+  }
+
+
+  searching(){
+    this.searchResult=[];
+    console.log("searching come");
+    console.log(this.inputtext);
+    console.log(this.mainlist_finished_choice);
+     this.mainlist_choice.filter((item)=> {
+      var flag=false;
+      for(var aa in item.agasi){
+        console.log(item.agasi[aa]);
+        //console.log(item.agasi[aa].name.includes(inputtext));
+        if(isNaN(this.inputtext)){
+          if(item.agasi[aa].name.includes(this.inputtext)){
+            console.log("match4444!!!!");
+            console.log(item);
+            this.searchResult.push({"item":item,"no":1});
+          }else{
+          }
+        }else{
+          if(item.agasi[aa].roomno.includes(this.inputtext)){
+            console.log("match3333!!!!");
+            console.log(item);
+            this.searchResult.push({"item":item,"no":1});
+          }else{
+          }
+        }
+        
+      }
+      //console.log("return flag " +flag);
+      return flag;
+    });
+
+    this.mainlist_finished_choice.filter((item)=> {
+      var flag=false;
+      for(var aa in item.agasi){
+        console.log(item.agasi[aa]);
+        //console.log(item.agasi[aa].name.includes(inputtext));
+        if(isNaN(this.inputtext)){
+          if(item.agasi[aa].name.includes(this.inputtext)){
+            console.log("match11111!!!!");
+            console.log(item);
+            this.searchResult.push({"item":item,"no":2});
+          }else{
+          }
+        }else{
+          if(item.agasi[aa].roomno.includes(this.inputtext)){
+            console.log("match2222!!!!");
+            console.log(item);
+            this.searchResult.push({"item":item,"no":2});
+          }else{
+          }
+        }
+      }
+      //console.log("return flag " +flag);
+      return flag;
+    });
+    
+    this.mainlist_finished_status_choice.filter((item)=> {
+      var flag=false;
+      for(var aa in item.agasi){
+        //console.log(item.agasi[aa]);
+        //console.log(item.agasi[aa].name.includes(inputtext));
+        if(item.agasi[aa].name.includes(this.inputtext)){
+          console.log("match!!!!");
+          console.log(item);
+          this.searchResult.push(item);
+        }else{
+        }
+      }
+      //console.log("return flag " +flag);
+      return flag;
+    });
+    var filteredArray = this.searchResult.filter(function(item, index, array) {
+      return !array.slice(index + 1).some(function(otherItem) {
+        return item.item === otherItem.item && item.no === otherItem.no;
+      });
+    });
+    console.log(filteredArray);
+    this.searchResult=filteredArray;
+    // console.log(this.original_mainlist);
+    // var input = this.inputtext;
+    // console.log(input);
+    // if(this.selected=="1"){
+    //   var filteredList = this.original_mainlist.filter(function(item) {
+    //     return item.name.includes(input);
+    //   });
+    //   //console.log(filteredList);
+    //   this.mainlist=filteredList;
+    // }else if(this.selected=="2"){
+      
+    //   var filteredList2 = this.original_mainlist.filter(function(item) {
+    //     //console.log(item.incharge.includes(inputtext));
+    //     return item.incharge.includes(input);
+    //   });
+
+    //   //console.log(filteredList);
+    //   this.mainlist=filteredList2;
+    // }else if(this.selected=="3"){
+      
+    //   var filteredList3 = this.mainlist.filter(function(item) {
+    //     var flag=false;
+    //     for(var aa in item.agasi){
+    //       //console.log(item.agasi[aa]);
+    //       //console.log(item.agasi[aa].name.includes(inputtext));
+    //       if(item.agasi[aa].name.includes(input)){
+    //         flag= true;
+    //       }else{
+    //       }
+    //     }
+    //     //console.log("return flag " +flag);
+    //     return flag;
+        
+    //   });
+
+    //   //console.log(filteredList);
+    //   this.mainlist=filteredList;
+    // }else if(this.selected=="4"){
+
+    //   this.mainlist=[];
+    //   this.mainlist=this.original_mainlist;
+    // }
+
 
   }
 
@@ -1435,9 +1574,6 @@ refreshon(){
     // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
   });
   this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").on('child_added', (snap, prevChildKey) => {
-    console.log("child_addedchild_addedchild_addedchild_added");
-    console.log(snap.val());
-    console.log(prevChildKey);
 
     if(this.loadfinished){
       console.log("cccccccccccccccccchild_addedchild_addedchild_addedchild_added");
@@ -1448,7 +1584,7 @@ refreshon(){
         this.generate_info();
         this.generate();
       },1000)
-console.log("11113");
+console.log("refreshon 11113");
 
     }
     // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
@@ -1555,7 +1691,7 @@ console.log("11113");
           console.log("child_addedchild_addedchild_addedchild_added");
           console.log(snap.val());
           console.log(prevChildKey);
-    console.log("11113");
+    console.log("child_adde 11113");
   
     this.generate_info();
     setTimeout(()=>{
@@ -1629,7 +1765,7 @@ console.log("11113");
     console.log("1111");
     console.log("11112");
     this.generate();
-    console.log("11113");
+    console.log("didloaded 11113");
   
     this.generate_info();
     console.log("11114");
@@ -1643,17 +1779,49 @@ console.log("11113");
       this.screenSwitch(1);
       this.screenSwitch_att(1);
       this.util.dismissLoading();
-    },500)
+    },1000)
   
 
 
   }
+  get totalPages() {
+    return Math.ceil(this.mainlist_info.length / this.pageSize);
+  }
+  get pageNumbers() {
+    return Array(this.totalPages).fill(0).map((_, index) => index + 1);
+  }
 
 
 
+  paginateArray() {
+    console.log("paginateArraypaginateArraypaginateArraypaginateArray");
+    console.log(this.mainlist_info);
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedArray = this.mainlist_info.slice(startIndex, endIndex);
+  }
 
 
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateArray();
+    }
+  }
 
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.paginateArray();
+    }
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.paginateArray();
+    }
+  }
   generate_info(){
     console.log("generate_infogenerate_infogenerate_infogenerate_infogenerate_info come");
     this.mainlist_info=[];
@@ -2352,7 +2520,7 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
      
 });
 
-
+this.paginateArray();
   })
 }
 

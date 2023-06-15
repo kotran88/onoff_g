@@ -660,57 +660,6 @@ gotoview(view_list){
       
       console.log(this.accountmessage);
       console.log(this.todaymoney);
-
-      // if(snap.val().incentive==undefined){
-
-      // }else{
-      //   for(var a in snap.val().incentive){
-      //     var date = a;
-      //     console.log(date);
-      //     console.log(this.currentstartday);
-      //     console.log(a);
-      //     console.log(newdate)
-      //     if(a==newdate){
-      //       var context = snap.val().incentive[a];
-      //       console.log(context);
-      //       for(var b in context){
-      //         var detail = context[b];
-      //         var aaaa;
-      //         console.log(detail)
-      //         detail.bottle=0;
-      //         if(context[b].ordertype==undefined){
-      //           return;
-      //         }
-      //         var orderlist = context[b].ordertype.orderlist;
-      //         aaaa = detail.ordertype;
-      //         aaaa.bottle=0;
-      //         console.log(orderlist);
-      //         var totalsumprice=0;
-      //         for(var a in orderlist){
-      //           console.log(orderlist[a]);
-      //           if(orderlist[a].category=="주류"){
-      //             console.log(orderlist[a].price);
-      //             var price = orderlist[a].price.replace(",","");
-      //             totalsumprice += Number(price)*Number(orderlist[a].num)
-      //             console.log(orderlist[a].num)
-      //             aaaa.bottle+=Number(orderlist[a].num);
-      //             aaaa.totalsumprice= totalsumprice
-      //           }
-      //         }
-      //         console.log(detail);
-              
-      //         console.log("aaaaa");
-      //         console.log(aaaa);
-      //         this.detailarray.push(aaaa);
-    
-    
-    
-      //       }
-      //     }
-        
-      //   }
-      // }
-     
       console.log(this.detailarray)
     });
 
