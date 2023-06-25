@@ -43,10 +43,11 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230613 v4.22';
+  version='20230625 v4.35';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
+  //iamport 결제관련 코드 테스트. 
   // async getData() {
   //   try {
   //     const url = 'https://api.iamport.kr/users/getToken';
@@ -68,11 +69,10 @@ export class LoginpagePage {
   constructor(public httpClient: HttpClient,public h:HttpModule, public http:HttpClientModule,public util : UtilsProvider,public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
    
 
-            var headers = new HttpHeaders();
-            headers.append("Accept", 'application/json');
-            headers.append('Content-Type', 'application/json');
-            headers.append('Access-Control-Allow-Origin', '*');
-        
+      // var headers = new HttpHeaders();
+      // headers.append("Accept", 'application/json');
+      // headers.append('Content-Type', 'application/json');
+      // headers.append('Access-Control-Allow-Origin', '*');
       // var abc = this.httpClient.get('https://wad.herokuapp.com/test2',{headers:headers} );
       // abc.subscribe(data => {
       //   console.log(data);
@@ -89,31 +89,9 @@ export class LoginpagePage {
       }else{
         $("#checked").prop('checked', false);
       }
-      // this.http.get('https://wad.herokuapp.com/test').subscribe(data => {
-      //   console.log(data);
-      //   this.ValidateFlag=true;
-      // }, error => {
-      //   console.log(error);
-      //   this.ValidateFlag=false;
-      // }
-      // );
-
-    // this.version='7.6';
     localStorage.setItem('version',this.version)
-
-    console.log(localStorage.getItem("loginflag"));
-
-    //   for(var i in snap.val()){
-    //     if(i==='admin'){}
-    //     else{
-    //       this.firemain.child('user').child(i).update({flag:"approved"})
-    //     }
-    //   }
-    // })
-    // this.firebaseAuth.auth.creat eUserWithEmailAndPassword("황지성82@naver.com", "000000").then( (data)=> {})
   }
   find_admin(){
-    // this.navCtrl.push(FindAccountPage);
   }
   signup(){
     var approved = localStorage.getItem("approved");
@@ -234,41 +212,6 @@ export class LoginpagePage {
               return;
             }
             this.navCtrl.push(SlidetestPage);
-            // if(type == "park")
-            // {
-            //   //주차
-            //   this.navCtrl.setRoot(ParkingPage).then(() => {
-            //     this.navCtrl.getActive().onDidDismiss(data => {
-            //       console.log("login ondiddismiss...")
-            //       this.check=false;
-            //       localStorage.setItem("loginflag","false")
-            //     });
-            //   });
-            // }
-            // else if(type == "director")
-            // {
-            //   //부장 
-            //   this.navCtrl.setRoot(DirectorpagePage,{"user":this.directorList});
-            // }else if(type == "account"){
-            //   //경리 
-            // this.navCtrl.setRoot(AccountPage);
-            // }else if(type=="info"){
-            //   //인포  
-            //   this.navCtrl.setRoot(InfoPage,{"user":this.directorList})
-            // }else if(type=="agasi"){
-            //   //아가씨 
-            //   this.navCtrl.setRoot(AgasiPage)
-            // }else if(type=="band"){
-            //   //band 
-            //   this.navCtrl.setRoot(BandPage)
-            // }else if(type=="wt"){
-            //   //wt 
-            //   this.navCtrl.setRoot(WtPage)
-            // }else if(type=="kyungri"){
-            //   this.navCtrl.setRoot(InfoPage,{"user":this.directorList})
-            // }
-            
-            
           });
 
 
@@ -328,22 +271,6 @@ export class LoginpagePage {
           }
         });
        });
-      //  var orderedQuery = this.firemain.child("users").orderByChild("id").equalTo(a);
-      //  orderedQuery.once("value", function(snapshot) {
-      //   console.log(snapshot.val())
-      //   snapshot.forEach(function(childSnapshot) {
-      //     var childData = childSnapshot.val();
-      //     console.log(childData);
-      //     if(childData!=undefined&&childData.id!=undefined&&childData.nickname!=undefined){
-      //       if((childData.id==a&&childData.pass==b)){
-      //         c.functiontogotopage(childData.nickname)
-      //         return;
-      //       }else{
-      //       }
-      //     }
-      //   });
-      // });
-        
       }
     }
 
@@ -386,7 +313,6 @@ export class LoginpagePage {
   login_success(){
     console.log('login success')
     this.loading.dismiss();
-    // window.alert($('#checked' ).is(":checked"))
   }
 
   ionViewDidLoad() {

@@ -140,7 +140,9 @@ export class Choicemodal3Page {
 
       console.log(snapshot.val().jopan);
         console.log(v.name+"already")
-       // 이미등록되었지만 조판팀 설정안되있음. 
+        newlist.push({ "name":v.name,
+        "date": v.date ,"writer":v.writer});
+        // 이미등록되었지만 조판팀 설정안되있음. 
       }else{
 
 

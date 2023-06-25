@@ -606,7 +606,7 @@ gotoview(view_list){
       
       console.log(snap.val().accounting);
       console.log(snap.val().accounting.incoming);
-      this.accumuls=snap.val().accounting.incoming;
+      this.accumuls=snap.val().accounting.incoming_accumulus;
       console.log(this.currentstartday);
         console.log(snap.val().accounting[nd]);
       this.todaymoney=0;
@@ -617,20 +617,25 @@ gotoview(view_list){
         console.log(nd);
         if(a==nd){
           console.log(a);
+console.log(snap.val().accounting[a].incoming);
+if(snap.val().accounting[a].incoming!=undefined){
+  this.tomoney = snap.val().accounting[a].incoming;
+}
+      // 
           console.log(snap.val().accounting[a]);
           for(var c in snap.val().accounting[a]){
             console.log(c);
             console.log(snap.val().accounting[a][c]);
             console.log(snap.val().accounting[a][c].card);
             console.log(snap.val().accounting[a][c].cash);
-            if(snap.val().accounting[a][c].withdraw!=undefined){
-              //출금 
-              this.todaymoney-=Number(Number(snap.val().accounting[a][c].card*0.85).toFixed(0));
-              this.todaymoney-=Number(snap.val().accounting[a][c].cash);
-            }else{
-              this.todaymoney+=Number(Number(snap.val().accounting[a][c].card*0.85).toFixed(0));
-              this.todaymoney+=Number(snap.val().accounting[a][c].cash);
-            }
+            // if(snap.val().accounting[a][c].withdraw!=undefined){
+            //   //출금 
+            //   this.todaymoney-=Number(Number(snap.val().accounting[a][c].card*0.85).toFixed(0));
+            //   this.todaymoney-=Number(snap.val().accounting[a][c].cash);
+            // }else{
+            //   this.todaymoney+=Number(Number(snap.val().accounting[a][c].card*0.85).toFixed(0));
+            //   this.todaymoney+=Number(snap.val().accounting[a][c].cash);
+            // }
            
 
           }
@@ -647,6 +652,10 @@ gotoview(view_list){
               //출금
             }else if(snap.val().accounting[a][c].incoming!=undefined&&snap.val().accounting[a][c].withdraw==undefined){
               //입금
+
+              this.todaymoney+=Number(Number(snap.val().accounting[a][c].card*0.85).toFixed(0));
+              this.todaymoney+=Number(snap.val().accounting[a][c].cash);
+
               this.accountmessage.push({"type":"입금", "time":snap.val().accounting[a][c].time,"card":Number(snap.val().accounting[a][c].card),"cash":Number(snap.val().accounting[a][c].cash),"date":a,"name":snap.val().accounting[a][c].name});
 
             }

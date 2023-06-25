@@ -86,7 +86,7 @@ export class SlidetestPage {
   midroom2=[];
   bigroom2=[];
   paginatedArray: any[] = [];
-  pageSize = 5;
+  pageSize = 15;
   currentPage = 1;
 
   selectedIncharge:any;
@@ -306,11 +306,22 @@ this.interval=setInterval(()=>{
 
 
   searching(){
+    console.log(this.mainlist_choice);
     this.searchResult=[];
     console.log("searching come");
     console.log(this.inputtext);
     console.log(this.mainlist_finished_choice);
      this.mainlist_choice.filter((item)=> {
+
+      console.log("Incharge..."+item.incharge)
+
+      if(item.incharge.includes(this.inputtext)){
+        console.log("match4444!!!!");
+        console.log(item);
+        this.searchResult.push({"item":item,"no":1});
+      }else{
+      }
+
       var flag=false;
       for(var aa in item.agasi){
         console.log(item.agasi[aa]);
@@ -322,7 +333,9 @@ this.interval=setInterval(()=>{
             this.searchResult.push({"item":item,"no":1});
           }else{
           }
+      
         }else{
+          //숫자라면. 
           if(item.agasi[aa].roomno.includes(this.inputtext)){
             console.log("match3333!!!!");
             console.log(item);
@@ -337,6 +350,13 @@ this.interval=setInterval(()=>{
     });
 
     this.mainlist_finished_choice.filter((item)=> {
+
+      if(item.incharge.includes(this.inputtext)){
+        console.log("match4444!!!!");
+        console.log(item);
+        this.searchResult.push({"item":item,"no":2});
+      }else{
+      }
       var flag=false;
       for(var aa in item.agasi){
         console.log(item.agasi[aa]);
@@ -348,6 +368,12 @@ this.interval=setInterval(()=>{
             this.searchResult.push({"item":item,"no":2});
           }else{
           }
+          // if(item.agasi[aa].incharge.includes(this.inputtext)){
+          //   console.log("match11111!!!!");
+          //   console.log(item);
+          //   this.searchResult.push({"item":item,"no":2});
+          // }else{
+          // }
         }else{
           if(item.agasi[aa].roomno.includes(this.inputtext)){
             console.log("match2222!!!!");
@@ -434,9 +460,14 @@ this.interval=setInterval(()=>{
     console.log(this.slider.getActiveIndex())
     this.page = this.slider.getActiveIndex();
     console.log(this.page)
-    // if(this.page==3){
-    // this.generateaatendance();
-    // }
+    if(this.page==3){
+      setTimeout(()=>{
+        console.log("page 3...")
+
+
+        this.generateaatendance();
+      },1000)
+    }
   }
   selectedTab(index) {
     console.log("tab selected");
@@ -447,17 +478,16 @@ this.interval=setInterval(()=>{
     this.slider.slideTo(index);
     if(index==3){
 
-    this.generateaatendance();
     }
   }
   gotolink(value){
     if(value == 0){
       this.navCtrl.push(OrdermainPage,{flag:true}).then(() => {
-        this.navCtrl.getActive().onDidDismiss(data => {
-          //console.log("refresh...");
-          this.generate();
+        // this.navCtrl.getActive().onDidDismiss(data => {
+        //   //console.log("refresh...");
+        //   this.generate();
       
-        });
+        // });
       });
     }else if(value == 1){
     this.navCtrl.push(ParkingPage,{flag:true});
@@ -535,44 +565,74 @@ togglesection(i){
 }
 
 reorderItems(indexes){
-  //console.log("reorder item...");
-  //console.log(indexes);
-  //console.log(indexes.from);
-  //console.log(indexes.to);
-  //console.log(this.mainlist[indexes.from]);
-  let element = this.mainlist_choice[indexes.from];
-  this.mainlist_choice[indexes.from].v=(indexes.to+1);
-  this.mainlist_choice[indexes.to].v=(indexes.from+1);
-  //console.log(element)
-  this.mainlist_choice.splice(indexes.from, 1);
-  this.mainlist_choice.splice(indexes.to, 0, element);
-  //console.log(this.mainlist);
-  for(var a in this.mainlist_choice){
-    console.log(this.mainlist_choice[a]);
-    if(this.mainlist_choice[a].up==undefined){
-      console.log("up is not exist");
-      // break;
-    }
-    var up = this.mainlist_choice[a].up;
-    
-    if(up!=undefined){
+  var clonemain = [];
+  clonemain = this.mainlist_choice;
+  console.log("at first:");
+  console.log(clonemain);
+  console.log("reorder item...");
+  console.log(indexes.from); //2
+  console.log(indexes.to);  //3
 
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_choice[a].name).child(this.mainlist_choice[a].key).update({"v":this.mainlist_choice[a].v,"up":up})
-    }else{
+  console.log(this.mainlist_choice);
+  console.log(this.mainlist_choice[indexes.from]);
+  console.log(this.mainlist_choice[indexes.to]);
+  console.log("위 두개 위치를 변경한다");
+  var to = clonemain[indexes.to].v;
+  var from = clonemain[indexes.from].v;
+  clonemain[indexes.from].v= to;
+  clonemain[indexes.to].v= from;
+  console.log("onmiddle");
+  console.log(clonemain);
+  console.log(this.mainlist_choice);
+  this.mainlist_choice = clonemain;
+  // clonemain[indexes.to].v=clonemain[indexes.from].v
+  // console.log(clonemain);
+  // console.log(clonemain);
+  // console.log("before");
+  // console.log(this.mainlist_choice);
+  // console.log( this.mainlist_choice[indexes.from].v+"를 변경 : "+clonemain[indexes.to].v)
+  // console.log( this.mainlist_choice[indexes.to].v+"를 변경 : "+clonemain[indexes.from].v)
+  // clonemain[indexes.from].v=clonemain[indexes.to].v
+  // console.log("onmiddle");
+  // console.log(this.mainlist_choice);
+  // clonemain[indexes.to].v=clonemain[indexes.from].v
+  // //console.log(element)
+  // console.log("result....:")
+  // console.log(this.mainlist_choice);
+  // console.log(clonemain);
+  var count=0;
+  for(var a in this.mainlist_choice){
+    count++;
+    console.log(this.mainlist_choice[a].name+",,,,"+this.mainlist_choice[a].v);
+    // if(this.mainlist_choice[a].up==undefined){
+    //   console.log("up is not exist");
+    //   // break;
+    // }
+    // var up = this.mainlist_choice[a].up;
+    
+    // if(up!=undefined){
+
+    //   this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_choice[a].name).child(this.mainlist_choice[a].key).update({"v":this.mainlist_choice[a].v,"up":up})
+    // }else{
 
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_choice[a].name).child(this.mainlist_choice[a].key).update({"v":this.mainlist_choice[a].v})
-    }
+    // }
   }
-  //console.log("for loop finished");
+
+  console.log(this.mainlist_choice);
+  return;
+
+  console.log("for loop finished");
   var counting=0;
-  //console.log(this.mainlist);
+  console.log(this.mainlist_choice);
+  //reorder rest of item. 
   for(var ababb in this.mainlist_choice){
     counting++;
     //console.log(this.mainlist[ababb])
     this.mainlist_choice[ababb].v = counting;
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_choice[ababb].name).child(this.mainlist_choice[ababb].key).update({"v":counting})
   }
-  //console.log(this.mainlist);
+  console.log(this.mainlist_choice);
 
 };
 gotowaiting(){
@@ -610,13 +670,14 @@ godetail(a,v){
 
       console.log("ChoicedetailPage ondiddismiss....");
       console.log(data);
-    this.refreshChoice2();
-
-      setTimeout(()=>{
-        this.screenSwitch(1);
-        this.screenSwitch_att(1);
-      },10)
  
+        this.generate();
+      this.generate_info();
+
+        setTimeout(()=>{
+          this.screenSwitch(1);
+          this.screenSwitch_att(1);
+        },10)
 
     })
   });
@@ -797,8 +858,6 @@ generate(){
     if(snap.val()!=undefined){
       for(var a in snap.val()){
 
-        console.log(snap.val()[a]);
-        console.log(snap.val()[a].status);
               if(snap.val()[a].date==this.currentstartday){
                 if(this.type=="wt"){
                   if(snap.val()[a].wt!=this.nickname){
@@ -811,14 +870,12 @@ generate(){
                 }
                 
 
-                console.log(snap.val()[a]);
-      console.log(snap.val()[a].name);
+      //           console.log(snap.val()[a]);
+      // console.log(snap.val()[a].name);
                 var numofangel =0;
-                console.log(snap.val()[a]);
                 var mainlist=snap.val()[a];
                 //console.log("mainlist...");
                 //console.log(mainlist);
-       console.log(snap.val()[a]);
 
 
       var newtc=0;
@@ -829,13 +886,13 @@ generate(){
       var chasamtotal=0;
       var tctotal=0;
       var yeontireason="";
-      console.log(snap.val()[a].name);
-      console.log(snap.val()[a]);
+      // console.log(snap.val()[a].name);
+      // console.log(snap.val()[a]);
       var numofpeople = snap.val()[a].numofpeople;
       var logic = snap.val()[a].logic;
       var inagasi = 0;
       var totaltc=0;
-      console.log(mainlist);
+      // console.log(mainlist);
       // if(mainlist.agasi!=undefined){
       //   console.log(mainlist.agasi);
       //   console.log("numofagasi : "+mainlist.agasi.length);
@@ -845,8 +902,8 @@ generate(){
 
       var totalmoney=0;
       for(var cccc in mainlist.agasi){
-        console.log("looping each agasi");
-        console.log(mainlist.agasi[cccc].findate);
+        // console.log("looping each agasi");
+        // console.log(mainlist.agasi[cccc].findate);
         if(mainlist.agasi[cccc].findate!=undefined){
           // console.log("not undefined...so it is fin.")
           totaltc+=Number(mainlist.agasi[cccc].tc);
@@ -864,9 +921,7 @@ generate(){
           var bantee=Number(this.util.getTC(mainlist.agasi[cccc],mainlist.agasi[cccc].pausetime).split(",")[2]);
           mainlist.agasi[cccc].totalmoney=tm;
           totaltc+=tctotal;
-          console.log("totalmoney add : "+tm);
           totalmoney+=Number(tm);
-          console.log("current total : "+totalmoney);
           mainlist.agasi[cccc].tc=tctotal;
           mainlist.agasi[cccc].bantee=bantee;
           //console.log(mainlist.agasi[cccc]);
@@ -886,7 +941,6 @@ generate(){
         }
         tarray.push({"tc":Math.floor(mainlist.agasi[cccc].tc),"name":mainlist.agasi[cccc].name,"angel":mainlist.agasi[cccc].angel, "date":mainlist.agasi[cccc].date});
         tcarray.push(Math.floor(mainlist.agasi[cccc].tc))
-        console.log("tc add: "+Math.floor(mainlist.agasi[cccc].tc) );
         tctotal+=Number(Math.floor(mainlist.agasi[cccc].tc));
         chasamtotal+=Number((mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
         chasamarray.push( (mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
@@ -919,15 +973,18 @@ generate(){
                 }else{
                   for(var d in snap.val()[a].orderlist.orderlist){
 
+                    console.log("snap.val()[a].orderlist.orderlist[d]snap.val()[a].orderlist.orderlist[d]");
+                    console.log(snap.val()[a].orderlist.orderlist[d]);
                     if(snap.val()[a].orderlist.orderlist[d].category=="주류"){
                       tbottle+=Number(snap.val()[a].orderlist.orderlist[d].num);
                     }
                     orderprice+= (Number(snap.val()[a].orderlist.orderlist[d].price) );
-                    orderl.push(snap.val()[a].orderlist.orderlist[d])
+                    orderl.push({"category":snap.val()[a].orderlist.orderlist[d].category, "name":snap.val()[a].orderlist.orderlist[d].name,"num":snap.val()[a].orderlist.orderlist[d].num,"orderDate":snap.val()[a].orderlist.orderlist[d].orderDate,"price":Number(snap.val()[a].orderlist.orderlist[d].price.replaceAll(",","")) *  snap.val()[a].orderlist.orderlist[d].num,"subcategory":snap.val()[a].orderlist.orderlist[d]
+                })
                     tp += snap.val()[a].orderlist.orderlist[d].price.replace(",","")* snap.val()[a].orderlist.orderlist[d].num;
                   }
                 }
-               
+               console.log(orderl);
                
                 console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
                 var firstsumofv=0;
@@ -948,10 +1005,7 @@ generate(){
                 if(tcarraywithoutagasi.length>numofpeople){
                   yeontireason="";
                   firstsumofv=0;
-                  console.log("날개 제외 아가씨 수가 사람수보다 많다면....")
-                  console.log(tarray);
                   tarray.sort(function(a,b){
-                    console.log(a.date+",,,"+b.date)
                     if (a.date < b.date) {
                       return -1;
                     }
@@ -960,14 +1014,11 @@ generate(){
                     }
                     return 0;
                   });
-                  console.log(tarray);
                   var cvalue=-1;
                   var stop=0;
                   for(var abab in tarray){
                     cvalue++;
-                    console.log(cvalue+"????"+numofpeople);
                     if(cvalue<numofpeople){
-                      console.log(tarray[abab]);
                       if(tarray[abab].angel!=true){
                         stop++;
                         firstsumofv+=tarray[abab].tc-tbottle
@@ -985,7 +1036,6 @@ generate(){
                     }
                     if(cvalue>=numofpeople){
 
-                      console.log("cvalue>=numofpeople"+tarray[abab]);
                       if(tarray[abab].angel!=true){
                         stop++;
                         firstsumofv+=tarray[abab].tc
@@ -1007,9 +1057,9 @@ generate(){
                       // firstsumofv= firstsumofv - tbottle;
                     }
                 }else if (tcarraywithoutagasi.length==numofpeople){
-                  console.log("날개 제외 아가씨 수가 사람수와 같다면....");
-                  console.log(tarray);
-                  console.log(tcarraywithoutagasi);
+                  // console.log("날개 제외 아가씨 수가 사람수와 같다면....");
+                  // console.log(tarray);
+                  // console.log(tcarraywithoutagasi);
                 for(var abab in tarray){
 
                   if(tarray[abab].angel!=true){
@@ -1018,11 +1068,11 @@ generate(){
                     firstsumofv+=tarray[abab].tc
                     yeontireason+="/"+tarray[abab].name+"의 tc"+tarray[abab].tc+"를 더함.."
                   }else if(tarray[abab].angel){
-                    console.log("angel!!!");
-                    console.log(tarray[abab].tc);
-                    console.log(tbottle);
+                    // console.log("angel!!!");
+                    // console.log(tarray[abab].tc);
+                    // console.log(tbottle);
                     if(tarray[abab].tc - tbottle>=0){
-                       console.log("in")
+                      //  console.log("in")
                        firstsumofv+= tarray[abab].tc - tbottle;
                        yeontireason+="//날개"+tarray[abab].name+"의 tc"+tarray[abab].tc+"-"+tbottle+"="+(tarray[abab].tc-tbottle)+"개 발생";
                
@@ -1033,15 +1083,15 @@ generate(){
 
                 }
                 firstsumofv= numofpeople*tbottle-totalsum
-                console.log(firstsumofv);
+                // console.log(firstsumofv);
                 if(firstsumofv>0){
                   firstsumofv=0;
                 }
                 yeontireason += "인원*병-완티 "+numofpeople+"*"+tbottle+"-"+totalsum+"="+firstsumofv;                
               }else if(tcarraywithoutagasi.length<numofpeople){
-                console.log(tcarraywithoutagasi+",,,"+numofpeople);
-                console.log("날개 제외 아가씨 수가 사람수보다 작다면....");
-                console.log(tcarray);
+                // console.log(tcarraywithoutagasi+",,,"+numofpeople);
+                // console.log("날개 제외 아가씨 수가 사람수보다 작다면....");
+                // console.log(tcarray);
                 for(var abab in tcarray){
                   totalsum+=tcarray[abab];
                 }
@@ -1067,21 +1117,21 @@ generate(){
                   yeonti=0;
                   yeontireason+="술이 0병이므로 연티 0"
                 }
-                console.log("yeontiiiii : "+yeonti);
-              console.log(yeontireason)
-                console.log("total bottle : "+tbottle);
-                  console.log(mainlist)
-                  console.log(tp);
-                  console.log("totalmoney....")
+              //   console.log("yeontiiiii : "+yeonti);
+              // console.log(yeontireason)
+              //   console.log("total bottle : "+tbottle);
+              //     console.log(mainlist)
+              //     console.log(tp);
+              //     console.log("totalmoney....")
                   totalmoney=totalmoney*10000;
 
-                  console.log("calcuu");
-                  console.log(this.todaymoney )
-                  console.log(tp);
-                  console.log(yeonti);
-                  console.log(totalmoney);
+                  // console.log("calcuu");
+                  // console.log(this.todaymoney )
+                  // console.log(tp);
+                  // console.log(yeonti);
+                  // console.log(totalmoney);
                   this.todaymoney += tp+totalmoney+Number(yeonti*10000);
-                  console.log(this.todaymoney);
+                  // console.log(this.todaymoney);
                   var orderdate="";
                   var roomno="";
                   if(snap.val()[a].orderlist!=undefined){
@@ -1111,9 +1161,8 @@ generate(){
       this.orderlist.push({"flag":"nono"});
                
     }
-    console.log("generate....this.orderlist");
-    console.log(this.orderlist);
-    // this.orderlist.
+    // console.log("generate....this.orderlist");
+    // console.log(this.orderlist);
     //sort if orderlist's enddate is empty or not 
     this.orderlist.sort(function(a,b){
       if(a.enddate==""){
@@ -1125,13 +1174,8 @@ generate(){
       }
     })
     
-    console.log(this.orderlist);
-    // for(var aeq in this.noflaglist){
-    //   this.orderlist.push({
-    //     "open":false,"status":this.noflaglist[aeq].status,"noflag":this.noflaglist[aeq].noflag,  "enddate":enddate,"key":this.noflaglist[aeq].key, "tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":this.noflaglist[aeq].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":this.noflaglist[aeq].wt,"date":orderdate,"roomno":this.noflaglist[aeq].roomno, "value":orderl
-    //   })
-    // }
-    console.log(this.orderlist);
+    // console.log(this.orderlist);
+    // console.log(this.orderlist);
     console.log("waiter end!");
   });
 }
@@ -1644,7 +1688,7 @@ console.log("refreshon 11113");
     });
 }
   ionViewDidLoad() {
-    
+    this.loadfinished=false;
     this.firemain.child("company").child(this.company).child("choice").on('child_changed', (snap, prevChildKey) =>{
       console.log("changed...");
       console.log(snap.val());
@@ -1668,43 +1712,21 @@ console.log("refreshon 11113");
 
       console.log(this.mainlist_choice)
     });
-      //  "child_added", "child_changed", "child_removed", or "child_moved."
       this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_removed', function(snap, prevChildKey) {
-        //console.log("child_removedchild_removedchild_removedchild_removed");
-        //console.log(snap.val());
-        //console.log(prevChildKey);
-        // this.firemain.child("compan
-        // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
       });
       this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_moved', function(snap, prevChildKey) {
-        //console.log("child_movedchild_movedchild_movedchild_moved");
-        //console.log(snap.val());
-        //console.log(prevChildKey);
-        // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
       });
-      console.log(this.company);
-      console.log(this.currentstartday);
-      console.log("didloaded");
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").on('child_added', (snap, prevChildKey)=> {
-       
         if(this.loadfinished){
-          console.log("child_addedchild_addedchild_addedchild_added");
-          console.log(snap.val());
-          console.log(prevChildKey);
-    console.log("child_adde 11113");
-  
+    console.log("child_adde loadfinished");
     this.generate_info();
     setTimeout(()=>{
 
-      this.generate_info();
       this.generate();
     },1000)
         }
-        // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
       });
-      var cc=0;
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").on('child_changed', (snap, prevChildKey) =>{
-        console.log("on on on on on child_changed.....")
         this.cc++;
         if(this.cc%2==0){
           for(var date in snap.val()){
@@ -1761,7 +1783,6 @@ console.log("refreshon 11113");
         });
 
     this.goToday();
-    this.util.presentLoading();
     console.log("1111");
     console.log("11112");
     this.generate();
@@ -1775,10 +1796,8 @@ console.log("refreshon 11113");
     // this.refreshChoice2();
     setTimeout(()=>{
 
-      this.loadfinished=true;
       this.screenSwitch(1);
       this.screenSwitch_att(1);
-      this.util.dismissLoading();
     },1000)
   
 
@@ -1856,14 +1875,8 @@ console.log("refreshon 11113");
     orderedQuery.once("value", (snapshot) =>{
      snapshot.forEach((childSnapshot) => {
        var childData = childSnapshot.val();
-       console.log("forrrrrrrrrr")
-       console.log(childData)
 
       for(var a in childSnapshot.val()){
-        console.log(childSnapshot.val()[a])
-        console.log(childSnapshot.val()[a].date)
-              console.log("kkkkkk");
-              console.log(childSnapshot.val()[a]);
               
 
 
@@ -2041,8 +2054,6 @@ console.log("refreshon 11113");
       
 
                     }else{
-                      console.log(childSnapshot.val()[a].name);
-                      console.log(childSnapshot.val()[a].ss);
                       //ㅅㅅ 방인데 ,   날개가아니고 완료도 아닌 경우.
                               this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v, "agasi":childSnapshot.val()[a].agasi,
                               "date":childSnapshot.val()[a].date,
@@ -2064,6 +2075,9 @@ console.log("refreshon 11113");
                     
                     }
                     }else{
+                      console.log("ss not true...");
+                      console.log(childSnapshot.val()[a].name);
+                      console.log(childSnapshot.val()[a]);
                       //초이스톡 방임.
                       var orderlist="";
                       if(childSnapshot.val()[a].orderlist==undefined){
@@ -2092,7 +2106,8 @@ console.log("refreshon 11113");
                         "status":childSnapshot.val()[a].status,
                         "wt":childSnapshot.val()[a].wt,"totalagasi":totalagasi,
                         "numofagasi":inagasi,"lack":childSnapshot.val()[a].numofpeople-inagasi});
-                        }else if(childSnapshot.val()[a].angel==true){
+                        }
+                        else if(childSnapshot.val()[a].angel==true){
                           //날개방임.
                         
                           this.mainlist_angel_choice.push({"v":childSnapshot.val()[a].v, "agasi":childSnapshot.val()[a].agasi,
@@ -2112,27 +2127,60 @@ console.log("refreshon 11113");
                         "status":childSnapshot.val()[a].status,
                       "wt":childSnapshot.val()[a].wt,
                     "numofagasi":inagasi,"totalagasi":totalagasi,"lack":childSnapshot.val()[a].numofpeople<=inagasi});
-                    this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v, "agasi":childSnapshot.val()[a].agasi,
-                    "date":childSnapshot.val()[a].date,
-                  "incharge":childSnapshot.val()[a].incharge,
-                "insert_date":childSnapshot.val()[a].insert_date,
-              "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                      "key":childSnapshot.val()[a].key,
-                      "memo":memo,
-                    "name":childSnapshot.val()[a].name,
-                    "orderlist":orderlist,"totalagasi":totalagasi,
-                    "avec":childSnapshot.val()[a].avec,
-                    "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                    "lastupdated":childSnapshot.val()[a].lastupdated,
-                    "directorId":childSnapshot.val()[a].directorId,
-                  "numofpeople":childSnapshot.val()[a].numofpeople,
-                  "status":childSnapshot.val()[a].status,
-                "wt":childSnapshot.val()[a].wt,
-              "numofagasi":inagasi,"lack":childSnapshot.val()[a].numofpeople-inagasi});
-    
-                        }else if(childSnapshot.val()[a].ss==false||childSnapshot.val()[a].ss==undefined){
+                    if(childSnapshot.val()[a].ss==false||childSnapshot.val()[a].ss==undefined){
+                      if(childSnapshot.val()[a].numofpeople<=inagasi){
+
+                        console.log("진행중인방으로...");
+                          this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v, "agasi":childSnapshot.val()[a].agasi,
+                          "date":childSnapshot.val()[a].date,
+                        "incharge":childSnapshot.val()[a].incharge,
+                      "insert_date":childSnapshot.val()[a].insert_date,
+                    "insert_date_full":childSnapshot.val()[a].insert_date_full,
+                            "key":childSnapshot.val()[a].key,
+                            "memo":memo,
+                          "name":childSnapshot.val()[a].name,
+                          "orderlist":orderlist,"totalagasi":totalagasi,
+                          "avec":childSnapshot.val()[a].avec,
+                          "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
+                          "lastupdated":childSnapshot.val()[a].lastupdated,
+                          "directorId":childSnapshot.val()[a].directorId,
+                        "numofpeople":childSnapshot.val()[a].numofpeople,
+                        "status":childSnapshot.val()[a].status,
+                      "wt":childSnapshot.val()[a].wt,
+                    "numofagasi":inagasi,"lack":childSnapshot.val()[a].numofpeople-inagasi});
+                        }else{
+
+                          console.log("초이스방...");
+                          this.mainlist_choice.push({"v":childSnapshot.val()[a].v, "agasi":childSnapshot.val()[a].agasi,
+                          "date":childSnapshot.val()[a].date,
+                        "incharge":childSnapshot.val()[a].incharge,
+                        "insert_date":childSnapshot.val()[a].insert_date,
+                        "insert_date_full":childSnapshot.val()[a].insert_date_full,
+                            "key":childSnapshot.val()[a].key,
+                            "memo":memo,
+                          "name":childSnapshot.val()[a].name,
+                          "orderlist":orderlist,
+                          "showflag":true,
+                          "avec":childSnapshot.val()[a].avec,
+                          "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
+                          "lastupdated":childSnapshot.val()[a].lastupdated,
+                          "directorId":childSnapshot.val()[a].directorId,
+                        "numofpeople":childSnapshot.val()[a].numofpeople,
+                        "status":childSnapshot.val()[a].status,
+                        "wt":childSnapshot.val()[a].wt,
+                        "numofagasi":inagasi,"totalagasi":totalagasi,"lack":childSnapshot.val()[a].numofpeople-inagasi});
+                        
+                        }
+
+                    }
+                        }
+                        else if(childSnapshot.val()[a].ss==false){
+                          console.log("not angle but 재초 clicked..?")
+                          console.log(childSnapshot.val()[a].numofpeople);
+                          console.log(inagasi);
                           if(childSnapshot.val()[a].numofpeople<=inagasi){
 
+                            console.log("진행중인방으로...");
                               this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v, "agasi":childSnapshot.val()[a].agasi,
                               "date":childSnapshot.val()[a].date,
                             "incharge":childSnapshot.val()[a].incharge,
@@ -2152,6 +2200,7 @@ console.log("refreshon 11113");
                         "numofagasi":inagasi,"lack":childSnapshot.val()[a].numofpeople-inagasi});
                             }else{
   
+                              console.log("초이스방...");
                               this.mainlist_choice.push({"v":childSnapshot.val()[a].v, "agasi":childSnapshot.val()[a].agasi,
                               "date":childSnapshot.val()[a].date,
                             "incharge":childSnapshot.val()[a].incharge,
@@ -2173,6 +2222,49 @@ console.log("refreshon 11113");
                             
                             }
 
+                        }else if(childSnapshot.val()[a].ss==undefined){
+                            if(childSnapshot.val()[a].numofpeople<=inagasi){
+
+                            console.log("진행중인방으로...");
+                              this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v, "agasi":childSnapshot.val()[a].agasi,
+                              "date":childSnapshot.val()[a].date,
+                            "incharge":childSnapshot.val()[a].incharge,
+                          "insert_date":childSnapshot.val()[a].insert_date,
+                        "insert_date_full":childSnapshot.val()[a].insert_date_full,
+                                "key":childSnapshot.val()[a].key,
+                                "memo":memo,
+                              "name":childSnapshot.val()[a].name,
+                              "orderlist":orderlist,"totalagasi":totalagasi,
+                              "avec":childSnapshot.val()[a].avec,
+                              "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
+                              "lastupdated":childSnapshot.val()[a].lastupdated,
+                              "directorId":childSnapshot.val()[a].directorId,
+                            "numofpeople":childSnapshot.val()[a].numofpeople,
+                            "status":childSnapshot.val()[a].status,
+                          "wt":childSnapshot.val()[a].wt,
+                        "numofagasi":inagasi,"lack":childSnapshot.val()[a].numofpeople-inagasi});
+                            }else{
+                              console.log("초이스방.w..");
+                              this.mainlist_choice.push({"v":childSnapshot.val()[a].v, "agasi":childSnapshot.val()[a].agasi,
+                              "date":childSnapshot.val()[a].date,
+                            "incharge":childSnapshot.val()[a].incharge,
+                            "insert_date":childSnapshot.val()[a].insert_date,
+                            "insert_date_full":childSnapshot.val()[a].insert_date_full,
+                                "key":childSnapshot.val()[a].key,
+                                "memo":memo,
+                              "name":childSnapshot.val()[a].name,
+                              "orderlist":orderlist,
+                              "showflag":true,
+                              "avec":childSnapshot.val()[a].avec,
+                              "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
+                              "lastupdated":childSnapshot.val()[a].lastupdated,
+                              "directorId":childSnapshot.val()[a].directorId,
+                            "numofpeople":childSnapshot.val()[a].numofpeople,
+                            "status":childSnapshot.val()[a].status,
+                            "wt":childSnapshot.val()[a].wt,
+                            "numofagasi":inagasi,"totalagasi":totalagasi,"lack":childSnapshot.val()[a].numofpeople-inagasi});
+                            
+                            }
                         }else if(childSnapshot.val()[a].numofpeople<inagasi){
 
        this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v, "agasi":childSnapshot.val()[a].agasi,
@@ -2239,8 +2331,6 @@ console.log("refreshon 11113");
       // })
     }
 
-    console.log(this.mainlist_info)
-    console.log("this.mainlist_info before sorted...");
     this.mainlist_info.sort(function(a, b) {
       // Compare dates
      
@@ -2249,8 +2339,6 @@ console.log("refreshon 11113");
       return timeA[0]-timeB[0] || timeA[1]-timeB[1];
       
   });
-    console.log("after sorting...")
-    console.log(this.mainlist)
     this.mainlist_info.sort(function(a, b) {
       if (a.noflag === false && b.noflag !== false) {
         return -1; // a should come after b
@@ -2272,13 +2360,13 @@ console.log("refreshon 11113");
       
   // });
   
-    console.log(this.mainlist_info)
-    console.log("this.mainlist_info sorted...");
-    console.log(this.mainlist_finished_choice);
-    console.log("this.mainlist_finished_status");
-    console.log(this.mainlist_finished_status_choice);
-    console.log("this.mainlist_angel");
-    console.log(this.mainlist_angel_choice);
+    // console.log(this.mainlist_info)
+    // console.log("this.mainlist_info sorted...");
+    // console.log(this.mainlist_finished_choice);
+    // console.log("this.mainlist_finished_status");
+    // console.log(this.mainlist_finished_status_choice);
+    // console.log("this.mainlist_angel");
+    // console.log(this.mainlist_angel_choice);
 
     this.angelnumber_choice=this.mainlist_angel_choice.length;
     this.agasijungsan=[];
@@ -2345,7 +2433,6 @@ console.log("refreshon 11113");
     for(var main in this.mainlist_choice){
       if(this.type=="wt"){
         if(this.mainlist_choice[main]!=undefined&&this.mainlist_choice[main].wt == this.nickname){
-          console.log("mainlist_main added");
             this.mainlist_mine.push({
               "v":this.mainlist_choice[main].v, "agasi":this.mainlist_choice[main].agasi,
                 "date":this.mainlist_choice[main].date,
@@ -2395,8 +2482,6 @@ console.log("refreshon 11113");
       }
     }
 
-    console.log("gogogogogogo mainlist2p")
-    console.log(this.mainlist_finished_choice);
     for(var main in this.mainlist_finished_choice){
       if(this.type=="wt"){
         if(this.mainlist_finished_choice[main].wt == this.nickname){
@@ -2517,7 +2602,6 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
   console.log(this.mainlist_attend);
   console.log(this.agasijungsan);
           this.standby=this.mainlist_attend.length-this.agasijungsan.length;
-     
 });
 
 this.paginateArray();
@@ -2529,7 +2613,11 @@ this.paginateArray();
 
 
   generateroomcategory(){
+    this.util.presentLoading();
     console.log("generateroomcategory")
+    var orderedQuery =  this.firemain.child("company").child(this.company).child("roomlist")
+    orderedQuery.on("value", (snapshot)=> {
+
     this.smallroom=[];
     this.smallroom2=[];
     this.midroom=[];
@@ -2539,8 +2627,6 @@ this.paginateArray();
     this.allroom=[];
     var roomin=[];
     this.inroom=[];
-    var orderedQuery =  this.firemain.child("company").child(this.company).child("roomlist")
-    orderedQuery.once("value", (snapshot)=> {
      snapshot.forEach((childSnapshot) => {
        var childData = childSnapshot.val();
        console.log("foreach");
@@ -2605,15 +2691,18 @@ this.paginateArray();
       }
 
      })
+
+     this.loadfinished=true;
      console.log("finish room category");
-     let toast = this.toastCtrl.create({
-      message: "로딩 완료",
-      duration: 1000,
-      dismissOnPageChange: true
-    });
-    toast.onDidDismiss(() => {
-    });
-    toast.present();
+     this.util.dismissLoading();
+    //  let toast = this.toastCtrl.create({
+    //   message: "로딩 완료",
+    //   duration: 1000,
+    //   dismissOnPageChange: true
+    // });
+    // toast.onDidDismiss(() => {
+    // });
+    // toast.present();
     });
     // this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
     //   console.log("roomlist iterate...");
@@ -2680,7 +2769,6 @@ this.paginateArray();
         console.log("do nothing1");
 
         this.generate_info();
-    // this.generateroomcategory()
     this.generate();
   
 
@@ -2697,7 +2785,6 @@ console.log("else...........")
         this.generate_info();
     this.generate();
   
-    this.generateroomcategory()
 
     // this.refreshChoiceonlyjimyung();
     // this.refreshChoice2();
@@ -2726,7 +2813,6 @@ console.log("else...........")
         console.log("do nothing1");
 
         this.generate_info();
-    // this.generateroomcategory()
     this.generate();
   
 
@@ -2737,7 +2823,6 @@ console.log("else...........")
 
     this.generate_info();
 
-    this.generateroomcategory()
 setTimeout(()=>{
 
   this.generate();
@@ -2752,7 +2837,6 @@ setTimeout(()=>{
         this.generate_info();
     this.generate();
   
-    this.generateroomcategory()
 
     // this.refreshChoiceonlyjimyung();
     // this.refreshChoice2();
@@ -3508,19 +3592,23 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
       window.alert("결제전 이용 불가합니다.")
       return;
     }
+    if(a.v.length==0){
+
+      window.alert("error...");
+      return;
+    }
     this.navCtrl.push(ChoicedetailPage,{"a":a,"v":v}).then(() => {
       this.navCtrl.getActive().onDidDismiss(data => {
 
-        console.log("ChoicedetailPage ondiddismiss....");
+        console.log("CccccchoicedetailPage ondiddismiss....");
         console.log(data);
-        this.generate();
-      this.generate_info();
-      // this.generating_attendance();
+      //   this.generate();
+      // this.generate_info();
 
-        setTimeout(()=>{
-          this.screenSwitch(1);
-          this.screenSwitch_att(1);
-        },10)
+      //   setTimeout(()=>{
+      //     this.screenSwitch(1);
+      //     this.screenSwitch_att(1);
+      //   },10)
    
 
       })

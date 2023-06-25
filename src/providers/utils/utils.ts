@@ -10,9 +10,10 @@ import { IonicPage, ViewController,LoadingController,ModalController,NavControll
 @Injectable()
 export class UtilsProvider {
   lloading:any;
+  loading;
   tc:any=0;
   newnumber:any=0;
-  constructor(public loading:LoadingController) {
+  constructor(public _loadingCtrl:LoadingController) {
     console.log('Hello UtilsProvider Provider');
   }
   testing(){
@@ -31,11 +32,10 @@ export class UtilsProvider {
   }
 
    dismissLoading() {
-    console.log("ddddddismissLoading ");
-    console.log(this.lloading);
-    if(this.lloading!=undefined){
-      this.lloading.dismiss();
-    }
+    if(this.loading){
+      this.loading.dismiss();
+      this.loading = null;
+  }
   }
 
   loadingnew() {
@@ -49,91 +49,22 @@ export class UtilsProvider {
     console.log(this.lloading);
   }
    presentLoading() {
-    console.log("loading show");
-    this.lloading =  this.loading.create({
-      spinner: 'hide',
-      content: `<img src="assets/img/wadloading.gif" />`
-    });
-    this.lloading.present();
-    console.log(this.lloading);
+    if(!this.loading){
+      this.loading = this._loadingCtrl.create({
+          content: 'Please Wait...'
+      });
+      this.loading.present();
   }
-  // getMoneyFromTC(tc){
 
-  //   if(tc==0.3){
-  //     return 3;
-  //   }else if(tc==0.6){
-  //     return 6;
-  //   }else if(tc==1){
-  //     return 13;
-  //   }else if(tc==1.3){
-  //     return 16;
-  //   }else if(tc==1.6){
-  //     return 19;
-  //   }else if(tc==2){
-  //     return 26;
-  //   }else if(tc==2.3){
-  //     return 29;
-  //   }else if(tc==2.6){
-  //     return 32;
-  //   }else if(tc==3){
-  //     return 39;
-  //   }else if(tc==3.3){
-  //     return 42;
-  //   }else if(tc==3.6){
-  //     return 45;
-  //   }else if(tc==4){
-  //     return 52;
-  //   }else if(tc==4.3){
-  //     return 55;
-  //   }else if(tc==4.6){
-  //     return 58;
-  //   }else if(tc==5){
-  //     return 65;
-  //   }else if(tc==5.3){
-  //     return 68;
-  //   }else if(tc==5.6){
-
-  //     return 71;
-  //   }else if(tc==6){
-  //     return 78;
-  //   }else if(tc==6.3){
-  //     return 81;
-  //   }else if(tc==6.6){
-  //     return 84;
-  //   }else if(tc==7){
-  //     return 91;
-  //   }else if(tc==7.3){
-  //     return 94;
-  //   }else if(tc==7.6){
-  //     return 97;
-  //   }else if(tc==8){
-  //     return 104;
-  //   }else if(tc==8.3){
-  //     return 107;
-  //   }else if(tc==8.6){
-  //     return 110;
-  //   }else if(tc==9){
-  //     return 117;
-  //   }else if(tc==9.3){
-  //     return 120;
-  //   }else if(tc==9.6){
-  //     return 123;
-  //   }else if(tc==10){
-  //     return 130;
-  //   }else if(tc==10.3){
-  //     return 133;
-  //   }else if(tc==10.6){
-  //     return 136;
-  //   }else if(tc==11){
-  //     return 143;
-  //   }else if(tc==11.3){
-  //     return 146;
-  //   }else if(tc==11.6){
-  //     return 149;
-  //   }else if(tc==12){
-  //     return 156;
-  //     }
-  // }
+    // console.log("loading show");
+    // this.lloading =  this.loading.create({
+    //   spinner: 'hide',
+    //   content: `<img src="assets/img/wadloading.gif" />`
+    // });
+    // this.lloading.present();
+    // console.log(this.lloading);
+  }
+  
 
   getTCfromtc(tc){
 

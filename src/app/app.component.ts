@@ -65,6 +65,19 @@ export class MyApp {
             platform.exitApp();
           }
           this.lastBack = Date.now();
+          
+        }else if(activePage.constructor.name == "ChoicedetailPage"){
+          console.log("do nothing");
+          const nav = this.app.getActiveNav();
+          console.log(nav.canGoBack());
+          if(nav.canGoBack()){
+
+          nav.pop();
+          }else{
+            // console.log("false so refresh...");
+            // this.nav.setRoot(SlidetestPage);
+          }
+
         }else{
           console.log("go back but not slide page");
           const nav = this.app.getActiveNav();

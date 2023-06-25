@@ -30,7 +30,7 @@
      
     <img style="margin-left:96px;" class="logo" src="assets/img/logo_wad.jpg" />
     <ion-buttons end>
-      <button (click)="searchstart();" style="color:white;"ion-button icon-only color="royal">
+      <button (click)="goToSlide(4);" style="color:white;"ion-button icon-only color="royal">
         <ion-icon name="search"></ion-icon>
       </button>
     </ion-buttons>
@@ -123,7 +123,7 @@ font-size: 30px;
 font-weight: 900;">{{nowtime}}</span>
   </div>
 
-  <ion-slides (ionSlideDidChange)="slideChanged()" #slider pager>
+  <ion-slides (ionSlideDidChange)="slideChanged()"  #slider pager>
 
     <ion-slide >
       
@@ -229,7 +229,7 @@ background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic
       
         <ion-item  *ngIf="i.flag!='nono'&&i.open" class="child-item" >
           <p style="
-          margin: 0;"> 주문일 : {{i.date}}</p>
+          margin: 0;"> 주문일22 : {{i.date}}</p>
             <span *ngFor="let j of i.value">
             
             <p style="
@@ -492,9 +492,7 @@ margin: 0;">{{i.reason}}</p>
                   font-size: 30px;
                   font-weight: 900;
                   text-align: center;
-                  margin: auto;
-                  margin-left: 90px;
-                  margin-top: 20px;">초이스 내역이 없습니다.</p>
+                  margin: auto;">초이스 내역이 없습니다.</p>
                 </div>
               </div>
             </div>
@@ -1041,7 +1039,7 @@ margin: 0;">{{i.reason}}</p>
       
             </div>
         
-      <div class="room-current">
+      <div style="    margin-bottom: 50px;" class="room-current">
         <div class="title-div">
           <ion-icon class="square" name="square"></ion-icon>
           <span class="text">찡 현황</span>
@@ -1128,8 +1126,8 @@ overflow-y: scroll;" class="lll"  no-lines >
       <div class="message">
         
         <div class="message-content">
-          <div *ngIf="main.item.numofpeople!=''" class="contentmain">
-            <p *ngIf="main.item.avec" style="    font-size: 18px;
+          <div *ngIf="main.item!=undefined&&main.item.numofpeople!=''" class="contentmain">
+            <p *ngIf="main.item!=undefined&&main.item.avec" style="    font-size: 18px;
             font-weight: 900;"> #{{main.item.name}}  <span class="sm">A{{main.item.incharge}}</span> <span class="sm" style="    color: black;
             background: pink;" *ngIf="main.item.totalagasi==0&&main.item.numofagasi==0"> 신규{{main.item.lack}} </span>
             <span class="sm" style="color: black;
@@ -1152,10 +1150,10 @@ margin: auto;" src="assets/img/load.gif"/> </p>
             font-size: 12px;
             padding: 3px;
             margin-left: 10px;
-            background: white;" *ngIf="main.item.status=='fin'">종료</span>
+            background: white;" *ngIf="main.item!=undefined&&main.item.status=='fin'">종료</span>
           </div>
           <div class="latter">
-            <p style="font-size:18px;" *ngIf="main.item.memo!=undefined">{{main.item.memo}}</p>
+            <p style="font-size:18px;" *ngIf="main.item!=undefined&&main.item.memo!=undefined">{{main.item.memo}}</p>
           </div>
         </div>
       </div>
