@@ -252,6 +252,7 @@ this.interval=setInterval(()=>{
     //console.log(this.company);
 
     this.jimyungnumber=0;
+
     this.firemain.child("company").child(this.company).child("jimyung").child(this.currentstartday).on("value",snap=>{
       //console.log(snap.val());
       this.jimyung=[];
@@ -601,23 +602,31 @@ reorderItems(indexes){
   // console.log(this.mainlist_choice);
   // console.log(clonemain);
   var count=0;
-  for(var a in this.mainlist_choice){
-    count++;
-    console.log(this.mainlist_choice[a].name+",,,,"+this.mainlist_choice[a].v);
-    // if(this.mainlist_choice[a].up==undefined){
-    //   console.log("up is not exist");
-    //   // break;
-    // }
-    // var up = this.mainlist_choice[a].up;
-    
-    // if(up!=undefined){
 
-    //   this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_choice[a].name).child(this.mainlist_choice[a].key).update({"v":this.mainlist_choice[a].v,"up":up})
-    // }else{
+  for(var a in clonemain){
+    console.log(clonemain[a].name+"를 : "+clonemain[a].v)
+    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(clonemain[a].name).child(clonemain[a].key).update({"v":clonemain[a].v})
 
-    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_choice[a].name).child(this.mainlist_choice[a].key).update({"v":this.mainlist_choice[a].v})
-    // }
   }
+  this.generate_info();
+  // for(var a in this.mainlist_choice){
+  //   count++;
+  //   console.log(this.mainlist_choice[a].name+",,,,"+this.mainlist_choice[a].v);
+  //   // if(this.mainlist_choice[a].up==undefined){
+  //   //   console.log("up is not exist");
+  //   //   // break;
+  //   // }
+  //   // var up = this.mainlist_choice[a].up;
+    
+  //   // if(up!=undefined){
+
+  //   //   this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_choice[a].name).child(this.mainlist_choice[a].key).update({"v":this.mainlist_choice[a].v,"up":up})
+  //   // }else{
+
+  //   console.log(this.mainlist_choice[a].name+"를 : "+this.mainlist_choice[a].v);
+  //   this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.mainlist_choice[a].name).child(this.mainlist_choice[a].key).update({"v":this.mainlist_choice[a].v})
+  //   // }
+  // }
 
   console.log(this.mainlist_choice);
   return;
@@ -1687,7 +1696,25 @@ console.log("refreshon 11113");
       // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
     });
 }
+generateuid(){
+  return "aaaaaa";
+}
   ionViewDidLoad() {
+
+
+
+    // this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).remove();
+    // this.firemain.child("users").orderByChild("type").equalTo("agasi").once('value').then((snap2)=>{
+      
+    // });
+    // this.firemain.child("users").orderByChild("type").equalTo("director").once('value').then((snap2)=>{
+
+    // });
+
+
+    // var newkey = this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).key;
+    // this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(newkey).update({"a":"b"})
+  
     this.loadfinished=false;
     this.firemain.child("company").child(this.company).child("choice").on('child_changed', (snap, prevChildKey) =>{
       console.log("changed...");
@@ -1717,6 +1744,7 @@ console.log("refreshon 11113");
       this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_moved', function(snap, prevChildKey) {
       });
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").on('child_added', (snap, prevChildKey)=> {
+        console.log("on.");
         if(this.loadfinished){
     console.log("child_adde loadfinished");
     this.generate_info();
@@ -1726,7 +1754,12 @@ console.log("refreshon 11113");
     },1000)
         }
       });
+      // this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").off();
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").on('child_changed', (snap, prevChildKey) =>{
+        console.log("child change");
+        console.group(prevChildKey);
+        console.log(snap.val());
+
         this.cc++;
         if(this.cc%2==0){
           for(var date in snap.val()){
@@ -1782,26 +1815,24 @@ console.log("refreshon 11113");
           }
         });
 
-    this.goToday();
-    console.log("1111");
-    console.log("11112");
-    this.generate();
-    console.log("didloaded 11113");
-  
-    this.generate_info();
-    console.log("11114");
-    this.refreshChoiceonlyjimyung();
-    console.log("11115");
-    this.generateroomcategory()
-    // this.refreshChoice2();
-    setTimeout(()=>{
 
+
+    console.log("page start from here");
+    this.goToday();
+
+    //waiter 화면
+    this.generate();
+    //인포 및 초이스 
+    this.generate_info();
+    //지명 불러오기
+    this.refreshChoiceonlyjimyung();
+    //방 카테고리 .
+    this.generateroomcategory()
+    
+    setTimeout(()=>{
       this.screenSwitch(1);
       this.screenSwitch_att(1);
     },1000)
-  
-
-
   }
   get totalPages() {
     return Math.ceil(this.mainlist_info.length / this.pageSize);
@@ -2395,10 +2426,17 @@ console.log("refreshon 11113");
 
     counting=0;
     this.mainlist_choice.sort((a, b) => a.v - b.v);
+    console.log("loolllll");
+    var arrayll = [];
+
+    console.log(this.mainlist_choice);
     for(var aaa in  this.mainlist_choice){
       counting++;
       this.mainlist_choice[aaa].v=counting;
+      arrayll.push(this.mainlist_choice[aaa].name+": "+this.mainlist_choice[aaa].v+"\r\n");
+      console.log(this.mainlist_choice[aaa].name+": "+this.mainlist_choice[aaa].v);
     }
+    console.log('doo');
 
 
      counting=0;

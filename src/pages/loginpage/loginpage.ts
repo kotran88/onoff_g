@@ -43,12 +43,13 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230625 v4.35';
+  version='20230629 v4.37';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
   //iamport 결제관련 코드 테스트. 
   // async getData() {
+
   //   try {
   //     const url = 'https://api.iamport.kr/users/getToken';
   //     const params = {"imp_key":"0040765620267739","imp_secret": "lLzW9IKeK9htRMa6RpJza8uJ08Q6Nbf9XP57xQlh0DLRqVXhlHRwPlgQu7Whjcqh2woznKRonDgNyd5U"};
