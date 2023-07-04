@@ -81,29 +81,23 @@
   
 <ion-nav #mycontent [root]="rootPage"></ion-nav>
   <ion-content padding>   
-<div style="
-height: 48px;
-    border-bottom: solid 1px;
-margin-top: 60px;" class="upside">
-
-    <button  [ngClass]="page==0 ? 'selected' : 'notselected'"   ion-button  (click)="goToSlide(0)">
+    <div style="height: 48px;border-bottom: solid 1px;margin-top: 60px;" class="upside">
+      <button  [ngClass]="page==0 ? 'selected' : 'notselected'" ion-button (click)="goToSlide(0)">
       웨이터
-    </button>
-    <button  [ngClass]="page==1 ? 'selected' : 'notselected'"    ion-button  (click)="goToSlide(1)">
+      </button>
+      <button  [ngClass]="page==1 ? 'selected' : 'notselected'" ion-button (click)="goToSlide(1)">
       인포
-    </button>
-  <button  [ngClass]="page==2 ? 'selected' : 'notselected'"    ion-button  (click)="goToSlide(2)">
-    초이스
-  </button>
-
-  <button  [ngClass]="page==3 ? 'selected' : 'notselected'"    ion-button  (click)="goToSlide(3)">
-    출근부
-  </button>
-  <button  [ngClass]="page==4 ? 'selected' : 'notselected'"    ion-button  (click)="goToSlide(4)">
-    검색
-  </button>
-
-</div>
+      </button>
+      <button  [ngClass]="page==2 ? 'selected' : 'notselected'" ion-button (click)="goToSlide(2)">
+      초이스
+      </button>
+      <button  [ngClass]="page==3 ? 'selected' : 'notselected'" ion-button (click)="goToSlide(3)">
+      출근부
+      </button>
+      <button  [ngClass]="page==4 ? 'selected' : 'notselected'" ion-button (click)="goToSlide(4)">
+      검색
+      </button>
+    </div>
 
 <div [ngClass]="searchon==true ? 'top2' :'top'">
   <span style="    font-size: 25px;
