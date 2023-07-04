@@ -43,7 +43,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230629 v4.37';
+  version='20230629 v4.37.1';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -145,6 +145,7 @@ export class LoginpagePage {
               localStorage.setItem("login_data",JSON.stringify(snap.val()))
               localStorage.setItem("name",this.name);
               localStorage.setItem("nickname",this.nickname);
+              localStorage.setItem("jopan",snap.val()["jopan"]);
               var approved=snap.val()["approved"];
               var type = snap.val()["type"];
               var young = snap.val()["young"];

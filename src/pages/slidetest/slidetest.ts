@@ -121,7 +121,9 @@ export class SlidetestPage {
   tab1clicked:any=false;
   tab2clicked:any=false;
 
+  //my_team_list
 
+  myteam_list = [];
   //attendance 
 
   selectedMonth:any=0;
@@ -192,6 +194,7 @@ this.interval=setInterval(()=>{
     this.paymentflag=JSON.parse(login).payment;
   }
   openmodal(day,month,year){
+    console.log("open modal -->");
     console.log(day);
 
     this.selectedday = year+"-"+month+"-"+day;
@@ -798,7 +801,7 @@ console.log("attendance check...");
         this.original_mainlist.push({"name":snap.val()[b].attend.name,"time": snap.val()[b].attend.time, "status":snap.val()[b].attend.flag,"team":snap.val()[b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});
      
         this.mainlist_att.push({"name":snap.val()[b].attend.name,"time": snap.val()[b].attend.time, "status":snap.val()[b].attend.flag,"team":snap.val()[b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});
-     
+         
         for(var abba in this.mainlistfromcompany){
           if(this.mainlistfromcompany[abba].name == snap.val()[b].attend.name){
             console.log(snap.val()[b].attend);
@@ -3654,7 +3657,12 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
 
   }
   screenSwitch_att(values) : void {
-    console.log("screenSwitch"+values);
+    console.log("출근부 > screenSwitch"+values);
+
+    if(values==3){
+      this.generating_attendance_myteam();
+    }
+
     for (let i = 1; i <= 3; i++) { 
       document.getElementById("ion-label-area_att-"+i).style.display = "none"; 
     }
@@ -3675,6 +3683,8 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
   
         this.activeclass=values;
       })
+
+
   }
 
   set_month(num)
@@ -3709,7 +3719,7 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
     this.agasijungsan_att=[];
     this.agasijungsantotal_att=[];
     this.firemain.child("company").child(this.company).child("jopanjjing").once("value", (snap) => {
-      console.log("jopanjjing come")
+      console.log("jopanjjing come");
       for(var a in snap.val()){
         console.log(snap.val()[a][this.selectedday])
         if(snap.val()[a][this.selectedday]!=undefined){
@@ -3782,6 +3792,30 @@ this.firemain.child('attendance').child(this.company).once('value').then((snap)=
     console.log(this.agasijungsan_att);
     console.log(this.agasijungsantotal_att);
   }
+
+  /**
+   * 마이팀 출근부
+   * 출근부에서 jopan 으로 filter 한다
+   */
+  generating_attendance_myteam(){
+
+    let myteam = localStorage.getItem("jopan");
+
+    console.log("마이팀 출석부 : "+this.company+":"+this.nickname+":"+myteam);
+
+    for(var i=0;i<=this.mainlist_att.length;i++){
+      if(this.mainlist_att[i] !== undefined){
+        if(myteam == this.mainlist_att[i].team){
+          this.myteam_list.push(this.mainlist_att[i]);
+          console.log("my team : "+this.mainlist_att[i].team);
+        }else{
+          console.log("your team :"+this.mainlist_att[i].team);
+        }
+      }
+    }
+  }
+  //마이팀 출석부 :)
+
   getDaysOfMonth() {
     console.log("getDaysofMonth...")
     this.daysInThisMonth = [];
