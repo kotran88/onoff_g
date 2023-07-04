@@ -862,43 +862,60 @@ margin: 0;">{{i.reason}}</p>
 
   <div [ngClass]="searchon_att==true ? 'ion-label-area2' :'ion-label-area'">
     <div class="area" id="ion-label-area_att-1">
-              <div style="
-
-    height: 60%;
-    overflow-y: scroll;
-    position: absolute;
-    " class="room-current">
-                <div class="title-div">
-                  <ion-icon class="square" name="square"></ion-icon>
-                  <span style="color:black;" class="text">오늘의 출근 현황.</span>
-                </div>
-        
-                <div class="chart-div">
-                  <div class="name-keys">
-                    <span>팀</span>
-                    <span>아가씨</span>
-                    <span>개수</span>
-                    <span>TC</span>
-                    <span>상태</span>
-                  </div>
-                  <div  *ngIf="mainlist_att.length==0" class="datas">
-                    <span style="    width: 100%;">출근 데이터가없습니다.</span>
-                   
-                  </div>
-                  <div (click)="editing2(a);" *ngFor="let a of mainlist_att" class="datas">
-                    <span style="
-                    font-size: 11px;
-                    text-align: center;">{{a.team}}</span>
-                    <span>{{a.name}}</span>
-                    <span >{{a.wantee}} </span>
-                    <span>{{a.tc}}</span>
-                    <span *ngIf="a.status=='justcome'">출근</span>
-                    <span *ngIf="a.status=='attend'">방중</span>
-                    <span *ngIf="a.status=='standby'">대기</span>
-                    <span *ngIf="a.status=='gotohome'">퇴근</span>
-                  </div>
-                </div>
-              </div>
+      <div style="height: 60%;overflow-y: scroll;position: absolute;" class="room-current">
+        <div class="title-div">
+          <ion-icon class="square" name="square"></ion-icon>
+          <span style="color:black;" class="text">오늘의 출근 현황.</span>
+        </div>
+        <div class="chart-div">
+          <div class="name-keys">
+            <span>팀</span>
+            <span>아가씨</span>
+            <span>개수</span>
+            <span>TC</span>
+            <span>상태</span>
+          </div>
+          <div  *ngIf="mainlist_att.length==0" class="datas">
+            <span style="width: 100%;">출근 데이터가없습니다.</span>
+          </div>
+          <ng-container *ngFor="let a of mainlist_att">
+            <div *ngIf="a.status=='standby'" (click)="editing2(a);"  class="datas">
+              <span style="font-size: 11px;text-align: center;">{{a.team}}</span>
+              <span>{{a.name}}</span>
+              <span >{{a.wantee}} </span>
+              <span>{{a.tc}}</span>
+              <span>대기</span>
+            </div>
+          </ng-container>
+          <ng-container *ngFor="let a of mainlist_att">
+            <div *ngIf="a.status=='justcome'" (click)="editing2(a);"  class="datas">
+              <span style="font-size: 11px;text-align: center;">{{a.team}}</span>
+              <span>{{a.name}}</span>
+              <span >{{a.wantee}} </span>
+              <span>{{a.tc}}</span>
+              <span>출근</span>
+            </div>
+          </ng-container>
+          <ng-container *ngFor="let a of mainlist_att">
+            <div *ngIf="a.status=='attend'" (click)="editing2(a);"  class="datas">
+              <span style="font-size: 11px;text-align: center;">{{a.team}}</span>
+              <span>{{a.name}}</span>
+              <span >{{a.wantee}} </span>
+              <span>{{a.tc}}</span>
+              <span>방중</span>
+            </div>
+          </ng-container>
+          <ng-container *ngFor="let a of mainlist_att">
+            <div *ngIf="a.status=='gotohome'" (click)="editing2(a);"  class="datas">
+              <span style="font-size: 11px;text-align: center;">{{a.team}}</span>
+              <span>{{a.name}}</span>
+              <span >{{a.wantee}} </span>
+              <span>{{a.tc}}</span>
+              <span>퇴근</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
         
               <div style=" 
               
