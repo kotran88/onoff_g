@@ -55,6 +55,7 @@ export class ChoicedetailPage {
   mainlist_origin:any=[];
   mainlist:any = [];
   tempmainlist:any=[];
+  originalagasilist:any = [];
   firemain = firebase.database().ref();
   key:any;
   roomno:any;
@@ -1724,6 +1725,7 @@ this.refresheverymin();
     console.log(c);
     console.log(this.mainlist);
     this.tempmainlist=this.mainlist[0];
+    this.originalagasilist = this.mainlist[0].agasi;
     console.log("tempmainlist : ");
     console.log(this.tempmainlist);
   }
@@ -1740,14 +1742,19 @@ this.refresheverymin();
   }
   modifyfin0(c,room,mainlist,aga) {
     console.log(aga);
-    var falseflag=false;
-    this.modifyflag=false;
     console.log("modifyfin0modifyfin0modifyfin0modifyfin0modifyfin0 come")
     console.log(c.agasi);
     console.log(c);
-
     console.log(room);
     console.log(mainlist);
+    if(aga==undefined){
+      window.alert("agasi is undefined");
+      return;
+    }
+    var falseflag=false;
+    this.modifyflag=false;
+    
+
     var count=-1;
     var agasi=[];
     var initial = this.mainlist[0];
@@ -1764,26 +1771,32 @@ this.refresheverymin();
     console.log(this.mainlist);
     console.log(this.mainlist.length);
     console.log(this.mainlist[0]);
+    console.log(this.tempmainlist);
+    console.log(this.mainlist[0].agasi);
+    console.log(aga);
+    var flag = false;
     for(var a in this.mainlist[0].agasi){
+      console.log("a is "+a);
       countingv++;
       console.log(this.mainlist[0].agasi[a]);
-      console.log(this.tempmainlist.agasi[countingv]);
-
-      if(this.mainlist[0].agasi[a].name!=this.tempmainlist.agasi[countingv].name){
-
-        var flag =  this.getNameChanged(this.tempmainlist.agasi[countingv].name, this.mainlist[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day);
-              console.log(flag);
-        if(flag==false){
-          window.alert("ok! no continue");
-          return;
+      console.log(this.mainlist[0].agasi[a].name);
+      console.log(aga[a]);
+      console.log(aga[a].name+", after change : "+this.mainlist[0].agasi[a].name);
+      
+      for(var bb in aga){
+        console.log("looping through aga");
+        console.log(aga[bb].num)
+        console.log(this.mainlist[0].agasi[a].num);
+        if(aga[bb].num==this.mainlist[0].agasi[a].num){
+          console.log("num equal so check...");
+          console.log(aga[bb]);
+          console.log(this.mainlist[0].agasi[a]);
+          flag = this.getNameChanged(aga[bb].name, this.mainlist[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day,1);
+          console.log(flag);
         }
-
       }
+      
       console.log("compare...");
-      if(this.mainlist[0].agasi[a].name!=this.tempmainlist.agasi[countingv].name){
-        console.log("not same");
-        console.log(this.tempmainlist.agasi[countingv].name);
-      }
       count++;
       if(this.mainlist[0].agasi[a].findate==undefined){
         finnum++;
@@ -1801,36 +1814,8 @@ this.refresheverymin();
         falseflag=true;
       }
       this.mainlist[0].agasi[a].money = newmoney;
-      agasi.push(this.mainlist[0].agasi[a]);
-      console.log("agasiiiiii");
-      console.log(agasi);
     }
-    if(falseflag){
-      window.alert("잘못된 값입니다.");
-      this.view.dismiss();
-      return;
-    }
-    // if(finnum>0){
-    //   window.alert("종료 전에는 수정할 수 없습니다.")
-    //   this.view.dismiss();
-    //   return;
-    // }
-    if(falseflag){
-      window.alert("잘못된 값입니다.");
-      this.view.dismiss();
-      return;
-    }
-    console.log(this.company);
-    console.log(room);
-    console.log(this.mainlist[0].key);
-    console.log(agasi);
-    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(this.mainlist[0].key).update({agasi})
-
-    this.firemain.child("users").child(mainlist.incharge).child("roomhistory").child(this.currentstartday).child(this.mainlist[0].key).update({agasi})
-    this.firemain.child("users").child(mainlist.wt).child("roomhistory").child(this.currentstartday).child(this.mainlist[0].key).update({agasi})
-    setTimeout(()=>{
-      this.refreshChoice2();
-    },1000)
+    
   }
   modify(c,room,mainlist) {
     this.modifyflag=true;
@@ -1844,69 +1829,96 @@ this.refresheverymin();
     
   }
 
-  getNameChanged(beforechanged,tochanged,v,bc,room,key,firemain,company,day) {
+  getNameChanged(beforechanged,tochanged,v,bc,room,key,firemain,company,day,numflag) {
     var falseflag = false;
     console.log("getNameChanged");
     console.log(beforechanged);
     console.log(tochanged);
     console.log(v);
     console.log(bc);
-
+    var agasi = [];
     var dte = new Date();
     dte.setHours(dte.getHours()+9);
     console.log(room);
     console.log(key);
     if(beforechanged==tochanged){
-      console.log("same so return");
+      console.log("33333 same so return");
       return true;
     }else{
-      console.log("diff so check")
-      firemain.child("users").child(tochanged).once("value",function(snapshot){
+      console.log("diff so check"+tochanged)
+      firemain.child("users").child(tochanged).once("value",(snapshot)=>{
         console.log(snapshot.val());
-        if(snapshot.val()!=null&&snapshot.val().current!=undefined&&snapshot.val().current!=null){
+        if(snapshot.val()==null&&snapshot.val()==undefined){
+          console.log("33333 new user ");
+          window.alert(tochanged+"는 없는 아가씨입니다. 다시 확인해주세요.");
+        }else if(snapshot.val().current!=undefined&&snapshot.val().current!=null){
+          console.log("33333 user already in");
           var currentflag = snapshot.val().current;
           window.alert(tochanged+""+currentflag.room+"번 방에 "+currentflag.enter_date.split("T")[0]+" "+currentflag.enter_date.split("T")[1].split(":")[0]+"시"+currentflag.enter_date.split("T")[1].split(":")[1]+"분에 입장하여, 추가할수없습니다.");
-          this.util.dismissLoading();
-          console.log("before change original");
           console.log(bc)
-          firemain.child("company").child(company).child("madelist").child(day).child(room).child(key).child("agasi").update(bc)
    
           v.dismiss();
+          return false;
         }else{
-
+          console.log("33333 change user to new user");
+          //change user to new user 
           var date = new Date();
-  
-      
           var hour = date.getHours();
           var min = date.getMinutes();
           console.log(beforechanged+"remove current")
           console.log(tochanged+",,"+room+",,,"+dte+",,,,"+day);
-          firemain.child("users").child(beforechanged.trim()).child("current").remove();
-          firemain.child("users").child(tochanged.trim()).child("current").remove();
+          // firemain.child("users").child(beforechanged.trim()).child("current").remove();
+          // firemain.child("users").child(tochanged.trim()).child("current").remove();
 
+          //tochanged 를 출근처리함. 
           firemain.child("users").child(tochanged.trim()).child("attendance").child(day).update({"currentStatus":"attend"})
         firemain.child("users").child(tochanged.trim()).child("attendance").child(day).child("attend").update({"team":snapshot.val().jopan,"name":tochanged,"date":day,"flag":"attend","time":hour+":"+min})
         firemain.child("users").child(tochanged.trim()).update({"jopan":snapshot.val().jopan,"name":tochanged,type:"agasi",writer:bc[0].writer,status:false,id:tochanged,company:company})
         firemain.child("attendance").child(company).child(day).child(tochanged).child("attend").update({ "team":snapshot.val().jopan,"name":tochanged,"flag":"attend","date":day, "time":hour+":"+min})
+        if(numflag==1){
 
+          for(var aaa in this.mainlist[0].agasi){
 
-          console.log(tochanged+"not occupied , so start name change process come");
+            agasi.push(this.mainlist[0].agasi[aaa]);
+          }
+          console.log(this.mainlist[0].agasi);
+          console.log("agasi fin : "+agasi);
+          console.log(agasi);
+        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(this.mainlist[0].key).update({agasi})
+    
+        this.firemain.child("users").child(this.mainlist[0].incharge).child("roomhistory").child(this.currentstartday).child(this.mainlist[0].key).update({agasi})
+        this.firemain.child("users").child(this.mainlist[0].wt).child("roomhistory").child(this.currentstartday).child(this.mainlist[0].key).update({agasi})
+        }else{
+          for(var aaa in this.mainlist_finished[0].agasi){
+
+            agasi.push(this.mainlist_finished[0].agasi[aaa]);
+          }
+          console.log(this.mainlist_finished[0].agasi);
+          console.log("agasi fin : "+agasi);
+          console.log(agasi);
+        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(this.mainlist_finished[0].key).update({agasi})
+    
+        this.firemain.child("users").child(this.mainlist_finished[0].incharge).child("roomhistory").child(this.currentstartday).child(this.mainlist_finished[0].key).update({agasi})
+        this.firemain.child("users").child(this.mainlist_finished[0].wt).child("roomhistory").child(this.currentstartday).child(this.mainlist_finished[0].key).update({agasi})
+        }
+         setTimeout(()=>{
+        this.refreshChoice2();
+      },1000)
+        
+        return true;
+
         }
 
-        return false;
       });
     }
     
   }
-  modifyfin(c,room,mainlist) {
+  modifyfin(c,room,mainlist,aga) {
 
     console.log("modifyfin come")
     var falseflag=false;
     this.modifyflag=false;
-    console.log(c.agasi);
 
-    console.log(room);
-    console.log(mainlist);
     var count=-1;
     var agasi=[];
     var initial = this.mainlist_finished[0];
@@ -1925,20 +1937,18 @@ this.refresheverymin();
     for(var a in this.mainlist_finished[0].agasi){
       countingv++;
 
-      if(this.mainlist_finished[0].agasi[a].name!=this.tempmainlist.agasi[countingv].name){
-
-        var flag =  this.getNameChanged(this.tempmainlist.agasi[countingv].name, this.mainlist_finished[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day);
-              console.log(flag);
-        if(flag==false){
-          return;
+      for(var bb in aga){
+        console.log("looping through aga");
+        console.log(aga[bb].num)
+        console.log(this.mainlist_finished[0].agasi[a].num);
+        if(aga[bb].num==this.mainlist_finished[0].agasi[a].num){
+          console.log("num equal so check...");
+          console.log(aga[bb]);
+          console.log(this.mainlist_finished[0].agasi[a]);
+          this.getNameChanged(aga[bb].name, this.mainlist_finished[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day,2);
         }
-
       }
-      console.log("compare...");
-      if(this.mainlist_finished[0].agasi[a].name!=this.tempmainlist.agasi[countingv].name){
-        console.log("not same");
-        console.log(this.tempmainlist.agasi[countingv].name);
-      }
+     
       count++;
       if(this.mainlist_finished[0].agasi[a].findate==undefined){
         finnum++;
@@ -1946,9 +1956,7 @@ this.refresheverymin();
       if(this.mainlist_finished[0].agasi[a].tc==undefined){
         break;
       }
-      console.log(this.mainlist_finished[0].agasi[a].tc)
       var newmoney = this.util.getTCfromtc(this.mainlist_finished[0].agasi[a].tc);
-      console.log(newmoney);
       if(newmoney==undefined){
         newmoney=0;
       }
@@ -1956,26 +1964,13 @@ this.refresheverymin();
         falseflag=true;
       }
       this.mainlist_finished[0].agasi[a].money = newmoney;
-      agasi.push(this.mainlist_finished[0].agasi[a]);
-      console.log("agasiiiiii");
-      console.log(agasi);
     }
     if(falseflag){
       window.alert("tc계산이 잘못된 값입니다.(최대 tc : 24)");
       this.view.dismiss();
       return;
     }
-    console.log(this.company);
-    console.log(room);
-    console.log(this.mainlist_finished[0].key);
-    console.log(agasi);
-    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(this.mainlist_finished[0].key).update({agasi})
-    
-    this.firemain.child("users").child(mainlist.incharge).child("roomhistory").child(this.currentstartday).child(this.mainlist_finished[0].key).update({agasi})
-    this.firemain.child("users").child(mainlist.wt).child("roomhistory").child(this.currentstartday).child(this.mainlist_finished[0].key).update({agasi})
-    setTimeout(()=>{
-      this.refreshChoice2();
-    },1000)
+   
   }
 
   modifycancel(c,room,mainlist) {
