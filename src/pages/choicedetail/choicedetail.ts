@@ -91,12 +91,12 @@ export class ChoicedetailPage {
 
     this.name = localStorage.getItem("name");
 // this.presentLoading();
-    // this.interval =setInterval(()=>{
-    //   console.log("come minutes..")
-    //   this.refreshforeverymin();
-    //   // this.util.dismissLoading();
-    //   // this.dismissLoading();
-    // },1000*60)
+    this.interval =setInterval(()=>{
+      console.log("come minutes..")
+      this.refreshforeverymin();
+      // this.util.dismissLoading();
+      // this.dismissLoading();
+    },1000*60)
 
   }
   ionViewWillLeave(){
@@ -219,8 +219,7 @@ export class ChoicedetailPage {
   }
   refreshforeverymin(){
 
-    this.interval = setInterval(()=>{
-      console.log("refreshforeveryminrefreshforeveryminrefreshforeveryminrefreshforeveryminrefreshforeveryminrefreshforeverymin");
+      console.log("refreshforeverymin");
 
       for(var c in this.mainlist){
         for(var d in this.mainlist[c].agasi){
@@ -269,7 +268,6 @@ export class ChoicedetailPage {
       console.log(this.mainlist_finished_status)
       console.log(this.mainlist_angel);
 
-    },1000*60)
     
   }
   openclose(){
@@ -344,6 +342,9 @@ screenSwitch(values) : void {
     })
 }
   ionViewDidLoad() {
+    // setInterval(()=>{
+    //   this.refreshforeverymin();
+    // },60*1000)
     console.log('ionViewDidLoad ChoicedetailPage');
     // this.refreshforeverymin();
 
@@ -1385,9 +1386,9 @@ this.refresheverymin();
     const timeString = aa.trim();
     var hours = timeString.split(' ')[1].split(":")[0];
     var minutes = timeString.split(' ')[1].split(":")[1];
-    const meridiem = Number(hours) < 12 ? '오전' : '오후';
-    const hours12 = ((Number(hours) + 11) % 12 + 1);
-    const formattedTime = `${meridiem} ${hours12}시${minutes}분`;
+    // const meridiem = Number(hours) < 12 ? '' : '';
+    // const hours12 = ((Number(hours) + 11) % 12 + 1);
+    const formattedTime = ` ${hours}:${minutes}`;
     return formattedTime;
   }
   async getIdOfagaci (d,name,room,key,wt,incharge,mainlist){
@@ -1647,6 +1648,7 @@ this.refresheverymin();
     prompt.present();
   }
   memo(c,room,mainlist) {
+    
     this.showPrompt(room,mainlist);
     console.log("ss come")
     console.log(c);
