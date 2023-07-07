@@ -31,6 +31,7 @@ export class ChoicedetailPage {
   totalMovement: number = 0;
   threshold: number = 100; // Adjust this value to set your desired threshold
 
+  nowtime:any="";//room 에 머문 시간을 담는다
 
    a :any ;
    newname:any="";
@@ -99,7 +100,39 @@ export class ChoicedetailPage {
       // this.dismissLoading();
     },1000*60)
 
-  }
+
+    /**
+     * 현재 시간을 계산합니다
+     */
+    this.interval=setInterval(()=>{
+      let now = new Date();
+      let hour = now.getHours();
+      let min = now.getMinutes();
+      let sec = now.getSeconds();
+
+      this.nowtime=zeorfill(hour,2)+":"+zeorfill(min,2)+":"+zeorfill(sec,2);
+    }
+    ,1000)
+
+    /**
+     * fillCount 만큼 0으로 채웁니다.
+     * @param value 
+     * @param fillCount 
+     * @returns 
+     */
+    function zeorfill(value,fillCount){
+
+      var result = value;
+      // value가 number 타입일 경우 string으로 변경 후 작업
+      if(typeof value === "number") result = value.toString()
+   
+      var fillText = Array(fillCount+1 - result.length).join('0')
+      return result.toString().length < fillCount ?  fillText + result : result;
+
+    }
+
+  }//construnct :)
+  
   ionViewWillLeave(){
     clearInterval(this.interval)
   }
