@@ -210,151 +210,154 @@ export class ChoicemodalPage {
 
     if(this.checkbox4){
       this.condition3=true;
-      }else{
-        this.condition3=false;
-      }
-      if(this.checkbox5){
-        this.condition4=true;
-        }else{
-          this.condition4=false;
-        }
-        if(this.checkbox6){
-          this.condition5=true;
-          }else{
-            this.condition5=false;
-          }
-          if(this.checkbox7){
-            this.condition6=true;
-            }else{
-              this.condition6=false;
-            }
-            if(this.checkbox8){
-              this.condition7=true;
-              }else{
-                this.condition7=false;
-              }
-              if(this.checkbox9){
-                this.condition8=true;
-                }else{
-                  this.condition8=false;
-                }
-                if(this.checkbox10){
-                  this.condition9=true;
-                  }else{
-                    this.condition9=false;
-                  }
+    }else{
+      this.condition3=false;
+    }
 
+    if(this.checkbox5){
+      this.condition4=true;
+    }else{
+      this.condition4=false;
+    }
 
-                  if(this.checkbox11){
-                    this.condition10=true;
-                    }else{
-                      this.condition10=false;
-                    }
+    if(this.checkbox6){
+      this.condition5=true;
+    }else{
+      this.condition5=false;
+    }
+
+    if(this.checkbox7){
+      this.condition6=true;
+    }else{
+      this.condition6=false;
+    }
+
+    if(this.checkbox8){
+      this.condition7=true;
+    }else{
+      this.condition7=false;
+    }
+    if(this.checkbox9){
+      this.condition8=true;
+    }else{
+      this.condition8=false;
+    }
+    if(this.checkbox10){
+      this.condition9=true;
+    }else{
+      this.condition9=false;
+    }
+
+    if(this.checkbox11){
+      this.condition10=true;
+    }else{
+      this.condition10=false;
+    }
                 
-                    if(this.checkbox12){
-                    this.condition11=true;
-                    }else{
-                      this.condition11=false;
-                    }
+    if(this.checkbox12){
+      this.condition11=true;
+    }else{
+      this.condition11=false;
+    }
                 
-                    if(this.checkbox13){
-                    this.condition12=true;
-                    }else{
-                      this.condition12=false;
-                    }
+    if(this.checkbox13){
+      this.condition12=true;
+    }else{
+      this.condition12=false;
+    }
                 
-                    if(this.checkbox14){
-                      this.condition13=true;
-                      }else{
-                        this.condition13=false;
-                      }
-                      if(this.checkbox15){
-                        this.condition14=true;
-                        }else{
-                          this.condition14=false;
-                        }
-                        if(this.checkbox16){
-                          this.condition15=true;
-                          }else{
-                            this.condition15=false;
-                          }
-                          if(this.checkbox17){
-                            this.condition16=true;
-                            }else{
-                              this.condition16=false;
-                            }
-                            if(this.checkbox18){
-                              this.condition17=true;
-                              }else{
-                                this.condition17=false;
-                              }
-                              if(this.checkbox19){
-                                this.condition18=true;
-                                }else{
-                                  this.condition18=false;
-                                }
-                                if(this.checkbox20){
-                                  this.condition19=true;
-                                  }else{
-                                    this.condition19=false;
-                                  }
-                                  if(this.checkbox21){
-                                    this.condition20=true;
-                                    }else{
-                                      this.condition20=false;
-                                    }
+    if(this.checkbox14){
+      this.condition13=true;
+    }else{
+      this.condition13=false;
+    }
+
+    if(this.checkbox15){
+      this.condition14=true;
+    }else{
+      this.condition14=false;
+    }
+
+    if(this.checkbox16){
+      this.condition15=true;
+    }else{
+      this.condition15=false;
+    }
+
+    if(this.checkbox17){
+      this.condition16=true;
+    }else{
+      this.condition16=false;
+    }
+
+    if(this.checkbox18){
+      this.condition17=true;
+    }else{
+      this.condition17=false;
+    }
+
+    if(this.checkbox19){
+      this.condition18=true;
+    }else{
+      this.condition18=false;
+    }
+
+    if(this.checkbox20){
+      this.condition19=true;
+    }else{
+      this.condition19=false;
+    }
+
+    if(this.checkbox21){
+    this.condition20=true;
+    }else{
+      this.condition20=false;
+    }
 
   }
   onChangeTime(event,v){
     //console.log(event.value);
     //console.log(event.value.length);
-      if (event.value.includes(' ')) { 
-        // Found space 
-        if(v==1){
-            this.myInput2.setFocus();
-        }
-        if(v==2){
-            this.myInput3.setFocus();
-        }
-        if(v==3){
-            this.myInput4.setFocus();
-        }
-        if(v==4){
-            this.myInput5.setFocus();
-        }
-        if(v==5){
-            this.myInput6.setFocus();
-        }
-        if(v==6){
-          this.myInput7.setFocus();
+    if (event.value.includes(' ')) { 
+      // Found space 
+      if(v==1){
+          this.myInput2.setFocus();
       }
-        if(v==7){
-          this.myInput8.setFocus();
+      if(v==2){
+          this.myInput3.setFocus();
       }
+      if(v==3){
+          this.myInput4.setFocus();
+      }
+      if(v==4){
+          this.myInput5.setFocus();
+      }
+      if(v==5){
+          this.myInput6.setFocus();
+      }
+      if(v==6){
+      this.myInput7.setFocus();
+      }
+      if(v==7){
+        this.myInput8.setFocus();
+       }
       if(v==8){
         this.myInput9.setFocus();
-    }
-    if(v==9){
-      this.myInput10.setFocus();
-  }
-    
       }
-    
-    
+      if(v==9){
+        this.myInput10.setFocus();
+      }
+
+    }
     
   }
   cancel(){
     this.view.dismiss({"result":false});
   }
   confirm(){
+
     this.util.presentLoading();
 
-    //console.log(this.checkbox);
-    //console.log(this.checkbox2);
-    //console.log(this.checkbox3);
-    //console.log(this.checkbox4);
-    //console.log(this.checkbox5);
-    //console.log(this.checkbox6);
     var date = new Date();
     var year=date.getFullYear();
     var month=date.getMonth()+1;
@@ -362,12 +365,10 @@ export class ChoicemodalPage {
     var hour = date.getHours();
     var min = date.getMinutes();
 
-    // window.alert(year+"-"+month+"-"+day+" "+hour+":"+min);
+    console.log(year+"-"+month+"-"+day+" "+hour+":"+min);
+
     var numofcount=0;
-    //console.log(this.writer);
-    //console.log(this.writer2);
-    //console.log(this.writer3);
-    //console.log(this.writer4);
+
     if(this.writer.length==0){
       this.writer=this.nickname;
     }
@@ -429,242 +430,190 @@ export class ChoicemodalPage {
       this.writer20=this.nickname;
     }
 
-    //console.log("confirm");
-    //console.log(this.a);
-    //console.log(this.agasilist)
     this.agasilist=[];
+
     if(this.text.length>=2){
-      //console.log("agasilist input text");
-    this.agasilist.push({  "name":this.text.trim(),"writer":this.writer,"angel":this.checkbox,
-    "date": year+"-"+month+"-"+day +" "+hour+":"+min})
+    	this.agasilist.push({"name":this.text.trim(),"writer":this.writer,"angel":this.checkbox, "date": year+"-"+month+"-"+day +" "+hour+":"+min})
     }
     if(this.text2.length>=2){
-      
-      //console.log("agasilist input text2");
-    this.agasilist.push({ "name":this.text2.trim(),"writer":this.writer2,"angel":this.checkbox2,
-    "date":  year+"-"+month+"-"+day +" "+hour+":"+min})
+    	this.agasilist.push({"name":this.text2.trim(),"writer":this.writer2,"angel":this.checkbox2, "date":  year+"-"+month+"-"+day +" "+hour+":"+min})
     }
     if(this.text3.length>=2){
-      
-      //console.log("agasilist input text3");
-    this.agasilist.push({ "name":this.text3.trim(),"writer":this.writer3,"angel":this.checkbox3,
-    "date":  year+"-"+month+"-"+day +" "+hour+":"+min})
+    	this.agasilist.push({"name":this.text3.trim(),"writer":this.writer3,"angel":this.checkbox3, "date":  year+"-"+month+"-"+day +" "+hour+":"+min})
     }
     if(this.text4.length>=2){
-      
-      //console.log("agasilist input text4");
-    this.agasilist.push({ "name":this.text4.trim(),"writer":this.writer4,"angel":this.checkbox4,
-    "date": this.currentstartday +" "+hour+":"+min})
+    	this.agasilist.push({"name":this.text4.trim(),"writer":this.writer4,"angel":this.checkbox4, "date": this.currentstartday +" "+hour+":"+min})
     }
     if(this.text5.length>=2){
-      
-      //console.log("agasilist input text5");
-    this.agasilist.push({ "name":this.text5.trim(),"writer":this.writer5,"angel":this.checkbox5,
-    "date": this.currentstartday +" "+hour+":"+min})
+    	this.agasilist.push({"name":this.text5.trim(),"writer":this.writer5,"angel":this.checkbox5, "date": this.currentstartday +" "+hour+":"+min})
     }
     if(this.text6.length>=2){
-      
-      //console.log("agasilist input text6");
-    this.agasilist.push({ "name":this.text6.trim(),"writer":this.writer6,"angel":this.checkbox6,
-    "date": this.currentstartday +" "+hour+":"+min})
+    	this.agasilist.push({"name":this.text6.trim(),"writer":this.writer6,"angel":this.checkbox6, "date": this.currentstartday +" "+hour+":"+min})
     }
     if(this.text7.length>=2){
+      this.agasilist.push({"name":this.text7.trim(),"writer":this.writer7,"angel":this.checkbox7, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text8.length>=2){
+      this.agasilist.push({"name":this.text8.trim(),"writer":this.writer8,"angel":this.checkbox8, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text9.length>=2){
+     this.agasilist.push({"name":this.text9.trim(), "writer":this.writer9,"angel":this.checkbox9, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text10.length>=2){
+      this.agasilist.push({"name":this.text10.trim(), "writer":this.writer10,"angel":this.checkbox10, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text11.length>=2){
+      this.agasilist.push({"name":this.text11.trim(), "writer":this.writer11,"angel":this.checkbox11, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text12.length>=2){
+      this.agasilist.push({"name":this.text12.trim(), "writer":this.writer12,"angel":this.checkbox12, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text13.length>=2){
+      this.agasilist.push({"name":this.text13.trim(), "writer":this.writer13,"angel":this.checkbox13, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text14.length>=2){
+      this.agasilist.push({"name":this.text14.trim(), "writer":this.writer14,"angel":this.checkbox14, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text15.length>=2){
+      this.agasilist.push({"name":this.text15.trim(), "writer":this.writer15,"angel":this.checkbox15, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text16.length>=2){
+      this.agasilist.push({"name":this.text16.trim(), "writer":this.writer16,"angel":this.checkbox16, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text17.length>=2){
+      this.agasilist.push({"name":this.text17.trim(), "writer":this.writer17,"angel":this.checkbox17, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text18.length>=2){
+      this.agasilist.push({"name":this.text18.trim(), "writer":this.writer18,"angel":this.checkbox18, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text19.length>=2){
+      this.agasilist.push({"name":this.text19.trim(), "writer":this.writer19,"angel":this.checkbox19, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text20.length>=2){
+      this.agasilist.push({"name":this.text20.trim(), "writer":this.writer20,"angel":this.checkbox20, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    if(this.text21.length>=2){
+      this.agasilist.push({"name":this.text21.trim(), "writer":this.writer21,"angel":this.checkbox21, "date": this.currentstartday +" "+hour+":"+min})
+    }
+    var angelcount=0;
       
-      //console.log("agasilist input text7");
-      this.agasilist.push({ "name":this.text7.trim(),"writer":this.writer7,"angel":this.checkbox7,
-      "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text8.length>=2){
-        
-      //console.log("agasilist input text8");
-      this.agasilist.push({ "name":this.text8.trim(),"writer":this.writer8,"angel":this.checkbox8,
-      "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text9.length>=2){
-        
-      //console.log("agasilist input text9");
-      this.agasilist.push({ "name":this.text9.trim(), "writer":this.writer9,"angel":this.checkbox9,
-      "date": this.currentstartday +" "+hour+":"+min})
-      }
+    //console.log(this.agasilist);
 
-      if(this.text10.length>=2){
-        
-      //console.log("agasilist input text10");
-        this.agasilist.push({ "name":this.text10.trim(), "writer":this.writer10,"angel":this.checkbox10,
-        "date": this.currentstartday +" "+hour+":"+min})
+    var nameList = [];
+    var hasDuplicate = false;
+    var dupname = "";
+
+    for (var i = 0; i < this.agasilist.length; i++) {
+      var name = this.agasilist[i].name;
+      if (nameList.includes(name)) {
+        hasDuplicate = true;
+        dupname=name;
+        break;
       }
-      if(this.text11.length>=2){
-        //console.log("agasilist input text11");
-        this.agasilist.push({ "name":this.text11.trim(), "writer":this.writer11,"angel":this.checkbox11,
-        "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text12.length>=2){
-        //console.log("agasilist input text12");
-        this.agasilist.push({ "name":this.text12.trim(), "writer":this.writer12,"angel":this.checkbox12,
-        "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text13.length>=2){
-        //console.log("agasilist input text13");
-        this.agasilist.push({ "name":this.text13.trim(), "writer":this.writer13,"angel":this.checkbox13,
-        "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text14.length>=2){
-        //console.log("agasilist input text14");
-        this.agasilist.push({ "name":this.text14.trim(), "writer":this.writer14,"angel":this.checkbox14,
-        "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text15.length>=2){
-        //console.log("agasilist input text15");
-        this.agasilist.push({ "name":this.text15.trim(), "writer":this.writer15,"angel":this.checkbox15,
-        "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text16.length>=2){
-        //console.log("agasilist input text16");
-        this.agasilist.push({ "name":this.text16.trim(), "writer":this.writer16,"angel":this.checkbox16,
-        "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text17.length>=2){
-        //console.log("agasilist input text17");
-        this.agasilist.push({ "name":this.text17.trim(), "writer":this.writer17,"angel":this.checkbox17,
-        "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text18.length>=2){
-        //console.log("agasilist input text18");
-        this.agasilist.push({ "name":this.text18.trim(), "writer":this.writer18,"angel":this.checkbox18,
-        "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text19.length>=2){
-        //console.log("agasilist input text19");
-        this.agasilist.push({ "name":this.text19.trim(), "writer":this.writer19,"angel":this.checkbox19,
-        "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text20.length>=2){
-        //console.log("agasilist input text20");
-        this.agasilist.push({ "name":this.text20.trim(), "writer":this.writer20,"angel":this.checkbox20,
-        "date": this.currentstartday +" "+hour+":"+min})
-      }
-      if(this.text21.length>=2){
-        //console.log("agasilist input text21");
-        this.agasilist.push({ "name":this.text21.trim(), "writer":this.writer21,"angel":this.checkbox21,
-        "date": this.currentstartday +" "+hour+":"+min})
-      }
-      var angelcount=0;
+      nameList.push(name);
+    }
       
-      //console.log(this.agasilist);
+    if (hasDuplicate) {
+      //console.log("The agasilist array contains duplicate names.");
+      window.alert("중복된 이름 "+dupname+" 제거하고 등록해주세요.")
+      this.util.dismissLoading();
+      return;
+    } else {
+      //console.log("The agasilist array does not contain duplicate names.");
+    }
 
-      var nameList = [];
-      var hasDuplicate = false;
-      var dupname = "";
-      for (var i = 0; i < this.agasilist.length; i++) {
-          var name = this.agasilist[i].name;
-          if (nameList.includes(name)) {
-              hasDuplicate = true;
-              dupname=name;
-              break;
-          }
-          nameList.push(name);
+    //console.log(this.a.numofpeople)
+    for(var abe in this.agasilist){
+      //console.log(this.agasilist[abe]);
+      if(this.agasilist[abe].angel==true){
+        angelcount++;
       }
-      
-      if (hasDuplicate) {
-          //console.log("The agasilist array contains duplicate names.");
-          window.alert("중복된 이름 "+dupname+" 제거하고 등록해주세요.")
-          this.util.dismissLoading();
-          return;
-      } else {
-          //console.log("The agasilist array does not contain duplicate names.");
-      }
+    }
 
-      //console.log(this.a.numofpeople)
-      for(var abe in this.agasilist){
-        //console.log(this.agasilist[abe]);
-        if(this.agasilist[abe].angel==true){
-          angelcount++;
-        }
-      }
+    //console.log(this.a.numofpeople) //4
 
-      //console.log(this.a.numofpeople) //4
+    var result= this.filterDuplicates(this.agasilist);
 
-      var result= this.filterDuplicates(this.agasilist);
-      if(result==true)
-    {
+    if(result==true){
       this.util.dismissLoading();
       return;
     }
     
-      //console.log(this.agasilist.length);  //1
-      //console.log(angelcount); //0
-      //console.log(this.a.numofpeople<this.agasilist.length-angelcount);
-      //console.log(this.agasilist);
-      //console.log(this.agasilist.length);
-      //console.log("mmmmmmm");
+    //console.log(this.agasilist.length);  //1
+    //console.log(angelcount); //0
+    //console.log(this.a.numofpeople<this.agasilist.length-angelcount);
+    //console.log(this.agasilist);
+    //console.log(this.agasilist.length);
+    //console.log("mmmmmmm");
+    //console.log(this.numofpeople);
+    //console.log(this.inagasi);
+
+    //console.log(this.angelcount)
+    //console.log("this time's angel count : "+angelcount);
+    // window.alert(this.numofpeople-(this.inagasi-this.angelcount)+"명까진 괜찮고 그 걸 넘은 인원은 날개. ")
+    //console.log(this.numofpeople);//4
+    //console.log(this.inagasi-this.angelcount); //3
+    //console.log("위 둘이 비교를 먼저 해야함. 그 다음에 현재 새로 등록하는 아가씨의 수 .")
+    //console.log(this.agasilist.length+"+"+this.inagasi+"-"+this.angelcount+"-"+angelcount)
+    if(this.numofpeople<this.agasilist.length+this.inagasi-this.angelcount-angelcount){
+
+      this.util.dismissLoading();
       //console.log(this.numofpeople);
-      //console.log(this.inagasi);
+      //console.log(this.agasilist.length+this.inagasi-this.angelcount-angelcount);
+      //console.log(this.agasilist.length+this.inagasi-this.angelcount-angelcount-this.numofpeople+ "명을 날개 지정하면서 기존 등록 프로세스 시작 ");
+      var newarray = this.filterLastN(this.agasilist, this.agasilist.length+this.inagasi-this.angelcount-angelcount-this.numofpeople);
+      //console.log(newarray);
+      //console.log(newarray.length);
+      var numagasi ="";
 
-      //console.log(this.angelcount)
-      //console.log("this time's angel count : "+angelcount);
-      // window.alert(this.numofpeople-(this.inagasi-this.angelcount)+"명까진 괜찮고 그 걸 넘은 인원은 날개. ")
-      //console.log(this.numofpeople);//4
-      //console.log(this.inagasi-this.angelcount); //3
-      //console.log("위 둘이 비교를 먼저 해야함. 그 다음에 현재 새로 등록하는 아가씨의 수 .")
-      //console.log(this.agasilist.length+"+"+this.inagasi+"-"+this.angelcount+"-"+angelcount)
-      if(this.numofpeople<this.agasilist.length+this.inagasi-this.angelcount-angelcount){
-        this.util.dismissLoading();
-        //console.log(this.numofpeople);
-        //console.log(this.agasilist.length+this.inagasi-this.angelcount-angelcount);
-        //console.log(this.agasilist.length+this.inagasi-this.angelcount-angelcount-this.numofpeople+ "명을 날개 지정하면서 기존 등록 프로세스 시작 ");
-        var newarray = this.filterLastN(this.agasilist, this.agasilist.length+this.inagasi-this.angelcount-angelcount-this.numofpeople);
-        //console.log(newarray);
-        //console.log(newarray.length);
-        var numagasi ="";
-        for(var eiei in newarray){
-          numagasi+=newarray[eiei].name+",";
-        }
-        //console.log(numagasi);
-        var a = this.alertController.create({
-          message: numagasi+"를 날개로 지정하시겠습니까?",
-          buttons: [
-
-           
-            {
-              text: '아니요.',
-              handler: () => {
-                //console.log('Let me think');
-                //console.log(this.agasilist);
-          this.util.dismissLoading();
-
-
-              }
-            },
-            {
-              text: '네',
-              handler: () => {
-                //console.log('Whatever');
-                var endcount = this.agasilist.length;
-                //console.log(newarray.length);
-                //console.log(endcount);
-                for(var abab=0; abab<newarray.length; abab ++){
-                  endcount--;
-                  //console.log(endcount);
-                  this.agasilist[endcount].angel=true;
-                }
-                
-                //console.log(this.agasilist);
-                this.regagasi();
-                //날개 지정하면서 기존 등록 프로세스 시작 
-                this.util.dismissLoading();
-              }
-            }
-          ]
-        });
-        a.present();
-      }else{
-        this.regagasi();
+      for(var eiei in newarray){
+        numagasi+=newarray[eiei].name+",";
       }
-     
+      //console.log(numagasi);
+      var a = this.alertController.create({
+        message: numagasi+"를 날개로 지정하시겠습니까?",
+        buttons: [        
+                    {
+                      text: '아니요.',
+                      handler: () => {
+                                        //console.log('Let me think');
+                                        //console.log(this.agasilist);
+                                        this.util.dismissLoading();
+                                      }
+                    },
+                    {
+                      text: '네',
+                      handler: () => {
+                                        //console.log('Whatever');
+                                        var endcount = this.agasilist.length;
+                                        //console.log(newarray.length);
+                                        //console.log(endcount);
+                                        for(var abab=0; abab<newarray.length; abab ++){
+                                          endcount--;
+                                          //console.log(endcount);
+                                          this.agasilist[endcount].angel=true;
+                                        }
+                                        
+                                        //console.log(this.agasilist);
+                                        this.regagasi();
+                                        //날개 지정하면서 기존 등록 프로세스 시작 
+                                        this.util.dismissLoading();
+                                      }
+                    }
+               ]
+      });
 
-  //console.log("agasilist to put in company node");
-   }
-    filterLastN(arr, n) {
+      a.present();
+
+    }else{
+      this.regagasi();
+    }
+     
+    //console.log("agasilist to put in company node");
+
+  }// confirm :)
+
+  filterLastN(arr, n) {
     if (n >= arr.length) {
       // if n is greater than or equal to the array length, return the original array
       return arr;
@@ -674,15 +623,36 @@ export class ChoicemodalPage {
     }
   }
  
+  /**
+   * Room List 가져온다
+   * @param v 
+   * @param newlist 
+   * @param subscribedList 
+   * @param currentstartday 
+   * @param modal 
+   * @param length 
+   * @param view 
+   * @param firemain 
+   * @param company 
+   * @param a 
+   * @param nickname 
+   * @param newnum 
+   * @param duflag 
+   * @param agasiname 
+   */
   getRoomList(v,newlist,subscribedList,currentstartday,modal,length,view,firemain,company,a,nickname,newnum,duflag,agasiname){
-    console.log("getRoomListgetRoomListgetRoomListgetRoomListgetRoomList");
+
+    console.log("getRoomList ->");
     console.log(v);
     console.log(v.name);
     console.log("newnum add " +newnum);
     console.log(this.newnum);
+
     this.firemain.child("users").child(v.name).once("value",(snapshot)=>{
+
       console.log(snapshot.val());
       console.log("v.name : "+v.name);
+
       if(snapshot.val()!=null&&snapshot.val().current!=undefined&&snapshot.val().current!=null){
         var currentflag = snapshot.val().current;
         subscribedList.push({"id":v.name,"name":v.name});
@@ -694,27 +664,32 @@ export class ChoicemodalPage {
       }
 
       console.log("not dupulicated so start add");
-            var dte = new Date();
-              dte.setHours(dte.getHours()+9);
 
-              var date = new Date();
-              var year=date.getFullYear();
-              var month=date.getMonth()+1;
-              var day = date.getDate();
-              var hour = date.getHours();
-              var min = date.getMinutes();
+      var dte = new Date();
+      dte.setHours(dte.getHours()+9);
+
+      var date = new Date();
+      var year=date.getFullYear();
+      var month=date.getMonth()+1;
+      var day = date.getDate();
+      var hour = date.getHours();
+      var min = date.getMinutes();
+
       if(snapshot.val()==null){
-        //최초등록
+        
+        console.log("최초 등록 ->")
 
         this.newnum++;
+
         if(this.newnum==-1){
           this.newnum=0;
         }
         console.log("newnum ++ :"+this.newnum);
         console.log(v.name+'first so push to newlist')
-        newlist.push({ "name":v.name,
-        "date": v.date ,"writer":v.writer,"angel":v.angel});
+
+        newlist.push({ "name":v.name,"date": v.date ,"writer":v.writer,"angel":v.angel});
         let modal2 = modal.create(Choicemodal2Page,{"newnum":this.newnum, "agasi":newlist,"subscribedList":agasinum,"room":a,"currentstartday":currentstartday,"hour":hour,"min":min});
+
         modal2.onDidDismiss(url => {
           console.log(url);
           if(url==undefined){
@@ -728,42 +703,50 @@ export class ChoicemodalPage {
               view.dismiss();
             }
           }
-          
         });
-    modal2.present();
+        modal2.present();
 
-      }else if (snapshot.val().jopan==undefined){
+        console.log("최초등록 :)");
+
+      } else if (snapshot.val().jopan==undefined){
 
         this.newnum++;
+
         if(this.newnum==-1){
           this.newnum=0;
         }
+
         console.log("newnumm ++ :"+this.newnum);
-      console.log(snapshot.val().jopan);
-        console.log(v.name+" jopan is not set")
-        newlist.push({ "name":v.name,
-        "date": v.date ,"writer":v.writer,"angel":v.angel});
-      console.log(newlist);
-      let modal2 = modal.create(Choicemodal2Page,{"newnum":this.newnum, "agasi":newlist,"subscribedList":agasinum,"room":a,"currentstartday":currentstartday,"hour":hour,"min":min});
-      modal2.onDidDismiss(url => {
-        //console.log(url);
-        if(url==undefined){
-          return;
-        }else{
-          if(url.result=="ok"){
-            window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
-            //console.log(this.originalList);
-            view.dismiss();
-          }
-        }
+        console.log(snapshot.val().jopan);
+        console.log(v.name+" jopan is not set");
+
+        newlist.push({ "name":v.name,"date": v.date ,"writer":v.writer,"angel":v.angel});
+
+        console.log(newlist);
         
-      });
-  modal2.present();
-       // 이미등록되었지만 조판팀 설정안되있음. 
+        let modal2 = modal.create(Choicemodal2Page,{"newnum":this.newnum, "agasi":newlist,"subscribedList":agasinum,"room":a,"currentstartday":currentstartday,"hour":hour,"min":min});
+        
+        modal2.onDidDismiss(url => {
+          //console.log(url);
+          if(url==undefined){
+            return;
+          }else{
+            if(url.result=="ok"){
+              window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
+              //console.log(this.originalList);
+              view.dismiss();
+            }
+          }
+            
+        });
 
-
+        modal2.present();
+        // 이미등록되었지만 조판팀 설정안되있음. 
 
       }else{
+
+        console.log("최초 등록 아님 ->");
+
         this.newnum++;
         if(this.newnum==-1){
           this.newnum=0;
@@ -771,116 +754,81 @@ export class ChoicemodalPage {
         // window.alert("newnum : "+this.newnum);
         console.log("newnummm ++ :"+this.newnum);
         console.log(this.newnum);
-      console.log(snapshot.val().jopan);
+        console.log(snapshot.val().jopan);
         console.log(v.name+"already real")
 
         var date = new Date();
   
         var hour = date.getHours();
         var min = date.getMinutes();
+
         console.log("newnum..."+newnum);
         console.log(a);
         console.log("updating..."+v.name);
+
         firemain.child("users").child(a.wt).child("roomhistory").child(currentstartday).child(a.key).child("agasi").child(this.newnum+"").update({"angel": v.angel,"roomno":a.name,"incharge":a.incharge, "name":v.name,"writer":nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
         firemain.child("users").child(a.directorId).child("roomhistory").child(currentstartday).child(a.key).child("agasi").child(this.newnum+"").update({"angel": v.angel,"roomno":a.name,"incharge":a.incharge, "name":v.name,"writer":nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
         
-
         firemain.child("users").child(v.name).child("attendance").child(currentstartday).update({"currentStatus":"attend"})
         firemain.child("users").child(v.name).child("attendance").child(currentstartday).child("attend").update({"team":snapshot.val().jopan,"name":name,"date":currentstartday,"flag":"attend","time":hour+":"+min})
+
         firemain.child("users").child(v.name).child("current").update({"room":a.name,"enter_date":dte,"date":currentstartday})
-        firemain.child("attendance").child(company).child(currentstartday).child(v.name).child("attend").update({ "team":snapshot.val().jopan,"name":v.name,"flag":"attend","date":currentstartday, "time":hour+":"+min})
-        firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).update({"lastupdatedperson":nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
         
+        firemain.child("attendance").child(company).child(currentstartday).child(v.name).child("attend").update({ "team":snapshot.val().jopan,"name":v.name,"flag":"attend","date":currentstartday, "time":hour+":"+min})
+        
+        firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).update({"lastupdatedperson":nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
         firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).child("agasi").child(this.newnum+"").update({"angel": v.angel,"num":this.newnum,"roomno":a.name,"incharge":a.incharge, "name":v.name,"writer":nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
         firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).child("message").push({ "date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드 ","type":"assigned", "agasi":v.name,"uploader":nickname, "name":"system"})
     
         subscribedList.push({"id":v.name,"name":v.name});
+        // 이미등록됨
 
-         // 이미등록됨
-      }
+        console.log("최초 등록 아님 :)");
+
+      }//if - else if - else :)
 
       var date = new Date();
-  
-      
       var hour = date.getHours();
       var min = date.getMinutes();
+
       console.log(newnum);
       console.log(newlist);
       console.log(subscribedList);
       console.log(subscribedList.length); //0
       console.log(newlist.length);  //0
-
       console.log(length); //1 //하울. 
-
       console.log(this.newnum);
+
       if(subscribedList.length + newlist.length == length){
+
         console.log("Fin!!!")
 
-        // firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).child("agasi").once("value",function(snap){
-        //   console.log(snap.val())
-        //   var startvalue = -1;
-        //   for(var dd in snap.val()){
-        //     console.log(dd);
-        //     console.log(snap.val()[dd]);
-        //     startvalue++;
-        //     console.log("번째 삭제하고 다시 넣기"+startvalue)
-        //     var bantee=snap.val()[dd].bantee;
-        //     var findate = snap.val()[dd].findate;
-        //     var lastupdated = snap.val()[dd].lastupdated;
-        //     var lastupdatedperson = snap.val()[dd].lastupdatedperson;
-        //     var money = snap.val()[dd].money;
-        //     var tc = snap.val()[dd].tc;
-        //     var wt = snap.val()[dd].wt;
-        //     var angel = snap.val()[dd].angel;
-        //     var roomno = snap.val()[dd].roomno;
-        //     var incharge = snap.val()[dd].incharge;
-        //     var name = snap.val()[dd].name;
-        //     var writer = snap.val()[dd].writer;
-        //     var date = snap.val()[dd].date;
-        //     console.log(angel);
-        //     if(angel==undefined){
-        //       angel = false;
-        //     }
-        //     console.log(roomno);
-        //     console.log(incharge);
-        //     console.log(name);
-        //     console.log(writer);
-        //     console.log(date);
-        //     console.log(bantee);
-        //     console.log(findate);
-        //     console.log(lastupdated);
-        //     console.log(lastupdatedperson);
-        //     console.log(money);
-        //     console.log(tc);
-        //     console.log(wt);
-
-
-        //   }
-
-        // });
         if(newlist.length==0){
           console.log("0 so just dismiss")
           view.dismiss();
         }else{
           console.log("not 0 so modal!")
           var agasinum=0;
-        if(a.agasi==undefined){
+          if(a.agasi==undefined){
 
-        }else{
-          agasinum = a.agasi.length;
-        }
-        agasinum=agasinum+subscribedList.length;
-        console.log(subscribedList);
-        console.log(a);
-        console.log(agasinum);
-        console.log(newlist);
+          }else{
+            agasinum = a.agasi.length;
+          }
+          agasinum=agasinum+subscribedList.length;
+
+          console.log(subscribedList);
+          console.log(a);
+          console.log(agasinum);
+          console.log(newlist);
      
         }
-       
       }
+    });//firemain :)
 
-    });
-  }
+    console.log("getRoomList :)");
+
+  }//getRoomList :)
+
   filterDuplicates(arr) {
     var seen = {};
     console.log("Filter....");
@@ -898,112 +846,52 @@ export class ChoicemodalPage {
     });
     return dupflag;
   }
+  /**
+   * 아가씨를 룸에 등록합니다
+   */
   regagasi(){
+
     console.log("reagasi...");
+
     var date = new Date();
     var year=date.getFullYear();
     var month=date.getMonth()+1;
     var day = date.getDate();
     var hour = date.getHours();
     var min = date.getMinutes();
-
-    
     var dte = new Date();
-    // this.originalList=this.agasilist;
-    //console.log(this.a);
-      //console.log(this.agasilist);
-      //console.log(this.originalList);
-      var newflag=false;
+    var newflag=false;
       
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("agasi").once("value",snap3=>{
+    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("agasi").once("value",snap3=>{
       
-        var num = snap3.numChildren();
-        console.log(snap3.val());
-        this.newnum = Number(num)-1;
-        var totalagasi=[];
-      //   //console.log(b);
-        var dupflag=false;
-        var newlist = [];
-        var subscribedList = [];
-        var duflag=false;
-        console.log(this.agasilist);
-        for(var cc in this.agasilist){
-          console.log(this.agasilist[cc]);
-            this.getRoomList(this.agasilist[cc],newlist,subscribedList,this.currentstartday,this.modal,this.agasilist.length,this.view,this.firemain,this.company,this.a,this.agasilist[cc].writer,this.newnum,duflag,this.a);
-          console.log(this.util.newnumber);
-          
+      var num = snap3.numChildren();
+      this.newnum = Number(num)-1;
+      var totalagasi=[];
+      var dupflag=false;
+      var newlist = [];
+      var subscribedList = [];
+      var duflag=false;
+
+      console.log("for loop");
+
+      for(var cc in this.agasilist){
+        console.log(this.agasilist[cc]);
+        this.getRoomList(this.agasilist[cc],newlist,subscribedList,this.currentstartday,this.modal,this.agasilist.length,this.view,this.firemain,this.company,this.a,this.agasilist[cc].writer,this.newnum,duflag,this.a);
+        console.log(this.util.newnumber);
       }
+
+      console.log("for loop :)");
 
       this.util.dismissLoading();
       
+      console.log("reagasi :)");
+      
       return;
-      //console.log(this.subscribedList);
-      //console.log(this.agasilist);
-              var subscribedListNames = this.subscribedList.map(function(obj) {
-                return obj.name;
-              });
-              //console.log(subscribedListNames);
-              this.newlist = this.agasilist.filter(function(obj) {
-                //console.log("obj...");
-                //console.log(obj.name);
-                //console.log(subscribedListNames.includes(obj.name));
-                return !subscribedListNames.includes(obj.name);
-              });
 
+    });//firebase :)
 
+  }// regagasi :) 
 
-
-
-        //console.log(totalagasi);
-       
-        console.log("this is new List...")
-        console.log(this.newlist);
-        console.log(this.agasilist);
-        console.log(this.originalList);
-        console.log(this.subscribedList);
-        console.log(this.a)
-        var agasinum=0;
-        if(this.a.agasi==undefined){
-
-        }else{
-          agasinum = this.a.agasi.length;
-        }
-        if(this.newlist.length!=0){
-         // 수정 1개로 만원. 
-         let modal = this.modal.create(Choicemodal2Page,{ "agasi":this.newlist,"subscribedList":agasinum,"room":this.a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
-         modal.onDidDismiss(url => {
-           //console.log(url);
-           if(url==undefined||url.result==undefined){
-            this.util.dismissLoading();
-           }else if(url.result=="ok"){
-             window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
-   
-         for(var cca in this.newlist){
-           if(newflag){
-   
-           }else{
-             this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("message").push({"date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드..","agasi":this.newlist[cca].name,"uploader":this.nickname,"type":"assigned", "name":"system"})
-           }
-             this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).update({"lastupdatedperson":this.nickname, "lastupdated":year+"-"+month+"-"+day +" "+hour+":"+min+""})
-            //  this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("agasi").child(newnum+"").update({"angel": this.newlist[cca].angel, "roomno":this.a.name, "name":this.newlist[cca].name,"incharge":this.a.incharge, "writer":this.nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min});
-            }
-
-            this.view.dismiss({"result":"nono"})
-           }
-         });
-         
-     modal.present();
-
-        }else{
-          //console.log("else...come...");
-          this.view.dismiss({"result":"nono"})
-        }
-
-     this.util.dismissLoading();
-    });
-
-
-  }
   ionViewDidLoad() {
     //console.log('ionViewDidLoad ChoicemodalPage');
   }

@@ -2649,15 +2649,14 @@ this.paginateArray();
   })
 }
 
+generateroomcategory(){
 
+  console.log("generateroomcategory ->")
 
-
-
-  generateroomcategory(){
-    this.util.presentLoading();
-    console.log("generateroomcategory")
-    var orderedQuery =  this.firemain.child("company").child(this.company).child("roomlist")
-    orderedQuery.on("value", (snapshot)=> {
+  this.util.presentLoading();
+ 
+  var orderedQuery =  this.firemain.child("company").child(this.company).child("roomlist")
+  orderedQuery.on("value", (snapshot)=> {
 
     this.smallroom=[];
     this.smallroom2=[];
@@ -2668,102 +2667,91 @@ this.paginateArray();
     this.allroom=[];
     var roomin=[];
     this.inroom=[];
-     snapshot.forEach((childSnapshot) => {
-       var childData = childSnapshot.val();
-       console.log("foreach");
-       console.log(childData)
-       console.log(childData.category)
 
-       var cat =  childData.category;
-       var name = childData.name;
-       var flag = childData.flag;
-       if(flag==undefined){
+    snapshot.forEach((childSnapshot) => {
+
+      var childData = childSnapshot.val();
+      // console.log("foreach");
+      // console.log(childData)
+      // console.log(childData.category)
+
+      var cat =  childData.category;
+      var name = childData.name;
+      var flag = childData.flag;
+      if(flag==undefined){
         flag=false;
-       }
-       console.log(name+"is:"+flag+"and cat : "+cat);
+      }
+      // console.log("카테고리");
+      // console.log(name+"is:"+flag+"and cat : "+cat);
+
       this.allroom.push({"name":name,"category":cat,"flag":flag});
+
       if(cat=="소"){
 
         if(flag){
         }else{
-          //console.log(name.substring(0,1));
+          
           if(name.substring(0,1)==1){
-            //console.log("name : "+name);
+            
             this.inroom.push(name);
             this.smallroom.push({"name":name,"category":cat,"flag":flag});
           }
           if(name.substring(0,1)==2){
-            //console.log("name : "+name);
+            
             this.inroom.push(name);
             this.smallroom2.push({"name":name,"category":cat,"flag":flag});
           }
         
         }
+
       }else if(cat=="중"){
+
         if(flag){
         }else{
           if(name.substring(0,1)==1){
-            //console.log("name : "+name);
+            
             this.inroom.push(name);
             this.midroom.push({"name":name,"category":cat,"flag":flag});
           }
           if(name.substring(0,1)==2){
-            //console.log("name : "+name);
+            
             this.inroom.push(name);
             this.midroom2.push({"name":name,"category":cat,"flag":flag});
           }
-          // this.midroom.push({"name":name,"category":cat,"flag":flag});
+          
         }
+
       }else if(cat=="대"){
+
         if(flag){
         }else{
           if(name.substring(0,1)==1){
-            //console.log("name : "+name);
+            
             this.inroom.push(name);
             this.bigroom.push({"name":name,"category":cat,"flag":flag});
           }
           if(name.substring(0,1)==2){
-            //console.log("name : "+name);
+            
             this.inroom.push(name);
             this.bigroom2.push({"name":name,"category":cat,"flag":flag});
           }
-          // this.bigroom.push({"name":name,"category":cat,"flag":flag});
+          
         }
       }
 
-     })
+    })//for loop :)
 
-     this.loadfinished=true;
-     console.log("finish room category");
-     this.util.dismissLoading();
-    //  let toast = this.toastCtrl.create({
-    //   message: "로딩 완료",
-    //   duration: 1000,
-    //   dismissOnPageChange: true
-    // });
-    // toast.onDidDismiss(() => {
-    // });
-    // toast.present();
-    });
-    // this.firemain.child("company").child(this.company).child("roomlist").once('value').then((snap)=>{
-    //   console.log("roomlist iterate...");
-    //   if(snap.val()==null){
+    this.loadfinished=true;
 
-    //   }else{
-    //     for(var a in snap.val()){
-       
-    //   }
-        
-    //   }
-  
-    //   console.log(this.smallroom);
-    //   console.log(this.midroom);
-    //   console.log(this.bigroom);
-    //   console.log(this.allroom)
-    // });
+    console.log("finish room category");
+    console.log("generateroomcategory :)");
 
+    this.util.dismissLoading();
+
+  });//firemain :)
     
-  }
+}//generateroomcategory :)
+
   attending(){
     console.log("attending??");
 

@@ -357,13 +357,15 @@
           </div>
 
           <ion-list style=" overflow-y: scroll;" class="lll"  no-lines reorder="true" (ionItemReorder)="reorderItems($event);">
-            <ion-item  class="it" *ngIf="mainlist_choice.length==0">
+            <ion-item *ngIf="mainlist_choice.length==0" class="it">
               <div class="chat-container">
                 <div class="chat-messages">
                   <div class="message">
                     <div class="message-content">
                       <div class="contentmain">
-                        <p style=" font-size: 30px; font-weight: 900; text-align: center; margin: auto;">초이스 내역이 없습니다.</p>
+                        <p style="font-size: 30px; font-weight: 900; text-align: center; margin: auto;">
+                          초이스 내역이 없습니다.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -419,13 +421,17 @@
             <div style="width: 50%; line-height: 5; line-height: 55px; left:0; float:left; font-size: 20px; height: 75px;"  class="tab">
               <input type="checkbox" style="display:none"  id="tab1" name="tab-group">
               <label (click)="tabclicked(1)" for="tab1"><img style=" width: 63px; margin-top: -2px; " src="assets/img/angel2.png" alt="Image Icon">
-                <span style="border: solid 1px; position: absolute; float: right; top: 5%; border-radius: 20px; width: 24px; margin-left: -5px; height: 24px; background: red; font-size: 13px; color: white; padding-left: 2px; padding-top: 2px;">{{angelnumber_choice}}</span> 
+                <span style="border: solid 1px; position: absolute; float: right; top: 5%; border-radius: 20px; width: 24px; margin-left: -5px; height: 24px; background: red; font-size: 13px; color: white; padding-left: 2px; padding-top: 2px;">
+                  {{angelnumber_choice}}
+                </span> 
               </label>
             </div>
             <div style=" width: 50%; line-height: 5; line-height: 55px; left: 0; float: left; font-size: 20px; height: 75px; "  class="tab">
               <input type="checkbox" id="tab2" style="display:none;"  name="tab-group">
               <label (click)="tabclicked(2)" for="tab2"><img style=" width: 35px; margin-top: 5px; " src="assets/img/jimyung2.png" alt="Image Icon"> 
-                <span style="border: solid 1px; position: absolute; float: right; top: 5%; border-radius: 20px; width: 24px; height: 24px; background: red; margin-left: -5px; font-size: 13px; color: white; padding-left: 2px; padding-top: 2px;">{{jimyungnumber}}</span> 
+                <span style="border: solid 1px; position: absolute; float: right; top: 5%; border-radius: 20px; width: 24px; height: 24px; background: red; margin-left: -5px; font-size: 13px; color: white; padding-left: 2px; padding-top: 2px;">
+                  {{jimyungnumber}}
+                </span> 
               </label>
             </div>
           </div>
