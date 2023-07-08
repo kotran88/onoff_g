@@ -293,7 +293,7 @@ export class UtilsProvider {
     var diffMin = Math.ceil(diff / (1000) / 3600 * 60 );
     diffMin=diffMin-pauseTime;
     var tctotal=0;
-    var chasam=0;
+    var totalmoney=0;
     var bantee=0;
 //1분~10분까지는 0
 //11분~20분까지는 0.3개 차삼 3만원 추가.
@@ -306,20 +306,20 @@ var cha3=0;
 //조판찡이,
     if(diffMin<=10){
       tctotal =0;
-      chasam=0;
+      totalmoney=0;
     }else if(diffMin>=11&&diffMin<=20){
       tctotal = 0.3;
       cha3=3;
-      chasam=3;
+      totalmoney=3;
     }else if(diffMin>=21&&diffMin<=40){
       tctotal = 0.6;
       bantee=1;
-      chasam=6;
+      totalmoney=6;
       cha3=3;
     }else if(diffMin>=41&&diffMin<=60){
       tctotal = 1;
       bantee=0;
-      chasam=this.tc*1;
+      totalmoney=this.tc*1;
       cha3=3;
     }else if(diffMin>=61&&diffMin<=80){
       bantee=0;
@@ -327,397 +327,397 @@ var cha3=0;
       if(diffMin>=61&&diffMin<=66){
 
       tctotal = 1.1;
-        chasam=14;
+        totalmoney=14;
       }else if(diffMin>=67&&diffMin<=80){
 
       tctotal = 1.3;
-        chasam=16;
+        totalmoney=16;
       }
     }else if(diffMin>=81&&diffMin<=100){
       tctotal = 1.6;
       bantee=1;
       cha3=3;
-      chasam=19;
+      totalmoney=19;
     }else if(diffMin>=101&&diffMin<=120){
       tctotal = 2;
       bantee=0;
-      chasam=this.tc*2;
+      totalmoney=this.tc*2;
     }else if(diffMin>=121&&diffMin<=140){
       bantee=0;
       if(diffMin>=121&&diffMin<=126){
         tctotal = 2.1;
-        chasam=27;
+        totalmoney=27;
       }else if(diffMin>=126&&diffMin<=140){
 
       tctotal = 2.3;
-        chasam=29;
+        totalmoney=29;
       }
     }else if(diffMin>=141&&diffMin<=160){
       tctotal = 2.6;
       bantee=1;
-      chasam=32;
+      totalmoney=32;
     }else if(diffMin>=161&&diffMin<=180){
       tctotal = 3;
       bantee=0;
-      chasam=this.tc*3;
+      totalmoney=this.tc*3;
     }else if(diffMin>=181&&diffMin<=200){
       bantee=0;
       if(diffMin>=181&&diffMin<=186){
         tctotal = 3.1;
-      chasam=40;
+      totalmoney=40;
       }else if(diffMin>=186&&diffMin<=200){
         tctotal = 3.3;
-      chasam=42;
+      totalmoney=42;
       }
   }else if(diffMin>=201&&diffMin<=220){
       tctotal = 3.6;
       bantee=1;
-      chasam=43;
+      totalmoney=43;
   }else if(diffMin>=221&&diffMin<=240){
       tctotal = 4;
       bantee=0;
-      chasam=this.tc*4;
+      totalmoney=this.tc*4;
   }else if(diffMin>=241&&diffMin<=260){
       bantee=0;
       if(diffMin>=241&&diffMin<=246){
         tctotal = 4.1;
-      chasam=53;
+      totalmoney=53;
       }else if(diffMin>=246&&diffMin<=260){
         tctotal = 4.3;
-      chasam=55;
+      totalmoney=55;
       }
     }else if(diffMin>=261&&diffMin<=280){
       tctotal = 4.6;
       bantee=1;
     }else if(diffMin>=281&&diffMin<=300){
       tctotal = 5;
-      chasam=this.tc*5;
+      totalmoney=this.tc*5;
       bantee=0;
     }else if(diffMin>=301&&diffMin<=320){
       bantee=0;
       if(diffMin>=301&&diffMin<=306){
         tctotal = 5.1;
-        chasam=66;
+        totalmoney=66;
         }else if(diffMin>=306&&diffMin<=320){
           tctotal = 5.3;
-        chasam=68;
+        totalmoney=68;
         }
     }else if(diffMin>=321&&diffMin<=340){
       tctotal = 5.6;
-      chasam=71;
+      totalmoney=71;
       bantee=6;
     }else if(diffMin>=341&&diffMin<=360){
       tctotal = 6;
       bantee=0;
-      chasam=this.tc*6;
+      totalmoney=this.tc*6;
     }else if(diffMin>=361&&diffMin<=380){
       bantee=0;
       if(diffMin>=361&&diffMin<=366){
         tctotal = 6.1;
-        chasam=69;
+        totalmoney=69;
         }else if(diffMin>=366&&diffMin<=380){
           tctotal = 6.3;
-        chasam=81;
+        totalmoney=81;
         }
     }else if(diffMin>=381&&diffMin<=400){
       tctotal = 6.6;
       bantee=1;
-      chasam=84;
+      totalmoney=84;
     }else if(diffMin>=401&&diffMin<=420){
       tctotal = 7;
-      chasam=this.tc*7;
+      totalmoney=this.tc*7;
       bantee=0;
     }else if(diffMin>=421&&diffMin<=440){
       bantee=0;
       if(diffMin>=421&&diffMin<=426){
         tctotal = 7.1;
-        chasam=92;
+        totalmoney=92;
       }else if(diffMin>=426&&diffMin<=440){
         tctotal = 7.3;
-        chasam=94;
+        totalmoney=94;
       }
 
     }else if(diffMin>=441&&diffMin<=460){
       tctotal = 7.6;
       bantee=1;
-      chasam = 97;
+      totalmoney = 97;
     }else if(diffMin>=461&&diffMin<=480){
       tctotal = 8;
-      chasam=this.tc*8
+      totalmoney=this.tc*8
       bantee=0;
     }else if(diffMin>=481&&diffMin<=500){
       bantee=0;
       if(diffMin>=481&&diffMin<=486){
         tctotal = 8.1;
-        chasam=105
+        totalmoney=105
       }else if(diffMin>=486&&diffMin<=500){
         tctotal = 8.3;
-        chasam=107
+        totalmoney=107
       }
     }else if(diffMin>=501&&diffMin<=520){
       tctotal = 8.6;
       bantee=1;
-      chasam=110;
+      totalmoney=110;
     }else if(diffMin>=521&&diffMin<=540){
       tctotal = 9;
-      chasam=this.tc*9;
+      totalmoney=this.tc*9;
       bantee=0;
     }else if(diffMin>=541&&diffMin<=560){
       bantee=0;
       if(diffMin>=541&&diffMin<=546){
         tctotal = 9.1;
-        chasam=118;
+        totalmoney=118;
       }else if(diffMin>=546&&diffMin<=560){
         tctotal = 9.3;
-        chasam=120;
+        totalmoney=120;
       }
 
     }else if(diffMin>=561&&diffMin<=580){
       tctotal = 9.6;
       bantee=1;
-      chasam=123;
+      totalmoney=123;
     }else if(diffMin>=581&&diffMin<=600){
       tctotal = 10;
       bantee=0;
-      chasam=this.tc*10;
+      totalmoney=this.tc*10;
     }else if(diffMin>=601&&diffMin<=620){
       bantee=0;
       if(diffMin>=601&&diffMin<=606){
         tctotal = 10.1;
-        chasam=131;
+        totalmoney=131;
       }else if(diffMin>=606&&diffMin<=620){
         tctotal = 10.3;
-        chasam=133;
+        totalmoney=133;
       }
     }else if(diffMin>=621&&diffMin<=640){
       tctotal = 10.6;
-      chasam=136;
+      totalmoney=136;
       bantee=1;
     }else if(diffMin>=641&&diffMin<=660){
       tctotal = 11;
       bantee=0;
-      chasam=this.tc*11;
+      totalmoney=this.tc*11;
     }else if(diffMin>=661&&diffMin<=680){
       bantee=0;
       if(diffMin>=661&&diffMin<=666){
         tctotal = 11.1;
-        chasam=144;
+        totalmoney=144;
       }else if(diffMin>=666&&diffMin<=680){
         tctotal = 11.3;
-        chasam=146;
+        totalmoney=146;
       }
     }else if(diffMin>=681&&diffMin<=700){
       tctotal = 11.6;
       bantee=12;
-      chasam=149;
+      totalmoney=149;
     }else if(diffMin>=701&&diffMin<=720){
       tctotal = 12;
-      chasam=this.tc*12;
+      totalmoney=this.tc*12;
       bantee=0;
     }else if(diffMin>=721&&diffMin<=740){
       bantee=0;
       if(diffMin>=721&&diffMin<=726){
         tctotal = 12.1;
-        chasam=157;
+        totalmoney=157;
       }else if(diffMin>=726&&diffMin<=740){
         tctotal = 12.3;
-        chasam=159;
+        totalmoney=159;
       }
     }else if(diffMin>=741&&diffMin<=760){
       tctotal = 12.6;
       bantee=1;
-      chasam=162;
+      totalmoney=162;
     }else if(diffMin>=761&&diffMin<=780){
       tctotal = 13;
       bantee=0;
-      chasam=this.tc*13;
+      totalmoney=this.tc*13;
     }else if(diffMin>=781&&diffMin<=800){
       bantee=0;
       if(diffMin>=781&&diffMin<=786){
         tctotal = 13.1;
-        chasam=170;
+        totalmoney=170;
       }else if(diffMin>=786&&diffMin<=800){
         tctotal = 13.3;
-        chasam=172;
+        totalmoney=172;
       }
     }else if(diffMin>=801&&diffMin<=820){
       tctotal = 13.6;
       bantee=1;
-      chasam=175;
+      totalmoney=175;
     }else if(diffMin>=821&&diffMin<=840){
       tctotal = 14;
-      chasam=this.tc*14;
+      totalmoney=this.tc*14;
       bantee=0;
     }else if(diffMin>=841&&diffMin<=860){
       bantee=0;
       if(diffMin>=841&&diffMin<=846){
         tctotal = 14.1;
-        chasam=183;
+        totalmoney=183;
       }else if(diffMin>=846&&diffMin<=860){
         tctotal = 14.3;
-        chasam=185;
+        totalmoney=185;
       }
     }else if(diffMin>=861&&diffMin<=880){
       tctotal = 14.6;
       bantee=1;
-      chasam=188;
+      totalmoney=188;
     }else if(diffMin>=881&&diffMin<=900){
       tctotal = 15;
       bantee=0;
-      chasam=this.tc*15;
+      totalmoney=this.tc*15;
     }else if(diffMin>=901&&diffMin<=920){
       bantee=0;
       if(diffMin>=901&&diffMin<=906){
         tctotal = 15.1;
-        chasam=196;
+        totalmoney=196;
       }else if(diffMin>=906&&diffMin<=920){
         tctotal = 15.3;
-        chasam=198;
+        totalmoney=198;
       }
     }else if(diffMin>=921&&diffMin<=940){
       tctotal = 15.6;
       bantee=1;
-      chasam=201;
+      totalmoney=201;
     }else if(diffMin>=941&&diffMin<=960){
       tctotal = 16;
-      chasam=this.tc*16;
+      totalmoney=this.tc*16;
       bantee=0;
     }else if(diffMin>=961&&diffMin<=980){
       bantee=0;
       if(diffMin>=961&&diffMin<=966){
         tctotal = 16.1;
-        chasam=209;
+        totalmoney=209;
       }else if(diffMin>=966&&diffMin<=980){
         tctotal = 16.3;
-        chasam=211;
+        totalmoney=211;
       }
     }else if(diffMin>=981&&diffMin<=1000){
       tctotal = 16.6;
       bantee=1;
-      chasam=214;
+      totalmoney=214;
     }else if(diffMin>=1001&&diffMin<=1020){
       tctotal = 17;
       bantee=0;
-      chasam=this.tc*17;
+      totalmoney=this.tc*17;
     }else if(diffMin>=1021&&diffMin<=1040){
       bantee=0;
       if(diffMin>=1021&&diffMin<=1026){
         tctotal = 17.1;
-        chasam=222;
+        totalmoney=222;
       }else if(diffMin>=1026&&diffMin<=1040){
         tctotal = 17.3;
-        chasam=224;
+        totalmoney=224;
       }
     }else if(diffMin>=1041&&diffMin<=1060){
       tctotal = 17.6;
       bantee=1;
-      chasam=227;
+      totalmoney=227;
     }else if(diffMin>=1061&&diffMin<=1080){
       tctotal = 18;
-      chasam=this.tc*18;
+      totalmoney=this.tc*18;
       bantee=0;
       
     }else if(diffMin>=1081&&diffMin<=1100){
       bantee=0;
       if(diffMin>=1081&&diffMin<=1086){
         tctotal = 18.1;
-        chasam=235;
+        totalmoney=235;
       }else if(diffMin>=1086&&diffMin<=1100){
         tctotal = 18.3;
-        chasam=237;
+        totalmoney=237;
       }
     }else if(diffMin>=1101&&diffMin<=1120){
       tctotal = 18.6;
       bantee=1;
-      chasam=240;
+      totalmoney=240;
     }else if(diffMin>=1121&&diffMin<=1140){
       tctotal = 19;
       bantee=0;
-      chasam=this.tc*19;
+      totalmoney=this.tc*19;
     }else if(diffMin>=1141&&diffMin<=1160){
       bantee=0;
       if(diffMin>=1141&&diffMin<=1146){
         tctotal = 19.1;
-        chasam=248;
+        totalmoney=248;
       }else if(diffMin>=1146&&diffMin<=1160){
         tctotal = 19.3;
-        chasam=250;
+        totalmoney=250;
       }
     }else if(diffMin>=1161&&diffMin<=1180){
       tctotal = 19.6;
       bantee=1;
-      chasam=253;
+      totalmoney=253;
     }else if(diffMin>=1181&&diffMin<=1200){
       tctotal = 20;
-      chasam=this.tc*20;
+      totalmoney=this.tc*20;
       bantee=0;
     }else if(diffMin>=1201&&diffMin<=1220){
       bantee=0;
       if(diffMin>=1201&&diffMin<=1206){
         tctotal = 20.1;
-        chasam=261;
+        totalmoney=261;
       }else if(diffMin>=1206&&diffMin<=1220){
         tctotal = 20.3;
-        chasam=263;
+        totalmoney=263;
       }
     }else if(diffMin>=1221&&diffMin<=1240){
       tctotal = 20.6;
       bantee=1;
-      chasam=266;
+      totalmoney=266;
     }else if(diffMin>=1241&&diffMin<=1260){
       tctotal = 21;
       bantee=0;
-      chasam=this.tc*21;
+      totalmoney=this.tc*21;
     }else if(diffMin>=1261&&diffMin<=1280){
       bantee=0;
       if(diffMin>=1261&&diffMin<=1266){
         tctotal = 21.1;
-        chasam=274;
+        totalmoney=274;
       }else if(diffMin>=1266&&diffMin<=1280){
         tctotal = 21.3;
-        chasam=276;
+        totalmoney=276;
       }
     }else if(diffMin>=1281&&diffMin<=1300){
       tctotal = 21.6;
       bantee=1;
-      chasam=279;
+      totalmoney=279;
     }else if(diffMin>=1301&&diffMin<=1320){
       tctotal = 22;
-      chasam=this.tc*22;
+      totalmoney=this.tc*22;
       bantee=0;
     }else if(diffMin>=1321&&diffMin<=1340){
       bantee=0;
       if(diffMin>=1321&&diffMin<=1326){
         tctotal = 22.1;
-        chasam=287;
+        totalmoney=287;
       }else if(diffMin>=1326&&diffMin<=1340){
         tctotal = 22.3;
-        chasam=289;
+        totalmoney=289;
       }
     }else if(diffMin>=1341&&diffMin<=1360){
       tctotal = 22.6;
       bantee=1;
-      chasam=292;
+      totalmoney=292;
     }else if(diffMin>=1361&&diffMin<=1380){
       tctotal = 23;
       bantee=0;
-      chasam=this.tc*23;
+      totalmoney=this.tc*23;
     }else if(diffMin>=1381&&diffMin<=1400){
       bantee=0;
       if(diffMin>=1381&&diffMin<=1386){
         tctotal = 23.1;
-        chasam=300;
+        totalmoney=300;
       }else if(diffMin>=1386&&diffMin<=1400){
         tctotal = 23.3;
-        chasam=302;
+        totalmoney=302;
       }
     }else if(diffMin>=1401&&diffMin<=1420){
       tctotal = 23.6;
       bantee=1;
-      chasam=305;
+      totalmoney=305;
     }else if(diffMin>=1421&&diffMin<=1440){
       tctotal = 24;
-      chasam=this.tc*24;
+      totalmoney=this.tc*24;
       bantee=0;
     }
 
@@ -774,7 +774,7 @@ var cha3=0;
                             //100분까지는 1.6개
                             //101분이면 2개
                             
-    return chasam+","+tctotal+","+bantee;
+    return totalmoney+","+tctotal+","+bantee;
 
 
 
