@@ -419,11 +419,32 @@ export class SignupPage {
       window.alert("닉네임을 입력해주세요")
       return;
     }
-    this.util.presentLoading();
+    // this.util.presentLoading();
 
     this.nick_checker=false;
     console.log("nickname dupulicate check");
-    this.firemain.child('users').once("value", (snap) => {
+    this.firemain.child('users').orderByChild("nickname").equalTo(this.nickname).once("value", (snap) => {
+      console.log(snap.val());
+      if(snap.val()!=null){
+
+        if(snap.val()[this.nickname].young.length==1){
+          //디비에 올라만 가있고 가입은 안되있음. 
+
+          this.nick_checker=false;
+          window.alert("사용가능한 닉네임입니다.")
+          this.util.dismissLoading();
+        }else{
+
+          this.nick_checker=true;
+          window.alert("이미 등록된 닉네임입니다")
+          this.util.dismissLoading();
+        }
+      }else{
+        this.nick_checker=false;
+          window.alert("사용가능한 닉네임입니다!")
+          this.util.dismissLoading();
+      }
+      return;
       for(var aabb in snap.val()){
         if(snap.val()[aabb].nickname==this.nickname){
           if(snap.val()[aabb].name!=undefined){
@@ -445,26 +466,39 @@ export class SignupPage {
       this.util.dismissLoading();
       return;
     }
+
+
     this.util.presentLoading();
     this.phone_checker=false;
     console.log("ㅊㅊcell phone dupulicate check");
-    this.firemain.child('users').once("value", (snap) => {
-      for(var aabb in snap.val()){
-        if(snap.val()[aabb].ph==this.phone){
-          this.phone_checker=true;
-          window.alert("이미 등록된 번호입니다.")
-          this.util.dismissLoading();
-          return;
-        }
+    this.firemain.child('users').orderByChild("ph").equalTo(this.phone).once("value", (snap) => {
+      console.log(snap.val());
+      for(var a in snap.val()){
+        console.log(a);
       }
-      console.log(this.phone_checker)
-      if(!this.phone_checker){
+      if(snap.val()==null){
+
         window.alert("사용가능한 번호입니다")
+      }else{
+
+        this.phone_checker=true;
+        window.alert("이미 등록된 번호입니다.")
+        this.util.dismissLoading();
+      // }
+      // for(var aabb in snap.val()){
+      //   if(snap.val()[aabb].ph==this.phone){
+      //     return;
+      //   }
+      // }
+      // console.log(this.phone_checker)
+      // if(!this.phone_checker){
+      //   window.alert("사용가능한 번호입니다")
       }
       this.util.dismissLoading();
     });
     
   }
+
   // certificate(){
   //   if(this.name==undefined||this.phone==undefined||
   //     this.name==''||this.phone==''){
@@ -506,6 +540,16 @@ export class SignupPage {
   //   }
   // }
   nextstep(){
+
+    this.firemain.child('users').orderByChild("id").equalTo(this.id).once("value", (snap) => {
+      if(snap.val()==null){
+      }else{
+        window.alert("이미 등록된 아이디입니다.")
+        return;
+      }
+
+
+
     console.log("next step")
     console.log(this.phone_checker)
     console.log(this.nick_checker)
@@ -535,7 +579,7 @@ export class SignupPage {
       window.alert("휴대폰번호 중복확인해주세요.")
       return;
     }else if(this.nick_checker){
-      window.alert("닉네임 중복확인해주세요.")
+      window.alert("닉네임 요건을 만족하지않았습니다.")
       return;
     }else if(this.nick_checker==null){
       window.alert("닉네임 중복확인해주세요.")
@@ -622,6 +666,9 @@ export class SignupPage {
         })
       })
     }
+
+    });
+
     // else if(this.cellcert===false){
     //   window.alert('휴대폰 인증을 완료해주세요');
     // }
