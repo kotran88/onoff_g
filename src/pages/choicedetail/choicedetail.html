@@ -250,8 +250,7 @@
                 </span>
                 <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,2)" style="display: block; margin: 5px; width: 55px; border-radius: 3px; background: white; font-size: 15px; height: 40px; color:black; padding-left:0px; padding-right:0px; text-align: center;">
                   종료
-                </button>
-                <button (click)="calcRoomtime(b.date)">걍팅</button>
+                </button>                
                 <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,2)" style="display: block; margin: 5px; width: 55px; height: 40px; border-radius: 15px; color:black; background: white !important; text-align: center; font-size: 13px; padding-left:0px; padding-right:0px;">
                   재진행
                 </button>

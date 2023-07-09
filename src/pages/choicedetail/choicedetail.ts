@@ -125,15 +125,43 @@ export class ChoicedetailPage {
 
   }//constructor :)
 
-  calcRoomtime(startTime:any){
+  /**
+   * 비용 처리기준을 체크합니다.
+   * 600초(10분) 보다 작으면 false 크면 true
+   * @param dateTime 
+   * @returns 
+   */
+  isPassedStandardWorkingTimeSec(dateTime:string):boolean{
+
+    let myWorkingTimeSec:number = Math.trunc(this.calcRoomtime(dateTime));
+    let standardWorkingTimeSec:number = 10*60;//10분 
+
+    console.log(`일한 시간은 : ${myWorkingTimeSec} 초`);
+    console.log(`기준 시간은 : ${standardWorkingTimeSec} 초`);
+
+    if(standardWorkingTimeSec < myWorkingTimeSec){
+      return true
+    }else{
+      return false;
+    }
+  }
+  /**
+   * 룸에 머문 시간을 계산합니다 sec 단위
+   * @param startTime 
+   * @returns 
+   */
+  calcRoomtime(startTime:any):number{
 
     const dateA = new Date();
     const dateB = new Date(startTime);
-    console.log(dateA);
-    console.log(dateB);
+
+    console.log(`입장시간은 : ${dateA}`);
+    console.log(`종료시간은 : ${dateB}`);
+
     const diffMSec = dateA.getTime() - dateB.getTime();
     const diffSec = diffMSec / 1000;
     const diffMin = diffMSec / (60 * 1000);
+
     console.log(`시간의 차이는 ${diffSec}초 입니다.`);  // 결과: '시간의 차이는 20분 입니다.'
 
     return diffSec;
@@ -765,8 +793,21 @@ export class ChoicedetailPage {
   end(c,room,mainlist, f){
 
     console.log("-------------------------end-------------------------");
-    console.log(c);
-    console.log(mainlist)
+    console.log("------------------------- param -------------------------");
+    console.log(c);//a.agasi
+    console.log(room);//a.name
+    console.log(mainlist);//a
+    console.log(f);//1
+    console.log("------------------------- param :) -------------------------");
+
+    //걍팅인지
+    if(this.isPassedStandardWorkingTimeSec(c.date)){
+      console.log(c.name+'-->지급기준을 통과하였습니다');
+    }else{
+      console.log(c.name+'-->걍팅입니다');
+      return;
+    }
+
     console.log(this.mainlist_finished_clone);
 
     this.util.presentLoading();
