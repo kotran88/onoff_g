@@ -771,7 +771,7 @@ export class ChoicemodalPage {
         
         firemain.child("users").child(v.name).child("attendance").child(currentstartday).update({"currentStatus":"attend"})
         firemain.child("users").child(v.name).child("attendance").child(currentstartday).child("attend").update({"team":snapshot.val().jopan,"name":name,"date":currentstartday,"flag":"attend","time":hour+":"+min})
-
+        //users > 사용자 > current 정보를 추가한다
         firemain.child("users").child(v.name).child("current").update({"room":a.name,"enter_date":dte,"date":currentstartday})
         
         firemain.child("attendance").child(company).child(currentstartday).child(v.name).child("attend").update({ "team":snapshot.val().jopan,"name":v.name,"flag":"attend","date":currentstartday, "time":hour+":"+min})

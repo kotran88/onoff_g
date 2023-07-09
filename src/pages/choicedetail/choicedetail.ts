@@ -66,7 +66,7 @@ export class ChoicedetailPage {
 
     this.a=this.navParams.get("a");
 
-    console.log(this.a);
+    console.log("this.a ->"+this.a);
 
     this.v=this.navParams.get("v");
     this.nickname=localStorage.getItem("nickname");
@@ -76,8 +76,8 @@ export class ChoicedetailPage {
       this.openclose();
     });
 
-    console.log(this.a);
-    console.log(this.v);
+    console.log("this.a ->"+this.a);
+    console.log("this.v ->"+this.v);
 
     if(this.v==undefined){
       this.activeclass='1';
@@ -90,7 +90,7 @@ export class ChoicedetailPage {
     }else{
       this.activeclass='4';
     }
-    console.log(this.a);
+    console.log("this.a->"+this.a);
     this.company = localStorage.getItem("company");
    
     this.currentstart=localStorage.getItem("start");
@@ -164,7 +164,7 @@ export class ChoicedetailPage {
   }
 
   /**
-   * refresheverymin
+   * refreshChoice2() 가 호출될때 마지막에 호출하는 func.
    */
   refresheverymin(){
 
@@ -287,7 +287,8 @@ export class ChoicedetailPage {
 
   }//justrefresh :)
   /**
-   * refreshforeverymin
+   * 매 1분마다 호출되는 func.
+   * tc 계산을 한다
    */
   refreshforeverymin(){
 
@@ -373,14 +374,20 @@ export class ChoicedetailPage {
 
     console.log("r is....");
     console.log(this.a);
+    console.log("this.a.key : "+this.a.key);
     
-    this.firemain.child("company").child(this.company).child("choice").child(this.a.key).update({"status":"start","key":this.a.key, "name":this.a.name, "startdate":new Date()});
+    this.firemain.child("company").child(this.company).child("choice").child(this.a.key).update({"status":"start",
+                                                                                                  "key":this.a.key, 
+                                                                                                  "name":this.a.name, 
+                                                                                                  "startdate":new Date()});
+
     let modal = this.modal.create(ChoicemodalPage,{"a":this.a,"numofpeople":this.numofpeople,"inagasi":this.inagasi,"angelcount":this.angelcount})
 
     modal.onDidDismiss(url => {
-      this.firemain.child("company").child(this.company).child("choice").child(this.a.key).update({"status":"end","name":this.a.name, "enddate":new Date()});
-    
-      console.log(url);
+
+      this.firemain.child("company").child(this.company).child("choice").child(this.a.key).update({"status":"end",
+                                                                                                    "name":this.a.name, 
+                                                                                                    "enddate":new Date()});
       if(url==undefined){
         this.view.dismiss();
       }else if(url.result==true){
@@ -533,6 +540,8 @@ export class ChoicedetailPage {
       mainlist = this.mainlist_origin;
     }
 
+    console.log("users > "+c.name);
+    
     this.firemain.child("users").child(c.name).once("value",snapp=>{
 
       console.log(snapp.val());
@@ -616,7 +625,7 @@ export class ChoicedetailPage {
           var dte = new Date();
           dte.setHours(dte.getHours()+9);
           
-          
+          //users > 사용자 > current 정보를 추가한다
           this.firemain.child("users").child(c.name).child("current").update({"room":c.roomno,"enter_date":dte,"date":this.currentstartday})
         
           this.firemain.child("company").child(this.company).child("jopanjjing").child(jopan).child(this.currentstartday).once("value",snap=>{
@@ -747,7 +756,7 @@ export class ChoicedetailPage {
   }
 
   /**
-   * end
+   * 종료
    * @param c 
    * @param room 
    * @param mainlist 
@@ -985,7 +994,7 @@ export class ChoicedetailPage {
   }// end :)  
 
   /**
-   * refreshChoice2
+   * 페이지 로드될때 실행되는 func.
    */
   refreshChoice2(){
 
@@ -1004,15 +1013,19 @@ export class ChoicedetailPage {
     var sortedArray = [];
     sortedArray = this.a.agasi;
 
-    console.log(this.a);
+    console.log(this.company+">"+"madelist"+">"+this.currentstartday+">"+this.a.name+">"+this.a.key);
 
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).once("value", (snap)=>{
+
+      console.log("get list");
+      console.log(snap.val());
 
       console.log(snap.val().name);
 
       var agasiarray = snap.val().agasi;
 
       console.log(agasiarray);
+      
       console.log(snap.val().logic);
       console.log(snap.val());
 
@@ -1271,7 +1284,7 @@ export class ChoicedetailPage {
 
 
       
-            }else if(snap.val().ss==false){
+          }else if(snap.val().ss==false){
 
               console.log("not fin not angle");
               console.log(snap.val().numofpeople+",,,"+inagasi);
@@ -1316,7 +1329,7 @@ export class ChoicedetailPage {
                                     "lack":snap.val().numofpeople-inagasi});
               }
 
-            }else if(snap.val().ss==undefined){
+          }else if(snap.val().ss==undefined){
 
               if(snap.val().numofpeople<=inagasi){
 
@@ -1356,7 +1369,7 @@ export class ChoicedetailPage {
                                     "lack":snap.val().numofpeople-inagasi});
               }
 
-            }else if(snap.val().numofpeople<=inagasi){
+          }else if(snap.val().numofpeople<=inagasi){
 
               console.log("snap.val()[a][b].numofpeople<=totalagasi");
               this.mainlist_finished.push({"agasi":agasiarray,
@@ -1375,7 +1388,7 @@ export class ChoicedetailPage {
                                           "wt":snap.val().wt,
                                           "numofagasi":inagasi,
                                           "lack":snap.val().numofpeople-inagasi});
-            }else{
+          }else{
 
               console.log("is else...");
               this.mainlist.push({"agasi":agasiarray,
@@ -1394,7 +1407,7 @@ export class ChoicedetailPage {
                                   "wt":snap.val().wt,
                                   "numofagasi":inagasi,
                                   "lack":snap.val().numofpeople-inagasi});
-            }
+          } 
                   
           console.log("ss false end");
 
