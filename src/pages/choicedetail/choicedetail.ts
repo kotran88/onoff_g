@@ -805,7 +805,8 @@ export class ChoicedetailPage {
       console.log(c.name+'-->지급기준을 통과하였습니다');
     }else{
       console.log(c.name+'-->걍팅입니다');
-      return;
+      //TODO
+      // return;
     }
 
     console.log(this.mainlist_finished_clone);
