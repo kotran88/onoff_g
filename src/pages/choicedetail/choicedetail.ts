@@ -800,15 +800,6 @@ export class ChoicedetailPage {
     console.log(f);//1
     console.log("------------------------- param :) -------------------------");
 
-    //걍팅인지
-    if(this.isPassedStandardWorkingTimeSec(c.date)){
-      console.log(c.name+'-->지급기준을 통과하였습니다');
-    }else{
-      console.log(c.name+'-->걍팅입니다');
-      //TODO
-      // return;
-    }
-
     console.log(this.mainlist_finished_clone);
 
     this.util.presentLoading();
@@ -828,6 +819,50 @@ export class ChoicedetailPage {
     var alreadyexist=false;
 
     console.log("c name : "+c.name);
+
+    //걍팅인지
+    if(this.isPassedStandardWorkingTimeSec(c.date)){
+      console.log(c.name+'-->지급기준을 통과하였습니다');
+    }else{
+      
+      console.log(c.name+'-->걍팅입니다');
+
+      var angel = false;
+
+      if(c.angel!=undefined){
+        angel=c.angel;
+      }
+      
+      this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(c.name).child("attend").update({"flag":"standby"});
+
+      this.firemain.child("users").child(c.name).child("current").remove();
+      //firemain push
+      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"tc":tctotal,
+                                                                                                                                                              "bantee":bantee,
+                                                                                                                                                              "totalmoney":totalmoney, 
+                                                                                                                                                              "date":endtime,
+                                                                                                                                                              "contents":"종료 ",
+                                                                                                                                                              "type":"fin", 
+                                                                                                                                                              "uploader":this.nickname,
+                                                                                                                                                              "agasi":c.name, 
+                                                                                                                                                              "name":"system"});
+
+      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).update({"roomno":room,
+                                                                                                                                                                          "incharge":mainlist.incharge,
+                                                                                                                                                                          "angel":angel, 
+                                                                                                                                                                          "findate":year+"-"+month+"-"+day +" "+hour+":"+min,
+                                                                                                                                                                          "tc":tctotal,
+                                                                                                                                                                          "bantee":bantee, 
+                                                                                                                                                                          "money":totalmoney,
+                                                                                                                                                                          "wt":mainlist.wt,
+                                                                                                                                                                          "lastupdatedperson":this.nickname,
+                                                                                                                                                                           "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
+            
+      this.util.dismissLoading();
+      this.refreshChoice2();
+
+      return;
+    }
 
     this.firemain.child("users").child(c.name).once("value",snap=>{
 
