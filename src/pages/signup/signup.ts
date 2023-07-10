@@ -21,6 +21,7 @@ import { UtilsProvider } from '../../providers/utils/utils';
 export class SignupPage {
   firemain = firebase.database().ref();
   name='';
+  usersyoung= "";
   nickname='';
   paytext='월 2,100원 결제하기';
   lloading:any;
@@ -425,9 +426,12 @@ export class SignupPage {
     console.log("nickname dupulicate check");
     this.firemain.child('users').orderByChild("nickname").equalTo(this.nickname).once("value", (snap) => {
       console.log(snap.val());
+      
       if(snap.val()!=null){
-
-        if(snap.val()[this.nickname].young.length==1){
+        if(snap.val()[this.nickname]!=undefined&&snap.val()[this.nickname].young!=undefined){
+          this.usersyoung = snap.val()[this.nickname].young;
+        }
+        if(snap.val()[this.nickname].ph==undefined){
           //디비에 올라만 가있고 가입은 안되있음. 
 
           this.nick_checker=false;
@@ -436,7 +440,7 @@ export class SignupPage {
         }else{
 
           this.nick_checker=true;
-          window.alert("이미 등록된 닉네임입니다")
+          window.alert("이미 등록된 닉네임입니다!!")
           this.util.dismissLoading();
         }
       }else{

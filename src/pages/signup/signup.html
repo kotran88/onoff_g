@@ -236,13 +236,22 @@ height: 100%;"padding>
     <div style="
     margin-top: 100px;">
 
-      <span *ngIf="type!='3'" style="
+      <span *ngIf="type!='3' && usersyoung.length==0" style="
       color: black;
       width: 100%;
       font-size: 20px;
-      text-align: center;">영업팀을 설정해주세요. </span>
+      text-align: center;">영업팀을 설정해주세요. </span><br>
 
-<ion-list *ngIf="type!='3'" style=" 
+<span *ngIf="type!='3' && usersyoung.length!=0" style="
+color: black;
+width: 100%;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;">이미 영업팀이 설정되어있습니다. {{usersyoung}} </span>
+
+<ion-list *ngIf="type!='3' && usersyoung.length==0 " style=" 
 height: 54px;    margin-top: 24px !important;">
   <ion-item>
     <ion-label>영업팀</ion-label>
