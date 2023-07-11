@@ -313,14 +313,18 @@ export class SlidetestPage {
 
 
   searching(){
+
     console.log(this.mainlist_choice);
+
     this.searchResult=[];
+
     console.log("searching come");
     console.log(this.inputtext);
     console.log(this.mainlist_finished_choice);
-     this.mainlist_choice.filter((item)=> {
 
-      console.log("Incharge..."+item.incharge)
+    this.mainlist_choice.filter((item)=> {
+
+      console.log("Incharge..."+item.incharge);
 
       if(item.incharge.includes(this.inputtext)){
         console.log("match4444!!!!");
@@ -335,8 +339,10 @@ export class SlidetestPage {
         //console.log(item.agasi[aa].name.includes(inputtext));
         if(isNaN(this.inputtext)){
           if(item.agasi[aa].name.includes(this.inputtext)){
+
             console.log("match4444!!!!");
             console.log(item);
+
             this.searchResult.push({"item":item,"no":1});
           }else{
           }
@@ -344,8 +350,10 @@ export class SlidetestPage {
         }else{
           //숫자라면. 
           if(item.agasi[aa].roomno.includes(this.inputtext)){
+
             console.log("match3333!!!!");
             console.log(item);
+
             this.searchResult.push({"item":item,"no":1});
           }else{
           }
@@ -361,6 +369,7 @@ export class SlidetestPage {
       if(item.incharge.includes(this.inputtext)){
         console.log("match4444!!!!");
         console.log(item);
+
         this.searchResult.push({"item":item,"no":2});
       }else{
       }
@@ -370,8 +379,10 @@ export class SlidetestPage {
         //console.log(item.agasi[aa].name.includes(inputtext));
         if(isNaN(this.inputtext)){
           if(item.agasi[aa].name.includes(this.inputtext)){
+
             console.log("match11111!!!!");
             console.log(item);
+
             this.searchResult.push({"item":item,"no":2});
           }else{
           }
@@ -383,8 +394,10 @@ export class SlidetestPage {
           // }
         }else{
           if(item.agasi[aa].roomno.includes(this.inputtext)){
+
             console.log("match2222!!!!");
             console.log(item);
+
             this.searchResult.push({"item":item,"no":2});
           }else{
           }
@@ -402,6 +415,7 @@ export class SlidetestPage {
         if(item.agasi[aa].name.includes(this.inputtext)){
           console.log("match!!!!");
           console.log(item);
+
           this.searchResult.push(item);
         }else{
         }
@@ -463,25 +477,33 @@ export class SlidetestPage {
   }
 
   slideChanged(){
+
     console.log("changed...");
-    console.log(this.slider.getActiveIndex())
+    console.log(this.slider.getActiveIndex());
+
     this.page = this.slider.getActiveIndex();
-    console.log(this.page)
+
+    console.log(this.page);
+
     if(this.page==3){
       setTimeout(()=>{
-        console.log("page 3...")
 
+        console.log("page 3...");
 
         this.generateaatendance();
       },1000)
     }
   }
   selectedTab(index) {
+
     console.log("tab selected");
+
     this.slider.slideTo(index);
   }
   goToSlide(index) {
+
     console.log("gotoslide : "+index);
+
     this.slider.slideTo(index);
     if(index==3){
 
@@ -553,14 +575,15 @@ export class SlidetestPage {
   }
   openclose(){
     console.log("open and cloe");
+
     this.menuCtrl.open();
     
   }
   logout(){
-    localStorage.setItem("id", "" )
-    localStorage.setItem("type", "" )
-    localStorage.setItem("loginflag", "false" )
-    this.navCtrl.setRoot(LoginpagePage)
+    localStorage.setItem("id", "" );
+    localStorage.setItem("type", "" );
+    localStorage.setItem("loginflag", "false" );
+    this.navCtrl.setRoot(LoginpagePage);
 }
 
 togglesection(i){
@@ -572,8 +595,10 @@ togglesection(i){
 }
 
 reorderItems(indexes){
+
   var clonemain = [];
   clonemain = this.mainlist_choice;
+
   console.log("at first:");
   console.log(clonemain);
   console.log("reorder item...");
@@ -584,13 +609,16 @@ reorderItems(indexes){
   console.log(this.mainlist_choice[indexes.from]);
   console.log(this.mainlist_choice[indexes.to]);
   console.log("위 두개 위치를 변경한다");
+  
   var to = clonemain[indexes.to].v;
   var from = clonemain[indexes.from].v;
   clonemain[indexes.from].v= to;
   clonemain[indexes.to].v= from;
+
   console.log("onmiddle");
   console.log(clonemain);
   console.log(this.mainlist_choice);
+
   this.mainlist_choice = clonemain;
   // clonemain[indexes.to].v=clonemain[indexes.from].v
   // console.log(clonemain);
@@ -610,7 +638,9 @@ reorderItems(indexes){
   var count=0;
 
   for(var a in clonemain){
-    console.log(clonemain[a].name+"를 : "+clonemain[a].v)
+
+    console.log(clonemain[a].name+"를 : "+clonemain[a].v);
+
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(clonemain[a].name).child(clonemain[a].key).update({"v":clonemain[a].v})
 
   }
@@ -635,6 +665,7 @@ reorderItems(indexes){
   // }
 
   console.log(this.mainlist_choice);
+
   return;
 
   console.log("for loop finished");
@@ -651,27 +682,36 @@ reorderItems(indexes){
 
 };
 gotowaiting(){
+
   this.navCtrl.push(WaitingPage,{flag:true}).then(() => {
-    console.log("WaitingPage back")
+
+    console.log("WaitingPage back");
+
     this.navCtrl.getActive().onDidDismiss(data => {
-      console.log("off...")
+
+      console.log("off...");
       console.log(data);
+
       if(data==undefined){
         return;
       }
       if(data.result=="waiting"){
+
         window.alert("방을 선택하세요.");
+
         console.log(data.data);
         console.log(data.data.incharge);
+
         this.selectedKey = data.data.key;
         this.selectedIncharge=data.data.incharge;
         this.selectedAvec = data.data.avec;
         this.selectedLogic = data.data.logic;
         this.selectedNumber = data.data.numofpeople;
+
         console.log(data.data.avec);
         console.log(data.data.logic);
       }
-  // this.firemain.child("company").child(this.company).child("roomlist").off();
+      // this.firemain.child("company").child(this.company).child("roomlist").off();
     })
   });
 }
@@ -681,18 +721,19 @@ godetail(a,v){
     return;
   }
   this.navCtrl.push(ChoicedetailPage,{"a":a,"v":v}).then(() => {
+
     this.navCtrl.getActive().onDidDismiss(data => {
 
       console.log("ChoicedetailPage ondiddismiss....");
       console.log(data);
  
-        this.generate();
+      this.generate();
       this.generate_info();
 
-        setTimeout(()=>{
-          this.screenSwitch(1);
-          this.screenSwitch_att(1);
-        },10)
+      setTimeout(()=>{
+        this.screenSwitch(1);
+        this.screenSwitch_att(1);
+      },10)
 
     })
   });
@@ -702,6 +743,7 @@ godetail(a,v){
 generateaatendance(){
 
   this.util.presentLoading();
+
   console.log("ionViewWillEnter");
   console.log(this.company);
 
@@ -720,7 +762,9 @@ generateaatendance(){
   this.firemain.child("company").child(this.company).child('madelist').child(this.selectedday).once('value').then((snap)=>{
    
     if(snap.val()!=undefined){
-      console.log(snap.val())
+
+      console.log(snap.val());
+
       for(var a in snap.val()){
         for(var b in snap.val()[a]){
           console.log(b);
@@ -821,6 +865,7 @@ generateaatendance(){
             this.mainlist_att.push({"name":snap.val()[b].attend.name,"time": snap.val()[b].attend.time, "status":snap.val()[b].attend.flag,"team":snap.val()[b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});
             
             for(var abba in this.mainlistfromcompany){
+
               if(this.mainlistfromcompany[abba].name == snap.val()[b].attend.name){
 
                 console.log(snap.val()[b].attend);
@@ -860,17 +905,15 @@ generateaatendance(){
           } else { // otherwise, compare hours
             return timeA[0] - timeB[0];
           }
+
         });
 
         console.log(this.mainlist)
         console.log(this.mainlistfromcompany)
-
-
         console.log("okdoneeeee")
         console.log(this.agasijungsan_att);
         console.log(this.agasijungsantotal_att);
         // this.util.dismissLoading();
-
         this.numofstandby_att=this.mainlist_att.length - this.numberofIn;
         this.util.dismissLoading();
       });//this.firemain.child('attendance').child(this.company).child(this.currentstartday).once('value').then((snap)=>{ :)
@@ -4138,5 +4181,5 @@ attending(){
     this.getDaysOfMonth();
     // })
   }
-  
+
 }
