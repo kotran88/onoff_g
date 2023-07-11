@@ -502,51 +502,51 @@ export class ChoicedetailPage {
     var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
 
     //걍팅인지
-    if(this.isPassedStandardWorkingTimeSec(c.date)){
-      console.log(c.name+'-->지급기준을 통과하였습니다');
-    }else{
+    // if(this.isPassedStandardWorkingTimeSec(c.date)){
+    //   console.log(c.name+'-->지급기준을 통과하였습니다');
+    // }else{
       
-      console.log(c.name+'-->걍팅입니다');
+    //   console.log(c.name+'-->걍팅입니다');
 
-      var angel = false;
+    //   var angel = false;
 
-      if(c.angel!=undefined){
-        angel=c.angel; 
-      }
+    //   if(c.angel!=undefined){
+    //     angel=c.angel; 
+    //   }
       
-      this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(c.name).child("attend").update({"flag":"standby"});
+    //   this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(c.name).child("attend").update({"flag":"standby"});
 
-      this.firemain.child("users").child(c.name).child("current").remove();
-      //firemain push
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"tc":0,
-                                                                                                                                                              "bantee":0,
-                                                                                                                                                              "totalmoney":0, 
-                                                                                                                                                              "date":endtime,
-                                                                                                                                                              "contents":"종료 ",
-                                                                                                                                                              "type":"fin", 
-                                                                                                                                                              "uploader":this.nickname,
-                                                                                                                                                              "agasi":c.name, 
-                                                                                                                                                              "name":"system"});
+    //   this.firemain.child("users").child(c.name).child("current").remove();
+    //   //firemain push
+    //   this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"tc":0,
+    //                                                                                                                                                           "bantee":0,
+    //                                                                                                                                                           "totalmoney":0, 
+    //                                                                                                                                                           "date":endtime,
+    //                                                                                                                                                           "contents":"종료 ",
+    //                                                                                                                                                           "type":"fin", 
+    //                                                                                                                                                           "uploader":this.nickname,
+    //                                                                                                                                                           "agasi":c.name, 
+    //                                                                                                                                                           "name":"system"});
 
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).update({"roomno":room,
-                                                                                                                                                                          "incharge":mainlist.incharge,
-                                                                                                                                                                          "angel":angel, 
-                                                                                                                                                                          "findate":year+"-"+month+"-"+day +" "+hour+":"+min,
-                                                                                                                                                                          "tc":0,
-                                                                                                                                                                          "bantee":0, 
-                                                                                                                                                                          "money":0,
-                                                                                                                                                                          "wt":mainlist.wt,
-                                                                                                                                                                          "lastupdatedperson":this.nickname,
-                                                                                                                                                                          "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
+    //   this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).update({"roomno":room,
+    //                                                                                                                                                                       "incharge":mainlist.incharge,
+    //                                                                                                                                                                       "angel":angel, 
+    //                                                                                                                                                                       "findate":year+"-"+month+"-"+day +" "+hour+":"+min,
+    //                                                                                                                                                                       "tc":0,
+    //                                                                                                                                                                       "bantee":0, 
+    //                                                                                                                                                                       "money":0,
+    //                                                                                                                                                                       "wt":mainlist.wt,
+    //                                                                                                                                                                       "lastupdatedperson":this.nickname,
+    //                                                                                                                                                                       "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
       
-      console.log(`room > ${mainlist.key} > agasi 삭제`);
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").remove();
+    //   console.log(`room > ${mainlist.key} > agasi 삭제`);
+    //   this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").remove();
       
-      this.util.dismissLoading();
-      this.refreshChoice2();
+    //   this.util.dismissLoading();
+    //   this.refreshChoice2();
 
-      return;
-    }//걍팅인지 :)
+    //   return;
+    // }//걍팅인지 :)
     
     console.log("snap2 come...");
 
@@ -906,7 +906,7 @@ export class ChoicedetailPage {
                                                                                                                                                                           "lastupdatedperson":this.nickname,
                                                                                                                                                                           "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
       
-      if(Number(mainlist.numofpeople) == 1){
+      if(Number(mainlist.numofagasi) == 1){
         console.log(`room > ${mainlist.key} > agasi 삭제`);
         this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").remove();
       }
