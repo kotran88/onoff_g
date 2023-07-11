@@ -146,8 +146,13 @@ export class SignupPage {
         if(this.type==4){
           this.youngup="경리팀";
         }else{
-          window.alert("영업팀을 선택해주세요 ");
-          return;
+          if(this.usersyoung.length!=0){
+
+          }else{
+
+            window.alert("영업팀을 선택해주세요 ");
+            return;
+          }
         }
        
       }
@@ -165,6 +170,9 @@ export class SignupPage {
 
     var value = this.type;
 
+    if(this.usersyoung.length!=0){
+      this.youngup=this.usersyoung;
+    }
     // this.stage=5;
     var nowdate=this.format_date(new Date())
    localStorage.setItem("type",value+"");
