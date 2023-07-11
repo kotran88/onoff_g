@@ -830,7 +830,7 @@ export class ChoicedetailPage {
       var angel = false;
 
       if(c.angel!=undefined){
-        angel=c.angel;
+        angel=c.angel; 
       }
       
       this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(c.name).child("attend").update({"flag":"standby"});
@@ -856,7 +856,7 @@ export class ChoicedetailPage {
                                                                                                                                                                           "money":totalmoney,
                                                                                                                                                                           "wt":mainlist.wt,
                                                                                                                                                                           "lastupdatedperson":this.nickname,
-                                                                                                                                                                           "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
+                                                                                                                                                                          "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
             
       this.util.dismissLoading();
       this.refreshChoice2();
