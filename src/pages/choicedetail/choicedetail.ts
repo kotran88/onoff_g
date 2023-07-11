@@ -884,6 +884,7 @@ export class ChoicedetailPage {
       this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(c.name).child("attend").update({"flag":"standby"});
 
       this.firemain.child("users").child(c.name).child("current").remove();
+
       //firemain push
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"tc":tctotal,
                                                                                                                                                               "bantee":bantee,
@@ -908,7 +909,9 @@ export class ChoicedetailPage {
       
       if(Number(mainlist.numofagasi) == 1){
         console.log(`room > ${mainlist.key} > agasi 삭제`);
-        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").remove();
+        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).remove();
+        this.firemain.child("users").child(mainlist.wt).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(c.num).remove();
+        this.firemain.child("users").child(mainlist.incharge).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(c.num).remove();
       }
       
       this.util.dismissLoading();
