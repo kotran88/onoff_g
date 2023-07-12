@@ -500,53 +500,6 @@ export class ChoicedetailPage {
     var min = date.getMinutes();
     var dte = new Date();
     var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
-
-    //걍팅인지
-    // if(this.isPassedStandardWorkingTimeSec(c.date)){
-    //   console.log(c.name+'-->지급기준을 통과하였습니다');
-    // }else{
-      
-    //   console.log(c.name+'-->걍팅입니다');
-
-    //   var angel = false;
-
-    //   if(c.angel!=undefined){
-    //     angel=c.angel; 
-    //   }
-      
-    //   this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(c.name).child("attend").update({"flag":"standby"});
-
-    //   this.firemain.child("users").child(c.name).child("current").remove();
-    //   //firemain push
-    //   this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"tc":0,
-    //                                                                                                                                                           "bantee":0,
-    //                                                                                                                                                           "totalmoney":0, 
-    //                                                                                                                                                           "date":endtime,
-    //                                                                                                                                                           "contents":"종료 ",
-    //                                                                                                                                                           "type":"fin", 
-    //                                                                                                                                                           "uploader":this.nickname,
-    //                                                                                                                                                           "agasi":c.name, 
-    //                                                                                                                                                           "name":"system"});
-
-    //   this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).update({"roomno":room,
-    //                                                                                                                                                                       "incharge":mainlist.incharge,
-    //                                                                                                                                                                       "angel":angel, 
-    //                                                                                                                                                                       "findate":year+"-"+month+"-"+day +" "+hour+":"+min,
-    //                                                                                                                                                                       "tc":0,
-    //                                                                                                                                                                       "bantee":0, 
-    //                                                                                                                                                                       "money":0,
-    //                                                                                                                                                                       "wt":mainlist.wt,
-    //                                                                                                                                                                       "lastupdatedperson":this.nickname,
-    //                                                                                                                                                                       "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
-      
-    //   console.log(`room > ${mainlist.key} > agasi 삭제`);
-    //   this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").remove();
-      
-    //   this.util.dismissLoading();
-    //   this.refreshChoice2();
-
-    //   return;
-    // }//걍팅인지 :)
     
     console.log("snap2 come...");
 
@@ -878,7 +831,10 @@ export class ChoicedetailPage {
       var angel = false;
 
       if(c.angel!=undefined){
+        console.log("한명일때");
         angel=c.angel; 
+      }else{
+        console.log("여러명중 한명이 남았을때");
       }
       
       this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(c.name).child("attend").update({"flag":"standby"});
@@ -896,24 +852,11 @@ export class ChoicedetailPage {
                                                                                                                                                               "agasi":c.name, 
                                                                                                                                                               "name":"system"});
 
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).update({"roomno":room,
-                                                                                                                                                                          "incharge":mainlist.incharge,
-                                                                                                                                                                          "angel":angel, 
-                                                                                                                                                                          "findate":year+"-"+month+"-"+day +" "+hour+":"+min,
-                                                                                                                                                                          "tc":tctotal,
-                                                                                                                                                                          "bantee":bantee, 
-                                                                                                                                                                          "money":totalmoney,
-                                                                                                                                                                          "wt":mainlist.wt,
-                                                                                                                                                                          "lastupdatedperson":this.nickname,
-                                                                                                                                                                          "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
       
-      if(Number(mainlist.numofagasi) == 1){
-        console.log(`room > ${mainlist.key} > agasi 삭제`);
-        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).remove();
-        this.firemain.child("users").child(mainlist.wt).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(c.num).remove();
-        this.firemain.child("users").child(mainlist.incharge).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(c.num).remove();
-      }
-      
+      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).remove();
+      this.firemain.child("users").child(mainlist.wt).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(c.num).remove();
+      this.firemain.child("users").child(mainlist.incharge).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(c.num).remove();
+
       this.util.dismissLoading();
       this.refreshChoice2();
 
@@ -1078,10 +1021,38 @@ export class ChoicedetailPage {
             console.log(mainlist.key);
             console.log(num);
            
-            this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(num).update({"roomno":room,"incharge":mainlist.incharge,"angel":angel, "findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"bantee":bantee, "money":totalmoney,"wt":mainlist.wt,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
+            this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(num).update({"roomno":room,
+                                                                                                                                                                              "incharge":mainlist.incharge,
+                                                                                                                                                                              "angel":angel, 
+                                                                                                                                                                              "findate":year+"-"+month+"-"+day +" "+hour+":"+min,
+                                                                                                                                                                              "tc":tctotal,
+                                                                                                                                                                              "bantee":bantee, 
+                                                                                                                                                                              "money":totalmoney,
+                                                                                                                                                                              "wt":mainlist.wt,
+                                                                                                                                                                              "lastupdatedperson":this.nickname, 
+                                                                                                                                                                              "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
             
-            this.firemain.child("users").child(mainlist.wt).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(num).update({"roomno":room,"incharge":mainlist.incharge,"angel":angel, "findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"bantee":bantee, "money":totalmoney,"wt":mainlist.wt,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
-            this.firemain.child("users").child(mainlist.incharge).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(num).update({"roomno":room,"incharge":mainlist.incharge, "angel":angel,"findate":year+"-"+month+"-"+day +" "+hour+":"+min,"tc":tctotal,"bantee":bantee, "money":totalmoney,"wt":mainlist.wt,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
+            this.firemain.child("users").child(mainlist.wt).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(num).update({"roomno":room,
+                                                                                                                                                                  "incharge":mainlist.incharge,
+                                                                                                                                                                  "angel":angel, 
+                                                                                                                                                                  "findate":year+"-"+month+"-"+day +" "+hour+":"+min,
+                                                                                                                                                                  "tc":tctotal,
+                                                                                                                                                                  "bantee":bantee, 
+                                                                                                                                                                  "money":totalmoney,
+                                                                                                                                                                  "wt":mainlist.wt,
+                                                                                                                                                                  "lastupdatedperson":this.nickname, 
+                                                                                                                                                                  "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
+
+            this.firemain.child("users").child(mainlist.incharge).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(num).update({"roomno":room,
+                                                                                                                                                                        "incharge":mainlist.incharge, 
+                                                                                                                                                                        "angel":angel,
+                                                                                                                                                                        "findate":year+"-"+month+"-"+day +" "+hour+":"+min,
+                                                                                                                                                                        "tc":tctotal,
+                                                                                                                                                                        "bantee":bantee, 
+                                                                                                                                                                        "money":totalmoney,
+                                                                                                                                                                        "wt":mainlist.wt,
+                                                                                                                                                                        "lastupdatedperson":this.nickname, 
+                                                                                                                                                                        "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
 
           }//if :)
         }//for(var d in mainlist.agasi){ :)
@@ -1714,7 +1685,8 @@ export class ChoicedetailPage {
 
       }//if :)
 
-      console.log(this.mainlist);
+      console.log("############# log #################");
+      console.log(this.mainlist.agasi);
       console.log(this.mainlist_finished_status);
       console.log("refresh didloaded")
 

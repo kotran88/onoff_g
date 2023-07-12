@@ -71,8 +71,8 @@
         <div  *ngIf="mainlist.length==0" class="datas">
           <p>  초이스방 내역이 없습니다. </p>
         </div>
-        <div class="mainlistloop"  *ngFor="let a of mainlist let j = index" >
-          <div  *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
+        <div *ngFor="let a of mainlist let j = index" class="mainlistloop">
+          <div  *ngIf="a.agasi" class="panel-4" id="panel-4-{{j}}">
             <div *ngFor="let b of a.agasi" class="looping" >
               <div class="mainmain">
                 <span *ngIf="!b.angel&&b.findate==undefined&&modifyflag" style=" margin: 0px !important; line-height: 50px; text-align: center;">
@@ -127,7 +127,7 @@
               </div>
             </div>
           </div>
-          <div style="" class="messagessss">
+          <div class="messagessss">
             <div *ngFor="let aa of a.message" class="messagediv">
               <span style=" left: 15px; font-size: 15px !important; margin-left: 10px; color:black;">
               {{aa.uploader}} {{aa.contents}} {{aa.tc}} {{aa.agasi}}
@@ -198,7 +198,7 @@
           <p>초이스방 내역이 없습니다.. </p>
         </div>
         <div *ngFor="let a of mainlist_finished let j = index" >
-          <div style="margin-top:33px;" *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
+          <div *ngIf="a.agasi!=undefined" style="margin-top:33px;" class="panel-4" id="panel-4-{{j}}">
             <div *ngFor="let b of a.agasi" class="looping" >
               <div class="mainmain">
 
@@ -255,6 +255,7 @@
                   재진행
                 </button>
               </div>
+
             </div><!-- for loop :)-->
           </div>
           <div class="messagessss">
