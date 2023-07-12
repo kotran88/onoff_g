@@ -688,23 +688,7 @@ export class ChoicemodalPage {
         console.log(v.name+'first so push to newlist')
 
         newlist.push({ "name":v.name,"date": v.date ,"writer":v.writer,"angel":v.angel});
-        let modal2 = modal.create(Choicemodal2Page,{"newnum":this.newnum, "agasi":newlist,"subscribedList":agasinum,"room":a,"currentstartday":currentstartday,"hour":hour,"min":min});
-
-        modal2.onDidDismiss(url => {
-          console.log(url);
-          if(url==undefined){
-            return;
-          }else if(url.result == false){
-            this.view.dismiss();
-          }else{
-            if(url.result=="ok"){
-              window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
-              //console.log(this.originalList);
-              view.dismiss();
-            }
-          }
-        });
-        modal2.present();
+        
 
         console.log("최초등록 :)");
 
@@ -724,24 +708,6 @@ export class ChoicemodalPage {
 
         console.log(newlist);
         
-        let modal2 = modal.create(Choicemodal2Page,{"newnum":this.newnum, "agasi":newlist,"subscribedList":agasinum,"room":a,"currentstartday":currentstartday,"hour":hour,"min":min});
-        
-        modal2.onDidDismiss(url => {
-          //console.log(url);
-          if(url==undefined){
-            return;
-          }else{
-            if(url.result=="ok"){
-              window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
-              //console.log(this.originalList);
-              view.dismiss();
-            }
-          }
-            
-        });
-
-        modal2.present();
-        // 이미등록되었지만 조판팀 설정안되있음. 
 
       }else{
 
@@ -802,7 +768,7 @@ export class ChoicemodalPage {
       if(subscribedList.length + newlist.length == length){
 
         console.log("Fin!!!")
-
+        
         if(newlist.length==0){
           console.log("0 so just dismiss")
           view.dismiss();
@@ -820,7 +786,24 @@ export class ChoicemodalPage {
           console.log(a);
           console.log(agasinum);
           console.log(newlist);
-     
+          let modal2 = this.modal.create(Choicemodal2Page,{"newnum":subscribedList.length, "agasi":newlist,"room":a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
+
+          modal2.onDidDismiss(url => {
+            console.log(url);
+            if(url==undefined){
+              return;
+            }else if(url.result == false){
+              this.view.dismiss();
+            }else{
+              if(url.result=="ok"){
+                window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
+                //console.log(this.originalList);
+                
+              this.view.dismiss();
+              }
+            }
+          });
+          modal2.present();
         }
       }
     });//firemain :)
@@ -878,6 +861,36 @@ export class ChoicemodalPage {
         console.log(this.agasilist[cc]);
         this.getRoomList(this.agasilist[cc],newlist,subscribedList,this.currentstartday,this.modal,this.agasilist.length,this.view,this.firemain,this.company,this.a,this.agasilist[cc].writer,this.newnum,duflag,this.a);
         console.log(this.util.newnumber);
+      }
+      console.log(this.newlist);
+      console.log(this.newlist.length);
+      console.log(this.subscribedList);
+      console.log(this.subscribedList.length);
+      var count=0;
+     for(var listvalue in this.newlist){
+      count++;
+      console.log(this.newlist[listvalue]);
+     }
+     console.log(count);
+      if(count>0){
+
+        let modal2 = this.modal.create(Choicemodal2Page,{"newnum":this.newnum, "agasi":this.newlist,"subscribedList":this.subscribedList,"room":this.a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
+
+        modal2.onDidDismiss(url => {
+          console.log(url);
+          if(url==undefined){
+            return;
+          }else if(url.result == false){
+            this.view.dismiss();
+          }else{
+            if(url.result=="ok"){
+              window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
+              //console.log(this.originalList);
+            }
+          }
+        });
+        modal2.present();
+
       }
 
       console.log("for loop :)");
