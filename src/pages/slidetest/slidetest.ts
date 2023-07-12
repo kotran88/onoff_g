@@ -512,11 +512,11 @@ export class SlidetestPage {
   gotolink(value){
     if(value == 0){
       this.navCtrl.push(OrdermainPage,{flag:true}).then(() => {
-        // this.navCtrl.getActive().onDidDismiss(data => {
-        //   //console.log("refresh...");
-        //   this.generate();
+        this.navCtrl.getActive().onDidDismiss(data => {
+          console.log("refresh...");
+          this.generate();
       
-        // });
+        });
       });
     }else if(value == 1){
     this.navCtrl.push(ParkingPage,{flag:true});

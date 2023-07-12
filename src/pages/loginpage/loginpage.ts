@@ -167,13 +167,13 @@ export class LoginpagePage {
 
           localStorage.setItem("type",snap.val().type);
           if(approved==false||approved==undefined){
-            window.alert("관리자가 승인해야 이용가능합니다.");
-            this.util.dismissLoading();
-            return;
+            // window.alert("관리자가 승인해야 이용가능합니다.");
+            // this.util.dismissLoading();
+            // return;
           }
-          if(payment==false||payment==undefined||young!=undefined&&young.length==1){
+          if(young!=undefined&&young.length==1){
              
-              window.alert("결제를 하지않았거나, 코드번호가 부여되지않아서 조회만 가능합니다. ")
+              window.alert("코드번호가 부여되지않아서 조회만 가능합니다. ")
               this.util.dismissLoading();
               // this.navCtrl.setRoot(InfoPage,{"user":this.directorList});
               return;

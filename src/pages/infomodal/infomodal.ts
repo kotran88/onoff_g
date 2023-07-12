@@ -133,55 +133,10 @@ export class InfomodalPage {
     var key = this.firemain.child('rooms').child(fulldate).push().key;
     this.util.presentLoading();
     if(this.incharge.length==0){
-      var wt="no";
-      var numofpeople=0;
-
-      if(this.wt.length==0){
-        wt="no";
-      }else{
-        wt=this.wt;
-      }
-      if(this.numofpeople.length==0){
-        numofpeople=0;
-      }else{
-        numofpeople=this.numofpeople;
-      }
-      this.wt=wt;
-      this.numofpeople=numofpeople;
-      var countingvalue=0;
-      var fin_countingvalue =0;
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).once('value').then((snap)=>{
-        for(var a in snap.val()){
-          for(var b in snap.val()[a]){
-              if(snap.val()[a][b].end_date_full==undefined){
-                if(snap.val()[a][b].date!=undefined){
-                  if(snap.val()[a][b].angel!=true){
-                   countingvalue++;
-                  }
-                }
-              }
-              if(snap.val()[a][b].end_date_full==undefined){
-                if(snap.val()[a][b].date!=undefined){
-                  fin_countingvalue++;
-                }
-              }
-          }
-              
-            }
-  
-  
-  
-        if(countingvalue==undefined){
-          countingvalue=1;
-        }
-      });
-      console.log({"logic":this.booleanValue,"avec":this.booleanValue2, "nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3,"name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()});
-
-      this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).update({"flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
-      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").child(this.room.name).child(key).update({"logic":this.booleanValue,"nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3, "avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+      window.alert("담당자를 입력해주세요  ");
       this.util.dismissLoading();
-      this.view.dismiss({"result":false,"roomname":this.room.name,"category":this.room.category});
-    }else{
+           
+     }else{
       this.firemain.child("users").child(this.incharge).once("value",snap=>{
         console.log(snap.val())
         if(snap.numChildren()==0){
@@ -275,14 +230,14 @@ export class InfomodalPage {
             this.wt=wt;
             this.numofpeople=numofpeople;
             console.log({"logic":this.booleanValue,"avec":this.booleanValue2, "nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3,"name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()});
-            this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).update({"flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+            this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).update({"flag":true,"lastupdatedperson":this.nickname,"reason":"bool3true", "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
             this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").child(this.room.name).child(key).update({"logic":this.booleanValue,"nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3, "avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
             // this.firemain.child("users").child(this.wt).child("roomhistory").child(this.currentstartday).child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3,"name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
             
             // this.firemain.child("users").child(this.incharge).child("roomhistory").child(this.currentstartday).child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3, "wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
             
           }else{
-            this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).update({"flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
+            this.firemain.child("company").child(this.company).child("roomlist").child(this.room.name).update({"flag":true,"lastupdatedperson":this.nickname,"reason":"bool3false", "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
             this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").child(this.room.name).child(key).update({"logic":this.booleanValue,"nomemo":this.nomemo,"firstflag":this.booleanValue3, "noflag":this.booleanValue3, "avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
             this.firemain.child("users").child(this.wt).child("roomhistory").child(this.currentstartday).child(key).update({"logic":this.booleanValue,"avec":this.booleanValue2, "nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3,"name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
             
