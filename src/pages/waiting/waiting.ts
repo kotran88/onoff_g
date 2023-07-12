@@ -152,10 +152,7 @@ gotopayment(){
     }
   }
   buchange(){
-    if(!this.paymentflag){
-      window.alert("결제전 이용 불가합니다.")
-      return;
-    }
+   
     //console.log("buchnage"+this.bu)
     if(this.bu==0){
       this.bu=1
@@ -233,10 +230,7 @@ gotopayment(){
     this.generate();
   }
   editing(a){
-    if(!this.paymentflag){
-      window.alert("결제전 이용 불가합니다.")
-      return;
-    }
+    
     console.log(a);
     this.view.dismiss({"result":"waiting","data":a});
   }
@@ -273,10 +267,7 @@ gotopayment(){
     this.generate();
   }
   addRoom(room){
-    if(!this.paymentflag){
-      window.alert("결제전 이용 불가합니다.")
-      return;
-    }
+    
     console.log("ad room come");
     console.log(room);
     let modal = this.modal.create(WaitingmodalPage,{"room":room,"bu":this.bu});

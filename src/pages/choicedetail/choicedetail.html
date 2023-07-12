@@ -84,13 +84,20 @@
                 <span *ngIf="!b.angel&&b.findate!=undefined&&!modifyflag" style=" margin: 0px !important; line-height: 50px; text-align: center;">
                 {{b.name}}
                 </span>
+                
                 <span *ngIf="!b.angel&&b.findate!=undefined&&modifyflag" style=" margin: 0px !important; line-height: 50px; text-align: center;">
                   <input [(ngModel)]='b.name' style="width: 40px; border: solid 2px; height: 30px; border-radius: 10px; text-align: center;"  value="{{b.name}}" type="text">
                 </span>
-                <span style="line-height: 40px; font-size: 12px !important; width:40px; text-align: center;">
+                <span *ngIf="b.angel" style=" margin: 0px !important; text-align: center;">
+                  <span *ngIf="b.angel" style=" margin: 0px !important;" >
+                    <img style=" height: 28px; width:30px;" class="logo" src="assets/img/angel.png" />
+                  </span> 
+                  {{b.name}}
+                </span>
+                <span style="line-height: 40px; font-size: 10px !important; width:40px; text-align: center;">
                   {{b.date.split(" ")[1]}}
                 </span>
-                <span *ngIf="(b.findate!=undefined&&!modifyflag)" style="line-height: 40px; font-size: 12px !important; width:40px; text-align: center;">
+                <span *ngIf="(b.findate!=undefined&&!modifyflag)" style="line-height: 40px; font-size: 10px !important; width:40px; text-align: center;">
                   {{b.findate.split(" ")[1]}}
                 </span>
                 <span *ngIf="(b.findate==undefined&&!modifyflag)" style="line-height: 40px; width:40px; text-align: center;">
@@ -221,10 +228,10 @@
                   {{b.name}}
                 </span>
 
-                <span style="line-height: 40px; font-size: 12px !important; text-align: center; width:50px;">
+                <span style="line-height: 40px; font-size: 10px !important; text-align: center; width:50px;">
                   {{b.date.split(" ")[1]}}
                 </span>
-                <span *ngIf="b.findate!=undefined&&!modifyflag" style="line-height: 40px; font-size: 12px !important; width:50px; text-align: center;">
+                <span *ngIf="b.findate!=undefined&&!modifyflag" style="line-height: 40px; font-size: 10px !important; width:50px; text-align: center;">
                   {{b.findate.split(" ")[1]}}
                 </span>
                 <span *ngIf="b.findate==undefined&&!modifyflag" style="line-height: 40px; width:40px; text-align: center;">
