@@ -74,63 +74,86 @@
         <div *ngFor="let a of mainlist let j = index" class="mainlistloop">
           <div  *ngIf="a.agasi" class="panel-4" id="panel-4-{{j}}">
             <div *ngFor="let b of a.agasi" class="looping" >
-              <div class="mainmain">
-                <span *ngIf="!b.angel&&b.findate==undefined&&modifyflag" style=" margin: 0px !important; line-height: 50px; text-align: center;">
-                {{b.name}}
-                </span>
-                <span *ngIf="!b.angel&&b.findate==undefined&&!modifyflag" style=" margin: 0px !important; line-height: 50px; text-align: center;">
-                {{b.name}}
-                </span>
-                <span *ngIf="!b.angel&&b.findate!=undefined&&!modifyflag" style=" margin: 0px !important; line-height: 50px; text-align: center;">
-                {{b.name}}
-                </span>
-                
-                <span *ngIf="!b.angel&&b.findate!=undefined&&modifyflag" style=" margin: 0px !important; line-height: 50px; text-align: center;">
-                  <input [(ngModel)]='b.name' style="width: 40px; border: solid 2px; height: 30px; border-radius: 10px; text-align: center;"  value="{{b.name}}" type="text">
-                </span>
-                <span *ngIf="b.angel" style=" margin: 0px !important; text-align: center;">
-                  <span *ngIf="b.angel" style=" margin: 0px !important;" >
-                    <img style=" height: 28px; width:30px;" class="logo" src="assets/img/angel.png" />
-                  </span> 
-                  {{b.name}}
-                </span>
-                <span style="line-height: 40px; font-size: 10px !important; width:40px; text-align: center;">
-                  {{b.date.split(" ")[1]}}
-                </span>
-                <span *ngIf="(b.findate!=undefined&&!modifyflag)" style="line-height: 40px; font-size: 10px !important; width:40px; text-align: center;">
-                  {{b.findate.split(" ")[1]}}
-                </span>
-                <span *ngIf="(b.findate==undefined&&!modifyflag)" style="line-height: 40px; width:40px; text-align: center;">
-                  -
-                </span>
-                <span *ngIf="b.tc!=undefined&&!modifyflag" style="line-height: 20px; font-size:11px !important; width:40px; text-align: center;">
-                  {{b.tc}}개 <br>{{b.money}}만원
-                </span>
-                <div *ngIf="modifyflag" style=" width: 50px; line-height: 25px;" class="aaa">
-                  <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined" style="line-height: 20px; font-size: 13px !important;  width:40px; text-align: center;">
-                    <input [(ngModel)]='b.tc' style="width: 40px; border: solid 2px; border-radius: 10px; text-align: center;" *ngIf="b.tc!=undefined&&modifyflag" value="{{b.tc}}" type="text">
-                    <br>{{b.money}}만원
-                  </span>
-                  <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate==undefined" style="line-height: 20px; font-size: 13px !important; width:40px; text-align: center;">
-                    . {{b.tc}}개 
-                    <br>{{b.money}}
-                  </span>
-                </div>
-                <span *ngIf="b.writer==undefined" style="line-height: 40px; width:40px; text-align: center;">
-                  -?
-                </span>
-                <span *ngIf="b.writer!=undefined" style="line-height: 40px; width:40px; font-size: 12px !important; text-align: center;">
-                  {{b.writer}}
-                </span>
-                <span *ngIf="b.date!=undefined" style=" line-height: 50px; font-size: 11px !important; width: 55px; margin: 0px; ">
-                  {{abcd(b.date)}}
-                </span> 
-                <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,1)" style=" display: block; margin: 5px; width: 55px; border-radius: 15px; background: white; font-size: 15px; height: 40px; color:black; padding-left:0px; padding-right:0px; text-align: center;">
-                  종료
-                </button>
-                <button (click)="reinit(b,a.name,a,1)" *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" style=" display: block; margin: 5px; width: 55px; height: 40px; border-radius: 15px; color:black; background: white !important; text-align: center; font-size: 13px; padding-left:0px; padding-right:0px;">
-                  재진행
-                </button>
+              <div>
+                <table>
+                  <tr style="width:100%">
+                    <td style="width:30px;">
+                      <span *ngIf="b.angel">
+                        <img style=" height: 28px; width:28px;" class="logo" src="assets/img/angel.png" />
+                      </span>
+                    </td>
+                    <td style="text-align: right;">
+                      <span *ngIf="!b.angel&&b.findate==undefined&&modifyflag" style=" margin: 0px !important;">
+                        {{b.name}}
+                      </span>
+                      <span *ngIf="!b.angel&&b.findate==undefined&&!modifyflag" style=" margin: 0px !important;">
+                        {{b.name}}
+                      </span>
+                      <span *ngIf="!b.angel&&b.findate!=undefined&&!modifyflag" style=" margin: 0px !important;">
+                        {{b.name}}
+                      </span>
+                      <span *ngIf="!b.angel&&b.findate!=undefined&&modifyflag" style=" margin: 0px !important;">
+                        <input [(ngModel)]='b.name' value="{{b.name}}" type="text">
+                      </span>
+                      <span *ngIf="b.angel" style=" margin: 0px !important;">
+                        {{b.name}}
+                      </span>
+                    </td>
+                    <td>
+                      <span>
+                        {{b.date.split(" ")[1]}}
+                      </span>
+                    </td>
+                    <td>
+                      <span *ngIf="(b.findate!=undefined&&!modifyflag)">
+                        {{b.findate.split(" ")[1]}}
+                      </span>
+                      <span *ngIf="(b.findate==undefined&&!modifyflag)">
+                        -
+                      </span>
+                    </td>
+                    <td>
+                      <span *ngIf="b.tc!=undefined&&!modifyflag">
+                        <small>{{b.tc}}<small>개</small></small> <br><small>{{b.money}}<small>만원</small></small>
+                      </span>
+                    </td>
+                    <td>
+                      <div *ngIf="modifyflag">
+                        <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined">
+                          <input *ngIf="b.tc!=undefined&&modifyflag" [(ngModel)]='b.tc' value="{{b.tc}}" type="text">
+                          <br>{{b.money}}만원
+                        </span>
+                        <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate==undefined">
+                          . {{b.tc}}개 
+                          <br>{{b.money}}
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <span *ngIf="b.writer==undefined">
+                        -?
+                      </span>
+                    </td>
+                    <td>
+                      <span *ngIf="b.writer!=undefined">
+                        {{b.writer}}
+                      </span>
+                    </td>
+                    <td>
+                      <span *ngIf="b.date!=undefined">
+                        {{abcd(b.date)}}
+                      </span>
+                    </td>
+                    <td>
+                      <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
+                        종료
+                      </button>
+                      <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
+                        재진행
+                      </button>
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>
@@ -207,60 +230,82 @@
         <div *ngFor="let a of mainlist_finished let j = index" >
           <div *ngIf="a.agasi!=undefined" style="margin-top:33px;" class="panel-4" id="panel-4-{{j}}">
             <div *ngFor="let b of a.agasi" class="looping" >
-              <div class="mainmain">
+              <div>
+                <table>
+                  <tr style="width: 100%;">
+                    <td style="width:30px;">
+                      <span *ngIf="b.angel">
+                        <img style=" height: 28px; width:28px;" class="logo" src="assets/img/angel.png" />
+                      </span>
+                    </td>
+                    <td style="text-align: right;">
+                      <span *ngIf="!b.angel&&b.findate==undefined&&modifyflag" style="margin: 0px !important;">
+                        {{b.name}}
+                      </span>
+                      <span *ngIf="!b.angel&&b.findate==undefined&&!modifyflag" style="margin: 0px !important;">
+                        {{b.name}}
+                      </span>
+                      <span *ngIf="!b.angel&&b.findate!=undefined&&!modifyflag" style="margin: 0px !important;">
+                        {{b.name}}
+                      </span>
+                      <span *ngIf="!b.angel&&b.findate!=undefined&&modifyflag" style=" margin: 0px !important;">
+                        <input [(ngModel)]='b.name' value="{{b.name}}" type="text">
+                      </span>
+                      <span *ngIf="b.angel" style=" margin: 0px !important;">
+                        {{b.name}}
+                      </span>
+                    </td>
+                    <td>
+                      <span>
+                        {{b.date.split(" ")[1]}}
+                      </span>
+                    </td>
+                    <td>
+                      <span *ngIf="b.findate!=undefined&&!modifyflag">
+                        {{b.findate.split(" ")[1]}}
+                      </span>
+                      <span *ngIf="b.findate==undefined&&!modifyflag">
+                        -
+                      </span>
+                    </td>
+                    <td>
+                      <span *ngIf="b.tc!=undefined&&!modifyflag">
+                        <small>{{b.tc}}<small>개</small></small> <br><small>{{b.money}}<small>만원</small></small>
+                      </span>
+                    </td>
+                    <td>
+                      <div *ngIf="modifyflag">
+                        <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined">
+                          <input *ngIf="b.tc!=undefined&&modifyflag" [(ngModel)]='b.tc' value="{{b.tc}}" type="text">
+                          <br>{{b.money}}만원
+                        </span>
+                        <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate==undefined">
+                          {{b.tc}}개 <br>{{b.money}}만원
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <span *ngIf="b.writer!=undefined">
+                        {{b.writer}}
+                      </span>
+                    </td>
+                    <td>
+                      <span *ngIf="b.date!=undefined">
+                        {{abcd(b.date)}}
+                      </span>
+                    </td>
+                    <td>
+                      <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,2)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
+                        종료
+                      </button>                
+                      <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,2)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
+                        재진행
+                      </button>
+                    </td>
+                  </tr>
 
-                <span *ngIf="!b.angel&&b.findate==undefined&&modifyflag" style="margin: 0px !important; line-height: 50px; text-align: center;">
-                  {{b.name}}
-                </span>
-                <span *ngIf="!b.angel&&b.findate==undefined&&!modifyflag" style="margin: 0px !important; line-height: 50px; text-align: center;">
-                  {{b.name}}
-                </span>
-                <span *ngIf="!b.angel&&b.findate!=undefined&&!modifyflag" style="margin: 0px !important; line-height: 50px; text-align: center;">
-                  {{b.name}}
-                </span>
-                <span *ngIf="!b.angel&&b.findate!=undefined&&modifyflag" style=" margin: 0px !important; line-height: 50px; text-align: center;">
-                  <input [(ngModel)]='b.name' style="width: 40px; border: solid 2px; height: 30px; border-radius: 10px; text-align: center;"  value="{{b.name}}" type="text">
-                </span>
-                <span *ngIf="b.angel" style=" margin: 0px !important; text-align: center;">
-                  <span *ngIf="b.angel" style=" margin: 0px !important;" >
-                    <img style=" height: 28px; width:30px;" class="logo" src="assets/img/angel.png" />
-                  </span> 
-                  {{b.name}}
-                </span>
+                </table>
 
-                <span style="line-height: 40px; font-size: 10px !important; text-align: center; width:50px;">
-                  {{b.date.split(" ")[1]}}
-                </span>
-                <span *ngIf="b.findate!=undefined&&!modifyflag" style="line-height: 40px; font-size: 10px !important; width:50px; text-align: center;">
-                  {{b.findate.split(" ")[1]}}
-                </span>
-                <span *ngIf="b.findate==undefined&&!modifyflag" style="line-height: 40px; width:40px; text-align: center;">
-                  -
-                </span>
-                <span *ngIf="b.tc!=undefined&&!modifyflag" style="line-height: 20px; font-size: 11px !important; width:40px; text-align: center;">
-                  {{b.tc}}개 <br>{{b.money}}만원
-                </span>
-                <div *ngIf="modifyflag" style=" width: 50px; line-height: 25px;" class="aaa">
-                  <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined" style="line-height: 20px; font-size: 12px !important; width:40px; text-align: center;">
-                    <input [(ngModel)]='b.tc' style="width: 40px; border: solid 2px; border-radius: 10px; text-align: center;" *ngIf="b.tc!=undefined&&modifyflag" value="{{b.tc}}" type="text">
-                    <br>{{b.money}}만원
-                  </span>
-                  <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate==undefined" style="line-height: 20px; font-size: 11px !important; width:40px; text-align: center;">
-                    {{b.tc}}개 <br>{{b.money}}만원
-                  </span>
-                </div>
-                <span *ngIf="b.writer!=undefined" style="font-size: 12px !important; line-height: 40px; width:40px; text-align: center;">
-                  {{b.writer}}
-                </span>
-                <span *ngIf="b.date!=undefined" style=" line-height: 50px; font-size: 9px !important; width: 55px; margin: 0px; ">
-                  {{abcd(b.date)}}
-                </span>
-                <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,2)" style="display: block; margin: 5px; width: 55px; border-radius: 3px; background: white; font-size: 15px; height: 40px; color:black; padding-left:0px; padding-right:0px; text-align: center;">
-                  종료
-                </button>                
-                <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,2)" style="display: block; margin: 5px; width: 55px; height: 40px; border-radius: 15px; color:black; background: white !important; text-align: center; font-size: 13px; padding-left:0px; padding-right:0px;">
-                  재진행
-                </button>
               </div>
 
             </div><!-- for loop :)-->
