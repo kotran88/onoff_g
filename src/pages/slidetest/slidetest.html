@@ -795,28 +795,30 @@
                 <ion-icon class="square" name="square"></ion-icon>
                 <span class="text">룸 현황</span>
               </div>
-              <div class="chart-div">
-                <div class="name-keys">
-                  <span>이름</span>
-                  <span>TC</span>
-                  <span>완티</span>
-                  <span>반티</span>
-                  <span>차비</span>
-                  <span>금액</span>
-                  <span>담당자</span>
+              <div class="chart-div"> 
+                <div *ngIf="agasiJungsan.length==0" (click)="editing(a);" class="datas">
+                  <span style="width:100%;">해당일 정산내역이 없습니다 </span> 
                 </div>
-                <div *ngIf="agasijungsan_att.length==0" (click)="editing(a);" class="datas">
-                  <span style="width:100%;">해당일 정산내역이 없습니다 </span>
-                </div>
-                <div *ngFor="let a of agasijungsan_att let j = index" (click)="editing(a);" class="datas">
-                  <span>{{a.name}}</span>
-                  <span>{{a.tc}}</span>
-                  <span>{{a.wantee}}</span>
-                  <span>{{a.bantee}}</span>
-                  <span>{{a.chasam}}</span>
-                  <span>{{a.money}}</span>
-                  <span>{{a.incharge}}</span>
-                </div>
+                <table style="width:100% !important;">
+                  <tr>
+                    <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">이름</th>
+                    <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">TC</th>
+                    <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">완티</th>
+                    <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">반티</th>
+                    <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">차비</th>
+                    <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">금액</th>
+                    <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">팀</th>
+                  </tr>
+                  <tr *ngFor="let a of agasiJungsan let j = index" (click)="editing(a);">
+                    <td>{{a.name}}</td>
+                    <td>{{a.tc}}</td>
+                    <td>{{a.wantee}}</td>
+                    <td>{{a.bantee}}</td>
+                    <td>{{a.chasam}}</td>
+                    <td>{{a.money}}</td>
+                    <td>{{a.team}}</td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>

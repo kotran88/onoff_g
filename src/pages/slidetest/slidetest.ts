@@ -137,7 +137,8 @@ export class SlidetestPage {
   mainlist_att_no=[];
   totalin_att=0;
   totalout_att=0;
-  agasijungsan_att=[];
+  agasijungsan_att=[];//team 속성이 없는 array
+  agasiJungsan = [];//team 속성이 포함된 array
   agasijungsantotal_att=[];
 
 
@@ -758,7 +759,7 @@ export class SlidetestPage {
     this.firemain.child("company").child(this.company).child('madelist').child(this.selectedday).once('value').then((snap)=>{
     
       if(snap.val()!=undefined){
-
+        console.log(`this.firemain.child("company").child(this.company).child('madelist').child(this.selectedday).once('value').then((snap)=>{`);
         console.log(snap.val());
 
         for(var a in snap.val()){
@@ -793,13 +794,35 @@ export class SlidetestPage {
                 mainlist.agasi[d].money=totalmoney;
                 mainlist.agasi[d].tc=tctotal;
                 mainlist.agasi[d].bantee=bantee;
-                this.agasijungsantotal_att.push({"bantee":mainlist.agasi[d].bantee,"chasam":0,"name":mainlist.agasi[d].name,"date":mainlist.agasi[d].date,"incharge":mainlist.agasi[d].incharge,"money":mainlist.agasi[d].money,"tc":mainlist.agasi[d].tc,"wantee":Math.floor(mainlist.agasi[d].tc)});
-                this.agasijungsan_att.push({"bantee":mainlist.agasi[d].bantee,"chasam":0,"name":mainlist.agasi[d].name,"date":mainlist.agasi[d].date,"incharge":mainlist.agasi[d].incharge,"money":mainlist.agasi[d].money,"tc":mainlist.agasi[d].tc,"wantee":Math.floor(mainlist.agasi[d].tc)});
+
+                this.agasijungsantotal_att.push({"bantee":mainlist.agasi[d].bantee,
+                                                "chasam":0,
+                                                "name":mainlist.agasi[d].name,
+                                                "date":mainlist.agasi[d].date,
+                                                "incharge":mainlist.agasi[d].incharge,
+                                                "money":mainlist.agasi[d].money,
+                                                "tc":mainlist.agasi[d].tc,
+                                                "wantee":Math.floor(mainlist.agasi[d].tc)});
+
+                this.agasijungsan_att.push({"bantee":mainlist.agasi[d].bantee,
+                                          "chasam":0,
+                                          "name":mainlist.agasi[d].name,
+                                          "date":mainlist.agasi[d].date,
+                                          "incharge":mainlist.agasi[d].incharge,
+                                          "money":mainlist.agasi[d].money,
+                                          "tc":mainlist.agasi[d].tc,
+                                          "wantee":Math.floor(mainlist.agasi[d].tc)});
                 
+
+
                 console.log("is  having findate so this agasi is in bang")
                 console.log(mainlist.agasi[d].name);
                 
-                this.mainlistfromcompany.push({"name":mainlist.agasi[d].name,"wantee":Math.floor(mainlist.agasi[d].tc), "tc":mainlist.agasi[d].tc,"bantee":mainlist.agasi[d].bantee,"money":mainlist.agasi[d].money})
+                this.mainlistfromcompany.push({"name":mainlist.agasi[d].name,
+                                              "wantee":Math.floor(mainlist.agasi[d].tc), 
+                                              "tc":mainlist.agasi[d].tc,
+                                              "bantee":mainlist.agasi[d].bantee,
+                                              "money":mainlist.agasi[d].money});
               }
             }
           } //for :)         
@@ -858,7 +881,14 @@ export class SlidetestPage {
 
               this.original_mainlist.push({"name":snap.val()[b].attend.name,"time": snap.val()[b].attend.time, "status":snap.val()[b].attend.flag,"team":snap.val()[b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});
           
-              this.mainlist_att.push({"name":snap.val()[b].attend.name,"time": snap.val()[b].attend.time, "status":snap.val()[b].attend.flag,"team":snap.val()[b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});
+              this.mainlist_att.push({"name":snap.val()[b].attend.name,
+                                      "time": snap.val()[b].attend.time, 
+                                      "status":snap.val()[b].attend.flag,
+                                      "team":snap.val()[b].attend.team,
+                                      "tc":"-",
+                                      "wantee":"-",
+                                      "money":"-",
+                                      "bantee":"-"});
               
               for(var abba in this.mainlistfromcompany){
 
@@ -877,7 +907,39 @@ export class SlidetestPage {
                   }
                   this.original_mainlist.push({"name":snap.val()[b].attend.name,"time": snap.val()[b].attend.time, "status":snap.val()[b].attend.flag,"team":snap.val()[b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});
           
-                  this.mainlist_att.push({"name":snap.val()[b].attend.name,"time": snap.val()[b].attend.time,"status":snap.val()[b].attend.flag,"team":snap.val()[b].attend.team,"tc":this.mainlistfromcompany[abba].tc.toFixed(1),"wantee":this.mainlistfromcompany[abba].wantee,"money":this.mainlistfromcompany[abba].money,"bantee":this.mainlistfromcompany[abba].bantee});
+                  this.mainlist_att.push({"name":snap.val()[b].attend.name,
+                                        "time": snap.val()[b].attend.time,
+                                        "status":snap.val()[b].attend.flag,
+                                        "team":snap.val()[b].attend.team,
+                                        "tc":this.mainlistfromcompany[abba].tc.toFixed(1),
+                                        "wantee":this.mainlistfromcompany[abba].wantee,
+                                        "money":this.mainlistfromcompany[abba].money,
+                                        "bantee":this.mainlistfromcompany[abba].bantee});
+
+                  console.log("아가씨 정산에 team 을 추가합니다 ->");
+
+                  let agasiName = snap.val()[b].attend.name;
+                  let agasiTeam = snap.val()[b].attend.team;
+                  
+                  this.agasijungsan_att.filter((x)=>{
+
+                    if(x.name === agasiName ){
+
+                      console.log(`${x.name} 의 팀은 ${agasiTeam} 입니다`);
+
+                        this.agasiJungsan.push({"bantee":x.bantee,
+                                                "chasam":x.chasam,
+                                                "name":x.name,
+                                                "date":x.date,
+                                                "incharge":x.incharge,
+                                                "team":agasiTeam,
+                                                "money":x.money,
+                                                "tc":x.tc,
+                                                "wantee":Math.floor(x.tc)});
+                    } 
+                  });
+
+                  console.log("아가씨 정산에 team 을 추가합니다 :)");
             
                 }//if :)
               }//for :)
@@ -887,7 +949,10 @@ export class SlidetestPage {
             }//if :)
             if(snap.val()[b].noattend!=undefined){
               this.totalout_att++;
-              this.mainlist_att_no.push({"name":snap.val()[b].attend.name,"time": snap.val()[b].attend.time, "status":snap.val()[b].noattend.flag,"team":snap.val()[b].noattend.team});
+              this.mainlist_att_no.push({"name":snap.val()[b].attend.name,
+                                        "time": snap.val()[b].attend.time, 
+                                        "status":snap.val()[b].noattend.flag,
+                                        "team":snap.val()[b].noattend.team});
             }//if :)
           }//for :)
           
