@@ -43,7 +43,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230711 v4.43';
+  version='20230715 v4.45';
   name:any;
   loading:any;
   firemain = firebase.database().ref();

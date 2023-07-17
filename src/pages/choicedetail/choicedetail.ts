@@ -671,14 +671,14 @@ export class ChoicedetailPage {
           
           this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(num+"").remove();
           this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(num+"").update(postData)
-          
           if(f==2){
+            console.log("f is 2 " +this.currentstartday+",,,"+room+",,,"+mainlist.key);
 
             var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
 
-            this.firemain.child("company").child(this.company).child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).update({"ss":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
+            this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).update({"ss":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
             //firemain push
-            this.firemain.child("company").child(this.company).child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"date":endtime,
+            this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"date":endtime,
                                                                                                                                                                                         "contents":"재진행:"+agasiname,
                                                                                                                                                                                         "type":"reinit", 
                                                                                                                                                                                         "uploader":this.nickname, 
@@ -686,15 +686,16 @@ export class ChoicedetailPage {
           
           }else{
 
+            console.log("f is not 2 "+this.currentstartday+",,,"+room+",,,"+mainlist.key);
             console.log(this.name);
             console.log(room);
             console.log(mainlist.key);
 
             var endtime = (dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes();
 
-            this.firemain.child("company").child(this.company).child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).update({"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
+            this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).update({"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
             //firemain push
-            this.firemain.child("company").child(this.company).child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"date":endtime,
+            this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"date":endtime,
                                                                                                                                                                                         "contents":"재진행:"+agasiname,
                                                                                                                                                                                         "type":"reinit", 
                                                                                                                                                                                         "uploader":this.nickname, 
@@ -703,7 +704,8 @@ export class ChoicedetailPage {
           }
 
         }//if :)
-      }//for loop :)
+      }
+      //for loop :)
 
       console.log("loop finish in reinit")
       // this.refreshChoice2();
