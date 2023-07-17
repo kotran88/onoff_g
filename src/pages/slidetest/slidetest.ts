@@ -122,8 +122,9 @@ export class SlidetestPage {
   tab2clicked:any=false;
 
   //my_team_list
+  myteam:string=localStorage.getItem("jopan");
 
-  myteam_list = [];
+  // myteam_list = [];
   //attendance 
 
   selectedMonth:any=0;
@@ -3990,10 +3991,6 @@ export class SlidetestPage {
 
     console.log("출근부 > screenSwitch"+values);
 
-    if(values==3){
-      this.generating_attendance_myteam();
-    }
-
     for (let i = 1; i <= 3; i++) { 
       document.getElementById("ion-label-area_att-"+i).style.display = "none"; 
     }
@@ -4164,23 +4161,23 @@ export class SlidetestPage {
    * 마이팀 출근부
    * 출근부에서 jopan 으로 filter 한다
    */
-  generating_attendance_myteam(){
+  // generating_attendance_myteam(){
 
-    let myteam = localStorage.getItem("jopan");
+  //   let myteam = localStorage.getItem("jopan");
 
-    console.log("마이팀 출석부 : "+this.company+":"+this.nickname+":"+myteam);
+  //   console.log("마이팀 출석부 : "+this.company+":"+this.nickname+":"+myteam);
 
-    for(var i=0;i<=this.mainlist_att.length;i++){
-      if(this.mainlist_att[i] !== undefined){
-        if(myteam == this.mainlist_att[i].team){
-          this.myteam_list.push(this.mainlist_att[i]);
-          console.log("my team : "+this.mainlist_att[i].team);
-        }else{
-          console.log("your team :"+this.mainlist_att[i].team);
-        }
-      }
-    }
-  }
+  //   for(var i=0;i<=this.mainlist_att.length;i++){
+  //     if(this.mainlist_att[i] !== undefined){
+  //       if(myteam == this.mainlist_att[i].team){
+  //         this.myteam_list.push(this.mainlist_att[i]);
+  //         console.log("my team : "+this.mainlist_att[i].team);
+  //       }else{
+  //         console.log("your team :"+this.mainlist_att[i].team);
+  //       }
+  //     }
+  //   }
+  // }
   //마이팀 출석부 :)
 
   getDaysOfMonth() {

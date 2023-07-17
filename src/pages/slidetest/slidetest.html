@@ -72,13 +72,17 @@
     </button>
   </div>
   <div [ngClass]="searchon==true ? 'top2' :'top'">
-    <span style="font-size: 25px; ">{{currentstartday}}</span>
-    <button (click)="buchange()"  style=" width: 87px; border-radius : 10px; background: orange; border: solid 1px; color: black; height: 45px; margin-left: 15px; ">
-      {{bu}}부
-    </button>
-    <span style="margin-left:15px; font-size: 30px; font-weight: 900;">
-      {{nowtime}}
-    </span>
+    <table style="width:100% !important;margin:5px;">
+      <tr>
+        <td style="width:33%;font-size:22px;font-weight: 900;">{{currentstartday}}</td>
+        <td style="width:34%;">
+          <button (click)="buchange()" style="width: 87px; border-radius : 10px; background: orange; border: solid 1px; color: black; height: 35px; margin-left: 15px; ">
+            {{bu}}부
+          </button>
+        </td>
+        <td style="width:33%;font-size:22px;font-weight: 900;">{{nowtime}}</td>
+      </tr>
+    </table>
   </div>
   <ion-slides (ionSlideDidChange)="slideChanged()"  #slider pager>
     <!-- 웨이터 -->
@@ -207,22 +211,22 @@
             <span>입실T</span>
             <span>퇴실T</span>
           </div>
-          <div  *ngIf="mainlist_info.length==0" class="datas">
+          <div *ngIf="mainlist_info.length==0" class="datas">
             <span style="width:100%;">현재 활성화된 방이 없습니다 </span>
           </div>
           <div *ngFor="let a of paginatedArray" class="datas">
             <span (click)="editing(a);" >{{a.name}}</span>
             <span (click)="editing(a);" >{{a.incharge}}</span>
-            <span (click)="editing(a);"  *ngIf="a.status=='reserved'&&(a.noflag==false||a.noflag==undefined)"> 예약중 </span>
-            <span (click)="editing(a);"  *ngIf="a.status=='entered'&&(a.noflag==false||a.noflag==undefined)"> 입실 </span>
-            <span (click)="editing(a);"  *ngIf="a.status=='clean'&&(a.noflag==false||a.noflag==undefined)"> 정리중 </span>
-            <span (click)="editing(a);"  *ngIf="a.status=='fin'&&(a.noflag==false||a.noflag==undefined)">완료  </span>
-            <span (click)="editing(a);"  *ngIf="a.avec&&(a.noflag==false||a.noflag==undefined)">{{a.numofpeople}} 인 A </span>
-            <span (click)="editing(a);"  *ngIf="!a.avec&&(a.noflag==false||a.noflag==undefined) ">{{a.numofpeople}} 인 </span>
-            <span (click)="editing(a);"  *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.wt}}</span>
-            <span (click)="editing(a);"  *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.insert_date}}</span>
-            <span (click)="editing(a);"  *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.end_date}}</span>
-            <span (click)="editing(a);" class="noflag"  style=" width: 70%; " *ngIf="a.noflag==true">{{a.nomemo}}</span>
+            <span (click)="editing(a);" *ngIf="a.status=='reserved'&&(a.noflag==false||a.noflag==undefined)"> 예약중 </span>
+            <span (click)="editing(a);" *ngIf="a.status=='entered'&&(a.noflag==false||a.noflag==undefined)"> 입실 </span>
+            <span (click)="editing(a);" *ngIf="a.status=='clean'&&(a.noflag==false||a.noflag==undefined)"> 정리중 </span>
+            <span (click)="editing(a);" *ngIf="a.status=='fin'&&(a.noflag==false||a.noflag==undefined)">완료  </span>
+            <span (click)="editing(a);" *ngIf="a.avec&&(a.noflag==false||a.noflag==undefined)">{{a.numofpeople}} 인 A </span>
+            <span (click)="editing(a);" *ngIf="!a.avec&&(a.noflag==false||a.noflag==undefined) ">{{a.numofpeople}} 인 </span>
+            <span (click)="editing(a);" *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.wt}}</span>
+            <span (click)="editing(a);" *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.insert_date}}</span>
+            <span (click)="editing(a);" *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.end_date}}</span>
+            <span (click)="editing(a);" *ngIf="a.noflag==true" class="noflag" style="width:70%;">{{a.nomemo}}</span>
           </div>
         </div>
         <div class="pagination">
@@ -674,52 +678,32 @@
               <span style="color:black;" class="text">오늘의 출근 현황.</span>
             </div>
             <div class="chart-div">
-              <div class="name-keys">
-                <span>팀</span>
-                <span>아가씨</span>
-                <span>개수</span>
-                <span>TC</span>
-                <span>상태</span>
-              </div>
-              <div  *ngIf="mainlist_att.length==0" class="datas">
+              <div *ngIf="mainlist_att.length==0" class="datas">
                 <span style="width: 100%;">출근 데이터가없습니다.</span>
               </div>
-              <ng-container *ngFor="let a of mainlist_att">
-                <div *ngIf="a.status=='standby'" (click)="editing2(a);"  class="datas">
-                  <span style="font-size: 11px;text-align: center;">{{a.team}}</span>
-                  <span>{{a.name}}</span>
-                  <span >{{a.wantee}} </span>
-                  <span>{{a.tc}}</span>
-                  <span>대기</span>
-                </div>
-              </ng-container>
-              <ng-container *ngFor="let a of mainlist_att">
-                <div *ngIf="a.status=='justcome'" (click)="editing2(a);"  class="datas">
-                  <span style="font-size: 11px;text-align: center;">{{a.team}}</span>
-                  <span>{{a.name}}</span>
-                  <span >{{a.wantee}} </span>
-                  <span>{{a.tc}}</span>
-                  <span>출근</span>
-                </div>
-              </ng-container>
-              <ng-container *ngFor="let a of mainlist_att">
-                <div *ngIf="a.status=='attend'" (click)="editing2(a);"  class="datas">
-                  <span style="font-size: 11px;text-align: center;">{{a.team}}</span>
-                  <span>{{a.name}}</span>
-                  <span >{{a.wantee}} </span>
-                  <span>{{a.tc}}</span>
-                  <span>방중</span>
-                </div>
-              </ng-container>
-              <ng-container *ngFor="let a of mainlist_att">
-                <div *ngIf="a.status=='gotohome'" (click)="editing2(a);"  class="datas">
-                  <span style="font-size: 11px;text-align: center;">{{a.team}}</span>
-                  <span>{{a.name}}</span>
-                  <span >{{a.wantee}} </span>
-                  <span>{{a.tc}}</span>
-                  <span>퇴근</span>
-                </div>
-              </ng-container>
+              <table style="width:100% !important;">
+                <tr>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;border-right:1px solid;">팀</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">아가씨</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">개수</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">TC</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">상태</th>
+                </tr>
+                <ng-container *ngFor="let a of mainlist_att">
+                <tr (click)="editing2(a);"  style="border-bottom: 1px solid;">
+                    <td style="border-right:1px solid;text-align: left;padding-left: 4px;">{{a.team}}</td>
+                    <td>{{a.name}}</td>
+                    <td>{{a.wantee}}</td>
+                    <td>{{a.tc}}</td>
+                    <td>
+                      <ng-container *ngIf="a.status=='standby'">대기</ng-container>
+                      <ng-container *ngIf="a.status=='justcome'">출근</ng-container>
+                      <ng-container *ngIf="a.status=='attend'">방중</ng-container>
+                      <ng-container *ngIf="a.status=='gotohome'">퇴근</ng-container>
+                    </td>
+                </tr>
+                </ng-container>
+              </table>
             </div>
           </div>
           <div style="height: 20%; position: fixed; z-index: 1; bottom: 10%; width: 95%; margin-top: 0px !important; top: 68%;" class="room-current">
@@ -805,18 +789,16 @@
                     <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">TC</th>
                     <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">완티</th>
                     <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">반티</th>
-                    <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">차비</th>
                     <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">금액</th>
-                    <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">팀</th>
+                    <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;border-left:1px solid;">팀</th>
                   </tr>
-                  <tr *ngFor="let a of agasiJungsan let j = index" (click)="editing(a);">
+                  <tr *ngFor="let a of agasiJungsan let j = index" (click)="editing(a);" style="border-bottom: 1px solid;">
                     <td>{{a.name}}</td>
                     <td>{{a.tc}}</td>
                     <td>{{a.wantee}}</td>
                     <td>{{a.bantee}}</td>
-                    <td>{{a.chasam}}</td>
                     <td>{{a.money}}</td>
-                    <td>{{a.team}}</td>
+                    <td style="border-left:1px solid;text-align: left;padding-left: 4px;">{{a.team}}</td>
                   </tr>
                 </table>
               </div>
@@ -828,23 +810,25 @@
               <span class="text">찡 현황</span>
             </div>
             <div class="chart-div">
-              <div class="name-keys">
-                <span>NO</span>
-                <span>팀</span>
-                <span>찡(완티)</span>
-                <span>찡(반티)</span>
-                <span>찡합계</span>
-              </div>
               <div *ngIf="newlist_att.length==0" (click)="editing(a);" class="datas">
                 <span style="width:100%;">해당일의 찡 내역이 없습니다. </span>
               </div>
-              <div *ngFor="let a of newlist_att let j = index" (click)="editing(a);" class="datas">
-                <span>{{j+1}}</span>
-                <span>{{a.teamname}}</span>
-                <span>{{a.wantee}}</span>
-                <span>{{a.bantee}}</span>
-                <span>{{a.jjing}}</span>
-              </div>
+              <table style="width:100% !important;">
+                <tr>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">NO</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">팀</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">찡(완티)</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">찡(반티)</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">찡합계</th>
+                </tr>
+                <tr *ngFor="let a of newlist_att let j = index" (click)="editing(a);" style="border-bottom: 1px solid;">
+                  <td>{{j+1}}</td>
+                  <td>{{a.teamname}}</td>
+                  <td>{{a.wantee}}</td>
+                  <td>{{a.bantee}}</td>
+                  <td>{{a.jjing}}</td>
+                </tr>
+              </table>
             </div>
           </div>
         </div><!-- area :) -->
@@ -856,23 +840,27 @@
               <span class="text">오늘의 찡 현황</span>
             </div>
             <div class="chart-div">
-              <div class="name-keys">
-                <span>NO</span>
-                <span>팀</span>
-                <span>찡(완티)</span>
-                <span>찡(반티)</span>
-                <span>찡합계</span>
-              </div>
               <div *ngIf="todayatt.length==0" (click)="editing(a);" class="datas">
                 <span style="width:100%;">오늘의 찡 내역이 없습니다 </span>
               </div>
-              <div *ngFor="let a of todayatt let j = index" (click)="editing(a);" class="datas">
-                <span>{{j+1}}</span>
-                <span >{{a.teamname}}</span>
-                <span>{{a.wantee}}</span>
-                <span>{{a.bantee}}</span>
-                <span>{{a.jjing}}</span>
-              </div>
+              <table style="width:100% !important;">
+                <tr>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">NO</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">팀</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">찡(완티)</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">찡(반티)</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">찡합계</th>
+                </tr>
+                <tr *ngFor="let a of todayatt let j = index" (click)="editing(a);" style="border-bottom: 1px solid;">
+                  <!-- <ng-container *ngIf="a.teamname == myteam"> -->
+                    <td>{{j+1}}</td>
+                    <td>{{a.teamname}}</td>
+                    <td>{{a.wantee}}</td>
+                    <td>{{a.bantee}}</td>
+                    <td>{{a.jjing}}</td>
+                  <!-- </ng-container> -->
+                </tr>
+              </table>
             </div>
           </div>
           <div style="height: 60%; overflow-y: scroll; position: absolute;" class="room-current">
@@ -881,26 +869,32 @@
               <span style="color:black;" class="text">오늘의 출근 현황.</span>
             </div>
             <div class="chart-div">
-              <div class="name-keys">
-                <span>팀</span>
-                <span>아가씨</span>
-                <span>개수</span>
-                <span>TC</span>
-                <span>상태</span>
-              </div>
-              <div *ngIf="myteam_list.length==0" class="datas">
+              <div *ngIf="mainlist_att.length==0" class="datas">
                 <span style="width: 100%;">출근 데이터가없습니다.</span>
               </div>
-              <div *ngFor="let a of myteam_list" (click)="editing2(a);" class="datas">
-                <span style="font-size: 11px; text-align: center;">{{a.team}}</span>
-                <span>{{a.name}}</span>
-                <span>{{a.wantee}} </span>
-                <span>{{a.tc}}</span>
-                <span *ngIf="a.status=='justcome'">출근</span>
-                <span *ngIf="a.status=='attend'">방중</span>
-                <span *ngIf="a.status=='standby'">대기</span>
-                <span *ngIf="a.status=='gotohome'">퇴근</span>
-              </div>
+              <table style="width:100% !important;">
+                <tr>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">팀</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">아가씨</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">개수</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">TC</th>
+                  <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">상태</th>
+                </tr>
+                <tr *ngFor="let a of mainlist_att" (click)="editing2(a);" style="border-bottom: 1px solid;">
+                  <ng-container *ngIf="a.team == myteam">
+                  <td>{{a.team}}</td>
+                  <td>{{a.name}}</td>
+                  <td>{{a.wantee}}</td>
+                  <td>{{a.tc}}</td>
+                  <td>
+                    <span *ngIf="a.status=='justcome'">출근</span>
+                    <span *ngIf="a.status=='attend'">방중</span>
+                    <span *ngIf="a.status=='standby'">대기</span>
+                    <span *ngIf="a.status=='gotohome'">퇴근</span>
+                  </td>
+                  </ng-container>
+                </tr>
+              </table>
             </div>
           </div>
         </div><!-- area :) -->
