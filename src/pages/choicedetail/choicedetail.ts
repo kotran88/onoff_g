@@ -202,6 +202,7 @@ export class ChoicedetailPage {
 
     for(var c in this.mainlist){
       for(var d in this.mainlist[c].agasi){
+        console.log(this.mainlist[c].agasi[d]);
           if(this.mainlist[c].agasi[d].findate!=undefined){
 
           }else{
@@ -1129,9 +1130,17 @@ export class ChoicedetailPage {
       console.log(snap.val().name);
 
       var agasiarray = snap.val().agasi;
-
       console.log(agasiarray);
-      
+      var refreshedagasiarray = [];
+      for(var awa in agasiarray){
+        refreshedagasiarray.push(agasiarray[awa])
+        console.log(agasiarray[awa]);
+      }
+      console.log(agasiarray);
+      console.log("was old agasi array : ");
+      console.log("new agasi array : ");
+      console.log(refreshedagasiarray);
+      agasiarray = refreshedagasiarray;
       console.log(snap.val().logic);
       console.log(snap.val());
 
@@ -1688,6 +1697,17 @@ export class ChoicedetailPage {
       }//if :)
 
       console.log("############# log #################");
+      // if(this.mainlist[0]!=undefined){
+      //   this.mainlist = this.mainlist[0];
+      //   console.log("mainlist[0] is not defined")
+
+      // console.log(this.mainlist)
+      // console.log(this.mainlist.agasi);
+      // }else{
+
+       
+      // }
+      console.log(this.mainlist)
       console.log(this.mainlist.agasi);
       console.log(this.mainlist_finished_status);
       console.log("refresh didloaded")

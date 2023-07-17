@@ -648,6 +648,7 @@ export class ChoicemodalPage {
     console.log("newnum add " +newnum);
     console.log(this.newnum);
 
+
     this.firemain.child("users").child(v.name).once("value",(snapshot)=>{
 
       console.log(snapshot.val());
@@ -659,6 +660,8 @@ export class ChoicemodalPage {
         window.alert(v.name+""+currentflag.room+"번 방에 "+currentflag.enter_date.split("T")[0]+" "+currentflag.enter_date.split("T")[1].split(":")[0]+"시"+currentflag.enter_date.split("T")[1].split(":")[1]+"분에 입장하여, 추가할수없습니다.");
         duflag=true;
         view.dismiss({"result":true});
+        newnum--;
+        this.newnum=newnum;
         this.newnum--;
         return;
       }
@@ -687,24 +690,23 @@ export class ChoicemodalPage {
         console.log("newnum ++ :"+this.newnum);
         console.log(v.name+'first so push to newlist')
 
-        newlist.push({ "name":v.name,"date": v.date ,"writer":v.writer,"angel":v.angel});
+        newlist.push({ "name":v.name,"date": v.date ,"writer":v.writer,"angel":v.angel,"num":this.newnum});
         
 
         console.log("최초등록 :)");
 
       } else if (snapshot.val().jopan==undefined){
-
+        console.log("조판 없음...")
         this.newnum++;
 
         if(this.newnum==-1){
           this.newnum=0;
-        }
-
+        }        
         console.log("newnumm ++ :"+this.newnum);
         console.log(snapshot.val().jopan);
         console.log(v.name+" jopan is not set");
 
-        newlist.push({ "name":v.name,"date": v.date ,"writer":v.writer,"angel":v.angel});
+        newlist.push({ "name":v.name,"date": v.date ,"writer":v.writer,"angel":v.angel,"num":this.newnum});
 
         console.log(newlist);
         
@@ -713,11 +715,13 @@ export class ChoicemodalPage {
 
         console.log("최초 등록 아님 ->");
 
+        newnum++;
         this.newnum++;
         if(this.newnum==-1){
           this.newnum=0;
         }
         // window.alert("newnum : "+this.newnum);
+        console.log("v : "+v);
         console.log("newnummm ++ :"+this.newnum);
         console.log(this.newnum);
         console.log(snapshot.val().jopan);
@@ -728,7 +732,7 @@ export class ChoicemodalPage {
         var hour = date.getHours();
         var min = date.getMinutes();
 
-        console.log("newnum..."+newnum);
+        console.log("newnum..??."+newnum);
         console.log(a);
         console.log("updating..."+v.name);
 
@@ -786,7 +790,8 @@ export class ChoicemodalPage {
           console.log(a);
           console.log(agasinum);
           console.log(newlist);
-          let modal2 = this.modal.create(Choicemodal2Page,{"newnum":subscribedList.length, "agasi":newlist,"room":a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
+          console.log("numnum..."+newnum+"and subscribedList.length : "+subscribedList.length);
+          let modal2 = this.modal.create(Choicemodal2Page,{"newnum":newlist[0].num, "agasi":newlist,"room":a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
 
           modal2.onDidDismiss(url => {
             console.log(url);
