@@ -852,13 +852,13 @@
                   <th style="background: #fff0c8;border-bottom: solid 1px;height:30px;">찡합계</th>
                 </tr>
                 <tr *ngFor="let a of todayatt let j = index" (click)="editing(a);" style="border-bottom: 1px solid;">
-                  <!-- <ng-container *ngIf="a.teamname == myteam"> -->
+                  <ng-container *ngIf="a.teamname == myteam">
                     <td>{{j+1}}</td>
                     <td>{{a.teamname}}</td>
                     <td>{{a.wantee}}</td>
                     <td>{{a.bantee}}</td>
                     <td>{{a.jjing}}</td>
-                  <!-- </ng-container> -->
+                  </ng-container>
                 </tr>
               </table>
             </div>
