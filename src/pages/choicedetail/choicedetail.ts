@@ -2256,25 +2256,42 @@ export class ChoicedetailPage {
         console.log(bc[ccc].name);
         if(bc[ccc].name==tochanged){
           var newmoney = this.util.getTCfromtc(newtc);
-          for(var ccc in this.mainlist[0].agasi){
-            if(this.mainlist[0].agasi[ccc].name == tochanged){
-              this.mainlist[0].agasi[ccc].money = newmoney;
-              this.mainlist[0].agasi[ccc].tc = newtc;
+          if(numflag==1){
+            for(var ccc in this.mainlist[0].agasi){
+              if(this.mainlist[0].agasi[ccc].name == tochanged){
+                this.mainlist[0].agasi[ccc].money = newmoney;
+                this.mainlist[0].agasi[ccc].tc = newtc;
+              }
+            }
+          }else{
+            if(numflag==1){
+              for(var ccc in this.mainlist_finished[0].agasi){
+                if(this.mainlist_finished[0].agasi[ccc].name == tochanged){
+                  this.mainlist_finished[0].agasi[ccc].money = newmoney;
+                  this.mainlist_finished[0].agasi[ccc].tc = newtc;
+                }
+              }
             }
           }
+          
         }
       }
-
-      for(var aaa in this.mainlist[0].agasi){
-
-        agasi.push(this.mainlist[0].agasi[aaa]);
-
+      if(numflag==1){
+        for(var aaa in this.mainlist[0].agasi){
+          agasi.push(this.mainlist[0].agasi[aaa]);
+        }
+      }else{
+        for(var aaa in this.mainlist_finished[0].agasi){
+          agasi.push(this.mainlist_finished[0].agasi[aaa]);
+        }
       }
-      console.log(this.mainlist[0].agasi);
       console.log("agasi fin : "+agasi);
       console.log(agasi);
-
+      if(numflag==1){
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(this.mainlist[0].key).update({agasi})
+      }else{
+        this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(this.mainlist_finished[0].key).update({agasi})
+      }
 
       
       return true;
