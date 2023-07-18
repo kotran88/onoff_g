@@ -2168,7 +2168,6 @@ export class ChoicedetailPage {
     console.log(aga);
 
     var flag = false;
-
     for(var a in this.mainlist[0].agasi){
 
       console.log("a is "+a);
@@ -2192,35 +2191,12 @@ export class ChoicedetailPage {
           console.log(aga[bb]);
           console.log(this.mainlist[0].agasi[a]);
 
-          flag = this.getNameChanged(aga[bb].name, this.mainlist[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day,1);
+          flag = this.getNameChanged(aga[bb].name, this.mainlist[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day,1,this.mainlist[0].agasi[a].tc);
 
           console.log(flag);
         }
       }
       
-      console.log("compare...");
-
-      count++;
-      if(this.mainlist[0].agasi[a].findate==undefined){
-        finnum++;
-      }
-      if(this.mainlist[0].agasi[a].tc==undefined){
-        break;
-      }
-
-      console.log(this.mainlist[0].agasi[a].tc)
-
-      var newmoney = this.util.getTCfromtc(this.mainlist[0].agasi[a].tc);
-
-      console.log(newmoney);
-
-      if(newmoney==undefined){
-        newmoney=0;
-      }
-      if(newmoney==1000){
-        falseflag=true;
-      }
-      this.mainlist[0].agasi[a].money = newmoney;
     }
     
   }
@@ -2256,7 +2232,7 @@ export class ChoicedetailPage {
    * @param numflag 
    * @returns 
    */
-  getNameChanged(beforechanged,tochanged,v,bc,room,key,firemain,company,day,numflag) {
+  getNameChanged(beforechanged,tochanged,v,bc,room,key,firemain,company,day,numflag,newtc) {
 
     var falseflag = false;
 
@@ -2265,7 +2241,6 @@ export class ChoicedetailPage {
     console.log(tochanged);
     console.log(v);
     console.log(bc);
-
     var agasi = [];
     var dte = new Date();
     dte.setHours(dte.getHours()+9);
@@ -2275,8 +2250,33 @@ export class ChoicedetailPage {
 
     if(beforechanged==tochanged){
 
-      console.log("33333 same so return");
+      console.log("name same so just change tc ");
 
+      for(var ccc in bc){
+        console.log(bc[ccc].name);
+        if(bc[ccc].name==tochanged){
+          var newmoney = this.util.getTCfromtc(newtc);
+          for(var ccc in this.mainlist[0].agasi){
+            if(this.mainlist[0].agasi[ccc].name == tochanged){
+              this.mainlist[0].agasi[ccc].money = newmoney;
+              this.mainlist[0].agasi[ccc].tc = newtc;
+            }
+          }
+        }
+      }
+
+      for(var aaa in this.mainlist[0].agasi){
+
+        agasi.push(this.mainlist[0].agasi[aaa]);
+
+      }
+      console.log(this.mainlist[0].agasi);
+      console.log("agasi fin : "+agasi);
+      console.log(agasi);
+
+      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(this.mainlist[0].key).update({agasi})
+
+      
       return true;
 
     }else{
@@ -2414,7 +2414,7 @@ export class ChoicedetailPage {
           console.log(aga[bb]);
           console.log(this.mainlist_finished[0].agasi[a]);
 
-          this.getNameChanged(aga[bb].name, this.mainlist_finished[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day,2);
+          this.getNameChanged(aga[bb].name, this.mainlist_finished[0].agasi[a].name,v,c.agasi,room,key,firemain,company,day,2,this.mainlist_finished[0].agasi[a].name);
         }
       }
      
