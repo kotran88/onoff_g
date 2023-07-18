@@ -597,7 +597,11 @@ export class EditingroomPage {
               if(this.a.name==this.room){
                 //방번호는 안바꿈. 
                 console.log("no chnge room!")
-  
+                console.log(this.a.name);
+                console.log(this.a.key);
+                console.log(this.a);
+                console.log(agasi);
+                console.log(this.logic);
               if(agasi.length==0){
                 this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).update({
                   "bujangjopan":this.jopan,
@@ -623,14 +627,14 @@ export class EditingroomPage {
                   "v":snap.val().v
               })
             }else{
-              
               this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.room).child(this.a.key).update({
                 "agasi":snap.val().agasi,
                 "bujangjopan":this.jopan,
                 "bujangyoung":this.team,
                 "directorId":this.id,
                 "bu":this.bu,
-                "logic":snap.val().logic,
+
+                "logic":this.logic,
                 "ss":ss,
                 "insert_date":snap.val().insert_date,
                 "date":snap.val().date,
@@ -694,7 +698,7 @@ export class EditingroomPage {
                   "bujangyoung":this.team,
                   "directorId":this.id,
                   "bu":this.bu,
-                  "logic":snap.val().logic,
+                  "logic":this.logic,
                   "ss":ss,
                   "insert_date":snap.val().insert_date,
                   "date":snap.val().date,
@@ -766,13 +770,13 @@ export class EditingroomPage {
               }else{
                          
   
-                        this.firemain.child("users").child(this.id).child("roomhistory").child(this.currentstartday).child(this.a.key).update({
+                        this.firemain.child("users").child(this.incharge).child("roomhistory").child(this.currentstartday).child(this.a.key).update({
                           "agasi":snap.val().agasi,
                           "bujangjopan":this.jopan,
                           "bujangyoung":this.team,
                           "directorId":this.id,
                           "bu":this.bu,
-                          "logic":snap.val().logic,
+                          "logic":this.logic,
                           "ss":ss,
                           "insert_date":snap.val().insert_date,
                           "date":snap.val().date,
@@ -797,7 +801,7 @@ export class EditingroomPage {
                         "bujangyoung":this.team,
                         "directorId":this.id,
                         "bu":this.bu,
-                        "logic":snap.val().logic,
+                        "logic":this.logic,
                         "ss":ss,
                         "insert_date":snap.val().insert_date,
                         "date":snap.val().date,
