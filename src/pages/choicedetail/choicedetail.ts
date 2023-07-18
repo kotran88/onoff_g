@@ -1096,9 +1096,10 @@ export class ChoicedetailPage {
 
       console.log("end fin before");
 
+      this.refreshChoice2();
+      
       setTimeout(()=>{
         this.util.dismissLoading();
-        this.refreshChoice2();
       },800)
 
     });//this.firemain.child("users").child(c.name).once("value",snap=>{ :)
