@@ -1491,6 +1491,7 @@ export class SlidetestPage {
       }
     }
     
+    //##### mainlist_choice #####
     for(var v in this.mainlist_choice){
       console.log(this.mainlist_choice[v].key);
       if(this.mainlist_choice[v].key == mainlist.key){
@@ -1505,6 +1506,7 @@ export class SlidetestPage {
         console.log("match!!!");
         console.log(this.mainlist_choice[v]);
         console.log("Change to "+mainlist.numofpeople);
+
         this.mainlist_choice[v].directorId = mainlist.directorId;
         this.mainlist_choice[v].agasi = mainlist.agasi;
         this.mainlist_choice[v].avec = mainlist.avec;
@@ -1520,8 +1522,10 @@ export class SlidetestPage {
         this.mainlist_choice[v].orderlist = mainlist.orderlist;
         this.mainlist_choice[v].status = mainlist.status;
         this.mainlist_choice[v].memo = mainlist.memo;
+
       }
     }
+    //##### mainlist_choice ##### :)
 
     console.log(this.mainlist_choice);
   }
@@ -1931,12 +1935,10 @@ export class SlidetestPage {
 
     });
 
-    this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_removed', function(snap, prevChildKey) {
-    });
-    this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_moved', function(snap, prevChildKey) {
-    });
+    this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_removed', function(snap, prevChildKey) {    });
+    this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_moved', function(snap, prevChildKey) {    });
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").on('child_added', (snap, prevChildKey)=> {
-
+      
       console.log("on.");
 
       if(this.loadfinished){
@@ -1985,11 +1987,16 @@ export class SlidetestPage {
       }else{
 
         console.log(this.mainlist_info);
+        console.log("##### refreshoneroom call #####");
 
         for(var date in snap.val()){
           for(var room in this.mainlist_choice){
             if(this.mainlist_choice[room].key == snap.val()[date].key){
+
+              console.log(snap.val()[date]);
+
               this.refreshoneroom(snap.val()[date]);
+                            
             }
           }
           for(var room in this.mainlist_finished_choice){
@@ -2115,6 +2122,7 @@ export class SlidetestPage {
     var orderedQuery = this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"")
 
     orderedQuery.once("value", (snapshot) =>{
+
       snapshot.forEach((childSnapshot) => {
 
         var childData = childSnapshot.val();

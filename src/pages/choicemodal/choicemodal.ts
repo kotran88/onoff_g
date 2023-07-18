@@ -354,6 +354,11 @@ export class ChoicemodalPage {
   cancel(){
     this.view.dismiss({"result":false});
   }
+  /**
+   * 아가씨 추가 confirm 
+   * input 체크후 regagasi() 호출
+   * @returns 
+   */
   confirm(){
 
     this.util.presentLoading();
@@ -499,6 +504,7 @@ export class ChoicemodalPage {
       
     //console.log(this.agasilist);
 
+    //아가씨 중복체크 ->
     var nameList = [];
     var hasDuplicate = false;
     var dupname = "";
@@ -521,6 +527,7 @@ export class ChoicemodalPage {
     } else {
       //console.log("The agasilist array does not contain duplicate names.");
     }
+    //아가씨 중복체크 :)
 
     //console.log(this.a.numofpeople)
     for(var abe in this.agasilist){
@@ -648,21 +655,25 @@ export class ChoicemodalPage {
     console.log("newnum add " +newnum);
     console.log(this.newnum);
 
-
     this.firemain.child("users").child(v.name).once("value",(snapshot)=>{
 
       console.log(snapshot.val());
       console.log("v.name : "+v.name);
 
       if(snapshot.val()!=null&&snapshot.val().current!=undefined&&snapshot.val().current!=null){
+
         var currentflag = snapshot.val().current;
+
         subscribedList.push({"id":v.name,"name":v.name});
+
         window.alert(v.name+""+currentflag.room+"번 방에 "+currentflag.enter_date.split("T")[0]+" "+currentflag.enter_date.split("T")[1].split(":")[0]+"시"+currentflag.enter_date.split("T")[1].split(":")[1]+"분에 입장하여, 추가할수없습니다.");
+        
         duflag=true;
         view.dismiss({"result":true});
         newnum--;
         this.newnum=newnum;
         this.newnum--;
+
         return;
       }
 
@@ -691,17 +702,19 @@ export class ChoicemodalPage {
         console.log(v.name+'first so push to newlist')
 
         newlist.push({ "name":v.name,"date": v.date ,"writer":v.writer,"angel":v.angel,"num":this.newnum});
-        
 
         console.log("최초등록 :)");
 
       } else if (snapshot.val().jopan==undefined){
-        console.log("조판 없음...")
+
+        console.log("조판 없음...");
+
         this.newnum++;
 
         if(this.newnum==-1){
           this.newnum=0;
         }        
+
         console.log("newnumm ++ :"+this.newnum);
         console.log(snapshot.val().jopan);
         console.log(v.name+" jopan is not set");
@@ -710,7 +723,6 @@ export class ChoicemodalPage {
 
         console.log(newlist);
         
-
       }else{
 
         console.log("최초 등록 아님 ->");
@@ -736,20 +748,60 @@ export class ChoicemodalPage {
         console.log(a);
         console.log("updating..."+v.name);
 
-        firemain.child("users").child(a.wt).child("roomhistory").child(currentstartday).child(a.key).child("agasi").child(this.newnum+"").update({"angel": v.angel,"roomno":a.name,"incharge":a.incharge, "name":v.name,"writer":nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
-        firemain.child("users").child(a.directorId).child("roomhistory").child(currentstartday).child(a.key).child("agasi").child(this.newnum+"").update({"angel": v.angel,"roomno":a.name,"incharge":a.incharge, "name":v.name,"writer":nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
+        let dateTimeStampStr:string = year+"-"+month+"-"+day +" "+hour+":"+min;
+        //##### 아가씨 DB 등록 호출 ####
+        firemain.child("users").child(a.wt).child("roomhistory").child(currentstartday).child(a.key).child("agasi").child(this.newnum+"").update({"angel": v.angel,
+                                                                                                                                                  "roomno":a.name,
+                                                                                                                                                  "incharge":a.incharge, 
+                                                                                                                                                  "name":v.name,
+                                                                                                                                                  "writer":nickname,
+                                                                                                                                                  "date":dateTimeStampStr});
+
+        firemain.child("users").child(a.directorId).child("roomhistory").child(currentstartday).child(a.key).child("agasi").child(this.newnum+"").update({"angel": v.angel,
+                                                                                                                                                          "roomno":a.name,
+                                                                                                                                                          "incharge":a.incharge, 
+                                                                                                                                                          "name":v.name,
+                                                                                                                                                          "writer":nickname,
+                                                                                                                                                          "date":dateTimeStampStr});
         
-        firemain.child("users").child(v.name).child("attendance").child(currentstartday).update({"currentStatus":"attend"})
-        firemain.child("users").child(v.name).child("attendance").child(currentstartday).child("attend").update({"team":snapshot.val().jopan,"name":name,"date":currentstartday,"flag":"attend","time":hour+":"+min})
+        firemain.child("users").child(v.name).child("attendance").child(currentstartday).update({"currentStatus":"attend"});
+
+        firemain.child("users").child(v.name).child("attendance").child(currentstartday).child("attend").update({ "team":snapshot.val().jopan,
+                                                                                                                  "name":name,
+                                                                                                                  "date":currentstartday,
+                                                                                                                  "flag":"attend",
+                                                                                                                  "time":hour+":"+min});
         //users > 사용자 > current 정보를 추가한다
-        firemain.child("users").child(v.name).child("current").update({"room":a.name,"enter_date":dte,"date":currentstartday})
+        firemain.child("users").child(v.name).child("current").update({ "room":a.name,
+                                                                        "enter_date":dte,
+                                                                        "date":currentstartday});
         
-        firemain.child("attendance").child(company).child(currentstartday).child(v.name).child("attend").update({ "team":snapshot.val().jopan,"name":v.name,"flag":"attend","date":currentstartday, "time":hour+":"+min})
+        firemain.child("attendance").child(company).child(currentstartday).child(v.name).child("attend").update({ "team":snapshot.val().jopan,
+                                                                                                                  "name":v.name,
+                                                                                                                  "flag":"attend",
+                                                                                                                  "date":currentstartday, 
+                                                                                                                  "time":hour+":"+min});
         
-        firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).update({"lastupdatedperson":nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""})
-        firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).child("agasi").child(this.newnum+"").update({"angel": v.angel,"num":this.newnum,"roomno":a.name,"incharge":a.incharge, "name":v.name,"writer":nickname,"date":year+"-"+month+"-"+day +" "+hour+":"+min})
-        firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).child("message").push({ "date":month+"-"+day +" "+hour+":"+min+"","contents":"메이드 ","type":"assigned", "agasi":v.name,"uploader":nickname, "name":"system"})
+        firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).update({ "lastupdatedperson":nickname, 
+                                                                                                                              "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()+""});
+
+        firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).child("agasi").child(this.newnum+"").update({"angel": v.angel,
+                                                                                                                                                                  "num":this.newnum,
+                                                                                                                                                                  "roomno":a.name,
+                                                                                                                                                                  "incharge":a.incharge, 
+                                                                                                                                                                  "name":v.name,
+                                                                                                                                                                  "writer":nickname,
+                                                                                                                                                                  "date":dateTimeStampStr});
+
+        firemain.child("company").child(company).child("madelist").child(currentstartday).child(a.name).child(a.key).child("message").push({  "date":month+"-"+day +" "+hour+":"+min+"",
+                                                                                                                                              "contents":"메이드 ",
+                                                                                                                                              "type":"assigned", 
+                                                                                                                                              "agasi":v.name,
+                                                                                                                                              "uploader":nickname, 
+                                                                                                                                              "name":"system"});
     
+        // ##### 아가씨 DB 등록 호출 #### :)
+
         subscribedList.push({"id":v.name,"name":v.name});
         // 이미등록됨
 
@@ -791,10 +843,13 @@ export class ChoicemodalPage {
           console.log(agasinum);
           console.log(newlist);
           console.log("numnum..."+newnum+"and subscribedList.length : "+subscribedList.length);
+
           let modal2 = this.modal.create(Choicemodal2Page,{"newnum":newlist[0].num, "agasi":newlist,"room":a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
 
           modal2.onDidDismiss(url => {
+
             console.log(url);
+
             if(url==undefined){
               return;
             }else if(url.result == false){
@@ -835,7 +890,8 @@ export class ChoicemodalPage {
     return dupflag;
   }
   /**
-   * 아가씨를 룸에 등록합니다
+   * 아가씨를 DB 에 등록합니다
+   * Firebase Realtime Database 에 등록하는 func.
    */
   regagasi(){
 
@@ -849,7 +905,10 @@ export class ChoicemodalPage {
     var min = date.getMinutes();
     var dte = new Date();
     var newflag=false;
-      
+    
+    //유앤미 > madelist > 2023-7-17 > 101 >  -N_Yn1BrsdRAPWMXqKj0 > agasi -> 조회(once)
+    console.log(`${this.company} > madelist > ${this.currentstartday} > ${this.a.name} >  ${this.a.key} > agasi -> 조회(once)`);
+
     this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("agasi").once("value",snap3=>{
       
       var num = snap3.numChildren();
@@ -863,25 +922,36 @@ export class ChoicemodalPage {
       console.log("for loop");
 
       for(var cc in this.agasilist){
+
         console.log(this.agasilist[cc]);
+
         this.getRoomList(this.agasilist[cc],newlist,subscribedList,this.currentstartday,this.modal,this.agasilist.length,this.view,this.firemain,this.company,this.a,this.agasilist[cc].writer,this.newnum,duflag,this.a);
+
         console.log(this.util.newnumber);
       }
+
       console.log(this.newlist);
       console.log(this.newlist.length);
       console.log(this.subscribedList);
       console.log(this.subscribedList.length);
+      
       var count=0;
-     for(var listvalue in this.newlist){
-      count++;
-      console.log(this.newlist[listvalue]);
-     }
-     console.log(count);
+
+      for(var listvalue in this.newlist){
+
+        count++;
+
+        console.log(this.newlist[listvalue]);
+      }
+
+      console.log(count);
+
       if(count>0){
 
         let modal2 = this.modal.create(Choicemodal2Page,{"newnum":this.newnum, "agasi":this.newlist,"subscribedList":this.subscribedList,"room":this.a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
 
         modal2.onDidDismiss(url => {
+
           console.log(url);
           if(url==undefined){
             return;
@@ -894,6 +964,7 @@ export class ChoicemodalPage {
             }
           }
         });
+
         modal2.present();
 
       }

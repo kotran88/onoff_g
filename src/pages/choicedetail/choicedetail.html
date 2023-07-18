@@ -40,6 +40,7 @@
   </ion-segment>
 
   <div class="ion-label-area">
+    <!-- 초이스 -->
     <!-- area 1 -->
     <div class="area" [ngClass]="activeclass=='1' ? 'show' : 'noshow'" id="ion-label-area-1">
       <div style="width: 100%; align-items: center; z-index: 2000; border-top: solid 1px; height: 39px;">
@@ -68,7 +69,7 @@
         </div>
       </div>
       <div class="showmain">
-        <div  *ngIf="mainlist.length==0" class="datas">
+        <div *ngIf="mainlist.length==0" class="datas">
           <p>  초이스방 내역이 없습니다. </p>
         </div>
         <div *ngFor="let a of mainlist let j = index" class="mainlistloop">
@@ -196,6 +197,7 @@
         </div><!-- bottomdiv:) -->
       </div><!--showmain :)-->      
     </div><!-- area :) -->
+    <!-- 진행중인방 -->
     <!-- area 2 -->
     <div class="area" [ngClass]="activeclass=='2' ? 'show' : 'noshow'" id="ion-label-area-2">
       <div style="width: 100%; align-items: center; z-index: 2000; border-top: solid 1px; height: 39px;">
@@ -356,6 +358,7 @@
         </div><!-- bottomdiv :) -->
       </div> <!-- showmain :) -->
     </div><!-- area :) -->
+    <!-- 완료된방 -->
     <!-- area 3 -->
     <div class="area" [ngClass]="activeclass=='3' ? 'show' : 'noshow'" id="ion-label-area-3">
       <div style="width: 100%; align-items: center; z-index: 2000; border-top: solid 1px; height: 39px;">
@@ -443,11 +446,12 @@
         </div><!-- bottomdiv :) -->
       </div><!-- showmain :) -->
     </div><!-- area :) -->
+    <!-- 날개초이스 -->
     <!-- area 4 -->
     <div class="area" [ngClass]="activeclass=='4' ? 'show' : 'noshow'" id="ion-label-area-4">
       <div style="width: 100%; align-items: center; z-index: 2000; border-top: solid 1px; height: 39px;">
         <div class="chart-div">
-          <div  class="name-keys">
+          <div class="name-keys">
             <span>룸NO</span>
             <span>담당자</span>
             <span>인원</span>

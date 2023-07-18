@@ -155,8 +155,8 @@ export class ChoicedetailPage {
     const dateA = new Date();
     const dateB = new Date(startTime);
 
-    console.log(`입장시간은 : ${dateA}`);
-    console.log(`종료시간은 : ${dateB}`);
+    console.log(`종료시간은 : ${dateA}`);
+    console.log(`입장시간은 : ${dateB}`);
 
     const diffMSec = dateA.getTime() - dateB.getTime();
     const diffSec = diffMSec / 1000;
@@ -824,7 +824,9 @@ export class ChoicedetailPage {
 
     console.log("c name : "+c.name);
 
-    //걍팅인지
+    //##### 걍팅 #####
+    console.log("##### 걍팅 func #####");
+    console.log(c);
     if(this.isPassedStandardWorkingTimeSec(c.date)){
       console.log(c.name+'-->지급기준을 통과하였습니다');
     }else{
@@ -845,6 +847,8 @@ export class ChoicedetailPage {
       this.firemain.child("users").child(c.name).child("current").remove();
 
       //firemain push
+      console.log(`company > ${this.company} > madelist > ${this.currentstartday} > ${room} > ${mainlist.key} > message`);
+
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("message").push({"tc":tctotal,
                                                                                                                                                               "bantee":bantee,
                                                                                                                                                               "totalmoney":totalmoney, 
@@ -855,7 +859,11 @@ export class ChoicedetailPage {
                                                                                                                                                               "agasi":c.name, 
                                                                                                                                                               "name":"system"});
 
-      
+      this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).once("value",snap=>{
+        console.log(console.log(snap.val()));
+        this.firemain.child("company").child(this.company).child("madelist_log").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).push(snap.val());
+      });
+                                                                                                                                                
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).remove();
       this.firemain.child("users").child(mainlist.wt).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(c.num).remove();
       this.firemain.child("users").child(mainlist.incharge).child("roomhistory").child(this.currentstartday).child(mainlist.key).child("agasi").child(c.num).remove();
@@ -864,7 +872,7 @@ export class ChoicedetailPage {
       this.refreshChoice2();
 
       return;
-    }
+    }//걍팅 :)
 
     this.firemain.child("users").child(c.name).once("value",snap=>{
 
