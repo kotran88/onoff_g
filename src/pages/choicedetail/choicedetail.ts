@@ -2288,8 +2288,12 @@ export class ChoicedetailPage {
       console.log("agasi fin : "+agasi);
       console.log(agasi);
       if(numflag==1){
+        this.firemain.child("users").child(this.mainlist[0].incharge).child("roomhistory").child(this.currentstartday).child(this.mainlist[0].key).update({agasi})
+        this.firemain.child("users").child(this.mainlist[0].wt).child("roomhistory").child(this.currentstartday).child(this.mainlist[0].key).update({agasi})
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(this.mainlist[0].key).update({agasi})
       }else{
+        this.firemain.child("users").child(this.mainlist_finished[0].incharge).child("roomhistory").child(this.currentstartday).child(this.mainlist_finished[0].key).update({agasi})
+        this.firemain.child("users").child(this.mainlist_finished[0].wt).child("roomhistory").child(this.currentstartday).child(this.mainlist_finished[0].key).update({agasi})
         this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(this.mainlist_finished[0].key).update({agasi})
       }
 
