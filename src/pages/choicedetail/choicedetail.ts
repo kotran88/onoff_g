@@ -836,10 +836,7 @@ export class ChoicedetailPage {
       var angel = false;
 
       if(c.angel!=undefined){
-        console.log("한명일때");
         angel=c.angel; 
-      }else{
-        console.log("여러명중 한명이 남았을때");
       }
       
       this.firemain.child("attendance").child(this.company).child(this.currentstartday).child(c.name).child("attend").update({"flag":"standby"});
@@ -861,7 +858,7 @@ export class ChoicedetailPage {
 
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).once("value",snap=>{
         console.log(console.log(snap.val()));
-        this.firemain.child("company").child(this.company).child("madelist_log").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).push(snap.val());
+        this.firemain.child("company").child(this.company).child("madelist_log").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").push(snap.val());
       });
                                                                                                                                                 
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(room).child(mainlist.key).child("agasi").child(c.num).remove();
