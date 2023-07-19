@@ -1981,7 +1981,7 @@ export class SlidetestPage {
 
       this.cc++;
       if(this.cc%3==0){
-        //방을 인포에서 종료시키면 여기로 온다.
+        //방을 인포에서 종료
         this.cc=0;
 
       }else if(this.cc%2==0){

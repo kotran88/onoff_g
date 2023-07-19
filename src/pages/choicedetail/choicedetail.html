@@ -78,8 +78,8 @@
               <div>
                 <table>
                   <tr style="width:100%">
-                    <td style="width:30px;">
-                      <span *ngIf="b.angel">
+                    <td *ngIf="b.angel" style="width:30px;">
+                      <span >
                         <img style=" height: 28px; width:28px;" class="logo" src="assets/img/angel.png" />
                       </span>
                     </td>
@@ -149,7 +149,11 @@
                       <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
                         종료
                       </button>
-                      <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
+                      <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px; 
+                      font-size: 10px;
+                      height: 30px;
+                      padding: 0px;
+                      width: 50px;" class="default-btn">
                         재진행
                       </button>
                     </td>
@@ -241,19 +245,24 @@
                       </span>
                     </td>
                     <td style="text-align: right;">
-                      <span *ngIf="!b.angel&&b.findate==undefined&&modifyflag" style="margin: 0px !important;">
+                      <span *ngIf="!b.angel&&b.findate==undefined&&modifyflag" style="margin: 0px !important; 
+                      font-size: 12px !important; ">
                         {{b.name}}
                       </span>
-                      <span *ngIf="!b.angel&&b.findate==undefined&&!modifyflag" style="margin: 0px !important;">
+                      <span *ngIf="!b.angel&&b.findate==undefined&&!modifyflag" style="margin: 0px !important; 
+                      font-size: 12px !important;">
                         {{b.name}}
                       </span>
-                      <span *ngIf="!b.angel&&b.findate!=undefined&&!modifyflag" style="margin: 0px !important;">
+                      <span *ngIf="!b.angel&&b.findate!=undefined&&!modifyflag" style="margin: 0px !important; 
+                      font-size: 12px !important; ">
                         {{b.name}}
                       </span>
-                      <span *ngIf="!b.angel&&b.findate!=undefined&&modifyflag" style=" margin: 0px !important;">
+                      <span *ngIf="!b.angel&&b.findate!=undefined&&modifyflag" style=" margin: 0px !important;
+                      font-size: 12px !important; ">
                         <input [(ngModel)]='b.name' value="{{b.name}}" type="text">
                       </span>
-                      <span *ngIf="b.angel" style=" margin: 0px !important;">
+                      <span *ngIf="b.angel" style=" margin: 0px !important; 
+                      font-size: 12px !important;">
                         {{b.name}}
                       </span>
                     </td>
@@ -300,7 +309,11 @@
                       <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,2)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
                         종료
                       </button>                
-                      <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,2)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
+                      <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,2)" style="border: 1px solid black;border-radius: 5px;  
+                      font-size: 10px;
+                      height: 30px;
+                      padding: 0px;
+                      width: 50px;" class="default-btn">
                         재진행
                       </button>
                     </td>
