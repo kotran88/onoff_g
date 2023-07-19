@@ -1385,12 +1385,14 @@ export class SlidetestPage {
 
     for(var v in this.mainlist_info){
       if(this.mainlist_info[v].key == mainlist.key){
-
         var inagasi=0;
+        var totalagasi=0;
         if(mainlist.agasi!=undefined){
           for(var ccaacc in mainlist.agasi){
+            totalagasi++;
             if(mainlist.agasi[ccaacc].findate==undefined){
               inagasi++;
+               //종료 안됨. 들어가있는 상황 . 
             }
           }
         }
@@ -1419,10 +1421,13 @@ export class SlidetestPage {
       console.log(this.mainlist_finished_choice[v].key);
       if(this.mainlist_finished_choice[v].key == mainlist.key){
         var inagasi=0;
+        var totalagasi=0;
         if(mainlist.agasi!=undefined){
           for(var ccaacc in mainlist.agasi){
+            totalagasi++;
             if(mainlist.agasi[ccaacc].findate==undefined){
               inagasi++;
+               //종료 안됨. 들어가있는 상황 . 
             }
           }
         }
@@ -1438,6 +1443,8 @@ export class SlidetestPage {
         this.mainlist_finished_choice[v].insert_date = mainlist.insert_date;
         this.mainlist_finished_choice[v].insert_date_full = mainlist.insert_date_full;
         this.mainlist_finished_choice[v].key = mainlist.key;
+        this.mainlist_finished_choice[v].numofagasi = inagasi
+        this.mainlist_finished_choice[v].totalagasi = totalagasi;
         this.mainlist_finished_choice[v].numofpeople = mainlist.numofpeople;
         this.mainlist_finished_choice[v].lack = mainlist.numofpeople - inagasi;
         this.mainlist_finished_choice[v].name = mainlist.name;
@@ -1460,12 +1467,14 @@ export class SlidetestPage {
 
     for(var v in this.mainlist_info){
       if(this.mainlist_info[v].key == mainlist.key){
-
         var inagasi=0;
+        var totalagasi=0;
         if(mainlist.agasi!=undefined){
           for(var ccaacc in mainlist.agasi){
+            totalagasi++;
             if(mainlist.agasi[ccaacc].findate==undefined){
               inagasi++;
+               //종료 안됨. 들어가있는 상황 . 
             }
           }
         }
