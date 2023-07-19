@@ -1980,8 +1980,11 @@ export class SlidetestPage {
       console.log(snap.val());
 
       this.cc++;
+      if(this.cc%3==0){
+        //방을 인포에서 종료시키면 여기로 온다.
+        this.cc=0;
 
-      if(this.cc%2==0){
+      }else if(this.cc%2==0){
         for(var date in snap.val()){
           for(var room in this.mainlist_choice){
             if(this.mainlist_choice[room].key == snap.val()[date].key){
@@ -2171,6 +2174,8 @@ export class SlidetestPage {
                 //console.log("this bang should not be ob ++ ");
                 this.agasinum_info++;
               }
+              console.log("this is finished room");
+              console.log(childSnapshot.val()[a]);
               //iterate through snap.val()[a][b] 
               //and push to mainlist_finished
               // this.mainlist_finished.push(snap.val()[a][b]);
@@ -2633,7 +2638,9 @@ export class SlidetestPage {
                     
           }//if :)
 
+
         }//for:)
+      
       })
 
       if(this.mainlist_finished_info.length!=0){
@@ -2661,7 +2668,9 @@ export class SlidetestPage {
         }
       });
 
-      // console.log(this.mainlist_finished_info);
+      console.log(this.mainlist_info);
+      console.log(this.mainlist_finished_info);
+      console.log("mainlist_info finished...")
       //   this.mainlist_finished_info.sort(function(a, b) {
       //     console.log(a.insert_date);
       //     // Compare dates
@@ -3152,11 +3161,12 @@ export class SlidetestPage {
             // this.refreshChoice2();
           console.log("else...........")
 
-          this.generate_info();
 
           setTimeout(()=>{
+
             this.generate();
             this.refreshon();
+            this.generate_info();
             this.util.dismissLoading();
           },500)
         }

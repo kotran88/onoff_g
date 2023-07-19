@@ -225,7 +225,7 @@
             <span (click)="editing(a);" *ngIf="!a.avec&&(a.noflag==false||a.noflag==undefined) ">{{a.numofpeople}} 인 </span>
             <span (click)="editing(a);" *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.wt}}</span>
             <span (click)="editing(a);" *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.insert_date}}</span>
-            <span (click)="editing(a);" *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.end_date}}</span>
+            <span (click)="editing(a);" style="    font-size: 10px;" *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.end_date}}</span>
             <span (click)="editing(a);" *ngIf="a.noflag==true" class="noflag" style="width:70%;">{{a.nomemo}}</span>
           </div>
         </div>
@@ -306,7 +306,7 @@
             </div>
             <div *ngIf="a.flag!='nono'&&a.agasi.length==0&&a.orderlist==undefined" style="width:100%;" class="norowww">
               <span>{{a.name}}</span>
-              <span>{{a.incharge}}</span>
+              <span style="    font-size: 10px;">{{a.incharge}}</span>
               <span *ngIf="a.status=='reserved'"> 예약중 </span>
               <span *ngIf="a.status=='entered'"> 입실 </span>
               <span *ngIf="a.status=='clean'"> 정리중 </span>
@@ -314,11 +314,11 @@
               <span>{{a.numofpeople}} 인 </span>
               <span>{{a.wt}}</span>
               <span>{{a.insert_date}}</span>
-              <span>{{a.end_date}}</span>
+              <span style="    font-size: 10px;">{{a.end_date}}</span>
             </div>
             <div *ngIf="a.flag!='nono'&&a.agasi.length!=0" style="width:100%;" class="rowrow">
               <span>{{a.name}}</span>
-              <span>{{a.incharge}}</span>
+              <span style="    font-size: 10px;">{{a.incharge}}</span>
               <span *ngIf="a.status=='reserved'"> 예약중 </span>
               <span *ngIf="a.status=='entered'"> 입실 </span>
               <span *ngIf="a.status=='clean'"> 정리중 </span>
@@ -326,7 +326,7 @@
               <span>{{a.numofpeople}} 인 </span>
               <span>{{a.wt}}</span>
               <span>{{a.insert_date}}</span>
-              <span>{{a.end_date}}</span>
+              <span style="    font-size: 10px;">{{a.end_date}}</span>
             </div>
           </div>
         </div>
