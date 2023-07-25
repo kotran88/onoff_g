@@ -14,7 +14,6 @@ import { OrderdetailPage } from '../orderdetail/orderdetail';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-ordermain',
   templateUrl: 'ordermain.html',

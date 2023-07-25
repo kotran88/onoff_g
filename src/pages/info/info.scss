@@ -1,9 +1,20 @@
 page-info {
-
+    p{
+      font-family: ggg;
+    }
+    span{
+      font-family: ggg;
+    }
     .header {
         position: absolute;
         width: 100%;
         color:white;
+    }
+    .select-ios{
+      padding :0px !important;
+      .select-text{
+        font-size:14px !important;
+      }
     }
     .scroll-content{
         padding:0px !important;
@@ -14,6 +25,26 @@ page-info {
         width: 100%;
         height: 100px;
         margin-top: 10px;
+    }
+    .noflag{
+      position: relative;
+    }
+    .noflag::before {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+
+  background-color: red;
+
+}
+    .top{
+      margin-top:80px;
+    }
+    .top2{
+      margin-top:105px;
     }
     .looping{
         width: 100% !important;
@@ -42,7 +73,7 @@ page-info {
     }
     .selecting{
       float: right;
-      width: 190px;
+      width: 207px;
       height: 34px;
     }
     .rowrow{
@@ -307,13 +338,18 @@ page-info {
         bottom: 5%;
     }
 
+    .header {
+      position: absolute;
+      width: 100%;
+      color:white;
+  }
     .contents
     {
       background: white;
       .room-current
       {
-        margin-top: 5%;
-        padding: 3%;
+        margin-top: 2%;
+        padding: 2%;
 
     border: solid 1px;
     margin-left: 10px;
@@ -321,7 +357,7 @@ page-info {
         .title-div
         {
 
-    height: 50px;
+    height: 30px;
           .square
           {
             color: rgb(254, 184, 45);

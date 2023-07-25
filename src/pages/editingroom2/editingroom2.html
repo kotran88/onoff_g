@@ -1,0 +1,62 @@
+
+
+
+
+<ion-content class="main-view" style="background: transparent;
+background-color: transparent;
+
+height: 325px;
+top: 30%;" padding>
+
+  <div class="modal_content">
+
+        <div class="img">
+          <div style="
+          padding: 10px; padding-left:0px;">
+            <div class="chart-div">
+              <div class="name-keys">
+            
+                <span>룸NO</span>
+                <span>방상태</span>
+              </div>
+
+
+
+              <div style="
+              width: 90%;
+              margin: auto;
+              height: 30px;
+    background: white;
+              line-height: 20px;
+              margin-top: 5px;" class="name-keys">
+                <span style="
+                margin-left: 20px;
+                width: 30px;">
+                <input  disabled  class="input-box"  style="width:40px !important;" [(ngModel)]="agasiname" type="text"/>
+                </span>
+
+                <span style="margin-left : 18px !important; " (click)="clicking(1);" style="
+                width: 53px !important;" class="newspan" *ngIf="status=='justcome'" > 출근 </span>
+                <span style="margin-left : 18px !important; " (click)="clicking(1);" style="
+                width: 53px !important;" class="newspan" *ngIf="status=='attend'" > 방중 </span>
+                <span (click)="clicking(2);" class="newspan" *ngIf="status=='standby'" > 대기 </span>
+                <span (click)="clicking(3);" class="newspan" *ngIf="status=='gotohome'" > 퇴근 </span>
+                
+           
+            
+          </div>
+            </div>
+            </div>
+          <div class="b">
+            <p>수정할 내용을 터치하거나 입력하여 수정해주세요.</p>
+            <!-- <button class="btn" (click)="takeVideo()" ion-button>동영상</button> -->
+          <button class="btn" ion-button (click)="confirm()">수정</button>
+          <button class="btn" ion-button (click)="cancel()">취소</button>
+          </div>
+         
+      </div>
+
+
+
+  </div>
+  </ion-content>

@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform ,ViewController,App,AlertController, Nav, MenuClose, Modal, ModalController} from 'ionic-angular';
+import { Platform ,ViewController,App,AlertController, Nav, MenuClose, Modal, ModalController, NavController, ToastController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 // import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LoginpagePage } from '../pages/loginpage/loginpage';
 import firebase from 'firebase/app';
 import { SplashscreenPage } from '../pages/splashscreen/splashscreen';
+import { SlidetestPage } from '../pages/slidetest/slidetest';
 @Component({
   templateUrl: 'app.html'
 })
@@ -19,14 +20,102 @@ export class MyApp {
   id:any;
   user:any;
 
+  lastBack:any;
+
+  allowClose:any;
   firemain=firebase.database().ref();
 
   pages:Array<{title:string,component:any}>;
-  constructor(app : App,public alertCtrl:AlertController,public statusBar: StatusBar,public platform: Platform) {
+  constructor(app : App,public alertCtrl:AlertController,public toastCtrl:ToastController,public statusBar: StatusBar, public platform: Platform) {
     this.app=app;
     this.platform.ready().then(() => {
+
+
+    platform.registerBackButtonAction(() => { 
+      const av = this.nav.getActive();
+      const activePage = av ? av.instance : null;
+      console.log(activePage);
+      if (activePage) {
+        console.log("activePage.constructor.nameactivePage.constructor.name");
+        console.log(activePage.constructor.name);
+        if(activePage.constructor.name=="SlidetestPage"){
+          console.log("INNNNNN");
+
+          const overlay = this.app._appRoot._overlayPortal.getActive();
+          const nav = this.app.getActiveNav();
+          const closeDelay = 3000;
+          const spamDelay = 500;
+
+          if(overlay && overlay.dismiss) {
+            overlay.dismiss();
+          } else if(nav.canGoBack()){
+            nav.pop();
+          } else if( !this.allowClose) {
+            this.allowClose = true;
+            let toast = this.toastCtrl.create({
+              message: "한번 더 누르면 종료됩니다.",
+              duration: closeDelay,
+              dismissOnPageChange: true
+            });
+            toast.onDidDismiss(() => {
+              this.allowClose = false;
+            });
+            toast.present();
+          } else if(Date.now() - this.lastBack < closeDelay && this.allowClose) {
+            platform.exitApp();
+          }
+          this.lastBack = Date.now();
+        }
+      }
+      
+      // let navv = app.getActiveNav();
+      // let navv2=this.app.getActiveNav();
+      // let activeView = navv.getActive();
+      // console.log(navv2);
+      // console.log(activeView);
+      // console.log(navv);
+      // console.log(navv.getActive().component.name)
+          //  if (navv.getActive().component.name == "SlidetestPage") {
+
+          //   const overlay = this.app._appRoot._overlayPortal.getActive();
+          //   const nav = this.app.getActiveNav();
+          //   const closeDelay = 2000;
+          //   const spamDelay = 500;
+
+          //   if(overlay && overlay.dismiss) {
+          //     overlay.dismiss();
+          //   } else if(nav.canGoBack()){
+          //     nav.pop();
+          //   } else if( !this.allowClose) {
+          //     this.allowClose = true;
+          //     let toast = this.toastCtrl.create({
+          //       message: "한번 더 누르면 종료됩니다.",
+          //       duration: closeDelay,
+          //       dismissOnPageChange: true
+          //     });
+          //     toast.onDidDismiss(() => {
+          //       this.allowClose = false;
+          //     });
+          //     toast.present();
+          //   } else if(Date.now() - this.lastBack < closeDelay && this.allowClose) {
+          //     platform.exitApp();
+          //   }
+          //   this.lastBack = Date.now();
+
+          // }else{
+          //   if(navv.canGoBack){
+          //     navv.pop();
+          //   }else{
+          //     navv.pop();
+          //     setTimeout(()=>{
+          //       navv.pop();
+          //     },300)
+          //   }
+          // }
+
+    });
       if(this.platform.is('android') ) {
-        this.statusBar.backgroundColorByHexString('#ffffff');
+        this.statusBar.styleBlackOpaque();
       };
     });
 
@@ -34,16 +123,57 @@ export class MyApp {
 
     console.log("login flag is : "+loginflag);
     if(loginflag===''||loginflag==='false'||loginflag===undefined||loginflag===null){
-      this.pages=[
-        {title:'로그인',component:LoginpagePage},
-        // {title:'SETTING',component:SettingPage},
-        // {title:'COIN',component:CoinSavePage},
-      ]
     }
     else{
       this.id=localStorage.getItem('id');
 
     }
+
+    this.platform.registerBackButtonAction(() => { 
+      
+      window.alert("back");  // 여기 부분 ?
+      let navv = app.getActiveNav();
+      let activeView = navv.getActive();
+      window.alert(navv.getActive().component.name)
+           if (navv.getActive().component.name == "SlidetestPage") {
+
+            const overlay = this.app._appRoot._overlayPortal.getActive();
+            const nav = this.app.getActiveNav();
+            const closeDelay = 2000;
+            const spamDelay = 500;
+
+            if(overlay && overlay.dismiss) {
+              overlay.dismiss();
+            } else if(nav.canGoBack()){
+              nav.pop();
+            } else if( !this.allowClose) {
+              this.allowClose = true;
+              let toast = this.toastCtrl.create({
+                message: "한번 더 누르면 종료됩니다.",
+                duration: closeDelay,
+                dismissOnPageChange: true
+              });
+              toast.onDidDismiss(() => {
+                this.allowClose = false;
+              });
+              toast.present();
+            } else if(Date.now() - this.lastBack < closeDelay && this.allowClose) {
+              this.platform.exitApp();
+            }
+            this.lastBack = Date.now();
+
+          }else{
+            if(navv.canGoBack){
+              navv.pop();
+            }else{
+              navv.pop();
+              setTimeout(()=>{
+                navv.pop();
+              },300)
+            }
+          }
+    });
+
   }
 
   openPage(page){

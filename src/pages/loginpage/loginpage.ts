@@ -6,10 +6,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import  firebase from 'firebase';
 import * as $ from "jquery";
 
-
-import { Observable } from 'rxjs/Observable';
+import { HTTP } from '@ionic-native/http/ngx';
 import { HttpClient } from '@angular/common/http/';
-import { HttpClientModule,HttpHeaders } from '@angular/common/http/';
 import { HttpModule } from '@angular/http';
 import { SignupPage } from '../signup/signup';
 import { ParkingPage } from '../parking/parking';
@@ -25,6 +23,7 @@ import { BandPage } from '../band/band';
 import { WtPage } from '../wt/wt';
 import { GongjiPage } from '../gongji/gongji';
 import { OrdermainPage } from '../ordermain/ordermain';
+import { SlidetestPage } from '../slidetest/slidetest';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -43,11 +42,13 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230517 v2.993';
+  version='20230717 v4.48';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
+  //iamport 결제관련 코드 테스트. 
   // async getData() {
+
   //   try {
   //     const url = 'https://api.iamport.kr/users/getToken';
   //     const params = {"imp_key":"0040765620267739","imp_secret": "lLzW9IKeK9htRMa6RpJza8uJ08Q6Nbf9XP57xQlh0DLRqVXhlHRwPlgQu7Whjcqh2woznKRonDgNyd5U"};
@@ -65,25 +66,22 @@ export class LoginpagePage {
   //   }
   // }
   // }
-  constructor(public httpClient: HttpClient,public h:HttpModule, public http:HttpClientModule,public util : UtilsProvider,public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
-    var flag = localStorage.getItem("loginflag");
-    this.directorList=this.navParams.get("director");
-    console.log(this.directorList)
-    console.log(flag);
-    this.check = (flag === 'true');
-    console.log("login flag : "+this.check);
 
-            var headers = new HttpHeaders();
-            headers.append("Accept", 'application/json');
-            headers.append('Content-Type', 'application/json');
-            headers.append('Access-Control-Allow-Origin', '*');
-        
-    setTimeout(()=>{
+  constructor(public httpClient: HttpClient,public http:HTTP, public util : UtilsProvider,public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+   
+
+      // var headers = new HttpHeaders();
+      // headers.append("Accept", 'application/json');
+      // headers.append('Content-Type', 'application/json');
+      // headers.append('Access-Control-Allow-Origin', '*');
       // var abc = this.httpClient.get('https://wad.herokuapp.com/test2',{headers:headers} );
       // abc.subscribe(data => {
       //   console.log(data);
       // });
-      if(this.check==true){
+      console.log(localStorage.getItem("loginflag"));
+      if(localStorage.getItem("loginflag")==null){
+        $("#checked").prop('checked', false);
+      }else if((localStorage.getItem("loginflag").toString()=="true" )){
         $("#checked").prop('checked', true);
         this.id = localStorage.getItem("id");
         this.password = localStorage.getItem("password");
@@ -92,33 +90,113 @@ export class LoginpagePage {
       }else{
         $("#checked").prop('checked', false);
       }
-      // this.http.get('https://wad.herokuapp.com/test').subscribe(data => {
-      //   console.log(data);
-      //   this.ValidateFlag=true;
-      // }, error => {
-      //   console.log(error);
-      //   this.ValidateFlag=false;
-      // }
-      // );
-
-
-    },1000)
-    // this.version='7.6';
     localStorage.setItem('version',this.version)
+    
+  }
 
-    console.log(localStorage.getItem("loginflag"));
+  requestLogin(id,pass){
+    var apiUrl = "https://captainq.wadteam.com/captainq/apis/login";
+    this.http.get(apiUrl, {"userid":"wt3","userpw":"ananan"}, {}).then(data => {
+      console.log("data is...");
+      var a = JSON.parse(data.data)
+      console.log(a.rst_code);
+      var result = JSON.parse(a.rst_content);
+      console.log(result);
+      console.log(result.idx);
+      console.log(result.userid);
+      window.alert("d")
 
-    //   for(var i in snap.val()){
-    //     if(i==='admin'){}
-    //     else{
-    //       this.firemain.child('user').child(i).update({flag:"approved"})
-    //     }
-    //   }
-    // })
-    // this.firebaseAuth.auth.creat eUserWithEmailAndPassword("황지성82@naver.com", "000000").then( (data)=> {})
+
+
+
+
+      this.nickname=result.nickname;
+      localStorage.setItem("login_data",JSON.stringify(result) );
+      localStorage.setItem("name",result.name);
+      localStorage.setItem("nickname",result.nickname);
+      // localStorage.setItem("jopan",result.jopan);
+      var approved=result.approved;
+      var type = result.mtype;
+      var young = result.young
+      var payment=result.payment;
+
+  
+  // if(approved==false||approved==undefined){
+  //   window.alert("승인대기중입니다. 관리자에게 문의하세요")
+  //   this.util.dismissLoading();
+  //   return;
+  // }else{
+  // }
+
+  localStorage.setItem('id',this.id.split('@')[0]);
+  localStorage.setItem('name',result.name);
+  localStorage.setItem('password',this.password);
+  localStorage.setItem('company',result.company);
+
+  localStorage.setItem("type",result.mytype);
+  if(approved!=1||approved==undefined){
+    // window.alert("관리자가 승인해야 이용가능합니다.");
+    // this.util.dismissLoading();
+    // return;
+  }
+  if(young!=undefined&&young.length==1){
+     
+      window.alert("코드번호가 부여되지않아서 조회만 가능합니다. ")
+      this.util.dismissLoading();
+      // this.navCtrl.setRoot(InfoPage,{"user":this.directorList});
+      return;
+   
+  }else{
+  }
+
+  this.util.dismissLoading();
+  this.firemain.child("company").child(result.company).once("value",(snap2)=>{
+    console.log(snap2.val())
+    var tc=0;
+    if(snap2.val().tc==undefined){
+      window.alert("tc설정이 안되있으므로 기본값 13으로 설정됩니다.")
+      tc=13;
+    }else{
+      tc=snap2.val().tc;
+    }
+
+    localStorage.setItem("tc",snap2.val().tc);
+    localStorage.setItem("auto",snap2.val().autoflag);
+    localStorage.setItem("flag",snap2.val().openandclose.flag);
+
+    this.login_flag_update();
+    var price = snap2.val().price;
+    console.log(price);
+    localStorage.setItem("price",price)
+    console.log("gogo type is : "+type);
+    if(snap2.val().openandclose.flag==true){
+      localStorage.setItem("startDate",snap2.val().openandclose.startDate);
+      localStorage.setItem("start",snap2.val().openandclose.start);
+
+    }else{
+      window.alert("업장 개시하지 않았습니다 매니저에게 문의하세요")
+      return;
+    }
+    this.navCtrl.push(SlidetestPage);
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
   }
   find_admin(){
-    // this.navCtrl.push(FindAccountPage);
   }
   signup(){
     var approved = localStorage.getItem("approved");
@@ -158,46 +236,24 @@ export class LoginpagePage {
   released(){
     console.log("released...")
   }
-  login(){
-
-
-    if(this.id.length==0||this.id==undefined||this.password==undefined){
-
-      window.alert("아이디비번을 입력해주세요")
-    }else{
-      this.util.presentLoading();
-      console.log(this.id);
-      console.log(this.password);
-      console.log(this.check)
-
-      if(this.id.split('@')[0]==='admin'&&this.password==='adminadmin'){
-        localStorage.setItem('id',this.id.split('@')[0]);
-        localStorage.setItem('password',this.password);
-        localStorage.setItem("loginflag", String(this.check));
-        this.login_flag_update();
-        this.login_success();
-      }
-      else{
-        console.log(this.id);
-        console.log("dsfdf"+this.id.length);
-       console.log(this.firemain)
-        this.firemain.child("users").once("value",(snap)=>{
+  functiontogotopage(nickname){
+    console.log(nickname);
+    this.firemain.child("users").child(nickname).once("value",(snap)=>{
           console.log("users...");
           console.log(snap.val());
           var flag=false;
-          for(var aa in snap.val()){
-            if(snap.val()[aa].id==this.id&&snap.val()[aa].pass==this.password){
-              console.log(snap.val()[aa])
+              console.log(snap.val())
               flag=true;
-              console.log(snap.val()[aa]["name"])
-              this.nickname=snap.val()[aa]["nickname"];
-              localStorage.setItem("login_data",JSON.stringify(snap.val()[aa]))
+              console.log(snap.val()["name"])
+              this.nickname=snap.val()["nickname"];
+              localStorage.setItem("login_data",JSON.stringify(snap.val()))
               localStorage.setItem("name",this.name);
               localStorage.setItem("nickname",this.nickname);
-              var approved=snap.val()[aa]["approved"];
-              var type = snap.val()[aa]["type"];
-              var young = snap.val()[aa]["young"];
-              var payment=snap.val()[aa]["payment"];
+              localStorage.setItem("jopan",snap.val()["jopan"]);
+              var approved=snap.val()["approved"];
+              var type = snap.val()["type"];
+              var young = snap.val()["young"];
+              var payment=snap.val()["payment"];
               console.log(type+"?????"+approved+",,"+payment)
 
           
@@ -211,20 +267,19 @@ export class LoginpagePage {
           localStorage.setItem('id',this.id.split('@')[0]);
           localStorage.setItem('name',this.name);
           localStorage.setItem('password',this.password);
-          localStorage.setItem('company',snap.val()[aa].company);
+          localStorage.setItem('company',snap.val().company);
 
-          localStorage.setItem("loginflag", String($('#checked' ).is(":checked")) )
-          localStorage.setItem("type",snap.val()[aa].type);
+          localStorage.setItem("type",snap.val().type);
           if(approved==false||approved==undefined){
-            window.alert("관리자가 승인해야 이용가능합니다.");
-            this.util.dismissLoading();
-            return;
+            // window.alert("관리자가 승인해야 이용가능합니다.");
+            // this.util.dismissLoading();
+            // return;
           }
-          if(payment==false||payment==undefined||young!=undefined&&young.length==1){
+          if(young!=undefined&&young.length==1){
              
-              window.alert("결제를 하지않았거나, 코드번호가 부여되지않아서 조회만 가능합니다. ")
+              window.alert("코드번호가 부여되지않아서 조회만 가능합니다. ")
               this.util.dismissLoading();
-              this.navCtrl.push(InfoPage,{"user":this.directorList});
+              // this.navCtrl.setRoot(InfoPage,{"user":this.directorList});
               return;
            
           }else{
@@ -233,7 +288,7 @@ export class LoginpagePage {
           console.log(snap.numChildren());
           var length=snap.numChildren();
           this.util.dismissLoading();
-          this.firemain.child("company").child(snap.val()[aa].company).once("value",(snap2)=>{
+          this.firemain.child("company").child(snap.val().company).once("value",(snap2)=>{
             console.log(snap2.val())
             console.log(snap.val())
             var tc=0;
@@ -249,7 +304,7 @@ export class LoginpagePage {
             localStorage.setItem("flag",snap2.val().openandclose.flag);
 
             this.login_flag_update();
-            console.log(snap.val()[aa])
+            console.log(snap.val())
             var price = snap2.val().price;
             console.log(price);
             localStorage.setItem("price",price)
@@ -262,49 +317,12 @@ export class LoginpagePage {
               window.alert("업장 개시하지 않았습니다 매니저에게 문의하세요")
               return;
             }
-            
-            if(type == "park")
-            {
-              //주차
-              this.navCtrl.push(ParkingPage).then(() => {
-                this.navCtrl.getActive().onDidDismiss(data => {
-                  console.log("login ondiddismiss...")
-                  this.check=false;
-                  localStorage.setItem("loginflag","false")
-                });
-              });
-            }
-            else if(type == "director")
-            {
-              //부장 
-              this.navCtrl.push(DirectorpagePage,{"user":this.directorList});
-            }else if(type == "account"){
-              //경리 
-            this.navCtrl.push(AccountPage);
-            }else if(type=="info"){
-              //인포  
-              this.navCtrl.push(InfoPage,{"user":this.directorList})
-            }else if(type=="agasi"){
-              //아가씨 
-              this.navCtrl.push(AgasiPage)
-            }else if(type=="band"){
-              //band 
-              this.navCtrl.push(BandPage)
-            }else if(type=="wt"){
-              //wt 
-              this.navCtrl.push(WtPage)
-            }else if(type=="kyungri"){
-              this.navCtrl.push(InfoPage,{"user":this.directorList})
-            }
-            
-            
+            this.navCtrl.push(SlidetestPage);
           });
 
 
 
 
-            }
-          }
           console.log("rrr")
           if(!flag){
             window.alert("아이디혹은 비밀번호정보 오류 ")
@@ -319,49 +337,39 @@ export class LoginpagePage {
         }).catch((e)=>{
           console.log(e);
         })
+  }
+  login(){
+
+
+    this.util.presentLoading();
+    if(this.id.length==0||this.id==undefined||this.password==undefined){
+
+      window.alert("아이디비번을 입력해주세요")
+      this.util.dismissLoading();
+    }else{
+      console.log(this.id);
+      console.log(this.password);
+      console.log(this.check)
+
+      if(this.id.split('@')[0]==='admin'&&this.password==='adminadmin'){
+        localStorage.setItem('id',this.id.split('@')[0]);
+        localStorage.setItem('password',this.password);
+        // localStorage.setItem("loginflag", String(this.check));
+        this.login_flag_update();
+        this.login_success();
+      }
+      else{
+        console.log("else...")
+        this.requestLogin(this.id,this.password);
       }
     }
 
 
-    // var data = {
-    //   pay_method: 'card',
-    //   merchant_uid: 'mid_' + new Date().getTime(),
-    //   name: 'WAD 앱 사용',
-    //   amount: "20000",
-    //   app_scheme: 'ionickcp',
-    //   buyer_email: '',
-    //   buyer_tel: '010-1234-5678',
-    //   buyer_addr: '서울특별시 강남구 삼성동',
-    //   buyer_postcode: '123-456',
-    //   customer_uid: 'cid_' + new Date().getTime()
-    // };
-
-    // var PaymentObject = {
-    //   userCode: "imp58611631",
-    //   data: data,
-    //   callback: (response) => {
-    //     console.log(response);
-    //     if (response.imp_success == "true") {
-
-    //     }
-    //   }
-    // }
-    // IamportCordova.payment(PaymentObject)
-    // .then((response) => {
-    //  console.log(response);
-
-    // })
-    // .catch((err) => {
-    //   window.alert('error : '+err)
-     
-      
-    // });
   }
 
   login_success(){
     console.log('login success')
     this.loading.dismiss();
-    // window.alert($('#checked' ).is(":checked"))
   }
 
   ionViewDidLoad() {
@@ -370,8 +378,8 @@ export class LoginpagePage {
 
   checkbox_click(){
     this.check=!this.check;
-    // window.alert(this.check);
     console.log("checkbox clicked ..."+this.check);
     localStorage.setItem("loginflag", String(this.check));
   }
+
 }

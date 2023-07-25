@@ -15,6 +15,11 @@
       <img style="margin-left:50px;" class="logo" src="assets/img/logo_wad.jpg" />
 
       <ion-buttons end>
+        <button (click)="searchstart();" style="color:white;"ion-button icon-only color="royal">
+          <ion-icon name="search"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-buttons end>
         <button  style="color:white;"ion-button icon-only color="royal">
           <ion-icon name="person-add"></ion-icon>
           <span>{{nickname}}</span>
@@ -22,11 +27,8 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  <ion-menu [content]="mycontent">
+  <ion-menu type="overlay" [content]="mycontent">
     <ion-content>
-      <ion-list>
-        <ion-item>주차파트</ion-item>
-      </ion-list>
       <ion-list>
         <ion-item>인포파트</ion-item>
       </ion-list>
@@ -70,61 +72,89 @@
       <ion-label class="ion-label">정산</ion-label>
     </ion-segment-button>
   </ion-segment> -->
-  <ion-segment style=" height:50px;
-  margin-top: 17px;" class="ion-segment"  (ionChange)="screenSwitch($event)">
-    <ion-segment-button [ngClass]="activeclass=='1' ? 'segactive' : 'segactiveno'" value="1">
+  <div *ngIf="searchon" style="
+  margin-top: 20px;"  class="center">
+  
+    <div class="selecting">
+
+     
+          <ion-select style="    width: 80px;
+          margin-left: 70px;
+          float: left;
+          height: 50px;
+          border: solid 1px;
+          padding-top: 30px;
+          padding-top: 10px !important;" [(ngModel)]="selected" aria-label="fruit" placeholder="선택">
+            <ion-option  value="1">아가씨</ion-option>
+            <ion-option  value="2">팀명</ion-option>
+            <ion-option  value="3">전체보기</ion-option>
+          </ion-select>
+      
+
+      <ion-input  style="
+      color: black;
+      height: 50px;
+      border: solid 1px;
+      line-height: 25px;
+      width: 30%;
+      float: left;" [(ngModel)]="inputtext"  placeholder="검색어 입력"></ion-input>
+      <button class="btn8" style=" 
+      margin-left: 10px;
+      margin-top: 0px;
+      height: 50px;
+      background: gray;
+      border: solid 1px;
+      color: black !important;
+      width: 50px;" (click)="searching();" ion-button icon-only color="royal">
+        검색
+      </button>
+
+    </div>
+</div>
+
+
+  <ion-segment [ngClass]="searchon==true ? 'ion-segment2' :'ion-segment'" style=" height:50px;
+  "  >
+    <ion-segment-button (click)="screenSwitch(1)" [ngClass]="activeclass=='1' ? 'segactive' : 'segactiveno'" value="1">
       <ion-label class="ion-label">출근</ion-label>
     </ion-segment-button>
-    <ion-segment-button [ngClass]="activeclass=='2' ? 'segactive' : 'segactiveno'" value="2">
+    <ion-segment-button (click)="screenSwitch(2)" [ngClass]="activeclass=='2' ? 'segactive' : 'segactiveno'" value="2">
       <ion-label class="ion-label">내역 </ion-label>
     </ion-segment-button>
-    <ion-segment-button [ngClass]="activeclass=='3' ? 'segactive' : 'segactiveno'" value="3">
+    <ion-segment-button (click)="screenSwitch(3)" [ngClass]="activeclass=='3' ? 'segactive' : 'segactiveno'" value="3">
       <ion-label class="ion-label">정산 </ion-label>
     </ion-segment-button>
   </ion-segment>
-  <div  class="ion-label-area">
+  <div [ngClass]="searchon==true ? 'ion-label-area2' :'ion-label-area'">
     <div class="area" id="ion-label-area-1">
-      <div class="selecting">
+      
 
-        <ion-list style="  
-        margin-left: 50px;  width: 80px;
-        float: left;">
-          <ion-item>
-            <ion-select [(ngModel)]="selected" aria-label="fruit" placeholder="선택">
-              <ion-option  value="1">아가씨</ion-option>
-              <ion-option  value="2">팀명</ion-option>
-            </ion-select>
-          </ion-item>
-        </ion-list>
+<div class="upperpart">
 
-        <ion-input  style="
-        color: black;
-        height: 50px;
-        border: solid 1px;
-        margin-left: 10px;
-        line-height: 25px;
-        width: 30%;
-        float: left;" [(ngModel)]="inputtext"  placeholder="검색어 입력"></ion-input>
-        <button class="btn8" style=" 
-        margin-left: 10px;
-        margin-top: 0px;
-        height: 50px;
-        background: transparent;
-        border: solid 1px;
-        color: black !important;
-        width: 50px;" (click)="searching();" ion-button icon-only color="royal">
-          검색
-        </button>
-      </div>
+  <span style="    font-size: 25px;
+  margin-left: 20px;">{{currentstartday}}</span>
+    <button   style="
+        width: 87px;
+border-radius
+: 10px;
+    background: orange;
+    border: solid 1px;
+    color: black;
+    height: 45px;
+    margin-left: 15px; ">{{bu}} 부</button>
+<span style="    
+margin-left:15px; 
+font-size: 30px;
+font-weight: 900;">{{nowtime}}</span>
 
-
+</div>
 
       <div style="
       height: 68%;
       overflow-y: scroll;" class="room-current">
         <div class="title-div">
           <ion-icon class="square" name="square"></ion-icon>
-          <span style="color:black;" class="text">오늘의 출근 현황</span>
+          <span style="color:black;" class="text">오늘의 출근 현황.</span>
         </div>
 
         <div class="chart-div">
@@ -141,7 +171,7 @@
           </div>
           <div (click)="editing(a);" *ngFor="let a of mainlist" class="datas">
             <span style="
-            font-size: 10px;
+            font-size: 14px;
             text-align: center;">{{a.team}}</span>
             <span>{{a.name}}</span>
             <span >{{a.wantee}} </span>
@@ -150,48 +180,17 @@
             <span *ngIf="a.status=='noattend'">퇴근</span>
           </div>
         </div>
-
-
-
-        <!-- <div class="title-div">
-          <ion-icon class="square" name="square"></ion-icon>
-          <span style="color:black;" class="text">오늘의 퇴근 현황</span>
-        </div>
-
-        <div class="chart-div">
-          <div class="name-keys">
-            <span>팀</span>
-            <span>아가씨</span>
-            <span>개수</span>
-            <span>TC</span>
-            <span>상태</span>
-          </div>
-          <div  *ngIf="mainlist_no.length==0" class="datas">
-            <span style="    width: 100%;">퇴근 데이터가없습니다.</span>
-           
-          </div>
-          <div (click)="editing(a);" *ngFor="let a of mainlist_no" class="datas">
-            <span>{{a.team}}</span>
-            <span>{{a.name}}</span>
-            <span >0  </span>
-            <span>0</span>
-            <span >퇴근</span>
-          </div>
-        </div> -->
       </div>
 
       <div style="    height: 10%;
       position: fixed;
+    z-index: 1;
       bottom: 8%;
       width: 95%;" class="room-current">
 
         <div style="
        
     " class="chart-div">
-    <!-- <div class="name-keys">
-      <span style="width:50%;">총 아가씨 수</span>
-      <span style="width:50%;">{{totalagasi.length}}명 </span>
-    </div> -->
           <div class="name-keys">
             <span style="width:50%;">총 출근</span>
             <span style="width:50%;">{{totalin}}명 </span>
@@ -211,25 +210,6 @@
 
     <div class="area" id="ion-label-area-3">
 
-      <div class="top-bar">
-        <!-- <div class="synthesis">
-          <span>{{currentYear}}</span>
-        </div>
-        <div class="months">
-          <span [ngClass]="currentMonth==1 ? 'active' : ''" (click)="set_month(1)">1월</span>
-          <span [ngClass]="currentMonth==2 ? 'active' : ''" (click)="set_month(2)">2월</span>
-          <span [ngClass]="currentMonth==3 ? 'active' : ''" (click)="set_month(3)">3월</span>
-          <span [ngClass]="currentMonth==4 ? 'active' : ''" (click)="set_month(4)">4월</span>
-          <span [ngClass]="currentMonth==5 ? 'active' : ''" (click)="set_month(5)">5월</span>
-          <span [ngClass]="currentMonth==6 ? 'active' : ''" (click)="set_month(6)">6월</span>
-          <span [ngClass]="currentMonth==7 ? 'active' : ''" (click)="set_month(7)">7월</span>
-          <span [ngClass]="currentMonth==8 ? 'active' : ''" (click)="set_month(8)">8월</span>
-          <span [ngClass]="currentMonth==9 ? 'active' : ''" (click)="set_month(9)">9월</span>
-          <span [ngClass]="currentMonth==10 ? 'active' : ''" (click)="set_month(10)">10월</span>
-          <span [ngClass]="currentMonth==11 ? 'active' : ''" (click)="set_month(11)">11월</span>
-          <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span>
-        </div> -->
-      </div>
 
       <div class="calendar-main" style="">
         <ion-row class="calendar-header">
@@ -295,26 +275,6 @@
 
     <div style="    height: 90%;" class="area" id="ion-label-area-2">
 
-      <div class="top-bar">
-        <!-- <div class="synthesis">
-          <span>{{currentYear}}</span>
-        </div>
-        <div class="months">
-          <span [ngClass]="currentMonth==1 ? 'active' : ''" (click)="set_month(1)">1월</span>
-          <span [ngClass]="currentMonth==2 ? 'active' : ''" (click)="set_month(2)">2월</span>
-          <span [ngClass]="currentMonth==3 ? 'active' : ''" (click)="set_month(3)">3월</span>
-          <span [ngClass]="currentMonth==4 ? 'active' : ''" (click)="set_month(4)">4월</span>
-          <span [ngClass]="currentMonth==5 ? 'active' : ''" (click)="set_month(5)">5월</span>
-          <span [ngClass]="currentMonth==6 ? 'active' : ''" (click)="set_month(6)">6월</span>
-          <span [ngClass]="currentMonth==7 ? 'active' : ''" (click)="set_month(7)">7월</span>
-          <span [ngClass]="currentMonth==8 ? 'active' : ''" (click)="set_month(8)">8월</span>
-          <span [ngClass]="currentMonth==9 ? 'active' : ''" (click)="set_month(9)">9월</span>
-          <span [ngClass]="currentMonth==10 ? 'active' : ''" (click)="set_month(10)">10월</span>
-          <span [ngClass]="currentMonth==11 ? 'active' : ''" (click)="set_month(11)">11월</span>
-          <span [ngClass]="currentMonth==12 ? 'active' : ''" (click)="set_month(12)">12월</span>
-        </div> -->
-      
-      </div>
 
       <div class="calendar-main" style="">
         <ion-row class="calendar-header">
@@ -414,31 +374,6 @@
 
       </div>
    
-
-      <!-- <div class="room-current">
-<div class="chart-div">
-  <div class="name-keys">
-
-    <span>순번</span>
-    <span>team</span>
-    <span>찡</span>
-  </div>
-
-  <div   *ngIf="jopanlist.length==0" class="datas">
-    <p >  완료된 방 내역이 없습니다. </p>
- 
-    </div>
-  <div   *ngFor="let a of jopanlist let j = index" class="datas">
-    <div (click)="gotodetail(a);" class="main">
-      <span>{{j+1}}</span>
-      <span>{{a.team}}</span>
-      <span>{{a.value}}</span>
-   
-
-    </div>
-  </div>
-</div>
-</div> -->
 <div class="room-current">
   <div class="title-div">
     <ion-icon class="square" name="square"></ion-icon>
@@ -455,8 +390,8 @@
       <span style="width:100%;">해당일의 찡 내역이 없습니다 </span>
     </div>
     <div (click)="editing(a);" *ngFor="let a of newlist let j = index" class="datas">
-      <span>ss</span>
-      <span>{{a.teamname}}</span>
+      <span>{{j+1}}</span>
+      <span >{{a.teamname}}</span>
       <span>{{a.jjing}}</span>
      
     </div>
@@ -466,7 +401,10 @@
 
 
 
-<ion-fab style="    bottom: 105px;" *ngIf="activeclass==1" bottom right >
+<ion-fab style="  
+bottom: 179px;
+
+z-index: 9999999999;  " *ngIf="activeclass==1" bottom right >
   <button (click)="attending();" ion-fab mini><ion-icon name="add"></ion-icon></button>
 </ion-fab>
 

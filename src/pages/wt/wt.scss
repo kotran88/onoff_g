@@ -1,9 +1,12 @@
 page-wt {
 
 
-
+    .ion-page > ion-content{
+        margin-top:0px !important;
+    }
     .accordion-list{
     }
+    
     .section{
         background: white;
         color:black;
@@ -35,7 +38,9 @@ page-wt {
         }
     }
 
-
+    .headerr{
+        color:black; margin-top:30px; 
+    }
     
     .header {
         position: absolute;
@@ -245,7 +250,7 @@ page-wt {
     }
     .header-parking-hr{
 
-    margin-top: 80px;
+    margin-top: 20px;
     width: 100%;
     color: black;
     background: black;
@@ -319,8 +324,7 @@ page-wt {
         right: 10%;
         bottom: 5%;
     }
-    .c{
-        height: 80% !important;
+    .c{    height: 85%;
         overflow: scroll !important;
     }
 }

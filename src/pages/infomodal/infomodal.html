@@ -10,6 +10,9 @@ top: 10%;" padding>
 
   <div class="modal_content">
 
+    <div class="roomnameshow">
+      <p>{{room.name}}</p>
+    </div>
         <div *ngIf="!booleanValue3" style="
         height: 15px;
     " class="More">
@@ -17,7 +20,7 @@ top: 10%;" padding>
                 float: left;
                 margin-left: 10px;" >OFF/중방/대방</span>
                 <span style="right: 52px;
-                position: absolute;">아벡</span>
+                position: absolute;">아베크</span>
         </div>
         <div *ngIf="!booleanValue3" class="upper">
                 <div  class="left">
@@ -57,7 +60,8 @@ top: 10%;" padding>
                 </div>
                 </div>
         <div class="img">
-          <div style="width: 100%; height:70px;">
+          <div *ngIf="booleanValue3" style="width: 100%; 
+          margin-top: 50px; height:70px;">
             <div style="
             width: 30%;
             margin: 0px !important;
@@ -67,7 +71,25 @@ top: 10%;" padding>
             " class="input-title">담당자</div>
             <ion-input style="
             
-    color: white;
+    color: black;
+    font-size: 20px;
+    float: right;
+    width: 150px;
+    border: solid 1px;
+    " class="input-box" placeholder=" " [(ngModel)]="incharge" type="text"></ion-input>
+          </div>
+          <div *ngIf="!booleanValue3" style="width: 100%; 
+           height:70px;">
+            <div style="
+            width: 30%;
+            margin: 0px !important;
+            float: left;
+    line-height: 50px;
+    font-size: 24px;
+            " class="input-title">담당자</div>
+            <ion-input style="
+            
+    color: black;
     font-size: 20px;
     float: right;
     width: 150px;
@@ -85,7 +107,7 @@ top: 10%;" padding>
             " class="input-title">인원</div>
             <ion-input style="
             
-    color: white;
+    color: black;
     font-size: 20px;
     float: right;
     width: 150px;
@@ -103,7 +125,7 @@ top: 10%;" padding>
             " class="input-title">W / T</div>
             <ion-input style="
             
-    color: white;
+    color: black;
     font-size: 20px;
     float: right;
     width: 150px;
@@ -124,7 +146,7 @@ top: 10%;" padding>
         ">사용불가 </span>
 
 <ion-input *ngIf="booleanValue3" style="
-    color: white;
+    color: black;
     font-size: 15px;
     float: right;
     width: 115px;

@@ -10,9 +10,16 @@
         font-weight: normal;
       font-style: normal;
         }
+
+        @font-face {
+          font-family: ggg;
+          src: url("../../assets/fonts/gold.ttf") format("truetype");
+          font-weight: normal;
+        font-style: normal;
+          }
         @font-face {
           font-family: 'ggg';
-          src: url("../../assets/fonts/NanumBarunpenRegular.ttf") format("truetype");
+          src: url("../../assets/fonts/gold.ttf") format("truetype");
           font-weight: normal;
         font-style: normal;
           }

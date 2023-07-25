@@ -159,6 +159,10 @@ page-attendance {
             padding-left: 3%;
         }
     }
+
+    .ion-label{
+      color: black !important;
+    }
     .header-total {
         position: absolute;
         left: 250px;
@@ -169,6 +173,7 @@ page-attendance {
     .ion-segment {
         position: absolute;
         color: white;
+        margin-top:17px;
     }
 
     .ion-label {
@@ -407,7 +412,13 @@ page-attendance {
             font-size: 20px;
           }
         }
-
+        .segment-ios .segment-button.segment-activated{
+          background-color: white !important;
+          background:white;
+        }
+        .ion-label{
+          color: black !important;
+        }
         .chart-div
         {
           color: black;
@@ -427,11 +438,16 @@ page-attendance {
           }
           .name-keys
           {
+            height: 30px;
+            line-height: 30px;
+            font-size: 18px !important;
             background-color: rgb(255,240,200);
             border-bottom: solid 1px black;
           }
           .datas
           {
+            height: 30px;
+    line-height: 30px;
             background-color: rgb(240, 240, 240);
             border-bottom: solid 1px rgb(176, 176, 176);
 

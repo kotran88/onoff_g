@@ -11,7 +11,7 @@
 </ion-header>
 <ion-content style="background: white; 
 margin-top: 17px;
-height: 85%;"padding>
+height: 100%;"padding>
   <div *ngIf="stage==1">
     <!-- <div class="input-title">이름</div>
     <ion-input class="input-box" placeholder="이름" [(ngModel)]="name" type="text"></ion-input> -->
@@ -236,16 +236,23 @@ height: 85%;"padding>
     <div style="
     margin-top: 100px;">
 
-      <span *ngIf="type!='3'" style="
+      <span *ngIf="type!='3' && usersyoung.length==0" style="
       color: black;
       width: 100%;
       font-size: 20px;
-      text-align: center;">영업팀을 설정해주세요. </span>
+      text-align: center;">영업팀을 설정해주세요. </span><br>
 
-<ion-list *ngIf="type!='3'" style=" 
-height: 54px;
-border: solid 1px;
-margin-top: 20px;">
+<span *ngIf="type!='3' && usersyoung.length!=0" style="
+color: black;
+width: 100%;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;">이미 영업팀이 설정되어있습니다. {{usersyoung}} </span>
+
+<ion-list *ngIf="type!='3' && usersyoung.length==0 " style=" 
+height: 54px;    margin-top: 24px !important;">
   <ion-item>
     <ion-label>영업팀</ion-label>
     <ion-select [(ngModel)]="youngup">
@@ -259,11 +266,10 @@ margin-top: 20px;">
 <span style="
 color: black;
 width: 100%;
-font-size: 20px;
+font-size: 20px;    margin-top: 24px !important;
     height: 54px;
-    border: solid 1px;
 text-align: center;">조판팀을 설정해주세요. </span>
-<ion-list style="    margin-top: 20px;">
+<ion-list style="       margin-top: 24px !important;">
   <ion-item>
     <ion-label>조판팀 </ion-label>
     <ion-select [(ngModel)]="jopanteam">
@@ -417,7 +423,7 @@ text-align: center;">조판팀을 설정해주세요. </span>
   </div>
     <!-- <div *ngIf="passwordcheck()===false"></div> -->
 </ion-content>
-<div class="footer">
+<!-- <div class="footer">
   <div class="footer-text">
     <p>상호명 : 와드(WAD)</p>
     <p>주소 : 서울시 강남구 테헤란로79길 6 브이1048호</p>
@@ -427,7 +433,7 @@ text-align: center;">조판팀을 설정해주세요. </span>
     
 
   </div>
-</div>
+</div> -->
 
   <!-- <div class="form">
    <ion-list no-lines>

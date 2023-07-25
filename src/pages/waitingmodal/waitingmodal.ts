@@ -45,10 +45,21 @@ export class WaitingmodalPage {
   constructor(public util:UtilsProvider, public navCtrl: NavController,public loading:LoadingController,public view:ViewController, public navParams: NavParams) {
    this.room= this.navParams.get("room");
     this.bu= this.navParams.get("bu");
-    this.directorList =  localStorage.getItem("director");
+    var orderedQuery = this.firemain.child("users").orderByChild("type");
+    orderedQuery.once("value", (snapshot) => {
+     snapshot.forEach((childSnapshot) => {
+       var childData = childSnapshot.val();
+        this.directorList.push(childData);
+     })
+
+    });
+
+  //  this.directorList=JSON.parse(localStorage.getItem("director"))
+
+   console.log(this.directorList);
+   
     this.nickname=localStorage.getItem("nickname");
     //console.log(this.directorList)
-    this.directorList= JSON.parse(this.directorList);
     
    this.company = localStorage.getItem("company");
    this.currentstart=localStorage.getItem("start");

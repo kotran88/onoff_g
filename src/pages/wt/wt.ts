@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component ,ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import  firebase from 'firebase';
 import { MenuController } from 'ionic-angular';
@@ -15,22 +15,38 @@ import { UtilsProvider } from '../../providers/utils/utils';
 import { SignupPage } from '../signup/signup';
 import { ServinghistoryPage } from '../servinghistory/servinghistory';
 import { HistoryPage } from '../history/history';
+
+import { Content } from 'ionic-angular';
 @Component({
   selector: 'page-wt',
   templateUrl: 'wt.html',
 })
-export class WtPage {
+export class WtPage implements AfterViewInit {
+  @ViewChild(Content) content: Content;
+  @ViewChild('contentElement', { read: ElementRef }) contentElementRef: ElementRef;
+  @ViewChild('targetElement', { read: ElementRef }) targetElementRef: ElementRef;
+  startX: number = 0;
+  startY: number = 0;
+  swipeDirection: 'none' | 'right' | 'left' = 'none';
+
+  isDragging: boolean = false;
+  totalMovement: number = 0;
+  threshold: number = 100; // Adjust this value to set your desired threshold
+
+  panDistance: number = 0;
+
   name:any="";
   mainlist=[];
+  bu:any=0;
   yeonti:any="";
   allmainlist=[];
+  taptriggered:any=false;
   interval:any;
   obj = [];
   firemain = firebase.database().ref();
   count : number[] = new Array();
   orderlist=[];
   noflaglist=[];
-  information=[];
   todaymoney=0;
   totalcount=0;
   totalprice=0;
@@ -38,6 +54,7 @@ export class WtPage {
   currentstart:any="";
   company:any;
   id:any="";
+  nowtime:any=""
   code:any="";
   nickname:any="";
   tc:any=0;
@@ -50,41 +67,108 @@ export class WtPage {
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
     var login=localStorage.getItem("login_data");
-    var newitem=[];
-    var mychildren=[];
-    mychildren.push({"name":"academypizza"})
-    newitem.push({"name":"action", 
-  "children":
-    mychildren
-})
-    this.information.push({"name":"bb","open":false})
-    this.information.push({"name":"cc","open":false})
-    //////console.log(this.information);
-    // this.code = JSON.parse(login).code;
-    //////console.log(login);
 
+this.interval=setInterval(()=>{
+  var now = new Date();
+  var hour = now.getHours();
+  var min = now.getMinutes();
+  if(min<10){
+    this.nowtime=hour+":0"+min;
+  }else{
+    this.nowtime=hour+":"+min;
+  }
+}
+,1000)
+    //console.log(login);
     this.id = JSON.parse(login).id;
     this.code = JSON.parse(login).young;
-
-    //////console.log(login);
-    //////console.log(JSON.parse(login).payment);
+    //console.log(login);
+    //console.log(JSON.parse(login).payment);
     this.paymentflag=JSON.parse(login).payment;
+  }
+  ngAfterViewInit(): void {
+
+
   }
   gotopayment(){
     this.navCtrl.push(SignupPage);
   }
   togglesection(i){
-    //////console.log(i)
-    //////console.log(this.orderlist);
-    //////console.log(this.orderlist[i]);
+    //console.log(i)
+    //console.log(this.orderlist);
+    //console.log(this.orderlist[i]);
     this.orderlist[i].open = !this.orderlist[i].open;
-    //////console.log(this.orderlist[i]);
+    //console.log(this.orderlist[i]);
   }
+
+  onTouchStart(event: TouchEvent) {
+    // Get the starting X position
+    
+    this.startX = event.touches[0].clientX;
+    this.startY = event.touches[0].clientY;
+    this.isDragging = false;
+    this.swipeDirection = 'none';
+  }
+
+  onTouchMove(event: TouchEvent) {
+    if (this.isDragging) {
+      // Calculate the horizontal and vertical movement distances
+      const deltaX = event.touches[0].clientX - this.startX;
+      const deltaY = event.touches[0].clientY - this.startY;
+
+      if (deltaX > 0 && Math.abs(deltaY) < Math.abs(deltaX)) {
+        // User is swiping to the right
+        if (this.swipeDirection !== 'right') {
+          this.swipeDirection = 'right';
+          console.log('Swipe direction changed to right');
+        }
+        console.log('Swipe to the right detected');
+        // Add your desired logic here
+      } else if (deltaX < 0 && Math.abs(deltaY) < Math.abs(deltaX)) {
+        // User is swiping to the left
+        if (this.swipeDirection !== 'left') {
+          this.swipeDirection = 'left';
+          console.log('Swipe direction changed to left');
+        }
+        console.log('Swipe to the left detected');
+        // Add your desired logic here
+      }
+    } else {
+      // Check if the user has started dragging to the right
+      const currentX = event.touches[0].clientX;
+      const currentY = event.touches[0].clientY;
+      const deltaX = currentX - this.startX;
+      const deltaY = currentY - this.startY;
+
+      if (deltaX > 0 && Math.abs(deltaY) < Math.abs(deltaX)) {
+        this.isDragging = true;
+        this.swipeDirection = 'right';
+        console.log('Started dragging to the right');
+        // Add any initial logic when the user starts dragging to the right
+      } else if (deltaX < 0 && Math.abs(deltaY) < Math.abs(deltaX)) {
+        this.isDragging = true;
+        this.swipeDirection = 'left';
+        console.log('Started dragging to the left');
+
+        this.navCtrl.push(InfoPage)
+        // Add any initial logic when the user starts dragging to the left
+      }
+    }
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    if (this.isDragging) {
+      console.log('Touch and drag ended');
+      // Add any final logic when the user stops dragging to the right
+    }
+    this.isDragging = false;
+  }
+
   gotolink(value){
     if(value == 0){
       this.navCtrl.push(OrdermainPage,{flag:true}).then(() => {
         this.navCtrl.getActive().onDidDismiss(data => {
-          //////console.log("refresh...");
+          //console.log("refresh...");
       
         });
       });
@@ -92,13 +176,13 @@ export class WtPage {
     this.navCtrl.push(ParkingPage,{flag:true});
     }else if(value==2){
       this.navCtrl.push(InfoPage,{flag:true}).then(() => {
-        //////console.log("choice back")
+        //console.log("choice back")
         this.navCtrl.getActive().onDidDismiss(data => {
-          this.menuCtrl.open();
-          setTimeout(()=>{
-            this.menuCtrl.close();
-            this.generate();
-          },10)
+          // this.menuCtrl.open();
+          // setTimeout(()=>{
+          //   this.menuCtrl.close();
+          //   this.generate();
+          // },10)
       // this.firemain.child("company").child(this.company).child("roomlist").off();
       // this.generate();
           // this.generate();
@@ -108,9 +192,9 @@ export class WtPage {
       this.navCtrl.push(AttendancePage,{flag:true});
     }else if(value==4){
       this.navCtrl.push(ChoicePage,{flag:true}).then(() => {
-        //////console.log("choice back")
+        //console.log("choice back")
         this.navCtrl.getActive().onDidDismiss(data => {
-          //////console.log("off...")
+          console.log("off...")
       // this.firemain.child("company").child(this.company).child("roomlist").off();
       // this.generate();
           // this.generate();
@@ -127,9 +211,60 @@ export class WtPage {
     }
   }
   openclose(){
-    //////console.log("open and cloe");
+    //console.log("open and cloe");
     this.menuCtrl.open();
     
+  }
+  onSwipe(e){
+    console.log("onswipe")
+  }
+
+  tapEvent(e){
+    console.log("tapEvent")
+    const screenWidth = this.content.contentWidth;
+    
+    // Calculate the pan distance as a fraction of the screen width
+    const panDistance = e.deltaX / screenWidth;
+    
+    if (panDistance > 1 / 3) {
+    //   // User panned to the right by at least one-third of the screen size
+      console.log('Pan to right by 1/3 of the screen size');
+    //   // Add your desired logic here
+    }
+    if(e.direction == 2){
+      console.log("goto right!");
+
+    console.log(e);
+    //   console.log(this.taptriggered)
+    //   if(this.taptriggered){
+    //     console.log("is true...");
+    //     return;
+    //   }
+    //   console.log("goto right");
+
+    //   this.taptriggered=true;
+    //   this.navCtrl.push(InfoPage,{flag:true}).then(() => {
+
+    //     //console.log("choice back")
+    //     this.navCtrl.getActive().onDidDismiss(data => {
+    //       this.menuCtrl.open();
+
+    //       this.taptriggered=false;
+    //       setTimeout(()=>{
+    //         this.menuCtrl.close();
+    //         this.generate();
+    //       },10)
+    //   // this.firemain.child("company").child(this.company).child("roomlist").off();
+    //   // this.generate();
+    //       // this.generate();
+    //     })
+    //   });
+
+    }
+
+    if(e.direction == 4){
+      console.log("goto left");
+    }
   }
   logout(){
     localStorage.setItem("id", "" )
@@ -147,6 +282,16 @@ generate(){
   this.orderlist=[];
   this.mainlist=[];
   this.todaymoney=0;
+  this.firemain.child("company").child(this.company).once('value').then((snap2)=>{
+    console.log(snap2.val().bu)
+    if(snap2.val().bu==undefined){
+
+      this.bu=0;
+    }else{
+
+      this.bu=snap2.val().bu;
+    }
+  });
   this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).once('value').then((snap)=>{
     if(snap.val()!=undefined){
       for(var a in snap.val()){
@@ -156,13 +301,13 @@ generate(){
                   continue;
                 }
 
-                //console.log(snap.val()[a]);
+                console.log(snap.val()[a]);
       console.log(snap.val()[a].name);
                 var numofangel =0;
-                //////console.log(snap.val()[a]);
+                //console.log(snap.val()[a]);
                 var mainlist=snap.val()[a];
-                //////console.log("mainlist...");
-                //////console.log(mainlist);
+                //console.log("mainlist...");
+                //console.log(mainlist);
        console.log(snap.val()[a]);
 
 
@@ -174,36 +319,47 @@ generate(){
       var chasamtotal=0;
       var tctotal=0;
       var yeontireason="";
+      console.log("generating....");
       console.log(snap.val()[a].roomno);
       var numofpeople = snap.val()[a].numofpeople;
       var logic = snap.val()[a].logic;
       var inagasi = 0;
       var totaltc=0;
-      var totalmoney=0;
       console.log(mainlist);
       if(mainlist.agasi!=undefined){
         console.log(mainlist.agasi);
         console.log("numofagasi : "+mainlist.agasi.length);
       }
+      console.log("agasi info");
+      console.log(mainlist.agasi);
+
+      var totalmoney=0;
       for(var cccc in mainlist.agasi){
         console.log("looping each agasi");
-
+        console.log(mainlist.agasi[cccc].findate);
         if(mainlist.agasi[cccc].findate!=undefined){
+          console.log("not undefined...so it is fin.")
           totaltc+=Number(mainlist.agasi[cccc].tc);
+          console.log("plus : "+mainlist.agasi[cccc].money);
           totalmoney+=Number(mainlist.agasi[cccc].money);
         }else{
-          var totalmoney=Number(this.util.getTC(mainlist.agasi[cccc],mainlist.agasi[cccc].pausetime).split(",")[0]);
-          // if(mainlist.agasi[cccc].tc!=undefined){
 
+          console.log("is undefined!!!!so it is not fin....")
+          var tm=Number(this.util.getTC(mainlist.agasi[cccc],mainlist.agasi[cccc].pausetime).split(",")[0]);
+          // if(mainlist.agasi[cccc].tc!=undefined){
+            console.log(mainlist.agasi[cccc].name);
+          console.log("totalmoney : "+tm);
           // }
           var tctotal=Number(this.util.getTC(mainlist.agasi[cccc],mainlist.agasi[cccc].pausetime).split(",")[1]);
           var bantee=Number(this.util.getTC(mainlist.agasi[cccc],mainlist.agasi[cccc].pausetime).split(",")[2]);
-          mainlist.agasi[cccc].totalmoney=totalmoney;
+          mainlist.agasi[cccc].totalmoney=tm;
           totaltc+=tctotal;
-          totalmoney+=Number(totalmoney);
+          console.log("totalmoney add : "+tm);
+          totalmoney+=Number(tm);
+          console.log("current total : "+totalmoney);
           mainlist.agasi[cccc].tc=tctotal;
           mainlist.agasi[cccc].bantee=bantee;
-          //////console.log(mainlist.agasi[cccc]);
+          //console.log(mainlist.agasi[cccc]);
           if(mainlist.agasi[cccc].angel){
             numofangel++;
           }
@@ -224,6 +380,7 @@ generate(){
         chasamarray.push( (mainlist.agasi[cccc].tc-Math.floor(mainlist.agasi[cccc].tc)).toFixed(1) );
       
       }
+      console.log("totalmoney : "+totalmoney);
       chasamtotal=Number(chasamtotal.toFixed(2));
       console.log("chasamtotal:"+chasamtotal);
       var newchasamtotal=chasamtotal.toString();
@@ -238,7 +395,7 @@ generate(){
       tctotal=newtc;
       //어떤 아가씨가 술병수보다 완티가 많거나 같거나 하면. 그 아가씨는 제외하고, 손님수도 그아가씨 수만큼 제외하고
       // 나머지 완티의 갯수를 고려해서 계산.  
-      //////console.log(snap.val()[a].orderlist);
+      //console.log(snap.val()[a].orderlist);
       var orderl=[];
       var orderprice=0;
       var tp=0;
@@ -260,7 +417,7 @@ generate(){
                 }
                
                
-                //console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
+                console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
                 var firstsumofv=0;
                 var totalsum=0;
                 var allzero=false;
@@ -282,7 +439,7 @@ generate(){
                   console.log("날개 제외 아가씨 수가 사람수보다 많다면....")
                   console.log(tarray);
                   tarray.sort(function(a,b){
-                    //////console.log(a.date+",,,"+b.date)
+                    //console.log(a.date+",,,"+b.date)
                     if (a.date < b.date) {
                       return -1;
                     }
@@ -454,19 +611,15 @@ generate(){
     //   })
     // }
     console.log(this.orderlist);
-    //////console.log("end!");
+    //console.log("end!");
   });
 }
 
 ionViewDidLeave(){
-
-  //////console.log(" ionViewDidLeave!!!");
   clearInterval(this.interval)
-  // this.firemain.child("company").child(this.company).child("roomlist").off();
-
 }
 ionViewWillEnter(){
-  //////console.log("will enter!!!");
+  //console.log("will enter!!!");
   
 
 }
@@ -516,7 +669,7 @@ refreshoneroom(mainlist){
       totalmoney+=Number(totalmoney);
       mainlist.agasi[cccc].tc=tctotal;
       mainlist.agasi[cccc].bantee=bantee;
-      //////console.log(mainlist.agasi[cccc]);
+      //console.log(mainlist.agasi[cccc]);
       if(mainlist.agasi[cccc].angel){
         numofangel++;
       }
@@ -551,7 +704,7 @@ refreshoneroom(mainlist){
   tctotal=newtc;
   //어떤 아가씨가 술병수보다 완티가 많거나 같거나 하면. 그 아가씨는 제외하고, 손님수도 그아가씨 수만큼 제외하고
   // 나머지 완티의 갯수를 고려해서 계산.  
-  //////console.log(mainlist.orderlist);
+  //console.log(mainlist.orderlist);
   var orderl=[];
   var orderprice=0;
   var tp=0;
@@ -573,7 +726,7 @@ refreshoneroom(mainlist){
             }
            
            
-            //console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
+            console.log("tbottole : "+tbottle+", numofpeople : "+numofpeople+", newtc : "+tcarray);
             var firstsumofv=0;
             var totalsum=0;
             var allzero=false;
@@ -589,7 +742,7 @@ refreshoneroom(mainlist){
 
               console.log(tarray);
               tarray.sort(function(a,b){
-                //////console.log(a.date+",,,"+b.date)
+                //console.log(a.date+",,,"+b.date)
                 if (a.date < b.date) {
                   return -1;
                 }
@@ -711,7 +864,7 @@ refreshoneroom(mainlist){
               for(var sd in this.orderlist){
                 if(this.orderlist[sd].key == mainlist.key){
                   flagging = true;
-                  //////console.log(this.orderlist[sd])
+                  //console.log(this.orderlist[sd])
                   this.orderlist[sd].numofpeople = mainlist.numofpeople;
                   this.orderlist[sd].tctotal = tctotal;
                   this.orderlist[sd].chasam = newchasamtotal;
@@ -726,8 +879,8 @@ refreshoneroom(mainlist){
                   this.orderlist[sd].tc = totaltc.toFixed(1);
                   this.orderlist[sd].money = totalmoney;
                   this.orderlist[sd].value = orderl;
-                  //////console.log(this.orderlist);
-                  //////console.log("modify...")
+                  //console.log(this.orderlist);
+                  //console.log("modify...")
                   // this.orderlist[sd].push({"open":false, "enddate":enddate, "tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":snap.val()[a].roomhistory[b][c].incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":snap.val()[a].roomhistory[b][c].wt,"date":orderdate,"roomno":snap.val()[a].roomhistory[b][c].name, "value":orderl});
           
                 }
@@ -735,29 +888,28 @@ refreshoneroom(mainlist){
               if(!flagging){
                 this.orderlist.push({"open":false, "enddate":enddate,"status":mainlist.status,  "tctotal":tctotal,"chasam":newchasamtotal, "inagasi":inagasi, "incharge":mainlist.incharge, "logic":logic, "reason":yeontireason,"tcarray":tcarray,"chasamarray":chasamarray,  "numofpeople":numofpeople,"tbottle":tbottle, "yeonti":yeonti,"tp":tp, "totalprice":orderprice,"tc":totaltc.toFixed(1),"money":totalmoney, "wt":mainlist.wt,"date":orderdate,"roomno":mainlist.name, "value":orderl});
               }
-              //////console.log(this.orderlist);
+              //console.log(this.orderlist);
 }
   ionViewDidLoad() {
-    //////console.log('ionViewDidLoad wt page');
-
+    
       //  "child_added", "child_changed", "child_removed", or "child_moved."
       this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_removed', function(snap, prevChildKey) {
-        //////console.log("child_removedchild_removedchild_removedchild_removed");
-        //////console.log(snap.val());
-        //////console.log(prevChildKey);
+        //console.log("child_removedchild_removedchild_removedchild_removed");
+        //console.log(snap.val());
+        //console.log(prevChildKey);
         // this.firemain.child("compan
         // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
       });
       this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_moved', function(snap, prevChildKey) {
-        //////console.log("child_movedchild_movedchild_movedchild_moved");
-        //////console.log(snap.val());
-        //////console.log(prevChildKey);
+        //console.log("child_movedchild_movedchild_movedchild_moved");
+        //console.log(snap.val());
+        //console.log(prevChildKey);
         // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
       });
       this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_added', function(snap, prevChildKey) {
-        //////console.log("child_addedchild_addedchild_addedchild_added");
-        //////console.log(snap.val());
-        //////console.log(prevChildKey);
+        //console.log("child_addedchild_addedchild_addedchild_added");
+        //console.log(snap.val());
+        //console.log(prevChildKey);
         // this.firemain.child("company").child(this.company).child("roomlist").child(prevChildKey).child(this.currentstartday)
       });
       this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_changed', (snap, prevChildKey) =>{
@@ -775,7 +927,7 @@ refreshoneroom(mainlist){
           //         console.log(snap.val().key);
                   
           //       if(this.orderlist[room].key == snap.val().key){
-          //         //////console.log("match!!!");
+          //         //console.log("match!!!");
           //         flagging=true;
                 
           //           }
@@ -793,7 +945,7 @@ refreshoneroom(mainlist){
   
     this.util.dismissLoading();
     this.interval = setInterval(()=>{
-      //////console.log("setinterval...")
+      //console.log("setinterval...")
       // this.util.presentLoading();
       // this.generate();
       // this.util.dismissLoading();

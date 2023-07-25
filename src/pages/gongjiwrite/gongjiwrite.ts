@@ -2,7 +2,6 @@ import { Component,NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController,ModalController ,LoadingController} from 'ionic-angular';
 import firebase from 'firebase'
 
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RequestkoreaPage } from '../requestkorea/requestkorea';
@@ -13,7 +12,6 @@ import { RequestkoreaPage } from '../requestkorea/requestkorea';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-gongjiwrite',
   templateUrl: 'gongjiwrite.html',
@@ -35,7 +33,7 @@ export class GongjiwritePage {
   constructor(public zone:NgZone,public navCtrl: NavController,
       public navParams: NavParams,public viewCtrl:ViewController,
       public modal:ModalController,public loading:LoadingController,
-      public camera:Camera,public domSanitizer: DomSanitizer,private photoViewer: PhotoViewer) {
+      public camera:Camera,public domSanitizer: DomSanitizer) {
         this.company = localStorage.getItem("company");
   }
 

@@ -29,11 +29,8 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-menu [content]="mycontent">
+<ion-menu type="overlay" [content]="mycontent">
   <ion-content>
-    <ion-list (click)="gotolink(1)">
-      <ion-item>주차파트</ion-item>
-    </ion-list>
     <ion-list (click)="gotolink(2)">
       <ion-item>인포파트</ion-item>
     </ion-list>
@@ -112,12 +109,12 @@ color:black;
       <!-- <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span> -->
       <span  *ngFor="let day of daysInThisMonth" > 
         <span  style="
-        width: 40px;    border: solid 1px;" (click)="openmodal(day)" class="currentDate" *ngIf="(
+        width: 40px;    border: solid 1px;" (click)="openmodal(day,currentMonth,currentYear)" class="currentDate" *ngIf="(
           currentDate === day &&
           today.getMonth()+1 === currentMonth &&
           today.getFullYear() === currentYear
           ); else otherDate">{{day}}</span><br>
-          <div (click)="gotocalendardetail(day)" style="width: 7px;
+          <div  style="width: 7px;
               height: 7px;
               color: #E74371 ;
               background: #E74371 ;
@@ -132,22 +129,26 @@ margin-top: -40px;" class="event-bullet" *ngIf="(
           <ng-template #otherDate class="otherDate">
             <span  *ngIf="(
               day == selectedDay &&
-              today.getMonth()+1 == currentMonth &&
-              today.getFullYear() == currentYear
+              selectedMonth == currentMonth &&
+                    selectedYear == currentYear
               )" style="background: pink;
-            width: 20px;" (click)="openmodal(day)">{{day}}</span>
+            width: 20px;" (click)="openmodal(day,currentMonth,currentYear)">{{day}}</span>
             <span  *ngIf="(
               day != selectedDay &&
               today.getMonth()+1 == currentMonth &&
               today.getFullYear() == currentYear
               )" style="
-            width: 20px;" (click)="openmodal(day)">{{day}}</span>
+            width: 20px;" (click)="openmodal(day,currentMonth,currentYear)">{{day}}</span>
               <span *ngIf="(
-                          
-                today.getMonth()+1 != currentMonth &&
-                today.getFullYear() == currentYear
+                   
+                (today.getMonth()+1 != currentMonth &&
+                today.getFullYear() == currentYear)&&!(
+                  day == selectedDate &&
+            selectedMonth == currentMonth &&
+            selectedYear == currentYear
+                )
                 )" style="
-              width: 20px;" (click)="openmodal(day)">{{day}}</span>
+              width: 20px;" (click)="openmodal(day,currentMonth,currentYear)">{{day}}</span>
               <div  style="width: 7px;
               height: 7px;
               color: #E74371 ;
@@ -181,19 +182,32 @@ text-align: center; color:black;" *ngIf="orderlist.length==0">
   background: yellow;">{{i.roomno}}T   {{i.director}} </span>
 <!-- <p > 주문일 : {{i.date}}</p> -->
 <p > 웨이터 : {{i.wt}} </p>
-<span *ngFor="let j of i.value">
+<p style="
+margin: 0;"> 주문일 : {{i.date}}</p>
+  <span *ngFor="let j of i.value">
+  
   <p style="
   margin: 0;" *ngIf="j.category=='주류'">{{j.name}} , {{j.num}}병, {{j.price.toLocaleString()}}원</p>
   <p style="
   margin: 0;"  *ngIf="j.category!='주류'">{{j.name}} , {{j.num}}개, {{j.price.toLocaleString()}}원</p>
-  <br>
 </span>
+<p style="
+margin: 0;"> 완티 : {{i.tcarray}} 차삼: {{i.chasamarray}}</p>
+<p style="
+margin: 0;">TC : {{i.tctotal}}.{{i.chasam}}개 , {{i.money.toLocaleString()}}원</p>
+<p style="
+margin: 0;">연티 : {{i.yeonti}}</p>
+
+
 
 <p style="
-margin: 0;">TC : {{i.tc}}개 , {{i.money.toLocaleString()}}원</p>
-<p style="
-margin: 0;">연티 : {{yeonti}}</p>
-<p>합계 :  {{(i.tp+i.money).toLocaleString()}}</p>
+font-size: 12px;
+margin: 0;">{{i.reason}}</p>
+<p style="    font-size: 18px;
+border-radius: 20px;
+height: 20px;
+background: pink;
+width: 160px;">합계 :  {{(i.tp+i.money+(i.yeonti*10000) ).toLocaleString()}}</p>
 <hr>
 </div>
 </div>
@@ -206,27 +220,7 @@ text-align: center; color:black;" *ngIf="mainlist.length==0">
 
   </div>
 </div>
-<div  *ngFor="let i of mainlist; let j = index;">
-<button  ion-long-press [interval]="800"  (pressEnded)="released(i , j)" (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
-<div>
-  <p>{{i.date}}</p>
-  <p>{{i.time}}</p>
-  <p>입력자 : {{i.receiver}}</p>
-</div>
-<div>
-  <p>{{i.room}} {{i.incharge}} ₩{{i.price.toLocaleString() }}</p>
-  <p>{{i.type}}</p>
-  <img src="assets/img/bottomarrow.png" style="height: 20px; width: 20px;">
-</div>
-</button>
-<div style="color:white;" class="panel-1" id="panel-1-{{j}}">
-<div>
-  <p *ngIf="i.type=='발렛'">{{i.carnum}}</p>
-  <p *ngIf="i.type=='대리'||i.type=='픽업'">{{i.destination}}</p>
-</div>
-</div>
-<hr style="width: 90%; height: 1px; background-color: black;">
-</div>
+
 <!--
 
 

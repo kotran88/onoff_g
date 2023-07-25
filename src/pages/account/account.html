@@ -34,32 +34,9 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  <ion-menu [content]="mycontent">
+  <ion-menu type="overlay" [content]="mycontent">
     <ion-content>
-      <!-- <ion-list>
-        <ion-item>주차파트</ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>인포파트</ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>출근부</ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>초이스</ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>공지</ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>알림</ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>누적내역</ion-item>
-      </ion-list>
-      <ion-list>
-        <ion-item>입금내역</ion-item>
-      </ion-list> -->
+     
 
       <ion-list *ngIf="!paymentflag">
         <ion-item (click)="gotopayment();">결제진행</ion-item>
@@ -95,8 +72,8 @@
         <div class="over" *ngIf="todaymoney-tomoney<=0">과입금액 : - </div>
         <div class="syn">
           <span>누적미수금액 {{ accumuls.toLocaleString() }}</span>
-          <span>오늘입금할금액 {{tomoney.toLocaleString()}}</span>
-          <span>오늘입금하신금액 {{todaymoney.toLocaleString()}}</span>
+          <span>입금할금액 {{tomoney.toLocaleString()}}</span>
+          <span>입금하신금액 {{todaymoney.toLocaleString()}}</span>
         </div>
       </div>
       <div class="months">
@@ -150,13 +127,13 @@
           <span *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</span>
           <!-- <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span> -->
           <span  *ngFor="let day of daysInThisMonth" > 
-            <span  (click)="openmodal(day)" style="
+            <span  (click)="openmodal(day,currentMonth,currentYear)" style="
             width: 40px;    border: solid 1px;" class="currentDate" *ngIf="(
               currentDate === day &&
               today.getMonth()+1 === currentMonth &&
               today.getFullYear() === currentYear
               ); else otherDate">{{day}}</span><br>
-              <div (click)="openmodal(day)" style="width: 7px;
+              <div (click)="openmodal(day,currentMonth,currentYear)" style="width: 7px;
                   height: 7px;
                   color: #E74371 ;
                   background: #E74371 ;
@@ -171,25 +148,31 @@
               <ng-template #otherDate class="otherDate">
                   <span *ngIf="(
                     day == selectedDate &&
-                    today.getMonth()+1 == currentMonth &&
-                    today.getFullYear() == currentYear
+                    selectedMonth == currentMonth &&
+                    selectedYear == currentYear
                     )" style="background: pink;
-                    width: 20px;" (click)="openmodal(day)">{{day}}</span>
+                    border-radius: 20px;
+                    height: 20px;
+                    width: 20px;" (click)="openmodal(day,currentMonth,currentYear)">{{day}}</span>
                   
                   <span *ngIf="(
                     day != selectedDate &&
                     today.getMonth()+1 == currentMonth &&
                     today.getFullYear() == currentYear
                     )" style="
-                  width: 20px;" (click)="openmodal(day)">{{day}}</span>
+                  width: 20px;" (click)="openmodal(day,currentMonth,currentYear)">{{day}}</span>
 
 
                       <span *ngIf="(
                         
-                        today.getMonth()+1 != currentMonth &&
-                        today.getFullYear() == currentYear
+                       (today.getMonth()+1 != currentMonth &&
+                        today.getFullYear() == currentYear)&&!(
+                          day == selectedDate &&
+                    selectedMonth == currentMonth &&
+                    selectedYear == currentYear
+                        )
                         )" style="
-                      width: 20px;" (click)="openmodal(day)">{{day}}</span>
+                      width: 20px;" (click)="openmodal(day,currentMonth,currentYear)">{{day}}</span>
                   <br>
                   <div  style="width: 7px;
                   height: 7px;
@@ -212,7 +195,7 @@
     <div class="b">
       <div class="listing">
         <ion-list *ngFor="let a of detailarray">
-          <ion-item style="font-size:12px;" >#{{a.roomno}} {{a.incharge}}   {{a.bu}}부 {{a.totalsumprice.toLocaleString()}}원  </ion-item>
+          <ion-item style="font-size:12px;" >#{{a.roomno}} {{a.incharge}} 연티 : {{a.yeonti}}  합계:{{(a.tp+a.money+(a.yeonti*10000) ).toLocaleString()}}원  </ion-item>
         </ion-list>
       </div>
       <div class="listing">

@@ -1,0 +1,913 @@
+page-slidetest {
+    .swiper-container{
+        height: 100% !important;
+    }
+    .selected{
+        span{
+            color:white;
+            
+        // font-size: 22px !important;
+        }
+    
+        border: solid 1px;
+        width: 61px;
+        height: 39px;
+        float: left;
+        border-radius: 40px;
+        background-color: black;
+
+    }
+    .child-item{
+      display: contents;
+    }
+    .calendar-main
+    {
+      width:90%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      display: inline-block;
+
+      border: solid 1px black;
+      border-radius: 10px;
+      background-color: white;
+      text-align: center;
+
+      .calendar-header
+      {
+        ion-col:nth-child(2n+1)
+        {
+          color: #E74371;
+          font-weight: bolder;
+        }
+        ion-icon
+        {
+          font-size: 1.5em;
+        }
+      }
+
+      .calendar-body
+      {
+        .weeks, .dates
+        {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-evenly;
+          span
+          {
+            display: inline-block;
+            width: calc(100% / 7);
+          }
+        }
+
+        .weeks
+        {
+          padding: 5px 0;
+          margin: 5px 0;
+          span:first-child{color: red;}
+          span:last-child{color: blue;}
+          border-top: solid 1px black;
+          border-bottom: solid 1px black;
+        }
+
+        .dates
+        {
+          .last-month, .next-month
+          {
+            color: grey;
+          }
+          span
+          {
+            height: 25px;
+            width:50px;
+            font-size:12px;
+          }
+        }
+      }
+    }
+
+    .contentmainn{
+
+      height: 30px;
+        position: relative;
+      }
+      .contentmainn::before {
+    content: "";
+    position: absolute;
+    bottom: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+  
+    background-color: red;
+  
+  }
+
+       .norowww{
+
+    height: 30px;
+      position: relative;
+    }
+    .norowww::before {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+
+  background-color: red;
+
+}
+    .notselected{
+        border: solid 1px;
+        width: 61px;
+        height: 39px;
+        float: left;
+        border-radius: 40px;
+        color: black;
+        background-color: white;
+    span{
+        // font-size: 22px !important;
+        color:black;
+    }
+
+    }
+
+
+    .section{
+        background: white;
+        color:black;
+        margin-bottom:4px;
+    }
+    .section-active{
+        background: white;
+        color:black;
+        margin-bottom:4px;
+    }
+    .child{
+        color:white;
+    }
+    label label-md{
+        margin:0px !important;
+    }
+    .label-md{
+        margin:0px !important;
+    }
+    .child-item{
+        background-color: white;
+        color:black;
+        padding:10px;
+        p{
+            color:black;
+        }
+        span{
+            color:black;
+        }
+    }
+
+    .headerr{
+        color:black; margin-top:30px; 
+    }
+    
+    .header {
+        position: absolute;
+        width: 100%;
+        color:white;
+    }
+    .scroll-content{
+
+    overflow: scroll !important;
+        padding:0px !important;
+        margin-top:0px !important;
+    }
+    .header-parking { 
+        text-align: center;
+        width: 100%;
+        height: 100px;
+        margin-top: 10px;
+    }
+    .looping{
+        width: 100% !important;
+        display: flex;
+        padding-left: 0px !important;
+        margin-left: 30px;
+    }
+    button{
+        color:black;
+    }
+    .segactive{
+        background: blue !important;
+    }
+    .segment-button {
+        color: red; // here, instead of "red" you can use sass variable if it was already defined
+    }
+    .ion-label{
+        
+    font-size: 20px;
+    font-weight: 700 ;
+    }
+    .header-parking-text {
+        font-size: 15px;
+        font-weight: bold;
+    }
+    .button-inner{
+        color:white;
+    }
+    .box {
+        height: 100%;
+
+    }
+
+    .box-1 {
+        color: black;
+        background-color: rgb(225, 226, 142);
+        width: 90%;
+        height: 13%;
+        border-radius: 10px;
+
+        margin: auto;
+
+    margin-top: 20px !important;
+        P {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: start;
+            padding-top: 3%;
+            padding-left: 3%;
+
+    margin-top: 0px !important;
+        }
+    }
+
+    .box-2 {
+        color: black;
+        background-color: rgb(242, 168, 120);
+        width: 90%;
+        height: 13%;
+        border-radius: 10px;
+
+        margin: auto;
+        P {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: start;
+            padding-top: 3%;
+            padding-left: 3%;
+        }
+    }
+
+    .box-3 {
+        color: white;
+        background-color: rgb(26, 0, 58);
+        width: 90%;
+        height: 13%;
+        border-radius: 10px;
+
+        margin: auto;
+        P {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: start;
+            padding-top: 3%;
+            padding-left: 3%;
+        }
+    }
+
+    .box-4 {
+        color: white;
+        background-color: rgb(116, 116, 116);
+        width: 90%;
+        height: 13%;
+        border-radius: 10px;
+
+        margin: auto;
+        P {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: start;
+            padding-top: 3%;
+            padding-left: 3%;
+        }
+    }
+
+    .box-5 {
+        color: white;
+        background-color: rgb(15, 15, 15);
+        width: 90%;
+        height: 13%;
+        border-radius: 10px;
+
+        margin: auto;
+        P {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: start;
+            padding-top: 3%;
+            padding-left: 3%;
+        }
+    }
+    .header-total {
+        position: absolute;
+        left: 250px;
+    }
+    .segment-md .segment-button{
+        height: auto !important;
+    }
+    .ion-segment {
+        color: white;
+    }
+
+    .ion-label {
+        color: black;
+    }
+
+ 
+
+    .ion-item-area-1 {
+        color: white;
+        padding: 3%;
+
+        p {
+            color: white;
+        }
+    }
+
+    .ion-item-area-4 {
+        color: white;
+        background-color: black;
+        padding-left: 2%;
+        padding-right: 2%;
+
+        p {
+            color: white;
+        }
+    }
+
+    .accordion {
+        background-color: black;
+        color: white;
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+        display: flex;
+        padding-bottom: 0px;
+        padding-top: 0px;
+    }
+    .top{
+        text-align: center;
+      }
+      .top2{
+        text-align: center;
+        margin-top:105px;
+      }
+    .toolbar-background{
+        background: #fdd734;
+    }
+    .toolbar{
+        text-align: center;
+    }
+    .logo{
+        width:50px;
+    }
+    .header-parking-hr{
+
+    margin-top: 20px;
+    width: 100%;
+    color: black;
+    background: black;
+    }
+    .accordion > div {
+        width: 50%;
+    }
+    .header_btn{
+
+    height: 50px;
+    background: transparent;
+    color: white;
+    border: solid 1px;
+    width: 100px;
+    }
+    .active, .accordion:hover {
+        background-color: black;
+    }
+
+    .panel-1 {
+        padding: 0px 18px;
+        display: none;
+        columns: white;
+        overflow: hidden;
+    }
+
+    .panel-1 > div {
+        // width: 50%;
+        padding-left: 18px;
+        // margin-left: 45%;
+        min-width: 56%;
+        float: right;
+    }
+
+    .panel-4 {
+        padding: 0px 18px;
+        display: none;
+        columns: white;
+        overflow: hidden;
+    }
+    .fab .button-inner{
+        font-size:30px;
+    }
+    .panel-4 > div {
+        width: 50%;
+        padding-left: 18px;
+        float: left;
+
+        span {
+            display: block;
+            margin: 5px;
+            text-align: left;
+            font-size:20px;
+        }
+        br {
+            display: block;
+            height: 3px;
+        }
+    }
+
+    .panel-4 > div:first-child {
+        padding-left: 0px;
+    }
+
+    .panel-4 > div:nth-child(n + 2) {
+        text-align: end;
+    }
+
+    .foot-menu {
+        position: fixed;
+        right: 10%;
+        bottom: 5%;
+    }
+    .c{   
+        top: 0%;
+        position: absolute;
+        width: 100%;
+    }
+
+
+
+
+
+
+
+
+    // info
+    
+
+     .room-current
+      {
+        margin-top: 2%;
+        padding: 2%;
+        border: solid 1px;
+        margin-left: 10px;
+        margin-right: 10px;
+        width: 95%;
+        .title-div
+        {
+            text-align: initial;
+
+    height: 30px;
+          .square
+          {
+            color: rgb(254, 184, 45);
+          }
+          .text
+          {
+            color: black;
+            font-size: 20px;
+          }
+        }
+.centerlogo{
+  position: absolute;
+  left: 45%;
+  top: 0;
+  display: grid;
+}
+.logo2{
+  float:left;
+  width:40px;
+}
+        .chart-div
+        {
+          color: black;
+          text-align: center;
+          .name-keys, .datas{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            span{
+              display: inline-block;
+              width: calc(100% / 7);
+            }
+            span:nth-child(n+1)
+            {
+              border-left: solid 1px white;
+            }
+          }
+          .name-keys
+          {
+
+            text-align: center;
+            font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+            background-color: rgb(255,240,200);
+            border-bottom: solid 1px black;
+          }
+          .datas
+          {
+    height: 38px !important;
+    border-bottom: solid 1px #b0b0b0;
+    line-height: 30px;
+          }
+        }
+      }
+
+      .vacancy-current
+      {   
+        
+        .title-div
+        {
+
+            text-align: initial;
+    padding: 5px;
+          .square
+          {
+            color: rgb(254, 184, 45);
+          }
+          .text
+          {
+            color: black;
+            font-size: 20px;
+          }
+        }
+
+
+
+        .chart-div
+        {
+          border: solid 1px white;
+          background: wheat;
+          overflow-y: scroll;
+          height: 80%;
+    background-color: white !important;
+          .flex-div:nth-child(n+2)
+          {
+            border-top: solid 1px white;
+          }
+          .flex-div > .chart-name
+          {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            background: #fdd734;
+            height: 40px;
+            width: 100%;
+            line-height: 40px;
+            span:nth-child(n+2)
+            {
+              border-left: solid 1px white;
+              flex: 1;
+            }
+            span:first-child
+            {
+              font-size: 20px;
+              text-align: center;
+              flex: 3;
+            }
+          }
+
+          .chart-datas
+          {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+
+    background-color: white !important;
+            span{
+              height: 50px;
+              line-height: 50px;
+              text-align: center;
+              display: inline-block;
+
+    border: none !important;
+    background-color: white !important;
+              width: calc(100% / 6);
+            }
+            span:nth-child(n+2)
+            {
+              border-left: solid 1px rgb(117,117,117);
+            }
+            span:nth-child(7n)
+            {
+              border-left: none
+            }
+            span:nth-child(n+7)
+            {
+              border-top: solid 1px rgb(117,117,117);
+            }
+          }
+        }
+      }
+
+      //choice ts
+
+    //   .avatartext{
+    //     color: white;
+    //     margin-top: 2px;
+    //     font-size: 20px;
+    //     margin-left: 2px;
+    //   }
+    //   .ion-label{
+    //     color:black;
+    //   }
+    //   .container {
+    //     overflow-x: scroll;
+    //     white-space: nowrap;
+    //   }
+    //   .avatar img {
+    //     border-radius: 50%;
+    //   }
+      
+    // .avatar {  
+    //     width: 40px;
+    //     height: 40px;
+    //     border-radius: 50%;
+    //     background-color: red;
+    //     color: #fff;
+    //     margin-top: 5px;
+    //     margin-bottom: 5px;
+    //     margin-left:5px;
+    //     margin-right:5px;
+    //     padding: 5px;
+    //     display: inline-block;
+    //     justify-content: center;
+    //     align-items: center;
+    //     font-weight: bold;
+    //     font-size: 16px;
+    //   }
+    
+    //   .avatar img {
+    //     border-radius: 50%;
+    //   }
+    .container {
+      width: 100%;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS devices */
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 18px;
+  } 
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    a[disabled], button[disabled], [ion-button][disabled]{
+      opacity: 1 !important;
+      background-color: #b0b0b0 !important;
+      color:black !important;
+    }
+    button {
+      background-color: #fdd734 !important;
+      margin: 0 5px;
+    }
+  }    
+  ::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  }     
+  ::-webkit-scrollbar-thumb {
+      background: #fdd734;
+  }
+  ::-webkit-scrollbar-thumb:window-inactive {
+      background: rgba(255,0,0,0.4); 
+  }
+    .avatars {
+      display: flex;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS devices */
+      overflow: auto; /* Enable scrolling on Android devices */
+      -ms-overflow-style: -ms-autohiding-scrollbar; /* Hide scrollbars on Internet Explorer and Edge */
+    }
+    
+    .avatar {
+      flex: 0 0 auto;
+      padding: 10px;
+    }
+    
+    .avatartext {
+      text-align: center;
+    }
+
+  
+      .contentmain{
+        float: left;
+        height: 100%;
+        width: 60%;
+      }
+      .slide-zoom{
+        text-align: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+      }
+      .scroll-content{
+
+    overflow: hidden;
+      }
+      .padding{
+        width: 95%;
+        height: 100px;
+        display: grid;
+      }
+      .lll{
+        height: 55% !important;
+        overflow-y: scroll;
+        position: absolute;
+        width: 100%;
+        margin-bottom: 0px;
+      }
+      .ion-label-area {
+
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    }
+    .label-ios{
+        margin:0px !important;
+    }
+    .noflag{
+      position: relative;
+    }
+    .noflag::before {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+
+  background-color: red;
+
+}
+    .tabs-container{
+
+        bottom: 28%;
+        position: absolute;
+        width: 100%;
+        height: 50px;
+        
+    }
+
+    .tab-content {
+        padding-left: 0px;
+        padding-right: 0px;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.5s ease-out;
+        z-index: 99;
+        padding: 5px;
+    position: fixed;
+    z-index: 9;
+    bottom: 16%;
+    width: 100%;
+
+      }
+      
+     
+      .chat-container {
+        max-width: 600px;
+        margin: 0 auto;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+      }
+      
+      .chat-header {
+        background-color: #3c78d8;
+        color: #fff;
+        padding: 10px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      
+      .chat-header h2 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      ion-slides{
+      }
+      .segactive{
+        height: 100%;
+  
+        background: #fdd734 !important;
+          .label-md{
+            color : black;
+          }
+      }
+
+      ion-searchbar{        
+        .searchbar-input-container{            
+            .searchbar-input{
+                border-radius: 20px;
+            }
+        }
+     }
+
+       /* Style the tab labels */
+       .tab {
+        display: inline-block;
+        margin: 0px;
+        bottom: 0;
+        width: 100px;
+        height: 40px;
+        background-color: #eee;
+        border-radius: 3px 3px 0 0;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.5s ease-in-out;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+      }
+      
+      /* Move the tab labels and content upwards when clicked */
+  
+      .tab input[type=checkbox]:checked ~ label {
+        transform: translateY(-70%);
+      }
+      .left{
+        width: 50%;
+        float: left;
+      }
+      .right{
+        width: 50%;
+    float: right;
+    position: fixed;
+    bottom: 10%;
+    margin-left: 200px;
+      }
+      .tab input[type=checkbox]:checked ~ .tab-content {
+        max-height: 288px;
+        overflow-y: scroll;
+  
+        padding-left: 0px;
+        padding-right: 0px;
+        background-color: black;
+      }
+      
+      /* Show the tab content when the radio button is checked */
+      .tab input[type=checkbox]:checked ~ .tab-content {
+        display:block;
+        background-color: black;
+        transform: translateY(-70%);
+      }
+      .jimyung{
+        background: #fdd734;
+        
+    height: 38px;
+        padding-left: 20px;
+        font-weight: 800;
+        line-height: 35px;
+        font-size:16px;
+        width: 100%;
+        margin: 0px;
+    
+      }
+      .bottomlist{
+        width: 100%;
+        height: 13%;
+        overflow-y: scroll;
+      }
+      .custom-transform2 {
+        height: 100%;
+        overflow-y: scroll;
+  
+        background: white;
+        display:block;
+        transition: transform 1s ease;
+        padding-left: 0px;
+        padding-right: 0px;
+      }
+      .custom-transform {
+        height: 100%;
+        overflow-y: scroll;
+  
+        background: white;
+        display:block;
+        transition: transform 1s ease;
+        padding-left: 0px;
+        padding-right: 0px;
+      }
+}

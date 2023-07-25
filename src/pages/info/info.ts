@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
 import { IonicPage,ModalController,ViewController, NavController, NavParams,MenuController } from 'ionic-angular';
 import { InfomodalPage } from '../infomodal/infomodal';
 import { LoginpagePage } from '../loginpage/loginpage';
-
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ParkingPage } from '../parking/parking';
 import { AttendancePage } from '../attendance/attendance';
 import { ChoicePage } from '../choice/choice';
@@ -10,7 +9,6 @@ import { GongjiPage } from '../gongji/gongji';
 import  firebase from 'firebase';
 import { EditingroomPage } from '../editingroom/editingroom';
 import { E } from '@angular/core/src/render3';
-import { generate } from 'rxjs';
 import { SignupPage } from '../signup/signup';
 import { AccountPage } from '../account/account';
 import { OrderPage } from '../order/order';
@@ -29,10 +27,21 @@ import { WaitingPage } from '../waiting/waiting';
   templateUrl: 'info.html',
 })
 export class InfoPage {
+  searchon:any=false;
+  selected:any=1;
+  @ViewChild('targetElement', { read: ElementRef }) targetElementRef: ElementRef;
+  startX: number = 0;
+  startY: number = 0;
+  isDragging: boolean = false;
+  totalMovement: number = 0;
+  threshold: number = 100; // Adjust this value to set your desired threshold
+
   mainlist:any = [];
   selectedIncharge:any;
+  selectedKey:any;
   selectedAvec:any;
   selectedLogic:any;
+  selectedNumber:any;
   noagasi:any=0;
   agasinum:any=0;
   inputtext:any="";
@@ -40,7 +49,6 @@ export class InfoPage {
   currentstartday:any="";
   selectedday:any=0;
   currentstart:any="";
-  selected:any=1;
   smallroom=[];
   smallroom2=[];
   allroom=[];
@@ -92,6 +100,52 @@ export class InfoPage {
     ,1000)
 
   }
+  
+  onTouchStart(event: TouchEvent) {
+    // Get the starting X position
+    this.startX = event.touches[0].clientX;
+    this.startY = event.touches[0].clientY;
+
+    this.totalMovement = 0;
+    this.isDragging = false;
+  }
+
+  onTouchMove(event: TouchEvent) {
+    if (this.isDragging) {
+      // Calculate the horizontal and vertical movement distances
+      const deltaX = event.touches[0].clientX - this.startX;
+      const deltaY = event.touches[0].clientY - this.startY;
+
+      if (deltaX > 0 && Math.abs(deltaY) < Math.abs(deltaX)) {
+        // User is swiping to the right
+        console.log('Swipe to the right detected');
+        // Add your desired logic here
+      }
+    } else {
+      // Check if the user has started dragging to the right
+      const currentX = event.touches[0].clientX;
+      const currentY = event.touches[0].clientY;
+      const deltaX = currentX - this.startX;
+      const deltaY = currentY - this.startY;
+
+      if (deltaX > 0 && Math.abs(deltaY) < Math.abs(deltaX)) {
+        this.isDragging = true;
+        console.log('Started dragging to the right');
+        this.view.dismiss();
+        // Add any initial logic when the user starts dragging to the right
+      }
+    }
+
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    if (this.isDragging) {
+      console.log('Touch and drag to the right ended');
+      // Add any final logic when the user stops dragging to the right
+    }
+    this.isDragging = false;
+  }
+
   gotowaiting(){
     this.navCtrl.push(WaitingPage,{flag:true}).then(() => {
       console.log("WaitingPage back")
@@ -105,15 +159,22 @@ export class InfoPage {
           window.alert("방을 선택하세요.");
           console.log(data.data);
           console.log(data.data.incharge);
+          this.selectedKey = data.data.key;
           this.selectedIncharge=data.data.incharge;
           this.selectedAvec = data.data.avec;
           this.selectedLogic = data.data.logic;
+          this.selectedNumber = data.data.numofpeople;
           console.log(data.data.avec);
           console.log(data.data.logic);
         }
     // this.firemain.child("company").child(this.company).child("roomlist").off();
       })
     });
+  }
+  searchstart(){
+    console.log("search start...");
+    this.searchon= !this.searchon;
+    
   }
   ionViewWillLeave(){
     // this.firemain.child("company").child(this.company).child("roomlist").off();
@@ -302,6 +363,7 @@ gotopayment(){
          console.log(name+"is:"+flag+"and cat : "+cat);
         this.allroom.push({"name":name,"category":cat,"flag":flag});
         if(cat=="소"){
+
           if(flag){
             console.log(flag+"small not add")
           }else{
@@ -348,71 +410,11 @@ gotopayment(){
           }
         }
 
-        // for(var b in snap.val()[a].roomhistory){
-        //   if(b==this.currentstartday){
-        //     for(var c in snap.val()[a].roomhistory[b]){
-        //       if(c!="lastupdated"&&c!="flag"){
-        //         //console.log(snap.val()[a].roomhistory[b][c])
-        //         if(snap.val()[a].roomhistory[b][c].end_date_full!=undefined){
-        //           //완료된방
-        //         }else{
-
-        //         roomin.push(snap.val()[a].roomhistory[b][c].name);
-        //         }
-        //       }
-        //       //flase 는 종료 
-              
-        //     }
-        //   }
-        // }
+       
       }
-        //console.log("roomin");
-        //console.log(roomin);
         
       }
   
-      //if smallroom have value of roomin then delete
-      
-      // for(var bba in roomin){
-      //   for(var aba in this.smallroom){
-      //     if(this.smallroom[aba].name==roomin[bba]){
-      //       //console.log("smallroom delete")
-      //       this.smallroom.splice(Number(aba),1);
-      //     }
-      //   }
-      //   for(var aba in this.smallroom2){
-      //     if(this.smallroom2[aba].name==roomin[bba]){
-      //       //console.log("smallroom2222 delete")
-      //       this.smallroom2.splice(Number(aba),1);
-      //     }
-      //   }
-      //   for(var aba in this.midroom){
-      //     if(this.midroom[aba].name==roomin[bba]){
-      //       //console.log("midroom delete")
-      //       this.midroom.splice(Number(aba),1);
-      //     }
-      //   }
-      //   for(var aba in this.bigroom){
-      //     if(this.bigroom[aba].name==roomin[bba]){
-      //       //console.log("bigroom delete")
-      //       this.bigroom.splice(Number(aba),1);
-      //     }
-      //   }
-
-
-      //   for(var aba in this.midroom2){
-      //     if(this.midroom2[aba].name==roomin[bba]){
-      //       //console.log("midroom2 delete")
-      //       this.midroom2.splice(Number(aba),1);
-      //     }
-      //   }
-      //   for(var aba in this.bigroom2){
-      //     if(this.bigroom2[aba].name==roomin[bba]){
-      //       //console.log("bigroom2 delete")
-      //       this.bigroom2.splice(Number(aba),1);
-      //     }
-      //   }
-      // }
       console.log(this.smallroom);
       console.log(this.midroom);
       console.log(this.bigroom);
@@ -420,10 +422,6 @@ gotopayment(){
     });
   }
   buchange(){
-    if(!this.paymentflag){
-      window.alert("결제전 이용 불가합니다.")
-      return;
-    }
     //console.log("buchnage"+this.bu)
     if(this.bu==0){
       this.bu=1
@@ -559,9 +557,17 @@ gotopayment(){
           
       });
 
-      //console.log("after sorting...")
-      //console.log(this.mainlist)
-
+      console.log("after sorting...")
+      console.log(this.mainlist)
+      this.mainlist.sort(function(a, b) {
+        if (a.noflag === false && b.noflag !== false) {
+          return -1; // a should come after b
+        } else if (a.noflag !== false && b.noflag === false) {
+          return 1; // a should come before b
+        } else {
+          return 0; // no change in order
+        }
+      });
 
       this.mainlist_finished.sort(function(a, b) {
         //console.log(a.insert_date);
@@ -579,10 +585,7 @@ gotopayment(){
     //console.log(this.mainlist);
   }
   editing(a){
-    if(!this.paymentflag){
-      window.alert("결제전 이용 불가합니다.")
-      return;
-    }
+   
     console.log("editing...")
     console.log(a);
     console.log(a.name);
@@ -615,13 +618,9 @@ gotopayment(){
       this.navCtrl.setRoot(LoginpagePage)
   }
   addRoom(room){
-    if(!this.paymentflag){
-      window.alert("결제전 이용 불가합니다.")
-      return;
-    }
     //console.log("ad room come");
     //console.log(room);
-    let modal = this.modal.create(InfomodalPage,{"room":room,"bu":this.bu,"selectedIncharge":this.selectedIncharge,"selectedAvec":this.selectedAvec,"selectedLogic":this.selectedLogic});
+    let modal = this.modal.create(InfomodalPage,{"room":room,"bu":this.bu,"selectedKey":this.selectedKey, "selectedIncharge":this.selectedIncharge,"selectedAvec":this.selectedAvec,"selectedLogic":this.selectedLogic , "selectedNumber":this.selectedNumber});
     modal.onDidDismiss(url => {
       if(url!=undefined){
         if(url.result){

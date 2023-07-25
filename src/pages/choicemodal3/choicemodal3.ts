@@ -140,7 +140,9 @@ export class Choicemodal3Page {
 
       console.log(snapshot.val().jopan);
         console.log(v.name+"already")
-       // 이미등록되었지만 조판팀 설정안되있음. 
+        newlist.push({ "name":v.name,
+        "date": v.date ,"writer":v.writer});
+        // 이미등록되었지만 조판팀 설정안되있음. 
       }else{
 
 
@@ -153,10 +155,9 @@ export class Choicemodal3Page {
         var hour = date.getHours();
         var min = date.getMinutes();
 
-        firemain.child("users").child(v.name.trim()).child("attendance").child(currentstartday).update({"currentStatus":"attend"})
-        firemain.child("users").child(v.name.trim()).child("attendance").child(currentstartday).child("attend").update({"team":snapshot.val().jopan,"name":v.name,"date":currentstartday,"flag":"attend","time":hour+":"+min})
+        firemain.child("users").child(v.name.trim()).child("attendance").child(currentstartday).child("attend").update({"team":snapshot.val().jopan,"name":v.name,"date":currentstartday,"flag":"justcome","time":hour+":"+min})
         firemain.child("users").child(v.name.trim()).update({"jopan":snapshot.val().jopan,"name":v.name,type:"agasi",writer:v.writer,status:false,id:v.name,company:company})
-        firemain.child("attendance").child(company).child(currentstartday).child(v.name).child("attend").update({ "team":snapshot.val().jopan,"name":v.name,"flag":"attend","date":currentstartday, "time":hour+":"+min})
+        firemain.child("attendance").child(company).child(currentstartday).child(v.name).child("attend").update({ "team":snapshot.val().jopan,"name":v.name,"flag":"justcome","date":currentstartday, "time":hour+":"+min})
 
         subscribedList.push({"id":v.name,"name":v.name});
 
@@ -177,7 +178,7 @@ export class Choicemodal3Page {
       if(subscribedList.length + newlist.length == length){
         console.log("Fin!!!")
         if(newlist.length==0){
-          view.dismiss();
+          view.dismiss({"result":false});
         }else{
           let modal2 = modal.create(Choicemodal2Page,{"agasi":newlist,"flag":"attend",  "subscribedList":subscribedList,"room":"100","currentstartday":currentstartday,"hour":hour,"min":min});
           modal2.onDidDismiss(url => {
@@ -188,7 +189,7 @@ export class Choicemodal3Page {
               if(url.result=="ok"){
                 window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
                 //console.log(this.originalList);
-                view.dismiss();
+                view.dismiss({"result":false});
               }
             }
             

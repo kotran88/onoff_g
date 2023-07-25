@@ -33,11 +33,8 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  <ion-menu [content]="mycontent">
+  <ion-menu type="overlay" [content]="mycontent">
     <ion-content>
-      <ion-list *ngIf="paymentflag" (click)="gotolink(1)">
-        <ion-item>주차파트</ion-item>
-      </ion-list>
       <ion-list *ngIf="paymentflag" (click)="gotolink(3)">
         <ion-item>출근부</ion-item>
       </ion-list>
@@ -132,22 +129,26 @@ border-radius
     <div class="chart-div">
      
       <div class="name-keys">
+        <span>순번</span>
         <span>담당자</span>
         <span>인원</span>
-        <span>아벡</span>
-        <span>로직</span>
+        <span>아베크</span>
+        <span>ㅅㅌㅌ</span>
+        <span>비고</span>
       </div>
-      <div (click)="editing(a);" *ngIf="mainlist.length==0" class="datas">
+      <div  *ngIf="mainlist.length==0" class="datas">
         <span style="width:100%;">현재 활성화된 방이 없습니다 </span>
       </div>
-      <div (click)="editing(a);" *ngFor="let a of mainlist" class="datas">
-        <span>{{a.incharge}}</span>
-        <span>{{a.numofpeople}}인</span>
-        <span *ngIf="a.avec">A </span>
-        <span *ngIf="!a.avec">- </span>
-        <span *ngIf="a.logic==0">OFF</span>
-        <span *ngIf="a.logic==1">1ㅅㅌㅌ</span>
-        <span *ngIf="a.logic==2">2ㅅㅌㅌ</span>
+      <div  *ngFor="let a of mainlist let j = index" class="datas">
+        <span (click)="editing(a);"> {{j+1}} </span>
+        <span (click)="editing(a);">{{a.incharge}}</span>
+        <span (click)="editing(a);">{{a.numofpeople}}인</span>
+        <span (click)="editing(a);" *ngIf="a.avec">A </span>
+        <span (click)="editing(a);" *ngIf="!a.avec">- </span>
+        <span (click)="editing(a);" *ngIf="a.logic==0">OFF</span>
+        <span (click)="editing(a);" *ngIf="a.logic==1">1ㅅㅌㅌ</span>
+        <span (click)="editing(a);" *ngIf="a.logic==2">2ㅅㅌㅌ</span>
+        <span ><button (click)="remove(a)">삭제</button></span>
       </div>
     </div>
   </div>
@@ -184,7 +185,7 @@ border-radius
     width: 80px;
     float: left;
     border: solid 1px black;
-" class="input-box" placeholder="아벡Y/N" [(ngModel)]="avec" type="text"></ion-input> -->
+" class="input-box" placeholder="아베크Y/N" [(ngModel)]="avec" type="text"></ion-input> -->
 <span (click)="clicking2();" class="newspan"  *ngIf="avec"> A </span>
                 <span (click)="clicking2();" class="newspan" *ngIf="!avec"> - </span>
 
@@ -198,7 +199,8 @@ height: 41px;
 background: transparent;
 border: solid 1px;
 color: black !important;
-width: 35px;" (click)="confirmwaiting();" ion-button icon-only color="royal">
+
+width: 48px;" (click)="confirmwaiting();" ion-button icon-only color="royal">
   입력
 </button>
   </div>

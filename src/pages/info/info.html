@@ -1,7 +1,7 @@
 
   <ion-header>
     <ion-toolbar>
-      <ion-buttons *ngIf="!firstflag"   style="
+      <!-- <ion-buttons *ngIf="!firstflag"   style="
     position: absolute;
     left: 0;
     z-index: 9999;
@@ -10,9 +10,9 @@
         <img style="
         width: 30px" class="logo" src="assets/img/hamburger.png" />
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
 
-    <ion-buttons *ngIf="firstflag" style="
+    <ion-buttons  style="
     position: absolute;
     left: 0;
     z-index: 9999;
@@ -24,14 +24,19 @@
     </ion-buttons>
       <div style="position: absolute;
       left: 45%;
-      top: 0;
+      top: 5%;
       display: grid;" class="centerlogo">
         <img style="
-        width: 40px;
+        width: 50px;
         float:left;
     " class="logo2" src="assets/img/logo_wad.jpg" />
-        <span style="float:left; font-size:11px;">{{currentstartday}}</span>
+       
       </div>
+      <ion-buttons end>
+        <button (click)="searchstart();" style="color:white;"ion-button icon-only color="royal">
+          <ion-icon name="search"></ion-icon>
+        </button>
+      </ion-buttons>
       <ion-buttons end>
         <button  style="color:white;"ion-button icon-only color="royal">
           <ion-icon name="person-add"></ion-icon>
@@ -40,11 +45,8 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  <ion-menu [content]="mycontent">
+  <ion-menu type="overlay" [content]="mycontent">
     <ion-content>
-      <ion-list *ngIf="paymentflag" (click)="gotolink(1)">
-        <ion-item>주차파트</ion-item>
-      </ion-list>
       <ion-list *ngIf="paymentflag" (click)="gotolink(3)">
         <ion-item>출근부</ion-item>
       </ion-list>
@@ -74,25 +76,61 @@
   </ion-menu>
 
   <ion-nav #mycontent [root]="rootPage"></ion-nav>
-<ion-content overflow-scroll="false" class="contents" padding>
-  <div style="
-  margin-top: 80px;" class="top">
+<ion-content overflow-scroll="false" class="contents" #targetElement (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd($event)" padding>
+  <div *ngIf="searchon" style="
+  margin-top: 59px;
+  display: inherit;"  class="center">
+   <div class="selecting">
+
+    <ion-list style="  
+    width: 70px;
+    float: left;">
+      <ion-item>
+        <ion-select [(ngModel)]="selected" aria-label="fruit" placeholder="선택">
+          <ion-option  value="1">영업진</ion-option>
+          <ion-option  value="2">방번호</ion-option>
+          <ion-option  value="3">웨이터</ion-option>
+          <ion-option  value="4">전체보기</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-input  style="
+    color: black;
+    height: 40px;
+    border: solid 1px;
+    line-height: 0px;
+    width: 65px;
+    font-size:14px;
+    float: left;" [(ngModel)]="inputtext"  placeholder="검색어 입력"></ion-input>
+    <button class="btn8" style="     margin-left: 5px;
+    margin-top: 0px;
+    height: 41px;
+    background: transparent;
+    border: solid 1px;
+    color: black !important;
+    width: 42px;" (click)="searching();" ion-button icon-only color="royal">
+      검색
+    </button>
+  </div>
+</div>
+
+  <div [ngClass]="searchon==true ? 'top2' :'top'">
+  <span style="    font-size: 25px;
+  margin-left: 20px;">{{currentstartday}}</span>
     <button (click)="buchange()"  style="
-        width: 120px;
+        width: 87px;
 border-radius
 : 10px;
     background: orange;
     border: solid 1px;
     color: black;
     height: 45px;
-    margin-left: 30px; ">{{bu}}부</button>
-<span style="
-    float: right;
-    right: 15%;
-    position: fixed;
-    top: 80px;
-    font-size: 40px;
-    font-weight: 900;">{{nowtime}}</span>
+    margin-left: 15px; ">{{bu}}부</button>
+<span style="    
+margin-left:15px; 
+font-size: 30px;
+font-weight: 900;">{{nowtime}}</span>
   </div>
   <div class="room-current">
     <div class="title-div">
@@ -100,39 +138,7 @@ border-radius
       <span class="text">룸 현황 {{mainlist.length}}개</span>
      
 
-      <div class="selecting">
-
-        <ion-list style="  
-        width: 70px;
-        float: left;">
-          <ion-item>
-            <ion-select [(ngModel)]="selected" aria-label="fruit" placeholder="선택">
-              <ion-option  value="1">영업진</ion-option>
-              <ion-option  value="2">방번호</ion-option>
-              <ion-option  value="3">웨이터</ion-option>
-              <ion-option  value="4">전체보기</ion-option>
-            </ion-select>
-          </ion-item>
-        </ion-list>
-
-        <ion-input  style="
-        color: black;
-        height: 40px;
-        border: solid 1px;
-        line-height: 0px;
-        width: 65px;
-        font-size:10px;
-        float: left;" [(ngModel)]="inputtext"  placeholder="검색어 입력"></ion-input>
-        <button class="btn8" style="     margin-left: 5px;
-        margin-top: 0px;
-        height: 41px;
-        background: transparent;
-        border: solid 1px;
-        color: black !important;
-        width: 35px;" (click)="searching();" ion-button icon-only color="royal">
-          검색
-        </button>
-      </div>
+     
 
     </div>
 
@@ -162,9 +168,8 @@ border-radius
         <span (click)="editing(a);"  *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.wt}}</span>
         <span (click)="editing(a);"  *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.insert_date}}</span>
         <span (click)="editing(a);"  *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.end_date}}</span>
-        <span (click)="editing(a);"  style="
-        width: 70%; color:red; 
-    text-decoration: line-through;" *ngIf="a.noflag==true">{{a.nomemo}}</span>
+        <span (click)="editing(a);" class="noflag"  style="
+        width: 70%; " *ngIf="a.noflag==true">{{a.nomemo}}</span>
       </div>
     </div>
   </div>
@@ -176,7 +181,7 @@ border-radius
 
       <span style="
       float: right;
-      margin-right: 20px;" (click)="gotowaiting();" class="text">웨이팅 조회.</span>
+      margin-right: 20px;" (click)="gotowaiting();" class="text">웨이팅 </span>
     </div>
     <div style="background:wheat;" class="chart-div">
       <div class="flex-div small-div">

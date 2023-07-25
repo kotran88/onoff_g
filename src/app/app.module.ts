@@ -7,6 +7,8 @@ import { LoginpagePage} from '../pages/loginpage/loginpage'
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import { IamportCordova } from '@ionic-native/iamport-cordova';
 // import { InAppBrowser } from '@ionic-native/in-app-browser';
+
+import { HTTP } from '@ionic-native/http/ngx';
 import { MyApp } from './app.component';
 import { initializeApp } from "firebase/app";
 import { HttpClientModule } from '@angular/common/http/';
@@ -60,6 +62,11 @@ import { ServinghistoryPage } from '../pages/servinghistory/servinghistory';
 import { SearchchoicePage } from '../pages/searchchoice/searchchoice';
 import { WaitingPage } from '../pages/waiting/waiting';
 import { WaitingmodalPage } from '../pages/waitingmodal/waitingmodal';
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import * as Hammer from 'hammerjs';
+import { SlidetestPage } from '../pages/slidetest/slidetest';
+import { RequestkoreaPage } from '../pages/requestkorea/requestkorea';
+import { Cameraselect2Page } from '../pages/cameraselect2/cameraselect2';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -72,11 +79,18 @@ var firebaseConfig = {
   measurementId: "G-EVS4KN0VHZ"
 };
 initializeApp(firebaseConfig);
-
+export class CustomHammerConfig extends HammerGestureConfig{
+  overrides = {
+    'swipe' : {
+      direction: Hammer.DIRECTION_RIGHT
+    }
+  }
+}
 @NgModule({
   declarations: [
     MyApp,
     LoginpagePage,
+    SlidetestPage,
     SplashscreenPage,
     SignupPage,
     GongjiPage,
@@ -96,6 +110,8 @@ initializeApp(firebaseConfig);
     ReceiptPage,
     AgasiPage,
     ChoicePage,
+    RequestkoreaPage,
+    Cameraselect2Page,
     OrderPage,
     GongjiwritePage,
     AgasichoicePage,
@@ -115,6 +131,7 @@ initializeApp(firebaseConfig);
   imports: [
     BrowserModule,
     StarRatingModule,
+    
     LongPressModule,HttpClientModule,
     IonicModule.forRoot(MyApp,{
       monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
@@ -130,12 +147,15 @@ initializeApp(firebaseConfig);
     MyApp,
     LoginpagePage,
     ChoicedetailPage,
+    SlidetestPage,
     SplashscreenPage,
     OrdermainPage,
     WaitingmodalPage,
     ChoicemodalPage,
     ChoicejimyungPage,
     ServinghistoryPage,
+    RequestkoreaPage,
+    Cameraselect2Page,
     Orderdetail2Page,
     Choicemodal3Page,
     Choicemodal2Page,
@@ -176,9 +196,12 @@ initializeApp(firebaseConfig);
     DatePicker,
     PhotoViewer,
     UtilsProvider,HttpModule,
+    HTTP,
     Keyboard,
     UniqueDeviceID,
     Geolocation,
+    {
+      provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig},
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })

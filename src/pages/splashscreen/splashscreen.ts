@@ -19,26 +19,37 @@ export class SplashscreenPage {
   directorList:any=[];
   firemain = firebase.database().ref();
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    setTimeout(()=>{
-      this.navCtrl.setRoot(LoginpagePage,{"director":this.directorList});
-    },2000)
-    this.firemain.child("users").orderByChild("type").once("value",snap=>{
-      console.log(snap.val())
-      for(var b in snap.val()){
-        if(snap.val()[b].nickname==undefined){
+    var a = this.directorList;
+    var nav = this.navCtrl;
+    // var orderedQuery = this.firemain.child("users").orderByChild("type");
+    // orderedQuery.once("value", function(snapshot) {
+    //  snapshot.forEach(function(childSnapshot) {
+    //    var childData = childSnapshot.val();
+    //    console.log(childData)
+    //     a.push(childData);
+    //  })
+    //  console.log(a);
+    //  localStorage.setItem("director",JSON.stringify(a))
+    //  nav.setRoot(LoginpagePage,{"director":a});
 
-        }else{
-            this.directorList.push(snap.val()[b]);
+    // });
+    this.navCtrl.setRoot(LoginpagePage);
+    // this.firemain.child("users").orderByChild("type").once("value",snap=>{
+    //   console.log(snap.val())
+    //   for(var b in snap.val()){
+    //     if(snap.val()[b].nickname==undefined){
+
+    //     }else{
+    //         this.directorList.push(snap.val()[b]);
            
             
-        }
+    //     }
        
-      }
-      console.log("user loop finished");
-      console.log(this.directorList)
-      localStorage.setItem("director",JSON.stringify(this.directorList))
+    //   }
+    //   console.log("user loop finished");
+    //   console.log(this.directorList)
 
-    });
+    // });
   
 
 

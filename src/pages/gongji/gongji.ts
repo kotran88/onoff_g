@@ -10,7 +10,6 @@ import { GongjiwritePage } from '../gongjiwrite/gongjiwrite';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-gongji',
   templateUrl: 'gongji.html',

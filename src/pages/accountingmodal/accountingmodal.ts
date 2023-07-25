@@ -1,4 +1,4 @@
-import { IonicPage, ViewController,NavController, NavParams } from 'ionic-angular';
+import {  ViewController,NavController, NavParams } from 'ionic-angular';
 import { Component ,ViewChild,Renderer2} from '@angular/core';
 import  firebase from 'firebase';
 /**
@@ -8,7 +8,6 @@ import  firebase from 'firebase';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-accountingmodal',
   templateUrl: 'accountingmodal.html',
@@ -153,8 +152,8 @@ console.log("onChangeTime")
       // console.log(Number(this.inputcard.replace(/,/g, '')));
       // console.log(Number(this.inputcash.replace(/,/g, '')))
       this.firemain.child("users").child(this.selected.nickname).child("accounting").update({"incoming":this.accumulus-Number(inputcard)-Number(inputcash) });
-      this.firemain.child("users").child(this.selected.nickname).child("accounting").update({"withdraw":this.accumuluswithdraw+Number(inputcard)+Number(inputcash) })
-    this.firemain.child("users").child(this.selected.nickname).child("accounting").child(this.year+"-"+this.month+"-"+this.day).push({"withdraw":Number(this.accumuluswithdraw)+Number(inputcard)+Number(inputcash) ,"name":this.inputname,"card":inputcard,"cash":inputcash,"year":this.year+"-"+this.month+"-"+this.day,"time":endtime}).then(()=>{
+      this.firemain.child("users").child(this.selected.nickname).child("accounting").update({"withdraw":this.accumuluswithdraw-Number(inputcard)-Number(inputcash) })
+    this.firemain.child("users").child(this.selected.nickname).child("accounting").child(this.year+"-"+this.month+"-"+this.day).push({"withdraw":Number(this.accumuluswithdraw)-Number(inputcard)-Number(inputcash) ,"name":this.inputname,"card":inputcard,"cash":inputcash,"year":this.year+"-"+this.month+"-"+this.day,"time":endtime}).then(()=>{
       this.view.dismiss();
 
       window.alert("출금완료!")

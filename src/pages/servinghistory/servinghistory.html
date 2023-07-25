@@ -83,12 +83,12 @@ color:black;
       <!-- <span (click)="openmodal(day);" *ngFor="let day of daysInThisMonth">{{day}}</span> -->
       <span  *ngFor="let day of daysInThisMonth" > 
         <span  style="
-        width: 40px;    border: solid 1px;" (click)="openmodal(day)" class="currentDate" *ngIf="(
+        width: 40px;    border: solid 1px;" (click)="openmodal(day,currentMonth,currentYear)" class="currentDate" *ngIf="(
           currentDate === day &&
           today.getMonth()+1 === currentMonth &&
           today.getFullYear() === currentYear
           ); else otherDate">{{day}}</span><br>
-          <div (click)="gotocalendardetail(day)" style="width: 7px;
+          <div  style="width: 7px;
               height: 7px;
               color: #E74371 ;
               background: #E74371 ;
@@ -103,23 +103,29 @@ margin-top: -40px;" class="event-bullet" *ngIf="(
           <ng-template #otherDate class="otherDate">
               <span  *ngIf="(
                 day == selectedDay &&
-                today.getMonth()+1 == currentMonth &&
-                today.getFullYear() == currentYear
+                selectedMonth == currentMonth &&
+                      selectedYear == currentYear
                 )" style="background: pink;
-              width: 20px;" (click)="openmodal(day)">{{day}}</span>
+                border-radius: 20px;
+                height: 20px;
+              width: 20px;" (click)="openmodal(day,currentMonth,currentYear)">{{day}}</span>
               <span  *ngIf="(
                 day != selectedDay &&
                 today.getMonth()+1 == currentMonth &&
                 today.getFullYear() == currentYear
                 )" style="
-              width: 20px;" (click)="openmodal(day)">{{day}}</span>
+              width: 20px;" (click)="openmodal(day,currentMonth,currentYear)">{{day}}</span>
 
               <span *ngIf="(
                                       
-                today.getMonth()+1 != currentMonth &&
-                today.getFullYear() == currentYear
+                (today.getMonth()+1 != currentMonth &&
+                today.getFullYear() == currentYear)&&!(
+                  day == selectedDay &&
+            selectedMonth == currentMonth &&
+            selectedYear == currentYear
+                )
                 )" style="
-              width: 20px;" (click)="openmodal(day)">{{day}}</span>
+              width: 20px;" (click)="openmodal(day,currentMonth,currentYear)">{{day}}</span>
               <br>
               <div  style="width: 7px;
               height: 7px;
@@ -150,22 +156,33 @@ text-align: center; color:black;" *ngIf="orderlist.length==0">
 
   </div>
 <div class="orderlisting" style="color:black;" *ngFor="let i of orderlist; let j = index;">
-<p > 룸 넘버 : {{i.roomno}}</p>
-<p > 주문일 : {{i.date}}</p>
-<p > 웨이터 : {{i.wt}}</p>
-<!-- <span *ngFor="let j of i.value">
+  <span  style="    font-size: 16px;
+  background: yellow;">{{i.roomno}}T   {{i.incharge}} </span> <span *ngIf="i.logic==1" style="    font-size: 12px;
+  "> 1ㅅㅌㅌ</span> 
   <p style="
-  margin: 0;" *ngIf="j.category=='주류'">{{j.name}} , {{j.num}}병, {{j.price.toLocaleString()}}원</p>
+  margin: 0;"> 주문일 : {{i.date}}</p>
+    <span *ngFor="let j of i.value">
+    
+    <p style="
+    margin: 0;" *ngIf="j.category=='주류'">{{j.name}} , {{j.num}}병, {{j.price.toLocaleString()}}원</p>
+    <p style="
+    margin: 0;"  *ngIf="j.category!='주류'">{{j.name}} , {{j.num}}개, {{j.price.toLocaleString()}}원</p>
+  </span>
+ <p style="
+  margin: 0;"> 완티 : {{i.tcarray}} 차삼: {{i.chasamarray}}</p>
   <p style="
-  margin: 0;"  *ngIf="j.category!='주류'">{{j.name}} , {{j.num}}개, {{j.price.toLocaleString()}}원</p>
-  <br>
-</span>
+  margin: 0;">TC : {{i.tctotal}}.{{i.chasam}}개 , {{i.money.toLocaleString()}}원</p>
+  <p style="
+  margin: 0;">연티 : {{i.yeonti}}</p>
+
+
 
 <p style="
-margin: 0;">TC : {{i.tc}}개 , {{i.money.toLocaleString()}}원</p>
-<p style="
-margin: 0;">연티 : {{yeonti}}</p> -->
-<p>합계 :  {{(i.tp+i.money).toLocaleString()}}</p>
+font-size: 12px;
+margin: 0;">{{i.reason}}</p>
+  <p style="    font-size: 18px;
+  background: pink;
+  width: 160px;">합계 :  {{(i.tp+i.money+(i.yeonti*10000) ).toLocaleString()}}</p>
 <hr>
 </div>
 </div>

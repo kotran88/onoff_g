@@ -11,7 +11,6 @@ import { SignupPage } from '../signup/signup';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-order',
   templateUrl: 'order.html',

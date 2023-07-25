@@ -38,7 +38,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-menu [content]="mycontent">
+<ion-menu type="overlay" [content]="mycontent">
   <ion-content>
     
 
@@ -106,7 +106,7 @@ background: black; margin-top:45px;" padding>
     <div id="ion-label-area-1">
       
       <div  *ngFor="let i of mainlist; let j = index;">
-        <button  ion-long-press [interval]="800"  (pressEnded)="released(i , j)" (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
+        <!-- <button  ion-long-press [interval]="800"  (pressEnded)="released(i , j)" (click)="extendedAccordion(1, j)" class="accordion" id="accordion-{{i}}">
           <div>
             <p>{{i.date}}</p>
             <p>{{i.time}}</p>
@@ -117,7 +117,7 @@ background: black; margin-top:45px;" padding>
             <p>{{i.type}}</p>
             <img src="assets/img/bottomarrow.png" style="height: 20px; width: 20px;">
           </div>
-        </button>
+        </button> -->
         <div style="color:white;" class="panel-1" id="panel-1-{{j}}">
           <div>
             <p *ngIf="i.type=='발렛'">{{i.carnum}}</p>

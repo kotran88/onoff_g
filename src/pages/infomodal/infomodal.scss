@@ -35,6 +35,16 @@ width: 80%;
       position: absolute;
       left: 5%;
   }
+  .roomnameshow{
+
+    float: left;
+    position: absolute;
+    left: 45%;
+    top: -5%;
+    p{
+    font-size: 30px;
+    }
+  }
     .left{
 
       float: left;
@@ -116,7 +126,10 @@ width: 80%;
       width: 80%;
       min-height: 35px !important;
     }
-      
+      input{
+        font-size:22px !important;
+        letter-spacing: 4px !important;
+      }
       button.nav{
           background-color:transparent;
         color:#000;

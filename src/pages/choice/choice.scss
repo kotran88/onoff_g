@@ -1,5 +1,6 @@
 page-choice {
 
+  font-family: ggg !important;
     .header {
         position: absolute;
         height: 60px;
@@ -56,7 +57,7 @@ page-choice {
     }
     
     .tab input[type=checkbox]:checked ~ .tab-content {
-      max-height: 183px;
+      max-height: 288px;
       overflow-y: scroll;
 
       padding-left: 0px;
@@ -140,6 +141,12 @@ page-choice {
       font-weight: bold;
       font-size: 16px;
     }
+    .ion-label{
+      color: black !important;
+    }
+    .toolbar-ios{
+      padding-left:0px !important;
+    }
     .it{
       height: 55px;
       border:solid 1px;
@@ -153,12 +160,40 @@ page-choice {
       line-height: 50px;
     }
     .standbynumber{
-      font-size: 20px;
-    font-weight: 900;
-    margin-left: 109px;
-    float: left;
-    margin-top: 15px;
+      font-weight: 900;
+    margin-left: 82px;
+      float: left;
+      margin-top: 10px;
+      font-size: 26px;
     }
+.lll{
+  height: 75% !important;
+}
+.avatartext{
+  color: white;
+  margin-top: 2px;
+  font-size: 20px;
+  margin-left: 2px;
+}
+    .container {
+      overflow-x: scroll;
+      white-space: nowrap;
+      height: 10%;
+    }
+  
+    .avatar {    display: inline-block;
+      text-align: center;
+      margin: 10px;
+      border: solid 1px;
+      width: 40px;
+      height: 40px;
+      background-color: gray;
+    }
+  
+    .avatar img {
+      border-radius: 50%;
+    }
+
     .contentmain{
       float: left;
       height: 100%;
@@ -198,6 +233,7 @@ page-choice {
         color : black;
       }
     }
+   
     .segactive{
       height: 100%;
 
@@ -208,7 +244,7 @@ page-choice {
     }
     .area{
         height: 100%;
-        background-color: white;
+        backgroufnd-color: white;
     margin-top: 5px;
     }
     .segment-button {
@@ -329,6 +365,19 @@ page-choice {
             padding-left: 3%;
         }
     }
+    .segment-ios .segment-button.segment-activated{
+      color:black;
+    }
+    .header {
+      position: absolute;
+      width: 100%;
+      color:white;
+  }
+  .segactiveno{
+    .label-md{
+      color : black;
+    }
+  }
     .header-total {
         position: absolute;
         left: 250px;
@@ -339,7 +388,16 @@ page-choice {
     .ion-segment {
         position: absolute;
         color: white;
+        margin-top:17px;
     }
+    .segment-md .segment-button{
+      height: 40px !important;
+  }
+  .ion-segment {
+      position: absolute;
+      color: white;
+      margin-top:17px;
+  }
     .label-md{
       margin-top: 0px !important;
     }
@@ -347,7 +405,6 @@ page-choice {
         color: white;
         margin:0px !important;
     }
-
     .ion-label-area {
 
     margin-top: 64px;
