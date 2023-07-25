@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-packageName="io.ionic.onofflab.gangnam" ios-CFBundleIdentifier="io.ionic.onofflab.gangnam" version="0.395" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-packageName="io.ionic.onofflab.gangnam" ios-CFBundleIdentifier="io.ionic.onofflab.gangnam" version="0.5002" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>WAD </name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -49,6 +49,7 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/port.png" />
     </platform>
     <platform name="ios">
+        <preference name="KeyboardResizeMode" value="ionic" />
         <preference name="StatusBarOverlaysWebView" value="false" />
         <preference name="StatusBarStyle" value="lightcontent" />
         <preference name="StatusBarBackgroundColor" value="#ffffff" />

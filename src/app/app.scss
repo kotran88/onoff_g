@@ -4,6 +4,7 @@ $dynamic-colour: var(--dynamic-colour);
 body{
 
     font-family: ggg !important;
+    font-family: notosan !important;
 }
 input{
     letter-spacing: 2px !important;
@@ -11,12 +12,14 @@ input{
 p{
     font-size:14px;
     font-family: ggg !important;
+    font-family: notosan !important;
     letter-spacing: 2px;
     font-weight: 600;
 }
 span{
     font-size:14px;
     font-family: ggg !important;
+    font-family: notosan !important;
     letter-spacing: 2px;
     font-weight: 600;
 
@@ -30,16 +33,19 @@ span{
 div{
     font-size:14px;
     font-family: ggg !important;
+    font-family: notosan !important;
     letter-spacing: 2px;
     font-weight: 600;
 
 }
 button{
     font-family: ggg !important;
+    font-family: notosan !important;
     letter-spacing: 2px;
     font-weight: 600;
 }
 :root{
     font-family: ggg !important;
+    font-family: notosan !important;
     --dynamic-colour: 90
  }

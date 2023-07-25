@@ -26,7 +26,6 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { SignupPage } from '../pages/signup/signup';
 import { ParkingPage } from '../pages/parking/parking';
 import { ReceiptPage } from '../pages/receipt/receipt';
-import { LongPressModule } from 'ionic-long-press';
 
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
@@ -67,6 +66,7 @@ import * as Hammer from 'hammerjs';
 import { SlidetestPage } from '../pages/slidetest/slidetest';
 import { RequestkoreaPage } from '../pages/requestkorea/requestkorea';
 import { Cameraselect2Page } from '../pages/cameraselect2/cameraselect2';
+import { Editingroom2Page } from '../pages/editingroom2/editingroom2';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -96,6 +96,7 @@ export class CustomHammerConfig extends HammerGestureConfig{
     GongjiPage,
     TestpagePage,
     ServinghistoryPage,
+    Editingroom2Page,
     AccountPage,
     InfomodalPage,
     OrdermainPage,
@@ -132,7 +133,8 @@ export class CustomHammerConfig extends HammerGestureConfig{
     BrowserModule,
     StarRatingModule,
     
-    LongPressModule,HttpClientModule,
+    HttpClientModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp,{
       monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
       monthShortNames: ['jan', 'fev', 'mar', 'avr', 'mai', 'jui', 'jui', 'aou', 'sep', 'oct', 'nov', 'dec' ],
@@ -150,6 +152,7 @@ export class CustomHammerConfig extends HammerGestureConfig{
     SlidetestPage,
     SplashscreenPage,
     OrdermainPage,
+    Editingroom2Page,
     WaitingmodalPage,
     ChoicemodalPage,
     ChoicejimyungPage,

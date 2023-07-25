@@ -30,11 +30,11 @@ export class MyApp {
     this.app=app;
     this.platform.ready().then(() => {
 
-
     platform.registerBackButtonAction(() => { 
       const av = this.nav.getActive();
       const activePage = av ? av.instance : null;
       console.log(activePage);
+      console.log("go back!");
       if (activePage) {
         console.log("activePage.constructor.nameactivePage.constructor.name");
         console.log(activePage.constructor.name);
@@ -65,6 +65,24 @@ export class MyApp {
             platform.exitApp();
           }
           this.lastBack = Date.now();
+          
+        }else if(activePage.constructor.name == "ChoicedetailPage"){
+          console.log("do nothing");
+          const nav = this.app.getActiveNav();
+          console.log(nav.canGoBack());
+          if(nav.canGoBack()){
+
+          nav.pop();
+          }else{
+            // console.log("false so refresh...");
+            // this.nav.setRoot(SlidetestPage);
+          }
+
+        }else{
+          console.log("go back but not slide page");
+          const nav = this.app.getActiveNav();
+          console.log(nav.canGoBack());
+          this.nav.setRoot(SlidetestPage);
         }
       }
       

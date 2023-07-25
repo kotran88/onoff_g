@@ -104,7 +104,6 @@ export class LoginpagePage {
       console.log(result);
       console.log(result.idx);
       console.log(result.userid);
-      window.alert("d")
 
 
 
@@ -361,6 +360,23 @@ export class LoginpagePage {
       else{
         console.log("else...")
         this.requestLogin(this.id,this.password);
+      //  var a = this.id;
+      //  var b = this.password;
+      //  var c = this;
+      //  this.firemain.child("users").orderByChild("id").equalTo(a).once("value", snap => {
+      //   console.log(snap.val());
+      //   snap.forEach((childSnapshot)=> {
+      //     var childData = childSnapshot.val();
+      //         console.log(childData);
+      //              if(childData!=undefined&&childData.id!=undefined&&childData.nickname!=undefined){
+      //       if((childData.id==a&&childData.pass==b)){
+      //         c.functiontogotopage(childData.nickname)
+      //         return;
+      //       }else{
+      //       }
+      //     }
+      //   });
+      //  });
       }
     }
 
