@@ -42,7 +42,7 @@ export class WebsocketProvider {
   private subscribeToTopic() {
     const subscriptionMessage = {
       action: 'subscribe',
-      channel: '/apis/currentroom',
+      channel: '/topic/info',
     };
     this.socket.send(JSON.stringify(subscriptionMessage));
   }
