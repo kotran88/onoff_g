@@ -24,6 +24,7 @@ import { WtPage } from '../wt/wt';
 import { GongjiPage } from '../gongji/gongji';
 import { OrdermainPage } from '../ordermain/ordermain';
 import { SlidetestPage } from '../slidetest/slidetest';
+import { WebsocketProvider } from '../../providers/websocket/websocket';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -46,38 +47,9 @@ export class LoginpagePage {
   name:any;
   loading:any;
   firemain = firebase.database().ref();
-  //iamport 결제관련 코드 테스트. 
-  // async getData() {
 
-  //   try {
-  //     const url = 'https://api.iamport.kr/users/getToken';
-  //     const params = {"imp_key":"0040765620267739","imp_secret": "lLzW9IKeK9htRMa6RpJza8uJ08Q6Nbf9XP57xQlh0DLRqVXhlHRwPlgQu7Whjcqh2woznKRonDgNyd5U"};
-  //     var headers = {};
-  //     this.http.get(url, params,headers).subscribe((e)=>{
-  //     const response = await this.http.get(url, params,headers);
-
-  //     console.log(response.subscribe((e)=>{
-  //       console.log(e);
-  //     }));
-  //   }catch (error) {
-  //     console.error(error.status);
-  //     console.error(error.error); // Error message as string
-  //     console.error(error.headers);
-  //   }
-  // }
-  // }
-
-  constructor(public httpClient: HttpClient,public http:HTTP, public util : UtilsProvider,public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private websocketProvider: WebsocketProvider , public httpClient: HttpClient,public http:HTTP, public util : UtilsProvider,public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
    
-
-      // var headers = new HttpHeaders();
-      // headers.append("Accept", 'application/json');
-      // headers.append('Content-Type', 'application/json');
-      // headers.append('Access-Control-Allow-Origin', '*');
-      // var abc = this.httpClient.get('https://wad.herokuapp.com/test2',{headers:headers} );
-      // abc.subscribe(data => {
-      //   console.log(data);
-      // });
       console.log(localStorage.getItem("loginflag"));
       if(localStorage.getItem("loginflag")==null){
         $("#checked").prop('checked', false);
@@ -91,9 +63,28 @@ export class LoginpagePage {
         $("#checked").prop('checked', false);
       }
     localStorage.setItem('version',this.version)
+      setTimeout(()=>{
+        console.log("settimeout!");
+        this.subscribeToWebSocket();
+      },1000);
+      }
+      private subscribeToWebSocket() {
+        const socketObservable = this.websocketProvider.createObservableSocket();
     
-  }
-
+        socketObservable.subscribe(
+          (message) => {
+            // Handle incoming messages from the "/topic/info" channel
+            console.log('Received message from /topic/info:', message);
+          },
+          (error) => {
+            console.error('WebSocket error:', error);
+          }
+        );
+      }
+      sendMessage() {
+        // Send a message through the WebSocket
+        this.websocketProvider.sendMessage('Hello WebSocket Server!');
+      }
   requestLogin(id,pass){
     var apiUrl = "https://captainq.wadteam.com/captainq/apis/login";
     this.http.get(apiUrl, {"userid":"wt3","userpw":"ananan"}, {}).then(data => {

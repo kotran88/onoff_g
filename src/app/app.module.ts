@@ -67,6 +67,7 @@ import { SlidetestPage } from '../pages/slidetest/slidetest';
 import { RequestkoreaPage } from '../pages/requestkorea/requestkorea';
 import { Cameraselect2Page } from '../pages/cameraselect2/cameraselect2';
 import { Editingroom2Page } from '../pages/editingroom2/editingroom2';
+import { WebsocketProvider } from '../providers/websocket/websocket';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -134,7 +135,6 @@ export class CustomHammerConfig extends HammerGestureConfig{
     StarRatingModule,
     
     HttpClientModule,
-    HttpClientModule,
     IonicModule.forRoot(MyApp,{
       monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
       monthShortNames: ['jan', 'fev', 'mar', 'avr', 'mai', 'jui', 'jui', 'aou', 'sep', 'oct', 'nov', 'dec' ],
@@ -195,6 +195,7 @@ export class CustomHammerConfig extends HammerGestureConfig{
     AppVersion,
     Camera,
     InAppBrowser,
+    WebsocketProvider,
     AngularFireAuth,
     DatePicker,
     PhotoViewer,
@@ -206,6 +207,7 @@ export class CustomHammerConfig extends HammerGestureConfig{
     {
       provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig},
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    WebsocketProvider,
   ]
 })
 export class AppModule {}
