@@ -25,6 +25,7 @@ import { GongjiPage } from '../gongji/gongji';
 import { OrdermainPage } from '../ordermain/ordermain';
 import { SlidetestPage } from '../slidetest/slidetest';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
+import { StompClient } from '../services/stomp.client';
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -48,7 +49,7 @@ export class LoginpagePage {
   loading:any;
   firemain = firebase.database().ref();
 
-  constructor(private websocketProvider: WebsocketProvider , public httpClient: HttpClient,public http:HTTP, public util : UtilsProvider,public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private websocketProvider: WebsocketProvider ,private soc : StompClient, public httpClient: HttpClient,public http:HTTP, public util : UtilsProvider,public firebaseAuth:AngularFireAuth,public loadingCtrl:LoadingController,public alertCtrl:AlertController,public fire:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
    
       console.log(localStorage.getItem("loginflag"));
       if(localStorage.getItem("loginflag")==null){
@@ -66,6 +67,11 @@ export class LoginpagePage {
       setTimeout(()=>{
         console.log("settimeout!");
         this.subscribeToWebSocket();
+        this.soc.connect();
+        this.soc.subscribe('/captainq/apis/currentroom"', (message) => {
+          window.alert("messagecome");
+
+        });
       },1000);
       }
       private subscribeToWebSocket() {

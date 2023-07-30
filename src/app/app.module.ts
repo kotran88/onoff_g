@@ -68,6 +68,7 @@ import { RequestkoreaPage } from '../pages/requestkorea/requestkorea';
 import { Cameraselect2Page } from '../pages/cameraselect2/cameraselect2';
 import { Editingroom2Page } from '../pages/editingroom2/editingroom2';
 import { WebsocketProvider } from '../providers/websocket/websocket';
+import { StompClient } from '../pages/services/stomp.client';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -195,6 +196,7 @@ export class CustomHammerConfig extends HammerGestureConfig{
     AppVersion,
     Camera,
     InAppBrowser,
+    StompClient,
     WebsocketProvider,
     AngularFireAuth,
     DatePicker,
