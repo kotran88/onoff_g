@@ -25,7 +25,10 @@ import { GongjiPage } from '../gongji/gongji';
 import { OrdermainPage } from '../ordermain/ordermain';
 import { SlidetestPage } from '../slidetest/slidetest';
 import { WebsocketProvider } from '../../providers/websocket/websocket';
-import { StompClient } from '../services/stomp.client';
+// import { StompClient } from '../services/stomp.client';
+import { StompClient } from '../../providers/websocket/stomp.client';
+import { Observable } from 'rxjs/Observable';
+
 /**
  * Generated class for the LoginpagePage page.
  *
@@ -67,29 +70,35 @@ export class LoginpagePage {
       setTimeout(()=>{
         console.log("settimeout!");
         this.subscribeToWebSocket();
-        this.soc.connect();
-        this.soc.subscribe('/captainq/apis/currentroom"', (message) => {
-          window.alert("messagecome");
+        // this.soc.connect();
+        // this.soc.subscribe('/captainq/apis/currentroom"', (message) => {
+        //   window.alert("messagecome");
 
-        });
+        // });
       },1000);
       }
       private subscribeToWebSocket() {
-        const socketObservable = this.websocketProvider.createObservableSocket();
+
+        let roomList: Observable<any> = this.soc.subscribe('/topic/info', {});
+        roomList.subscribe(response => {
+            console.log("list", response);
+        });
+
+      //   const socketObservable = this.websocketProvider.createObservableSocket();
     
-        socketObservable.subscribe(
-          (message) => {
-            // Handle incoming messages from the "/topic/info" channel
-            console.log('Received message from /topic/info:', message);
-          },
-          (error) => {
-            console.error('WebSocket error:', error);
-          }
-        );
+      //   socketObservable.subscribe(
+      //     (message) => {
+      //       // Handle incoming messages from the "/topic/info" channel
+      //       console.log('Received message from /topic/info:', message);
+      //     },
+      //     (error) => {
+      //       console.error('WebSocket error:', error);
+      //     }
+      //   );
       }
       sendMessage() {
         // Send a message through the WebSocket
-        this.websocketProvider.sendMessage('Hello WebSocket Server!');
+        //this.websocketProvider.sendMessage('Hello WebSocket Server!');
       }
   requestLogin(id,pass){
     var apiUrl = "https://captainq.wadteam.com/captainq/apis/login";

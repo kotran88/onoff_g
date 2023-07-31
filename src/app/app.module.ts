@@ -68,7 +68,8 @@ import { RequestkoreaPage } from '../pages/requestkorea/requestkorea';
 import { Cameraselect2Page } from '../pages/cameraselect2/cameraselect2';
 import { Editingroom2Page } from '../pages/editingroom2/editingroom2';
 import { WebsocketProvider } from '../providers/websocket/websocket';
-import { StompClient } from '../pages/services/stomp.client';
+// import { StompClient } from '../pages/services/stomp.client';
+import { StompClient} from '../providers/websocket/stomp.client';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB0v0GCI5fBGFT6Scc0efmLy_UgkLRILlc",
@@ -206,10 +207,10 @@ export class CustomHammerConfig extends HammerGestureConfig{
     Keyboard,
     UniqueDeviceID,
     Geolocation,
-    {
-      provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig},
+    {provide: 'SOCKET_URL', useValue: 'wss://captainq.wadteam.com/captainq/ws'},
+    {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig},
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    WebsocketProvider,
+    StompClient,
   ]
 })
 export class AppModule {}
