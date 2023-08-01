@@ -10,6 +10,7 @@ import { IonicPage, NavController,LoadingController, NavParams,ViewController } 
 
  import  firebase from 'firebase';
 import { UtilsProvider } from '../../providers/utils/utils';
+import { HTTP } from '@ionic-native/http/ngx';
 @Component({
   selector: 'page-infomodal',
   templateUrl: 'infomodal.html',
@@ -36,7 +37,7 @@ export class InfomodalPage {
   directorList:any=[];
   key:any="";
   firemain = firebase.database().ref();
-  constructor(public util:UtilsProvider, public navCtrl: NavController,public loading:LoadingController,public view:ViewController, public navParams: NavParams) {
+  constructor(public http:HTTP,public util:UtilsProvider, public navCtrl: NavController,public loading:LoadingController,public view:ViewController, public navParams: NavParams) {
    this.room= this.navParams.get("room");
    console.log(this.room);
    console.log(this.room.name)
@@ -212,8 +213,34 @@ export class InfomodalPage {
           if(countingvalue==undefined){
             countingvalue=1;
           }
+          var room_name = this.room.name;
+          var wt_id = this.wt;
+          var director_id = this.incharge;
+          var max_people_count = this.numofpeople;
+          var room_name = this.room.name;
+          var created_by = this.nickname;
+          var cmd = "entered";
+          var num_of_people = 0;
+
+          // console.log({"logic":this.booleanValue,"avec":this.booleanValue2, "name":this.room.name,"status":"entered","bu":this.bu, "incharge":this.incharge,"numofpeople":this.numofpeople,"nomemo":this.nomemo,"firstflag":this.booleanValue3,"noflag":this.booleanValue3, "wt":this.wt,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"bujangyoung":this.bujangyoung,"bujangjopan":this.bujangjopan, "v":Number(countingvalue)+1, "directorId":this.bujangid, "flag":true,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()});
+          https://captainq.wadteam.com/captainq/apis/currentroom?room_name=152&wt_id=철이&director_id=미애&max_people_count=3&created_by=인포&cmd=entered&num_of_people=3
+    // this.http.get(apiUrl, {"userid":"wt3","userpw":"ananan"}, {}).then(data => {
+    // });
+    this.http.post("https://captainq.wadteam.com/captainq/apis/currentroom", {"room_name":room_name,"wt_id":wt_id,"director_id":director_id,"max_people_count":max_people_count,"created_by":this.nickname,"cmd":"entered","num_of_people":num_of_people}, {"token":"8179e9dc-ec5f-4bdf-b8b6-c951a2fda646"}).then(data => {
+          console.log(data);
+          console.log("return value come...");
+
+
+        this.util.dismissLoading();
+        this.view.dismiss({"result":false,"roomname":this.room.name,"category":this.room.category});
+    
+    
+        
+        });
+
+          return;
           if(this.booleanValue3){
-            
+            //사용불가 ON.
             var wt="no";
             var numofpeople=0;
   

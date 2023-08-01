@@ -38,15 +38,16 @@ top: 30%;" padding>
                 <input *ngIf="firststatus" disabled class="input-box"  style="width:40px !important;" [(ngModel)]="room" type="text"/></span>
                 <span style="    margin-left: 15px;">
                   
-                  <input *ngIf="!firststatus"  style="
-                  width: 59px !important;
-                  margin-left: 7px;"  class="input-box"  [(ngModel)]="incharge" type="text"/>
-                  <input *ngIf="firststatus" disabled style="
-                  width: 59px !important;
-                  margin-left: 7px;"  class="input-box"  [(ngModel)]="incharge" type="text"/></span>
+                <input *ngIf="!firststatus"  style="
+                width: 59px !important;
+                margin-left: 7px;"  class="input-box"  [(ngModel)]="incharge" type="text"/>
+                <input *ngIf="firststatus" disabled style="
+                width: 59px !important;
+                margin-left: 7px;"  class="input-box"  [(ngModel)]="incharge" type="text"/></span>
+
                 <span (click)="clicking(2);" class="newspan" *ngIf="status=='entered'" > 입실 </span>
-                <span (click)="clicking(3);" class="newspan" *ngIf="status=='clean'" > 예약 </span>
-                <span (click)="clicking(4);" class="newspan" *ngIf="status=='fin'" > 종료 </span>
+                <span (click)="clicking(3);" class="newspan" *ngIf="status=='reserved'" > 예약 </span>
+                <span (click)="clicking(4);" class="newspan" *ngIf="status=='fin'" > 완료 </span>
                 
                 <span (click)="clicking2(a);" class="newspan"  *ngIf="avec"> A </span>
                 <span (click)="clicking2(a);" class="newspan" *ngIf="!avec"> - </span>
@@ -64,9 +65,8 @@ top: 30%;" padding>
               <div class="name-keys">
             
                 <span>WT</span>
-                <span>입장일</span>
                 <span>부</span>
-                <span>두병여부.</span>
+                <span>두병</span>
               </div>
               <div style="
               height: 30px;
@@ -75,14 +75,14 @@ top: 30%;" padding>
               margin-top: 5px;" class="name-keys">
             
                 <span><input   class="input-box"  [(ngModel)]="wt" type="text"/></span>
-                <span><input  disabled class="input-box"  [(ngModel)]="insert_date" type="text"/></span>
+                <!-- <span><input  disabled class="input-box"  [(ngModel)]="insert_date" type="text"/></span> -->
   
   
-                <span (click)="clicking3(0);" class="sspan" *ngIf="bu==0" > 0부 </span>
+                <span (click)="clicking3(0);" class="sspan" *ngIf="bu==undefined||bu==0" > 0부 </span>
                 <span (click)="clicking3(1);" class="sspan" *ngIf="bu==1" > 1부 </span>
                 <span (click)="clicking3(2);" class="sspan" *ngIf="bu==2" > 2부 </span>
 
-                <span (click)="clickforlogic(0);" class="sspan" *ngIf="logic==0" > OFF </span>
+                <span (click)="clickforlogic(0);" class="sspan" *ngIf="logic==undefined||logic==0" > OFF </span>
                 <span (click)="clickforlogic(1);" class="sspan" *ngIf="logic==1" > 1ㅅㅌㅌ </span>
                 <span (click)="clickforlogic(2);" class="sspan" *ngIf="logic==2" > 2ㅅㅌㅌ </span>
               </div>

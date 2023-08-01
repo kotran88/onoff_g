@@ -69,12 +69,7 @@ export class LoginpagePage {
     localStorage.setItem('version',this.version)
       setTimeout(()=>{
         console.log("settimeout!");
-        this.subscribeToWebSocket();
-        // this.soc.connect();
-        // this.soc.subscribe('/captainq/apis/currentroom"', (message) => {
-        //   window.alert("messagecome");
-
-        // });
+        this.requestLogin("wt3","ananan");
       },1000);
       }
       private subscribeToWebSocket() {
@@ -84,21 +79,6 @@ export class LoginpagePage {
             console.log("list", response);
         });
 
-      //   const socketObservable = this.websocketProvider.createObservableSocket();
-    
-      //   socketObservable.subscribe(
-      //     (message) => {
-      //       // Handle incoming messages from the "/topic/info" channel
-      //       console.log('Received message from /topic/info:', message);
-      //     },
-      //     (error) => {
-      //       console.error('WebSocket error:', error);
-      //     }
-      //   );
-      }
-      sendMessage() {
-        // Send a message through the WebSocket
-        //this.websocketProvider.sendMessage('Hello WebSocket Server!');
       }
   requestLogin(id,pass){
     var apiUrl = "https://captainq.wadteam.com/captainq/apis/login";

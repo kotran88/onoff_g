@@ -198,7 +198,7 @@
         <div class="title-div">
           <ion-icon class="square" name="square"></ion-icon>
           <span class="text">
-            룸 현황 {{mainlist_info.length}}개
+            룸 현황 {{paginatedArray.length}}개
           </span>
         </div>
         <div class="chart-div">
@@ -211,7 +211,7 @@
             <span>입실T</span>
             <span>퇴실T</span>
           </div>
-          <div *ngIf="mainlist_info.length==0" class="datas">
+          <div *ngIf="paginatedArray.length==0" class="datas">
             <span style="width:100%;">현재 활성화된 방이 없습니다 </span>
           </div>
           <div *ngFor="let a of paginatedArray" class="datas">
@@ -298,7 +298,7 @@
             <span>퇴실T</span>
           </div>
           <div  *ngIf="mainlist_finished_info.length==0" class="datas">
-            <span style="width:100%;">현재 활성화된 방이 없습니다 </span>
+            <span style="width:100%;">현재 완료된 방이 없습니다 </span>
           </div>
           <div (click)="editing(a);" *ngFor="let a of mainlist_finished_info" class="datas">
             <div *ngIf="a.flag=='nono'" style="width:100%;" class="rowrow">

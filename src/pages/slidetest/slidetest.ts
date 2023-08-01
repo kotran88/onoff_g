@@ -29,6 +29,9 @@ import { HistoryPage } from '../history/history';
 import { C } from '@angular/core/src/render3';
 import { Choicemodal3Page } from '../choicemodal3/choicemodal3';
 import { Editingroom2Page } from '../editingroom2/editingroom2';
+import { Observable } from 'rxjs-compat/Observable';
+import { StompClient } from '../../providers/websocket/stomp.client';
+import { HTTP } from '@ionic-native/http/ngx';
 @Component({
   selector: 'page-slidetest',
   templateUrl: 'slidetest.html',
@@ -162,7 +165,7 @@ export class SlidetestPage {
   newlist_att:any=[];
   todayatt:any=[];
 
-  constructor(public zone:NgZone, public toastCtrl:ToastController , public modal: ModalController,public util:UtilsProvider, public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public http:HTTP,public zone:NgZone, private soc : StompClient,public toastCtrl:ToastController , public modal: ModalController,public util:UtilsProvider, public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
 
     this.name= localStorage.getItem("name");
     this.nickname= localStorage.getItem("nickname");
@@ -179,7 +182,10 @@ export class SlidetestPage {
     this.selectedday = this.currentstartday;
     this.code = JSON.parse(login).young;
     this.type = localStorage.getItem("type");
-
+    setTimeout(()=>{
+      console.log("settimeout!");
+      this.subscribeToWebSocket();
+    },1000);
     this.interval=setInterval(()=>{
       var now = new Date();
       var hour = now.getHours();
@@ -197,6 +203,23 @@ export class SlidetestPage {
     //console.log(login);
     //console.log(JSON.parse(login).payment);
     this.paymentflag=JSON.parse(login).payment;
+  }
+  private subscribeToWebSocket() {
+    this.mainlist_info = [];
+    let roomList: Observable<any> = this.soc.subscribe('/topic/info', {});
+    roomList.subscribe(result => {
+      console.log("subscribeToWebSocketsubscribeToWebSocketsubscribeToWebSocket");
+        console.log("list", result);
+        console.log("list", result.length);
+        for(var value in result){
+          console.log(result[value]);
+          this.mainlist_info.push({"status":result[value].status,"key":result[value].idx,"name":result[value].room_name, "numofpeople":result[value].max_people_count,"wt":result[value].wt_id,"incharge":result[value].director_id})
+        }
+
+
+      this.paginateArray();
+    });
+
   }
   openmodal(day,month,year){
     console.log("open modal -->");
@@ -1963,6 +1986,14 @@ export class SlidetestPage {
 
         console.log("child_adde loadfinished");
 
+
+        // this.http.get(apiUrl, {"userid":"wt3","userpw":"ananan"}, {}).then(data => {
+    // });
+   
+    // this.http.get("https://captainq.wadteam.com/captainq/apis/currentroom").then(data => {
+    //   console.log(data);
+    //   console.log("return value come...");
+    // });
         this.generate_info();
 
         setTimeout(()=>{
@@ -2036,7 +2067,30 @@ export class SlidetestPage {
       console.log("child_changedchild_changedchild_changedchild_changedchild_changed");
       console.log(snap.val());
     });
+    this.http.get("https://captainq.wadteam.com/captainq/apis/currentroom",{},{"token":"8179e9dc-ec5f-4bdf-b8b6-c951a2fda646"}).then(data => {
+      console.log("get result...");
+      console.log(data);
+      var a = JSON.parse(data.data)
+      var result = JSON.parse(a.rst_content);
+      console.log(result);
+      console.log("was result...");
+      for(var value in result){
+        console.log(result[value])
+        console.log(result[value].idx)
+        console.log(result[value].room_name)
+        console.log(result[value].num_of_people)
+        console.log(result[value].max_people_count)
+        console.log(result[value].wt_id)
+        console.log(result[value].director_id)
+        console.log(result[value].status)
+        this.mainlist_info.push({"status":result[value].status,"key":result[value].idx,"name":result[value].room_name, "numofpeople":result[value].max_people_count,"wt":result[value].wt_id,"incharge":result[value].director_id});
+      }
 
+      this.paginateArray();
+      }).catch(error => {
+        console.log("get error : ");
+        console.log(error);
+      });
 
     this.firemain.child("company").child(this.company).once('value').then((snap2)=>{
 
@@ -2080,10 +2134,13 @@ export class SlidetestPage {
 
   paginateArray() {
     console.log("paginateArraypaginateArraypaginateArraypaginateArray");
-    console.log(this.mainlist_info);
+    console.log(this.currentPage);
+    console.log(this.pageSize);
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.paginatedArray = this.mainlist_info.slice(startIndex, endIndex);
+    console.log(this.mainlist_info);
+    console.log(this.paginatedArray);
   }
 
 
@@ -2157,7 +2214,7 @@ export class SlidetestPage {
                   
                 }else{
 
-                this.mainlist_info.push(childSnapshot.val()[a]);
+                // this.mainlist_info.push(childSnapshot.val()[a]);
                 }
               }
             }else{
@@ -2951,7 +3008,6 @@ export class SlidetestPage {
 
       });
 
-      this.paginateArray();
 
     })//firemain :)
   }
@@ -3141,7 +3197,7 @@ export class SlidetestPage {
     console.log(a);
     console.log(a.name);
 
-    let modal = this.modal.create(EditingroomPage,{"user":this.directorList, "mainlist":this.mainlist,"mainlist_finished":this.mainlist_finished_info, "a":a,"allroom":this.allroom,"bu":this.bu});
+    let modal = this.modal.create(EditingroomPage,{"user":this.directorList, "mainlist":this.paginatedArray,"mainlist_finished":this.mainlist_finished_info, "a":a,"allroom":this.allroom,"bu":this.bu});
 
     modal.onDidDismiss(url => {
 
@@ -3193,6 +3249,8 @@ export class SlidetestPage {
     let modal = this.modal.create(InfomodalPage,{"room":room, "bu":this.bu,"selectedKey":this.selectedKey, "selectedIncharge":this.selectedIncharge,"selectedAvec":this.selectedAvec,"selectedLogic":this.selectedLogic , "selectedNumber":this.selectedNumber});
     modal.onDidDismiss(url => {
       console.log(url);
+
+      return;
       if(url!=undefined){
         if(url.result){
           
