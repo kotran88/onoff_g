@@ -289,58 +289,7 @@ export class SignupPage {
       window.alert("임시 결제처리완료");
       this.util.dismissLoading();
       this.navCtrl.setRoot(LoginpagePage)
-//  var data = {
-//         pay_method: 'card',
-//         merchant_uid: 'mid_' + new Date().getTime(),
-//         name: 'WAD 앱 정기결제',
-//         amount: "20000",
-//         app_scheme: 'ionickcp',
-//         buyer_email: '',
-//         buyer_tel: '010-1234-5678',
-//         buyer_addr: '서울특별시 강남구 삼성동',
-//         buyer_postcode: '123-456',
-//         customer_uid: 'cid_' + new Date().getTime()
-//       };
-  
-//       var PaymentObject = {
-//         userCode: "imp58611631",
-//         data: data,
-//         callback: (response) => {
-//           console.log(response);
-//           if (response.imp_success == "true") {
-      
-//           }
-//         }
-//       }
-//       IamportCordova.payment(PaymentObject)
-//       .then((response) => {
-//         window.alert("결제처리완료");
-//         this.util.dismissLoading();
-//         this.firemain.child('users').child(this.id.trim()).update({
-//       payment:true
-//     }).then(()=>{
 
-//     localStorage.setItem("id", "" )
-//     localStorage.setItem("type", "" )
-//       localStorage.setItem("loginflag", "false" )
-//       window.alert("임시 결제처리완료");
-//       this.navCtrl.setRoot(LoginpagePage)
-//     })
-//       })
-//       .catch((err) => {
-//         window.alert("임시 결제처리완료");
-//        this.util.dismissLoading();
-//         this.firemain.child('users').child(this.id.trim()).update({
-//       payment:true
-//     }).then(()=>{
-
-//     localStorage.setItem("id", "" )
-//     localStorage.setItem("type", "" )
-//       localStorage.setItem("loginflag", "false" )
-//       window.alert("임시 결제처리완료");
-//       this.navCtrl.setRoot(LoginpagePage)
-//     })
-//       });
 
     
   }

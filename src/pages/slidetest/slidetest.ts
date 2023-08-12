@@ -164,9 +164,9 @@ export class SlidetestPage {
 
   newlist_att:any=[];
   todayatt:any=[];
-
+  token:any="";
   constructor(public http:HTTP,public zone:NgZone, private soc : StompClient,public toastCtrl:ToastController , public modal: ModalController,public util:UtilsProvider, public menuCtrl: MenuController , public navCtrl: NavController, public navParams: NavParams) {
-
+    this.token = localStorage.getItem("token");
     this.name= localStorage.getItem("name");
     this.nickname= localStorage.getItem("nickname");
     this.company=localStorage.getItem("company");
@@ -205,19 +205,92 @@ export class SlidetestPage {
     this.paymentflag=JSON.parse(login).payment;
   }
   private subscribeToWebSocket() {
-    this.mainlist_info = [];
     let roomList: Observable<any> = this.soc.subscribe('/topic/info', {});
     roomList.subscribe(result => {
       console.log("subscribeToWebSocketsubscribeToWebSocketsubscribeToWebSocket");
         console.log("list", result);
         console.log("list", result.length);
-        for(var value in result){
-          console.log(result[value]);
-          this.mainlist_info.push({"status":result[value].status,"key":result[value].idx,"name":result[value].room_name, "numofpeople":result[value].max_people_count,"wt":result[value].wt_id,"incharge":result[value].director_id})
+        console.log(result.status);
+        console.log(result.room_name+"is changed....");
+        // if(this.mainlist_info.contains(result.idx)){
+        // }
+
+        //check if mainlist_info have same idx of result.idx and if it has, replace it with result
+        if(this.mainlist_info.length>0){
+          for(var i=0;i<this.mainlist_info.length;i++){
+            if(this.mainlist_info[i].key==result.idx){
+              console.log("replace....!!!");
+              //remove it
+              this.mainlist_info.splice(i,1);
+
+
+this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+result.idx,{},{"token":this.token}).then(data => {
+  console.log("get detail result...");
+  var a = JSON.parse(data.data)
+
+  var result = JSON.parse(a.rst_content);
+  console.log(result);
+  console.log(result.length);
+            });
+
+            }
+          }
         }
+        
+
+          if(result.status=="fin"){
+            this.mainlist_finished_info.push({"bu":result.bu,"ss":result.ss,"memo":result.memo,"nomemo":result.memo, "logic":result.logic,"avec":result.avec,"key":result.idx, "status":result.status,"name":result.room_name,"created_at":result.created_at, "max_people_count":result.max_people_count, "numofpeople":result.num_of_people,"wt":result.wt_id,"incharge":result.director_id});
+          }else{
+            this.mainlist_info.push({"bu":result.bu,"memo":result.memo,"ss":result.ss,"nomemo":result.memo, "logic":result.logic,"key":result.idx, "avec":result.avec, "status":result.status,"name":result.room_name,"created_at":result.created_at, "max_people_count":result.max_people_count, "numofpeople":result.num_of_people,"wt":result.wt_id,"incharge":result.director_id});
+          }
 
 
+        console.log(this.mainlist_info);
+        console.log("mainlist_info....");
       this.paginateArray();
+
+      this.mainlist_choice=[];
+            console.log(this.mainlist_info)
+            console.log(this.mainlist_finished_info)
+            console.log("all info list...");
+            for(var aaa in this.mainlist_info){
+              if(this.mainlist_info[aaa].status!="fin"&&this.mainlist_info[aaa].status!="disabled"){
+                //초이스 혹은 진행중인방. 
+                  console.log("this.mainlist_info[aaa]:");
+                  console.log(this.mainlist_info[aaa]);
+                  this.mainlist_choice.push({
+                                              "name":this.mainlist_info[aaa].name,
+                                              "avec":this.mainlist_info[aaa].avec,
+                                              "logic":this.mainlist_info[aaa].logic,
+                                              "key":this.mainlist_info[aaa].key,
+                                              "incharge":this.mainlist_info[aaa].incharge,
+                                              "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                              "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                              "status":this.mainlist_info[aaa].status,
+                                              "wt":this.mainlist_info[aaa].wt,
+                                              "memo":this.mainlist_info[aaa].memo,
+                                              "created_at":this.mainlist_info[aaa].created_at,
+                                              });
+              }else if(this.mainlist_info[aaa].status=="fin"){
+                //완료된방..
+                this.mainlist_finished_status_choice.push({
+                  "name":this.mainlist_info[aaa].name,
+                                              "avec":this.mainlist_info[aaa].avec,
+                                              "logic":this.mainlist_info[aaa].logic,
+                                              "key":this.mainlist_info[aaa].key,
+                                              "incharge":this.mainlist_info[aaa].incharge,
+                                              "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                              "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                              "status":this.mainlist_info[aaa].status,
+                                              "wt":this.mainlist_info[aaa].wt,
+                                              "memo":this.mainlist_info[aaa].memo,
+                                              "created_at":this.mainlist_info[aaa].created_at,
+                  });
+              }
+            }
+            console.log(this.mainlist_choice);
+            console.log("for finnnnn");
+
     });
 
   }
@@ -745,16 +818,16 @@ export class SlidetestPage {
 
       this.navCtrl.getActive().onDidDismiss(data => {
 
-        console.log("ChoicedetailPage ondiddismiss....");
+        console.log("ChoicedetailPage sondiddismiss....");
         console.log(data);
   
-        this.generate();
-        this.generate_info();
+        // this.generate();
+        // this.generate_info();
 
-        setTimeout(()=>{
-          this.screenSwitch(1);
-          this.screenSwitch_att(1);
-        },10)
+        // setTimeout(()=>{
+        //   this.screenSwitch(1);
+        //   this.screenSwitch_att(1);
+        // },10)
 
       })
     });
@@ -2004,70 +2077,8 @@ export class SlidetestPage {
     });
 
     // this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").off();
-    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").on('child_changed', (snap, prevChildKey) =>{
 
-      console.log("child change");
-      console.group(prevChildKey);
-      console.log(snap.val());
-
-      this.cc++;
-      if(this.cc%3==0){
-        //방을 인포에서 종료
-        this.cc=0;
-
-      }else if(this.cc%2==0){
-        for(var date in snap.val()){
-          for(var room in this.mainlist_choice){
-            if(this.mainlist_choice[room].key == snap.val()[date].key){
-              this.refreshoneroom(snap.val()[date]);
-              //console.log(this.mainlist[room]);
-            }
-          }
-          for(var room in this.mainlist_finished_choice){
-            if(this.mainlist_finished_choice[room].key == snap.val()[date].key){
-              //console.log(this.mainlist_finished[room]);
-              this.refreshoneroom2(snap.val()[date]);
-              // this.refreshoneroom(snap.val().roomhistory[date][sdate]);
-            }
-          }
-        }
-        console.log("generate info...");
-
-        this.generate_info();
-        this.cc=0;
-
-      }else{
-
-        console.log(this.mainlist_info);
-        console.log("##### refreshoneroom call #####");
-
-        for(var date in snap.val()){
-          for(var room in this.mainlist_choice){
-            if(this.mainlist_choice[room].key == snap.val()[date].key){
-
-              console.log(snap.val()[date]);
-
-              this.refreshoneroom(snap.val()[date]);
-                            
-            }
-          }
-          for(var room in this.mainlist_finished_choice){
-            if(this.mainlist_finished_choice[room].key == snap.val()[date].key){
-              this.refreshoneroom2(snap.val()[date]);
-            }
-          }
-        }
-      }
-
-      console.log(snap.val());
-
-    });
-
-    this.firemain.child("users").child(this.nickname).child('roomhistory').child(this.currentstartday).on('child_changed', (snap, prevChildKey) =>{
-      console.log("child_changedchild_changedchild_changedchild_changedchild_changed");
-      console.log(snap.val());
-    });
-    this.http.get("https://captainq.wadteam.com/captainq/apis/currentroom",{},{"token":"8179e9dc-ec5f-4bdf-b8b6-c951a2fda646"}).then(data => {
+    this.http.get("https://captainq.wadteam.com/captainq/apis/currentroom",{},{"token":this.token}).then(data => {
       console.log("get result...");
       console.log(data);
       var a = JSON.parse(data.data)
@@ -2083,10 +2094,61 @@ export class SlidetestPage {
         console.log(result[value].wt_id)
         console.log(result[value].director_id)
         console.log(result[value].status)
-        this.mainlist_info.push({"status":result[value].status,"key":result[value].idx,"name":result[value].room_name, "numofpeople":result[value].max_people_count,"wt":result[value].wt_id,"incharge":result[value].director_id});
-      }
-
+        if(result[value].status=="fin"){
+          this.mainlist_finished_info.push({"bu":result[value].bu,"created_at":result[value].created_at, "logic":result[value].logic,"avec":result[value].avec, "status":result[value].status,"key":result[value].idx,"name":result[value].room_name,"max_people_count":result[value].max_people_count, "numofpeople":result[value].num_of_people,"wt":result[value].wt_id,"incharge":result[value].director_id});
+        }else{
+          this.mainlist_info.push({"bu":result[value].bu,"created_at":result[value].created_at, "memo":result[value].memo,"logic":result[value].logic,"avec":result[value].avec, "status":result[value].status,"key":result[value].idx,"name":result[value].room_name, "max_people_count":result[value].max_people_count, "numofpeople":result[value].num_of_people,"wt":result[value].wt_id,"incharge":result[value].director_id});
+        }
+              }
+      console.log("this.mainlist_info");
+      console.log(this.mainlist_info);
       this.paginateArray();
+      this.mainlist_choice=[];
+            console.log(this.mainlist_info)
+            console.log(this.mainlist_finished_info)
+            console.log("all info list...");
+            for(var aaa in this.mainlist_info){
+              if(this.mainlist_info[aaa].status!="fin"&&this.mainlist_info[aaa].status!="disabled"){
+                //초이스 혹은 진행중인방. 
+                  
+                  this.mainlist_choice.push({
+                                              "name":this.mainlist_info[aaa].name,
+                                              "avec":this.mainlist_info[aaa].avec,
+                                              "logic":this.mainlist_info[aaa].logic,
+                                              "key":this.mainlist_info[aaa].key,
+                                              "incharge":this.mainlist_info[aaa].incharge,
+                                              "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                              "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                              "status":this.mainlist_info[aaa].status,
+                                              "wt":this.mainlist_info[aaa].wt,
+                                              "memo":this.mainlist_info[aaa].memo,
+                                              "created_at":this.mainlist_info[aaa].created_at,
+                                              });
+              }else if(this.mainlist_info[aaa].status=="fin"){
+                //완료된방..
+                this.mainlist_finished_status_choice.push({
+                  "name":this.mainlist_info[aaa].name,
+                                              "avec":this.mainlist_info[aaa].avec,
+                                              "logic":this.mainlist_info[aaa].logic,
+                                              "key":this.mainlist_info[aaa].key,
+                                              "incharge":this.mainlist_info[aaa].incharge,
+                                              "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                              "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                              "status":this.mainlist_info[aaa].status,
+                                              "wt":this.mainlist_info[aaa].wt,
+                                              "memo":this.mainlist_info[aaa].memo,
+                                              "created_at":this.mainlist_info[aaa].created_at,
+                  });
+              }
+            }
+            console.log(this.mainlist_choice);
+            console.log("for finnnnn");
+
+
+
+
+
+
       }).catch(error => {
         console.log("get error : ");
         console.log(error);
@@ -2141,6 +2203,7 @@ export class SlidetestPage {
     this.paginatedArray = this.mainlist_info.slice(startIndex, endIndex);
     console.log(this.mainlist_info);
     console.log(this.paginatedArray);
+    this.paginatedArray.reverse();
   }
 
 
@@ -2169,777 +2232,53 @@ export class SlidetestPage {
 
     console.log("generate_infogenerate_infogenerate_infogenerate_infogenerate_info come");
 
-    this.mainlist_info=[];
-    this.mainlist_finished_info=[];
-    this.noagasi_info=0;
-    this.agasinum_info=0;
+            this.mainlist_choice=[];
+            console.log(this.mainlist_info)
+            console.log(this.mainlist_finished_info)
+            console.log("all info list...");
+            for(var aaa in this.mainlist_info){
+              if(this.mainlist_info[aaa].status!="fin"&&this.mainlist_info[aaa].status!="disabled"){
+                //초이스 혹은 진행중인방. 
+                  console.log("adding choice");
+                  console.log(this.mainlist_info[aaa]);
+                  this.mainlist_choice.push({
+                                              "name":this.mainlist_info[aaa].name,
+                                              "avec":this.mainlist_info[aaa].avec,
+                                              "logic":this.mainlist_info[aaa].logic,
+                                              "key":this.mainlist_info[aaa].key,
+                                              "incharge":this.mainlist_info[aaa].incharge,
+                                              "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                              "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                              "status":this.mainlist_info[aaa].status,
+                                              "wt":this.mainlist_info[aaa].wt,
+                                              "memo":this.mainlist_info[aaa].memo,
+                                              "created_at":this.mainlist_info[aaa].created_at,
+                                              });
+              }else if(this.mainlist_info[aaa].status=="fin"){
+                //완료된방..
 
-
-    this.agasijungsan=[];
-    this.mainlisttest=[];
-    this.mainlist=[];
-    this.mainlist_mine=[];
-    this.mainlist2_mine=[];
-
-    this.mainlist_finished_choice=[];
-    this.mainlist_finished_status_choice=[];
-    this.mainlist_angel_choice=[];
-
-    this.mainlist_finished_choice=[];
-    this.mainlist_finished_status_choice=[];
-    this.mainlist_angel_choice=[];
-
-    this.mainlist_choice=[];
-    this.mainlist_finished_choice=[];
-    this.mainlist_finished_status_choice=[];
-    this.mainlist_angel_choice=[];
-    this.agasijungsan_choice=[];
-    console.log(this.mainlist_info);
-    console.log(this.mainlist_finished_info);
-
-    var orderedQuery = this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"")
-
-    orderedQuery.once("value", (snapshot) =>{
-
-      snapshot.forEach((childSnapshot) => {
-
-        var childData = childSnapshot.val();
-
-        for(var a in childSnapshot.val()){
-          if(childSnapshot.val()[a].date!=undefined){
-            if(childSnapshot.val()[a].end_date==undefined){
-              console.log(childSnapshot.val()[a].flag);
-              if(childSnapshot.val()[a].flag){
-                if(!childSnapshot.val()[a].noflag&&childSnapshot.val()[a].firstflag==true){
-                  
-                }else{
-
-                // this.mainlist_info.push(childSnapshot.val()[a]);
-                }
+                console.log("adding finished choice");
+                console.log(this.mainlist_info[aaa]);
+                this.mainlist_finished_status_choice.push({
+                  "name":this.mainlist_info[aaa].name,
+                                              "avec":this.mainlist_info[aaa].avec,
+                                              "logic":this.mainlist_info[aaa].logic,
+                                              "key":this.mainlist_info[aaa].key,
+                                              "incharge":this.mainlist_info[aaa].incharge,
+                                              "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                              "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                              "status":this.mainlist_info[aaa].status,
+                                              "wt":this.mainlist_info[aaa].wt,
+                                              "memo":this.mainlist_info[aaa].memo,
+                                              "created_at":this.mainlist_info[aaa].created_at,
+                  });
               }
-            }else{
-              //console.log("this is finished room");
-              //console.log(snap.val()[a][b]);
-              if(childSnapshot.val()[a].agasi==undefined&&childSnapshot.val()[a].orderlist==undefined){
-                //이방은 OB처리해야함. 
-                //console.log(snap.val()[a][b]);
-                //console.log("this bang should be ob ++ ");
-                this.noagasi_info++;
-              }else{
-                
-                //console.log(snap.val()[a][b]);
-                //console.log("this bang should not be ob ++ ");
-                this.agasinum_info++;
-              }
-              console.log("this is finished room");
-              console.log(childSnapshot.val()[a]);
-              //iterate through snap.val()[a][b] 
-              //and push to mainlist_finished
-              // this.mainlist_finished.push(snap.val()[a][b]);
-              var agasi = [];
-              if(childSnapshot.val()[a].agasi==undefined){
-                agasi = [];
-              }else{
-                agasi = childSnapshot.val()[a].agasi;
-              }
-              //console.log("agasi length : "+agasi.length);
-              //console.log(agasi);
-              if(agasi.length==0){
-                
-              }else{
-              }
-
-              if(childSnapshot.val()[a].firstflag){
-
-              }else{
-                this.mainlist_finished_info.push({"v":childSnapshot.val()[a].v, 
-                                                  "agasi":agasi,
-                                                  "date":childSnapshot.val()[a].date,
-                                                  "incharge":childSnapshot.val()[a].incharge,
-                                                  "insert_date":childSnapshot.val()[a].insert_date,
-                                                  "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                  "key":childSnapshot.val()[a].key,
-                                                  "name":childSnapshot.val()[a].name,
-                                                  "avec":childSnapshot.val()[a].avec,
-                                                  "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                  "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                  "directorId":childSnapshot.val()[a].directorId,
-                                                  "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                  "status":childSnapshot.val()[a].status,
-                                                  "wt":childSnapshot.val()[a].wt})
-              }
-                      
-              // this.mainlist_finished.push(childSnapshot.val()[a]);
             }
-          }//if :)
-                
-          // if(snap.childSnapshot.val()[a].end_date_full==undefined){
-          if(childSnapshot.val()[a].date!=undefined){
-
-            var inagasi = 0;
-            var totalagasi = 0;
-
-            if(childSnapshot.val()[a].agasi!=undefined){
-
-              for(var c in childSnapshot.val()[a].agasi){
-                totalagasi++;
-                if(childSnapshot.val()[a].agasi[c].findate!=undefined){
-                  //종료됨. 
-                }else{
-                  inagasi++;
-                  //종료 안됨. 들어가있는 상황 . 
-                }
-              }
-            }else{
-              //agasi가 없는 경우.
-            }
-
-            var orderlist="";
-            
-            if(childSnapshot.val()[a].orderlist==undefined){
-              orderlist="no"
-            }else{
-              orderlist=childSnapshot.val()[a].orderlist;
-            }
-
-            if(childSnapshot.val()[a].status=="fin"){
-
-            }else{
-
-            // countingvalue++;
-
-            }
-
-
-            var memo = "";
-
-            memo = childSnapshot.val()[a].memo;
-
-
-            //console.log(inagasi);
-            //console.log(totalagasi);
-                  
-            if(!childSnapshot.val()[a].noflag&&childSnapshot.val()[a].firstflag==true||childSnapshot.val()[a].noflag&&childSnapshot.val()[a].firstflag==true){
-              continue;
-            }
-                    if(childSnapshot.val()[a].ss){
-                      if(childSnapshot.val()[a].status=="fin"){
-                        this.mainlist_finished_status_choice.push({"v":childSnapshot.val()[a].v, 
-                                                                    "agasi":childSnapshot.val()[a].agasi,
-                                                                    "date":childSnapshot.val()[a].date,
-                                                                    "incharge":childSnapshot.val()[a].incharge,
-                                                                    "insert_date":childSnapshot.val()[a].insert_date,
-                                                                    "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                                    "key":childSnapshot.val()[a].key,
-                                                                    "name":childSnapshot.val()[a].name,
-                                                                    "orderlist":orderlist,
-                                                                    "avec":childSnapshot.val()[a].avec,
-                                                                    "memo":memo,
-                                                                    "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                                    "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                                    "directorId":childSnapshot.val()[a].directorId,
-                                                                    "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                                    "status":childSnapshot.val()[a].status,
-                                                                    "wt":childSnapshot.val()[a].wt,
-                                                                    "totalagasi":totalagasi,
-                                                                    "numofagasi":inagasi,
-                                                                    "lack":childSnapshot.val()[a].numofpeople-inagasi});
-              
-                      }else if(childSnapshot.val()[a].angel==true){
-                        //날개방임.
-                      
-                        this.mainlist_angel_choice.push({"v":childSnapshot.val()[a].v, 
-                                                          "agasi":childSnapshot.val()[a].agasi,
-                                                          "date":childSnapshot.val()[a].date,
-                                                          "incharge":childSnapshot.val()[a].incharge,
-                                                          "insert_date":childSnapshot.val()[a].insert_date,
-                                                          "memo":memo,
-                                                          "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                          "key":childSnapshot.val()[a].key,
-                                                          "name":childSnapshot.val()[a].name,
-                                                          "orderlist":orderlist,
-                                                          "avec":childSnapshot.val()[a].avec,
-                                                          "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                          "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                          "directorId":childSnapshot.val()[a].directorId,
-                                                          "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                          "status":childSnapshot.val()[a].status,
-                                                          "wt":childSnapshot.val()[a].wt,
-                                                          "numofagasi":inagasi,
-                                                          "totalagasi":totalagasi,
-                                                          "lack":childSnapshot.val()[a].numofpeople<=inagasi});
-                          
-                        this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v, 
-                                                            "agasi":childSnapshot.val()[a].agasi,
-                                                            "date":childSnapshot.val()[a].date,
-                                                            "incharge":childSnapshot.val()[a].incharge,
-                                                            "insert_date":childSnapshot.val()[a].insert_date,
-                                                            "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                            "key":childSnapshot.val()[a].key,
-                                                            "name":childSnapshot.val()[a].name,
-                                                            "orderlist":orderlist,
-                                                            "memo":memo,
-                                                            "avec":childSnapshot.val()[a].avec,
-                                                            "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                            "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                            "directorId":childSnapshot.val()[a].directorId,
-                                                            "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                            "status":childSnapshot.val()[a].status,
-                                                            "wt":childSnapshot.val()[a].wt,
-                                                            "totalagasi":totalagasi,
-                                                            "numofagasi":inagasi,
-                                                            "lack":childSnapshot.val()[a].numofpeople-inagasi});
-        
-
-                      }else{
-                        //ㅅㅅ 방인데 ,   날개가아니고 완료도 아닌 경우.
-                        this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v, 
-                                                            "agasi":childSnapshot.val()[a].agasi,
-                                                            "date":childSnapshot.val()[a].date,
-                                                            "incharge":childSnapshot.val()[a].incharge,
-                                                            "insert_date":childSnapshot.val()[a].insert_date,
-                                                            "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                            "key":childSnapshot.val()[a].key,
-                                                            "name":childSnapshot.val()[a].name,
-                                                            "orderlist":orderlist,
-                                                            "memo":memo,
-                                                            "avec":childSnapshot.val()[a].avec,
-                                                            "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                            "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                            "directorId":childSnapshot.val()[a].directorId,
-                                                            "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                            "status":childSnapshot.val()[a].status,
-                                                            "wt":childSnapshot.val()[a].wt,
-                                                            "totalagasi":totalagasi,
-                                                            "numofagasi":inagasi,
-                                                            "lack":childSnapshot.val()[a].numofpeople-inagasi});
-                      
-                      }
-
-                    }else{
-
-                      console.log("ss not true...");
-                      console.log(childSnapshot.val()[a].name);
-                      console.log(childSnapshot.val()[a]);
-                      //초이스톡 방임.
-                      var orderlist="";
-                      
-                      if(childSnapshot.val()[a].orderlist==undefined){
-                        orderlist="no"
-                      }else{
-                        orderlist=childSnapshot.val()[a].orderlist;
-                      }
-                      //ㅅㅅ한 결과물임. 
-
-                      if(childSnapshot.val()[a].status=="fin"){
-
-                        console.log("is fin!");
-
-                        this.mainlist_finished_status_choice.push({"v":childSnapshot.val()[a].v, 
-                                                                    "agasi":childSnapshot.val()[a].agasi,
-                                                                    "date":childSnapshot.val()[a].date,
-                                                                    "incharge":childSnapshot.val()[a].incharge,
-                                                                    "insert_date":childSnapshot.val()[a].insert_date,
-                                                                    "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                                    "key":childSnapshot.val()[a].key,
-                                                                    "name":childSnapshot.val()[a].name,
-                                                                    "orderlist":orderlist,
-                                                                    "avec":childSnapshot.val()[a].avec,
-                                                                    "memo":memo,
-                                                                    "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                                    "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                                    "directorId":childSnapshot.val()[a].directorId,
-                                                                    "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                                    "status":childSnapshot.val()[a].status,
-                                                                    "wt":childSnapshot.val()[a].wt,
-                                                                    "totalagasi":totalagasi,
-                                                                    "numofagasi":inagasi,
-                                                                    "lack":childSnapshot.val()[a].numofpeople-inagasi});
-
-                      }else if(childSnapshot.val()[a].angel==true){
-                        //날개방임.
-                        this.mainlist_angel_choice.push({"v":childSnapshot.val()[a].v, 
-                                                        "agasi":childSnapshot.val()[a].agasi,
-                                                        "date":childSnapshot.val()[a].date,
-                                                        "incharge":childSnapshot.val()[a].incharge,
-                                                        "insert_date":childSnapshot.val()[a].insert_date,
-                                                        "memo":memo,
-                                                        "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                        "key":childSnapshot.val()[a].key,
-                                                        "name":childSnapshot.val()[a].name,
-                                                        "orderlist":orderlist,
-                                                        "avec":childSnapshot.val()[a].avec,
-                                                        "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                        "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                        "directorId":childSnapshot.val()[a].directorId,
-                                                        "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                        "status":childSnapshot.val()[a].status,
-                                                        "wt":childSnapshot.val()[a].wt,
-                                                        "numofagasi":inagasi,
-                                                        "totalagasi":totalagasi,
-                                                        "lack":childSnapshot.val()[a].numofpeople<=inagasi});
-
-                        if(childSnapshot.val()[a].ss==false||childSnapshot.val()[a].ss==undefined){
-                          if(childSnapshot.val()[a].numofpeople<=inagasi){
-
-                            console.log("진행중인방으로...");
-
-                            this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v, 
-                                                                "agasi":childSnapshot.val()[a].agasi,
-                                                                "date":childSnapshot.val()[a].date,
-                                                                "incharge":childSnapshot.val()[a].incharge,
-                                                                "insert_date":childSnapshot.val()[a].insert_date,
-                                                                "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                                "key":childSnapshot.val()[a].key,
-                                                                "memo":memo,
-                                                                "name":childSnapshot.val()[a].name,
-                                                                "orderlist":orderlist,"totalagasi":totalagasi,
-                                                                "avec":childSnapshot.val()[a].avec,
-                                                                "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                                "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                                "directorId":childSnapshot.val()[a].directorId,
-                                                                "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                                "status":childSnapshot.val()[a].status,
-                                                                "wt":childSnapshot.val()[a].wt,
-                                                                "numofagasi":inagasi,
-                                                                "lack":childSnapshot.val()[a].numofpeople-inagasi});
-                          }else{
-
-                            console.log("초이스방...");
-
-                            this.mainlist_choice.push({"v":childSnapshot.val()[a].v, 
-                                                        "agasi":childSnapshot.val()[a].agasi,
-                                                        "date":childSnapshot.val()[a].date,
-                                                        "incharge":childSnapshot.val()[a].incharge,
-                                                        "insert_date":childSnapshot.val()[a].insert_date,
-                                                        "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                        "key":childSnapshot.val()[a].key,
-                                                        "memo":memo,
-                                                        "name":childSnapshot.val()[a].name,
-                                                        "orderlist":orderlist,
-                                                        "showflag":true,
-                                                        "avec":childSnapshot.val()[a].avec,
-                                                        "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                        "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                        "directorId":childSnapshot.val()[a].directorId,
-                                                        "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                        "status":childSnapshot.val()[a].status,
-                                                        "wt":childSnapshot.val()[a].wt,
-                                                        "numofagasi":inagasi,
-                                                        "totalagasi":totalagasi,
-                                                        "lack":childSnapshot.val()[a].numofpeople-inagasi});
-                            
-                          }
-                        }
-                      }else if(childSnapshot.val()[a].ss==false){
+            console.log("for fin");
+            console.log(this.mainlist_choice);
                     
-                        console.log("not angle but 재초 clicked..?")
-                        console.log(childSnapshot.val()[a].numofpeople);
-                        console.log(inagasi);
-
-                        if(childSnapshot.val()[a].numofpeople<=inagasi){
-
-                          console.log("진행중인방으로...");
-
-                          this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v, 
-                                                              "agasi":childSnapshot.val()[a].agasi,
-                                                              "date":childSnapshot.val()[a].date,
-                                                              "incharge":childSnapshot.val()[a].incharge,
-                                                              "insert_date":childSnapshot.val()[a].insert_date,
-                                                              "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                              "key":childSnapshot.val()[a].key,
-                                                              "memo":memo,
-                                                              "name":childSnapshot.val()[a].name,
-                                                              "orderlist":orderlist,"totalagasi":totalagasi,
-                                                              "avec":childSnapshot.val()[a].avec,
-                                                              "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                              "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                              "directorId":childSnapshot.val()[a].directorId,
-                                                              "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                              "status":childSnapshot.val()[a].status,
-                                                              "wt":childSnapshot.val()[a].wt,
-                                                              "numofagasi":inagasi,
-                                                              "lack":childSnapshot.val()[a].numofpeople-inagasi});
-                        }else{
-
-                          console.log("초이스방...");
-
-                          this.mainlist_choice.push({"v":childSnapshot.val()[a].v, 
-                                                    "agasi":childSnapshot.val()[a].agasi,
-                                                    "date":childSnapshot.val()[a].date,
-                                                    "incharge":childSnapshot.val()[a].incharge,
-                                                    "insert_date":childSnapshot.val()[a].insert_date,
-                                                    "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                    "key":childSnapshot.val()[a].key,
-                                                    "memo":memo,
-                                                    "name":childSnapshot.val()[a].name,
-                                                    "orderlist":orderlist,
-                                                    "showflag":true,
-                                                    "avec":childSnapshot.val()[a].avec,
-                                                    "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                    "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                    "directorId":childSnapshot.val()[a].directorId,
-                                                    "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                    "status":childSnapshot.val()[a].status,
-                                                    "wt":childSnapshot.val()[a].wt,
-                                                    "numofagasi":inagasi,
-                                                    "totalagasi":totalagasi,
-                                                    "lack":childSnapshot.val()[a].numofpeople-inagasi});
-                          
-                        }
-
-                      }else if(childSnapshot.val()[a].ss==undefined){
-
-                        if(childSnapshot.val()[a].numofpeople<=inagasi){
-
-                          console.log("진행중인방으로...");
-
-                          this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v, 
-                                                              "agasi":childSnapshot.val()[a].agasi,
-                                                              "date":childSnapshot.val()[a].date,
-                                                              "incharge":childSnapshot.val()[a].incharge,
-                                                              "insert_date":childSnapshot.val()[a].insert_date,
-                                                              "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                              "key":childSnapshot.val()[a].key,
-                                                              "memo":memo,
-                                                              "name":childSnapshot.val()[a].name,
-                                                              "orderlist":orderlist,"totalagasi":totalagasi,
-                                                              "avec":childSnapshot.val()[a].avec,
-                                                              "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                              "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                              "directorId":childSnapshot.val()[a].directorId,
-                                                              "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                              "status":childSnapshot.val()[a].status,
-                                                              "wt":childSnapshot.val()[a].wt,
-                                                              "numofagasi":inagasi,
-                                                              "lack":childSnapshot.val()[a].numofpeople-inagasi});
-                        }else{
-
-                          console.log("초이스방.w..");
-
-                            this.mainlist_choice.push({"v":childSnapshot.val()[a].v, 
-                                                      "agasi":childSnapshot.val()[a].agasi,
-                                                      "date":childSnapshot.val()[a].date,
-                                                      "incharge":childSnapshot.val()[a].incharge,
-                                                      "insert_date":childSnapshot.val()[a].insert_date,
-                                                      "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                      "key":childSnapshot.val()[a].key,
-                                                      "memo":memo,
-                                                      "name":childSnapshot.val()[a].name,
-                                                      "orderlist":orderlist,
-                                                      "showflag":true,
-                                                      "avec":childSnapshot.val()[a].avec,
-                                                      "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                      "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                      "directorId":childSnapshot.val()[a].directorId,
-                                                      "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                      "status":childSnapshot.val()[a].status,
-                                                      "wt":childSnapshot.val()[a].wt,
-                                                      "numofagasi":inagasi,
-                                                      "totalagasi":totalagasi,
-                                                      "lack":childSnapshot.val()[a].numofpeople-inagasi});
-                              
-                        }
-
-                      }else if(childSnapshot.val()[a].numofpeople<inagasi){
-
-                        this.mainlist_finished_choice.push({"v":childSnapshot.val()[a].v,
-                                                            "agasi":childSnapshot.val()[a].agasi,
-                                                            "date":childSnapshot.val()[a].date,
-                                                            "incharge":childSnapshot.val()[a].incharge,
-                                                            "insert_date":childSnapshot.val()[a].insert_date,
-                                                            "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                            "key":childSnapshot.val()[a].key,
-                                                            "memo":memo,
-                                                            "name":childSnapshot.val()[a].name,
-                                                            "orderlist":orderlist,"totalagasi":totalagasi,
-                                                            "avec":childSnapshot.val()[a].avec,
-                                                            "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                            "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                            "directorId":childSnapshot.val()[a].directorId,
-                                                            "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                            "status":childSnapshot.val()[a].status,
-                                                            "wt":childSnapshot.val()[a].wt,
-                                                            "numofagasi":inagasi,
-                                                            "lack":childSnapshot.val()[a].numofpeople-inagasi});
-                      }else {
-
-                        this.mainlist_choice.push({"v":childSnapshot.val()[a].v, 
-                                                  "agasi":childSnapshot.val()[a].agasi,
-                                                  "date":childSnapshot.val()[a].date,
-                                                  "incharge":childSnapshot.val()[a].incharge,
-                                                  "insert_date":childSnapshot.val()[a].insert_date,
-                                                  "insert_date_full":childSnapshot.val()[a].insert_date_full,
-                                                  "key":childSnapshot.val()[a].key,
-                                                  "memo":memo,
-                                                  "name":childSnapshot.val()[a].name,
-                                                  "orderlist":orderlist,
-                                                  "showflag":true,
-                                                  "avec":childSnapshot.val()[a].avec,
-                                                  "lastupdatedperson":childSnapshot.val()[a].lastupdatedperson,
-                                                  "lastupdated":childSnapshot.val()[a].lastupdated,
-                                                  "directorId":childSnapshot.val()[a].directorId,
-                                                  "numofpeople":childSnapshot.val()[a].numofpeople,
-                                                  "status":childSnapshot.val()[a].status,
-                                                  "wt":childSnapshot.val()[a].wt,
-                                                  "numofagasi":inagasi,
-                                                  "totalagasi":totalagasi,
-                                                  "lack":childSnapshot.val()[a].numofpeople-inagasi});
-                      }                   
-
-                        
-                    }
-                    
-                    //console.log(this.mainlisttest)
-                    //console.log("test was")
-                    
-          }//if :)
 
 
-        }//for:)
-      
-      })
-
-      if(this.mainlist_finished_info.length!=0){
-        // this.mainlist_finished_info.push({
-        //   "flag":"nono"
-        // })
-      }
-
-      this.mainlist_info.sort(function(a, b) {
-        // Compare dates
-      
-        var timeA = a.insert_date.split(":"); // convert time string to array of hours and minutes
-        var timeB = b.insert_date.split(":");
-        return timeA[0]-timeB[0] || timeA[1]-timeB[1];
-        
-      });
-
-      this.mainlist_info.sort(function(a, b) {
-        if (a.noflag === false && b.noflag !== false) {
-          return -1; // a should come after b
-        } else if (a.noflag !== false && b.noflag === false) {
-          return 1; // a should come before b
-        } else {
-          return 0; // no change in order
-        }
-      });
-
-      console.log(this.mainlist_info);
-      console.log(this.mainlist_finished_info);
-      console.log("mainlist_info finished...")
-      //   this.mainlist_finished_info.sort(function(a, b) {
-      //     console.log(a.insert_date);
-      //     // Compare dates
-        
-      //     var timeA = a.insert_date.split(":"); // convert time string to array of hours and minutes
-      //     var timeB = b.insert_date.split(":");
-      //     return timeA[0]-timeB[0] || timeA[1]-timeB[1];
-          
-      // });
-    
-      // console.log(this.mainlist_info)
-      // console.log("this.mainlist_info sorted...");
-      // console.log(this.mainlist_finished_choice);
-      // console.log("this.mainlist_finished_status");
-      // console.log(this.mainlist_finished_status_choice);
-      // console.log("this.mainlist_angel");
-      // console.log(this.mainlist_angel_choice);
-
-      this.angelnumber_choice=this.mainlist_angel_choice.length;
-      this.agasijungsan=[];
-
-      for(var c in this.mainlist_choice){
-        for(var d in this.mainlist_choice[c].agasi){
-          if(this.mainlist_choice[c].agasi[d].findate!=undefined){
-
-          }else{
-            this.agasijungsan.push({"name":this.mainlist_choice[c].agasi[d].name})
-          }
-        }
-      }
-
-      for(var c in this.mainlist_finished_choice){
-        for(var d in this.mainlist_finished_choice[c].agasi){
-          if(this.mainlist_finished_choice[c].agasi[d].findate!=undefined){
-
-          }else{
-
-            this.agasijungsan.push({"name":this.mainlist_finished_choice[c].agasi[d].name})
-          }
-        }
-      }
-      var counting=0;
-                  
-      counting=0;
-      this.mainlist_choice.sort((a, b) => a.v - b.v);
-
-      console.log("loolllll");
-
-      var arrayll = [];
-
-      console.log(this.mainlist_choice);
-
-      for(var aaa in  this.mainlist_choice){
-        counting++;
-        this.mainlist_choice[aaa].v=counting;
-        arrayll.push(this.mainlist_choice[aaa].name+": "+this.mainlist_choice[aaa].v+"\r\n");
-
-        console.log(this.mainlist_choice[aaa].name+": "+this.mainlist_choice[aaa].v);
-      }
-
-      console.log('doo');
-
-
-      counting=0;
-
-      for(var aaa in  this.mainlist_finished_choice){
-        counting++;
-        this.mainlist_finished_choice[aaa].v = counting;
-      }
-      this.mainlist_finished_choice.sort((a, b) => a.v - b.v);
-
-      counting=0;
-      for(var aaa in  this.mainlist_finished_status_choice){
-        counting++;
-        this.mainlist_finished_status_choice[aaa].v = counting;
-      }
-
-      counting=0;
-      this.mainlist_finished_status_choice.sort((a, b) => a.v - b.v);
-
-      counting=0;
-
-      this.mainlist_finished_choice.sort(function(a,b){
-
-        if (a.status < b.status) {
-          return -1;
-        }
-        if (a.status > b.status) {
-          return 1;
-        }
-        return 0;
-
-      });
-
-      for(var main in this.mainlist_choice){
-        if(this.type=="wt"){
-          if(this.mainlist_choice[main]!=undefined&&this.mainlist_choice[main].wt == this.nickname){
-
-            this.mainlist_mine.push({"v":this.mainlist_choice[main].v, 
-                                    "agasi":this.mainlist_choice[main].agasi,
-                                    "date":this.mainlist_choice[main].date,
-                                    "incharge":this.mainlist_choice[main].incharge,
-                                    "insert_date":this.mainlist_choice[main].insert_date,
-                                    "insert_date_full":this.mainlist_choice[main].insert_date_full,
-                                    "key":this.mainlist_choice[main].key,
-                                    "memo":this.mainlist_choice[main].memo,
-                                    "name":this.mainlist_choice[main].name,
-                                    "orderlist":this.mainlist_choice[main].orderlist,
-                                    "showflag":true,
-                                    "avec":this.mainlist_choice[main].avec,
-                                    "lastupdatedperson":this.mainlist_choice[main].lastupdatedperson,
-                                    "lastupdated":this.mainlist_choice[main].lastupdated,
-                                    "directorId":this.mainlist_choice[main].directorId,
-                                    "numofpeople":this.mainlist_choice[main].numofpeople,
-                                    "status":this.mainlist_choice[main].status,
-                                    "wt":this.mainlist_choice[main].wt,
-                                    "numofagasi":this.mainlist_choice[main].inagasi,
-                                    "totalagasi":this.mainlist_choice[main].totalagasi,
-                                    "lack":this.mainlist_choice[main].numofpeople-this.mainlist_choice[main].inagasi})
-            }
-        }else if(this.type=="director"||this.type=="info"){
-          if(this.mainlist_choice[main].incharge == this.nickname){
-
-            console.log("mainlist_main added");
-
-            this.mainlist_mine.push({"v":this.mainlist_choice[main].v, 
-                                    "agasi":this.mainlist_choice[main].agasi,
-                                    "date":this.mainlist_choice[main].date,
-                                    "incharge":this.mainlist_choice[main].incharge,
-                                    "insert_date":this.mainlist_choice[main].insert_date,
-                                    "insert_date_full":this.mainlist_choice[main].insert_date_full,
-                                    "key":this.mainlist_choice[main].key,
-                                    "memo":this.mainlist_choice[main].memo,
-                                    "name":this.mainlist_choice[main].name,
-                                    "orderlist":this.mainlist_choice[main].orderlist,
-                                    "showflag":true,
-                                    "avec":this.mainlist_choice[main].avec,
-                                    "lastupdatedperson":this.mainlist_choice[main].lastupdatedperson,
-                                    "lastupdated":this.mainlist_choice[main].lastupdated,
-                                    "directorId":this.mainlist_choice[main].directorId,
-                                    "numofpeople":this.mainlist_choice[main].numofpeople,
-                                    "status":this.mainlist_choice[main].status,
-                                    "wt":this.mainlist_choice[main].wt,
-                                    "numofagasi":this.mainlist_choice[main].inagasi,
-                                    "totalagasi":this.mainlist_choice[main].totalagasi,
-                                    "lack":this.mainlist_choice[main].numofpeople-this.mainlist_choice[main].inagasi})
-          }
-        }
-      }
-
-      for(var main in this.mainlist_finished_choice){
-        if(this.type=="wt"){
-          if(this.mainlist_finished_choice[main].wt == this.nickname){
-
-            console.log("mainlist_main added");
-
-            this.mainlist2_mine.push({"v":this.mainlist_finished_choice[main].v, 
-                                      "agasi":this.mainlist_finished_choice[main].agasi,
-                                      "date":this.mainlist_finished_choice[main].date,
-                                      "incharge":this.mainlist_finished_choice[main].incharge,
-                                      "insert_date":this.mainlist_finished_choice[main].insert_date,
-                                      "insert_date_full":this.mainlist_finished_choice[main].insert_date_full,
-                                      "key":this.mainlist_finished_choice[main].key,
-                                      "memo":this.mainlist_finished_choice[main].memo,
-                                      "name":this.mainlist_finished_choice[main].name,
-                                      "orderlist":this.mainlist_finished_choice[main].orderlist,
-                                      "showflag":true,
-                                      "avec":this.mainlist_finished_choice[main].avec,
-                                      "lastupdatedperson":this.mainlist_finished_choice[main].lastupdatedperson,
-                                      "lastupdated":this.mainlist_finished_choice[main].lastupdated,
-                                      "directorId":this.mainlist_finished_choice[main].directorId,
-                                      "numofpeople":this.mainlist_finished_choice[main].numofpeople,
-                                      "status":this.mainlist_finished_choice[main].status,
-                                      "wt":this.mainlist_finished_choice[main].wt,
-                                      "numofagasi":this.mainlist_finished_choice[main].inagasi,
-                                      "totalagasi":this.mainlist_finished_choice[main].totalagasi,
-                                      "lack":this.mainlist_finished_choice[main].numofpeople-this.mainlist_finished_choice[main].inagasi})
-          }
-
-        }else if(this.type=="director"||this.type=="info"){
-
-          console.log("this is director!")
-          console.log(this.mainlist2_mine);
-          
-          if(this.mainlist_finished_choice[main].incharge == this.nickname){
-
-            console.log("mainlist_main added");
-
-            this.mainlist2_mine.push({"v":this.mainlist_finished_choice[main].v, 
-                                      "agasi":this.mainlist_finished_choice[main].agasi,
-                                      "date":this.mainlist_finished_choice[main].date,
-                                      "incharge":this.mainlist_finished_choice[main].incharge,
-                                      "insert_date":this.mainlist_finished_choice[main].insert_date,
-                                      "insert_date_full":this.mainlist_finished_choice[main].insert_date_full,
-                                      "key":this.mainlist_finished_choice[main].key,
-                                      "memo":this.mainlist_finished_choice[main].memo,
-                                      "name":this.mainlist_finished_choice[main].name,
-                                      "orderlist":this.mainlist_finished_choice[main].orderlist,
-                                      "showflag":true,
-                                      "avec":this.mainlist_finished_choice[main].avec,
-                                      "lastupdatedperson":this.mainlist_finished_choice[main].lastupdatedperson,
-                                      "lastupdated":this.mainlist_finished_choice[main].lastupdated,
-                                      "directorId":this.mainlist_finished_choice[main].directorId,
-                                      "numofpeople":this.mainlist_finished_choice[main].numofpeople,
-                                      "status":this.mainlist_finished_choice[main].status,
-                                      "wt":this.mainlist_finished_choice[main].wt,
-                                      "numofagasi":this.mainlist_finished_choice[main].inagasi,
-                                      "totalagasi":this.mainlist_finished_choice[main].totalagasi,
-                                      "lack":this.mainlist_finished_choice[main].numofpeople-this.mainlist_finished_choice[main].inagasi})
-          }
-        }
-      }
 
 
       this.firemain.child('attendance').child(this.company).once('value').then((snap)=>{
@@ -2953,60 +2292,6 @@ export class SlidetestPage {
             }
           }
         }
-
-        // this.mainlist_choice.push({
-
-        //   "v":"", "agasi":"",
-        //   "date":"",
-        // "incharge":"",
-        // "insert_date":"",
-        // "insert_date_full":"",
-        //     "key":"",
-        //     "memo":"",
-        //   "name":"",
-        //   "orderlist":"",
-        //   "showflag":"",
-        //   "avec":"",
-        //   "lastupdatedperson":"",
-        //   "lastupdated":"",
-        //   "directorId":"",
-        // "numofpeople":"",
-        // "status":"",
-        // "wt":"",
-        // "numofagasi":"","totalagasi":"","lack":""
-
-        // })
-        this.mainlist_finished_choice.push({"v":"", 
-                                            "agasi":"",
-                                            "date":"",
-                                            "incharge":"",
-                                            "insert_date":"",
-                                            "insert_date_full":"",
-                                            "key":"",
-                                            "memo":"",
-                                            "name":"",
-                                            "orderlist":"",
-                                            "showflag":"",
-                                            "avec":"",
-                                            "lastupdatedperson":"",
-                                            "lastupdated":"",
-                                            "directorId":"",
-                                            "numofpeople":"",
-                                            "status":"",
-                                            "wt":"",
-                                            "numofagasi":"",
-                                            "totalagasi":"",
-                                            "lack":""})
-
-          console.log(this.mainlist_choice);
-          console.log(this.mainlist_finished_choice);
-          console.log(this.mainlist_finished_status_choice)
-          console.log(this.mainlist_attend);
-          console.log(this.agasijungsan);
-
-          this.standby=this.mainlist_attend.length-this.agasijungsan.length;
-
-      });
 
 
     })//firemain :)
@@ -3342,631 +2627,6 @@ export class SlidetestPage {
 
 
   //choice come
-  refreshChoice2(){
-
-    console.log("refresh choice2 in choice.ts come...");
-
-    var countingvalue=0;
-
-    this.mainlist_choice=[];
-    this.mainlist_finished_choice=[];
-    this.mainlist_finished_status_choice=[];
-    this.mainlist_angel_choice=[];
-    this.agasijungsan_choice=[];
-    this.agasijungsan=[];
-
-    //.on("value", function(snap) {
-      // .on('child_changed', function(snap, prevChildKey) {
-    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").once('value').then((snap)=>{
-    
-      this.mainlisttest=[];
-      this.mainlist=[];
-      this.mainlist_mine=[];
-      this.mainlist2_mine=[];
-
-      this.mainlist_finished_choice=[];
-      this.mainlist_finished_status_choice=[];
-      this.mainlist_angel_choice=[];
-
-      this.mainlist_finished_choice=[];
-      this.mainlist_finished_status_choice=[];
-      this.mainlist_angel_choice=[];
-
-      for(var a in snap.val()){
-
-        for(var b in snap.val()[a]){
-          // if(snap.snap.val()[a][b].end_date_full==undefined){
-          if(snap.val()[a][b].date!=undefined){
-
-            var inagasi = 0;
-            var totalagasi = 0;
-
-            if(snap.val()[a][b].agasi!=undefined){
-
-              for(var c in snap.val()[a][b].agasi){
-
-                totalagasi++;
-
-                if(snap.val()[a][b].agasi[c].findate!=undefined){
-                  //종료됨. 
-                }else{
-                  inagasi++;
-                  //종료 안됨. 들어가있는 상황 . 
-                }
-              }
-            }else{
-              //agasi가 없는 경우.
-            }
-
-            var orderlist="";
-
-            if(snap.val()[a][b].orderlist==undefined){
-              orderlist="no"
-            }else{
-              orderlist=snap.val()[a][b].orderlist;
-            }
-
-            if(snap.val()[a][b].status=="fin"){
-
-            }else{
-              // countingvalue++;
-            }
-
-            var memo = "";
-
-            console.log(snap.val()[a][b])
-
-            memo = snap.val()[a][b].memo;
-
-            console.log(snap.val()[a][b].name);
-            console.log(snap.val()[a][b].key);
-            console.log(snap.val()[a][b].noflag+" ,,,,  "+snap.val()[a][b].firstflag);
-            //console.log(inagasi);
-            //console.log(totalagasi);
-                
-            if(!snap.val()[a][b].noflag&&snap.val()[a][b].firstflag==true||snap.val()[a][b].noflag&&snap.val()[a][b].firstflag==true){
-              continue;
-            }
-
-            if(snap.val()[a][b].ss){
-
-              if(snap.val()[a][b].status=="fin"){
-
-                this.mainlist_finished_status_choice.push({"v":snap.val()[a][b].v, 
-                                                          "agasi":snap.val()[a][b].agasi,
-                                                          "date":snap.val()[a][b].date,
-                                                          "incharge":snap.val()[a][b].incharge,
-                                                          "insert_date":snap.val()[a][b].insert_date,
-                                                          "insert_date_full":snap.val()[a][b].insert_date_full,
-                                                          "key":snap.val()[a][b].key,
-                                                          "name":snap.val()[a][b].name,
-                                                          "orderlist":orderlist,
-                                                          "avec":snap.val()[a][b].avec,
-                                                          "memo":memo,
-                                                          "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
-                                                          "lastupdated":snap.val()[a][b].lastupdated,
-                                                          "directorId":snap.val()[a][b].directorId,
-                                                          "numofpeople":snap.val()[a][b].numofpeople,
-                                                          "status":snap.val()[a][b].status,
-                                                          "wt":snap.val()[a][b].wt,
-                                                          "totalagasi":totalagasi,
-                                                          "numofagasi":inagasi,
-                                                          "lack":snap.val()[a][b].numofpeople-inagasi});
-      
-              }else if(snap.val()[a][b].angel==true){
-                //날개방임.         
-                this.mainlist_angel_choice.push({"v":snap.val()[a][b].v, 
-                                                "agasi":snap.val()[a][b].agasi,
-                                                "date":snap.val()[a][b].date,
-                                                "incharge":snap.val()[a][b].incharge,
-                                                "insert_date":snap.val()[a][b].insert_date,
-                                                "memo":memo,
-                                                "insert_date_full":snap.val()[a][b].insert_date_full,
-                                                "key":snap.val()[a][b].key,
-                                                "name":snap.val()[a][b].name,
-                                                "orderlist":orderlist,
-                                                "avec":snap.val()[a][b].avec,
-                                                "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
-                                                "lastupdated":snap.val()[a][b].lastupdated,
-                                                "directorId":snap.val()[a][b].directorId,
-                                                "numofpeople":snap.val()[a][b].numofpeople,
-                                                "status":snap.val()[a][b].status,
-                                                "wt":snap.val()[a][b].wt,
-                                                "numofagasi":inagasi,
-                                                "totalagasi":totalagasi,
-                                                "lack":snap.val()[a][b].numofpeople<=inagasi});
-
-                this.mainlist_finished_choice.push({"v":snap.val()[a][b].v, 
-                                                    "agasi":snap.val()[a][b].agasi,
-                                                    "date":snap.val()[a][b].date,
-                                                    "incharge":snap.val()[a][b].incharge,
-                                                    "insert_date":snap.val()[a][b].insert_date,
-                                                    "insert_date_full":snap.val()[a][b].insert_date_full,
-                                                    "key":snap.val()[a][b].key,
-                                                    "name":snap.val()[a][b].name,
-                                                    "orderlist":orderlist,
-                                                    "memo":memo,
-                                                    "avec":snap.val()[a][b].avec,
-                                                    "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
-                                                    "lastupdated":snap.val()[a][b].lastupdated,
-                                                    "directorId":snap.val()[a][b].directorId,
-                                                    "numofpeople":snap.val()[a][b].numofpeople,
-                                                    "status":snap.val()[a][b].status,
-                                                    "wt":snap.val()[a][b].wt,
-                                                    "totalagasi":totalagasi,
-                                                    "numofagasi":inagasi,
-                                                    "lack":snap.val()[a][b].numofpeople-inagasi});
-
-              }else{
-                //ㅅㅅ 방인데 ,   날개가아니고 완료도 아닌 경우.
-                console.log("ㅅㅅ 방인데 ,   날개가아니고 완료도 아닌 경우.");
-
-                this.mainlist_finished_choice.push({"v":snap.val()[a][b].v, 
-                                                    "agasi":snap.val()[a][b].agasi,
-                                                    "date":snap.val()[a][b].date,
-                                                    "incharge":snap.val()[a][b].incharge,
-                                                    "insert_date":snap.val()[a][b].insert_date,
-                                                    "insert_date_full":snap.val()[a][b].insert_date_full,
-                                                    "key":snap.val()[a][b].key,
-                                                    "name":snap.val()[a][b].name,
-                                                    "orderlist":orderlist,
-                                                    "memo":memo,
-                                                    "avec":snap.val()[a][b].avec,
-                                                    "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
-                                                    "lastupdated":snap.val()[a][b].lastupdated,
-                                                    "directorId":snap.val()[a][b].directorId,
-                                                    "numofpeople":snap.val()[a][b].numofpeople,
-                                                    "status":snap.val()[a][b].status,
-                                                    "wt":snap.val()[a][b].wt,
-                                                    "totalagasi":totalagasi,
-                                                    "numofagasi":inagasi,
-                                                    "lack":snap.val()[a][b].numofpeople-inagasi});
-              
-              }
-
-            }else{
-
-              console.log(" ss not true");
-              //초이스톡 방임.
-              console.log("total agasi "+totalagasi);
-              console.log(inagasi);
-              console.log(snap.val()[a][b].numofpeople);
-              console.log(snap.val()[a][b].ss);
-              var orderlist="";
-              if(snap.val()[a][b].orderlist==undefined){
-                orderlist="no"
-              }else{
-                orderlist=snap.val()[a][b].orderlist;
-              }
-
-              console.log(snap.val()[a][b].ss);
-              console.log("ss is false");
-              //ㅅㅅ한 결과물임. 
-
-              if(snap.val()[a][b].status=="fin"){
-
-                console.log("is fin!");
-
-                this.mainlist_finished_status_choice.push({"v":snap.val()[a][b].v, 
-                                                          "agasi":snap.val()[a][b].agasi,
-                                                          "date":snap.val()[a][b].date,
-                                                          "incharge":snap.val()[a][b].incharge,
-                                                          "insert_date":snap.val()[a][b].insert_date,
-                                                          "insert_date_full":snap.val()[a][b].insert_date_full,
-                                                          "key":snap.val()[a][b].key,
-                                                          "name":snap.val()[a][b].name,
-                                                          "orderlist":orderlist,
-                                                          "avec":snap.val()[a][b].avec,
-                                                          "memo":memo,
-                                                          "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
-                                                          "lastupdated":snap.val()[a][b].lastupdated,
-                                                          "directorId":snap.val()[a][b].directorId,
-                                                          "numofpeople":snap.val()[a][b].numofpeople,
-                                                          "status":snap.val()[a][b].status,
-                                                          "wt":snap.val()[a][b].wt,
-                                                          "totalagasi":totalagasi,
-                                                          "numofagasi":inagasi,
-                                                          "lack":snap.val()[a][b].numofpeople-inagasi});
-              }else if(snap.val()[a][b].angel==true){
-                //날개방임.
-                console.log("is angel!");
-
-                this.mainlist_angel_choice.push({"v":snap.val()[a][b].v, 
-                                                "agasi":snap.val()[a][b].agasi,
-                                                "date":snap.val()[a][b].date,
-                                                "incharge":snap.val()[a][b].incharge,
-                                                "insert_date":snap.val()[a][b].insert_date,
-                                                "memo":memo,
-                                                "insert_date_full":snap.val()[a][b].insert_date_full,
-                                                "key":snap.val()[a][b].key,
-                                                "name":snap.val()[a][b].name,
-                                                "orderlist":orderlist,
-                                                "avec":snap.val()[a][b].avec,
-                                                "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
-                                                "lastupdated":snap.val()[a][b].lastupdated,
-                                                "directorId":snap.val()[a][b].directorId,
-                                                "numofpeople":snap.val()[a][b].numofpeople,
-                                                "status":snap.val()[a][b].status,
-                                                "wt":snap.val()[a][b].wt,
-                                                "numofagasi":inagasi,
-                                                "totalagasi":totalagasi,
-                                                "lack":snap.val()[a][b].numofpeople<=inagasi});
-            
-                this.mainlist_finished_choice.push({"v":snap.val()[a][b].v, 
-                                                    "agasi":snap.val()[a][b].agasi,
-                                                    "date":snap.val()[a][b].date,
-                                                    "incharge":snap.val()[a][b].incharge,
-                                                    "insert_date":snap.val()[a][b].insert_date,
-                                                    "insert_date_full":snap.val()[a][b].insert_date_full,
-                                                    "key":snap.val()[a][b].key,
-                                                    "memo":memo,
-                                                    "name":snap.val()[a][b].name,
-                                                    "orderlist":orderlist,"totalagasi":totalagasi,
-                                                    "avec":snap.val()[a][b].avec,
-                                                    "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
-                                                    "lastupdated":snap.val()[a][b].lastupdated,
-                                                    "directorId":snap.val()[a][b].directorId,
-                                                    "numofpeople":snap.val()[a][b].numofpeople,
-                                                    "status":snap.val()[a][b].status,
-                                                    "wt":snap.val()[a][b].wt,
-                                                    "numofagasi":inagasi,
-                                                    "lack":snap.val()[a][b].numofpeople-inagasi});
-
-              }else if(snap.val()[a][b].ss==false||snap.val()[a][b].ss==undefined){
-
-                console.log("ap.val()[a][b].ss is undefined....");
-
-                if(snap.val()[a][b].numofpeople<=inagasi){
-
-                  console.log("but match so move to finished");
-                
-                  this.mainlist_finished_choice.push({"v":snap.val()[a][b].v, 
-                                                      "agasi":snap.val()[a][b].agasi,
-                                                      "date":snap.val()[a][b].date,
-                                                      "incharge":snap.val()[a][b].incharge,
-                                                      "insert_date":snap.val()[a][b].insert_date,
-                                                      "insert_date_full":snap.val()[a][b].insert_date_full,
-                                                      "key":snap.val()[a][b].key,
-                                                      "memo":memo,
-                                                      "name":snap.val()[a][b].name,
-                                                      "orderlist":orderlist,"totalagasi":totalagasi,
-                                                      "avec":snap.val()[a][b].avec,
-                                                      "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
-                                                      "lastupdated":snap.val()[a][b].lastupdated,
-                                                      "directorId":snap.val()[a][b].directorId,
-                                                      "numofpeople":snap.val()[a][b].numofpeople,
-                                                      "status":snap.val()[a][b].status,
-                                                      "wt":snap.val()[a][b].wt,
-                                                      "numofagasi":inagasi,
-                                                      "lack":snap.val()[a][b].numofpeople-inagasi});
-                }else{
-
-                    console.log("not match so remain");
-
-                    this.mainlist_choice.push({"v":snap.val()[a][b].v, 
-                                              "agasi":snap.val()[a][b].agasi,
-                                              "date":snap.val()[a][b].date,
-                                              "incharge":snap.val()[a][b].incharge,
-                                              "insert_date":snap.val()[a][b].insert_date,
-                                              "insert_date_full":snap.val()[a][b].insert_date_full,
-                                              "key":snap.val()[a][b].key,
-                                              "memo":memo,
-                                              "name":snap.val()[a][b].name,
-                                              "orderlist":orderlist,
-                                              "showflag":true,
-                                              "avec":snap.val()[a][b].avec,
-                                              "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
-                                              "lastupdated":snap.val()[a][b].lastupdated,
-                                              "directorId":snap.val()[a][b].directorId,
-                                              "numofpeople":snap.val()[a][b].numofpeople,
-                                              "status":snap.val()[a][b].status,
-                                              "wt":snap.val()[a][b].wt,
-                                              "numofagasi":inagasi,
-                                              "totalagasi":totalagasi,
-                                              "lack":snap.val()[a][b].numofpeople-inagasi});
-                  
-                }
-
-              }else if(snap.val()[a][b].numofpeople<inagasi){
-
-                console.log("snap.val()[a][b].numofpeople<=totalagasi");
-
-                this.mainlist_finished_choice.push({"v":snap.val()[a][b].v, 
-                                                    "agasi":snap.val()[a][b].agasi,
-                                                    "date":snap.val()[a][b].date,
-                                                    "incharge":snap.val()[a][b].incharge,
-                                                    "insert_date":snap.val()[a][b].insert_date,
-                                                    "insert_date_full":snap.val()[a][b].insert_date_full,
-                                                    "key":snap.val()[a][b].key,
-                                                    "memo":memo,
-                                                    "name":snap.val()[a][b].name,
-                                                    "orderlist":orderlist,"totalagasi":totalagasi,
-                                                    "avec":snap.val()[a][b].avec,
-                                                    "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
-                                                    "lastupdated":snap.val()[a][b].lastupdated,
-                                                    "directorId":snap.val()[a][b].directorId,
-                                                    "numofpeople":snap.val()[a][b].numofpeople,
-                                                    "status":snap.val()[a][b].status,
-                                                    "wt":snap.val()[a][b].wt,
-                                                    "numofagasi":inagasi,
-                                                    "lack":snap.val()[a][b].numofpeople-inagasi});
-              }else {
-                    
-                console.log("is else...");
-
-                this.mainlist_choice.push({"v":snap.val()[a][b].v, 
-                                        "agasi":snap.val()[a][b].agasi,
-                                        "date":snap.val()[a][b].date,
-                                        "incharge":snap.val()[a][b].incharge,
-                                        "insert_date":snap.val()[a][b].insert_date,
-                                        "insert_date_full":snap.val()[a][b].insert_date_full,
-                                        "key":snap.val()[a][b].key,
-                                        "memo":memo,
-                                        "name":snap.val()[a][b].name,
-                                        "orderlist":orderlist,
-                                        "showflag":true,
-                                        "avec":snap.val()[a][b].avec,
-                                        "lastupdatedperson":snap.val()[a][b].lastupdatedperson,
-                                        "lastupdated":snap.val()[a][b].lastupdated,
-                                        "directorId":snap.val()[a][b].directorId,
-                                        "numofpeople":snap.val()[a][b].numofpeople,
-                                        "status":snap.val()[a][b].status,
-                                        "wt":snap.val()[a][b].wt,
-                                        "numofagasi":inagasi,
-                                        "totalagasi":totalagasi,
-                                        "lack":snap.val()[a][b].numofpeople-inagasi});
-              }                   
-
-            }//if :)
-          }     
-        }
-      }//for(var a in snap.val()){ :)
-
-      console.log(this.mainlist_choice)
-      console.log("this.mainlist_finished");
-      console.log(this.mainlist_finished_choice);
-      console.log("this.mainlist_finished_status");
-      console.log(this.mainlist_finished_status_choice);
-      console.log("this.mainlist_angel");
-      console.log(this.mainlist_angel_choice);
-  
-      this.angelnumber_choice=this.mainlist_angel_choice.length;
-      this.agasijungsan=[];
-      for(var c in this.mainlist_choice){
-        for(var d in this.mainlist_choice[c].agasi){
-            if(this.mainlist_choice[c].agasi[d].findate!=undefined){
-  
-            }else{
-              this.agasijungsan.push({"name":this.mainlist_choice[c].agasi[d].name})
-            }
-           
-        }
-      }
-      for(var c in this.mainlist_finished_choice){
-        for(var d in this.mainlist_finished_choice[c].agasi){
-          if(this.mainlist_finished_choice[c].agasi[d].findate!=undefined){
-
-          }else{
-              this.agasijungsan.push({"name":this.mainlist_finished_choice[c].agasi[d].name})
-          }
-        }
-      }
-      var counting=0;
-  
-      counting=0;
-      this.mainlist_choice.sort((a, b) => a.v - b.v);
-      for(var aaa in  this.mainlist_choice){
-        counting++;
-        this.mainlist_choice[aaa].v=counting;
-      }
-  
-      counting=0;
-      for(var aaa in  this.mainlist_finished_choice){
-        counting++;
-        this.mainlist_finished_choice[aaa].v = counting;
-      }
-      this.mainlist_finished_choice.sort((a, b) => a.v - b.v);
-  
-      counting=0;
-      for(var aaa in  this.mainlist_finished_status_choice){
-        counting++;
-        this.mainlist_finished_status_choice[aaa].v = counting;
-      }
-  
-      counting=0;
-      this.mainlist_finished_status_choice.sort((a, b) => a.v - b.v);
-  
-      counting=0;
-  
-      this.mainlist_finished_choice.sort(function(a,b){
-        if (a.status < b.status) {
-          return -1;
-        }
-        if (a.status > b.status) {
-          return 1;
-        }
-        return 0;
-      });
-
-      for(var main in this.mainlist_choice){
-
-        if(this.type=="wt"){
-          if(this.mainlist_choice[main]!=undefined&& this.mainlist_choice[main].wt == this.nickname){
-
-            console.log("mainlist_main added");
-
-            this.mainlist_mine.push({"v":this.mainlist_choice[main].v, 
-                                    "agasi":this.mainlist_choice[main].agasi,
-                                    "date":this.mainlist_choice[main].date, 
-                                    "incharge":this.mainlist_choice[main].incharge,
-                                    "insert_date":this.mainlist_choice[main].insert_date,
-                                    "insert_date_full":this.mainlist_choice[main].insert_date_full,
-                                    "key":this.mainlist_choice[main].key,
-                                    "memo":this.mainlist_choice[main].memo,
-                                    "name":this.mainlist_choice[main].name,
-                                    "orderlist":this.mainlist_choice[main].orderlist,
-                                    "showflag":true,
-                                    "avec":this.mainlist_choice[main].avec,
-                                    "lastupdatedperson":this.mainlist_choice[main].lastupdatedperson,
-                                    "lastupdated":this.mainlist_choice[main].lastupdated,
-                                    "directorId":this.mainlist_choice[main].directorId,
-                                    "numofpeople":this.mainlist_choice[main].numofpeople,
-                                    "status":this.mainlist_choice[main].status,
-                                    "wt":this.mainlist_choice[main].wt,
-                                    "numofagasi":this.mainlist_choice[main].inagasi,
-                                    "totalagasi":this.mainlist_choice[main].totalagasi,
-                                    "lack":this.mainlist_choice[main].numofpeople-this.mainlist_choice[main].inagasi})
-          }
-
-        }else if(this.type=="director"||this.type=="info"){
-      
-          if(this.mainlist_choice[main]!=undefined&&this.mainlist_choice[main].incharge == this.nickname){
-
-            console.log("mainlist_main added");
-
-            this.mainlist_mine.push({"v":this.mainlist_choice[main].v, 
-                                      "agasi":this.mainlist_choice[main].agasi,
-                                      "date":this.mainlist_choice[main].date,
-                                      "incharge":this.mainlist_choice[main].incharge,
-                                      "insert_date":this.mainlist_choice[main].insert_date,
-                                      "insert_date_full":this.mainlist_choice[main].insert_date_full,
-                                      "key":this.mainlist_choice[main].key,
-                                      "memo":this.mainlist_choice[main].memo,
-                                      "name":this.mainlist_choice[main].name,
-                                      "orderlist":this.mainlist_choice[main].orderlist,
-                                      "showflag":true,
-                                      "avec":this.mainlist_choice[main].avec,
-                                      "lastupdatedperson":this.mainlist_choice[main].lastupdatedperson,
-                                      "lastupdated":this.mainlist_choice[main].lastupdated,
-                                      "directorId":this.mainlist_choice[main].directorId,
-                                      "numofpeople":this.mainlist_choice[main].numofpeople,
-                                      "status":this.mainlist_choice[main].status,
-                                      "wt":this.mainlist_choice[main].wt,
-                                      "numofagasi":this.mainlist_choice[main].inagasi,
-                                      "totalagasi":this.mainlist_choice[main].totalagasi,
-                                      "lack":this.mainlist_choice[main].numofpeople-this.mainlist_choice[main].inagasi})
-          }
-
-        }//if :)
-      }//for(var main in this.mainlist_choice){ :)
-  
-      for(var main in this.mainlist_finished_choice){
-
-        if(this.type=="wt"){
-
-          if(this.mainlist_finished_choice[main]!=undefined&& this.mainlist_finished_choice[main].wt == this.nickname){
-
-            console.log("mainlist_main added");
-
-            this.mainlist2_mine.push({"v":this.mainlist_finished_choice[main].v, 
-                                      "agasi":this.mainlist_finished_choice[main].agasi,
-                                      "date":this.mainlist_finished_choice[main].date,
-                                      "incharge":this.mainlist_finished_choice[main].incharge,
-                                      "insert_date":this.mainlist_finished_choice[main].insert_date,
-                                      "insert_date_full":this.mainlist_finished_choice[main].insert_date_full,
-                                      "key":this.mainlist_finished_choice[main].key,
-                                      "memo":this.mainlist_finished_choice[main].memo,
-                                      "name":this.mainlist_finished_choice[main].name,
-                                      "orderlist":this.mainlist_finished_choice[main].orderlist,
-                                      "showflag":true,
-                                      "avec":this.mainlist_finished_choice[main].avec,
-                                      "lastupdatedperson":this.mainlist_finished_choice[main].lastupdatedperson,
-                                      "lastupdated":this.mainlist_finished_choice[main].lastupdated,
-                                      "directorId":this.mainlist_finished_choice[main].directorId,
-                                      "numofpeople":this.mainlist_finished_choice[main].numofpeople,
-                                      "status":this.mainlist_finished_choice[main].status,
-                                      "wt":this.mainlist_finished_choice[main].wt,
-                                      "numofagasi":this.mainlist_finished_choice[main].inagasi,
-                                      "totalagasi":this.mainlist_finished_choice[main].totalagasi,
-                                      "lack":this.mainlist_finished_choice[main].numofpeople-this.mainlist_finished_choice[main].inagasi});
-          }
-
-        }else if(this.type=="director"||this.type=="info"){
-      
-          if(this.mainlist2_mine[main]!=undefined&&this.mainlist2_mine[main].incharge == this.nickname){
-
-            console.log("mainlist_main added");
-
-            this.mainlist2_mine.push({"v":this.mainlist_finished_choice[main].v, 
-                                      "agasi":this.mainlist_finished_choice[main].agasi,
-                                      "date":this.mainlist_finished_choice[main].date,
-                                      "incharge":this.mainlist_finished_choice[main].incharge,
-                                      "insert_date":this.mainlist_finished_choice[main].insert_date,
-                                      "insert_date_full":this.mainlist_finished_choice[main].insert_date_full,
-                                      "key":this.mainlist_finished_choice[main].key,
-                                      "memo":this.mainlist_finished_choice[main].memo,
-                                      "name":this.mainlist_finished_choice[main].name,
-                                      "orderlist":this.mainlist_finished_choice[main].orderlist,
-                                      "showflag":true,
-                                      "avec":this.mainlist_finished_choice[main].avec,
-                                      "lastupdatedperson":this.mainlist_finished_choice[main].lastupdatedperson,
-                                      "lastupdated":this.mainlist_finished_choice[main].lastupdated,
-                                      "directorId":this.mainlist_finished_choice[main].directorId,
-                                      "numofpeople":this.mainlist_finished_choice[main].numofpeople,
-                                      "status":this.mainlist_finished_choice[main].status,
-                                      "wt":this.mainlist_finished_choice[main].wt,
-                                      "numofagasi":this.mainlist_finished_choice[main].inagasi,
-                                      "totalagasi":this.mainlist_finished_choice[main].totalagasi,
-                                      "lack":this.mainlist_finished_choice[main].numofpeople-this.mainlist_finished_choice[main].inagasi});
-          }
-        }
-      }//for(var main in this.mainlist_finished_choice){ :)
-
-      this.firemain.child('attendance').child(this.company).once('value').then((snap)=>{
-
-        this.mainlist_attend=[];
-
-        for(var a in snap.val()){
-          if(a==this.currentstartday){
-            for(var b in snap.val()[a]){
-              if(snap.val()[a][b].attend!=undefined){
-                this.mainlist_attend.push({"name":snap.val()[a][b].attend.name,
-                                            "status":snap.val()[a][b].attend.flag,
-                                            "team":snap.val()[a][b].attend.team,
-                                            "tc":"-",
-                                            "wantee":"-",
-                                            "money":"-",
-                                            "bantee":"-"});
-                    
-              }
-            }
-          }
-        }
-
-        console.log(this.mainlist_choice);
-
-        this.mainlist_finished_choice.push({"v":"", 
-                                            "agasi":"",
-                                            "date":"",
-                                            "incharge":"",
-                                            "insert_date":"",
-                                            "insert_date_full":"",
-                                            "key":"",
-                                            "memo":"",
-                                            "name":"",
-                                            "orderlist":"",
-                                            "showflag":"",
-                                            "avec":"",
-                                            "lastupdatedperson":"",
-                                            "lastupdated":"",
-                                            "directorId":"",
-                                            "numofpeople":"",
-                                            "status":"",
-                                            "wt":"",
-                                            "numofagasi":"",
-                                            "totalagasi":"",
-                                            "lack":""});
-
-        console.log(this.mainlist_finished_choice);
-        console.log(this.mainlist_attend);
-        console.log(this.agasijungsan);
-
-        this.standby=this.mainlist_attend.length-this.agasijungsan.length;
-
-      }); 
-    });//this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday+"").once('value').then((snap)=>{ :)
-    //console.log("refresh choice finished");
-  }
 
   tabclicked(v){
 
@@ -4059,12 +2719,14 @@ export class SlidetestPage {
 
   gotomorepage(a,v){
 
-    
-    if(a.v.length==0){
+    console.log("gotomorepage");
+    // if(a.v.length==0){
 
-      window.alert("error...");
-      return;
-    }
+    //   window.alert("error...");
+    //   return;
+    // }
+    console.log(a);
+    console.log(v);
     this.navCtrl.push(ChoicedetailPage,{"a":a,"v":v}).then(() => {
       this.navCtrl.getActive().onDidDismiss(data => {
 

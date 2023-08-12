@@ -221,12 +221,16 @@
             <span (click)="editing(a);" *ngIf="a.status=='entered'&&(a.noflag==false||a.noflag==undefined)"> 입실 </span>
             <span (click)="editing(a);" *ngIf="a.status=='clean'&&(a.noflag==false||a.noflag==undefined)"> 정리중 </span>
             <span (click)="editing(a);" *ngIf="a.status=='fin'&&(a.noflag==false||a.noflag==undefined)">완료  </span>
-            <span (click)="editing(a);" *ngIf="a.avec&&(a.noflag==false||a.noflag==undefined)">{{a.numofpeople}} 인 A </span>
-            <span (click)="editing(a);" *ngIf="!a.avec&&(a.noflag==false||a.noflag==undefined) ">{{a.numofpeople}} 인 </span>
-            <span (click)="editing(a);" *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.wt}}</span>
-            <span (click)="editing(a);" *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.insert_date}}</span>
-            <span (click)="editing(a);" style="    font-size: 10px;" *ngIf="(a.noflag==false||a.noflag==undefined)">{{a.end_date}}</span>
-            <span (click)="editing(a);" *ngIf="a.noflag==true" class="noflag" style="width:70%;">{{a.nomemo}}</span>
+            <span style="    height: 30px;
+            display: contents;
+            font-size: 10px;" (click)="editing(a);" *ngIf="a.status!='disabled'&&a.avec==1&&(a.noflag==false||a.noflag==undefined)">{{a.max_people_count}}인A </span>
+            <span style="    height: 30px;
+            display: contents;
+            font-size: 10px;" (click)="editing(a);" *ngIf="a.status!='disabled'&&a.avec==0&&(a.noflag==false||a.noflag==undefined) ">{{a.max_people_count}}인 </span>
+            <span (click)="editing(a);" *ngIf="a.status!='disabled'&&(a.noflag==false||a.noflag==undefined)">{{a.wt}}</span>
+            <span (click)="editing(a);" *ngIf="a.status!='disabled'&&(a.noflag==false||a.noflag==undefined)">{{a.insert_date}}</span>
+            <span (click)="editing(a);" style="    font-size: 10px;" *ngIf="a.status!='disabled'&&(a.noflag==false||a.noflag==undefined)">{{a.end_date}}</span>
+            <span (click)="editing(a);" *ngIf="a.status=='disabled'" class="noflag" style="width:70%;">{{a.memo}}</span>
           </div>
         </div>
         <div class="pagination">
@@ -289,8 +293,8 @@
         </div>
         <div class="chart-div">
           <div class="name-keys">
-            <span>룸NO</span>
-            <span>담당자</span>
+            <span>NO</span>
+            <span>담당</span>
             <span>상태</span>
             <span>인원</span>
             <span>WT</span>
@@ -304,7 +308,7 @@
             <div *ngIf="a.flag=='nono'" style="width:100%;" class="rowrow">
               <span>sbs</span>
             </div>
-            <div *ngIf="a.flag!='nono'&&a.agasi.length==0&&a.orderlist==undefined" style="width:100%;" class="norowww">
+            <div style="width:100%;" class="norowww">
               <span>{{a.name}}</span>
               <span style="    font-size: 10px;">{{a.incharge}}</span>
               <span *ngIf="a.status=='reserved'"> 예약중 </span>
@@ -316,7 +320,7 @@
               <span>{{a.insert_date}}</span>
               <span style="    font-size: 10px;">{{a.end_date}}</span>
             </div>
-            <div *ngIf="a.flag!='nono'&&a.agasi.length!=0" style="width:100%;" class="rowrow">
+            <!-- <div *ngIf="a.flag!='nono'&&a.agasi.length==0&&a.orderlist==undefined" style="width:100%;" class="norowww">
               <span>{{a.name}}</span>
               <span style="    font-size: 10px;">{{a.incharge}}</span>
               <span *ngIf="a.status=='reserved'"> 예약중 </span>
@@ -327,7 +331,19 @@
               <span>{{a.wt}}</span>
               <span>{{a.insert_date}}</span>
               <span style="    font-size: 10px;">{{a.end_date}}</span>
-            </div>
+            </div> -->
+            <!-- <div *ngIf="a.flag!='nono'&&a.agasi.length!=0" style="width:100%;" class="rowrow">
+              <span>{{a.name}}</span>
+              <span style="    font-size: 10px;">{{a.incharge}}</span>
+              <span *ngIf="a.status=='reserved'"> 예약중 </span>
+              <span *ngIf="a.status=='entered'"> 입실 </span>
+              <span *ngIf="a.status=='clean'"> 정리중 </span>
+              <span *ngIf="a.status=='fin'">완료  </span>
+              <span>{{a.numofpeople}} 인 </span>
+              <span>{{a.wt}}</span>
+              <span>{{a.insert_date}}</span>
+              <span style="    font-size: 10px;">{{a.end_date}}</span>
+            </div> -->
           </div>
         </div>
       </div>
@@ -381,33 +397,32 @@
                 <div class="chat-messages">
                   <div class="message">
                     <div class="message-content">
-                      <div *ngIf="main.numofpeople!=''" class="contentmain">
+                      <div  class="contentmain">
                         <!-- avec == true -->
-                        <p *ngIf="main.avec" style="font-size: 18px; font-weight: 900;">
+                        <p *ngIf="main.avec=='1'" style="font-size: 18px; font-weight: 900;">
                           {{main.v}} #{{main.name}}  
                           <span class="sm">
-                            A{{main.incharge}}
+                            A {{main.incharge}}
                           </span> 
-                          <span *ngIf="main.totalagasi==0&&main.numofagasi==0" class="sm" style="color: black; background: pink;"> 
-                            신규{{main.lack}} 
+                          <span *ngIf="main.numofpeople==0" class="sm" style="color: black; background: pink;" > 
+                            신규{{main.max_people_count-main.numofpeople}} 
                           </span>
-                          <span *ngIf="main.numofpeople-main.numofagasi>0&&main.totalagasi!=0" class="sm" style="color: black; background: yellow;"> 
-                            빵{{main.lack}} 
+                          <span *ngIf="main.numofpeople!=0" class="sm" style="color: black; background: yellow;" > 
+                            빵{{main.max_people_count-main.numofpeople}}
                           </span>  
                           <span></span>
                         </p>
-                        <!-- avec == true :)-->
                         <!-- avec == false -->
-                        <p *ngIf="!main.avec" style="font-size: 18px; font-weight: 900;">
-                          {{main.v}} #{{main.name}} 
+                        <p *ngIf="main.avec=='0'" style="font-size: 18px; font-weight: 900;">
+                         {{main.v}} #{{main.name}} 
                           <span class="sm">
-                            {{main.incharge}} {{main.numofpeople}}명 {{main.wt}}
+                            {{main.incharge}} {{main.max_people_count-main.numofpeople}}명 {{main.wt}}
                           </span> 
-                          <span *ngIf="main.totalagasi==0&&main.numofagasi==0" class="sm" style="color: black; background: pink;" > 
-                            신규{{main.lack}} 
+                          <span *ngIf="main.numofpeople==0" class="sm" style="color: black; background: pink;" > 
+                            신규{{main.max_people_count-main.numofpeople}} 
                           </span>
-                          <span *ngIf="main.numofpeople-main.numofagasi>0&&main.totalagasi!=0" class="sm" style="color: black; background: yellow;" > 
-                            빵{{main.lack}}
+                          <span *ngIf="main.numofpeople!=0" class="sm" style="color: black; background: yellow;" > 
+                            빵{{main.max_people_count-main.numofpeople}}
                           </span>  
                           <img *ngIf="main.onStatus!=undefined&&main.onStatus" style="width: 47px; height: 36px; margin: auto;" src="assets/img/load.gif"/> 
                         </p>

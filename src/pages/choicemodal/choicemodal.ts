@@ -4,6 +4,7 @@ import  firebase from 'firebase';
 import { Choicemodal2Page } from '../choicemodal2/choicemodal2';
 import { UtilsProvider } from '../../providers/utils/utils';
 import { SlidetestPage } from '../slidetest/slidetest';
+import { HTTP } from '@ionic-native/http/ngx';
 /**
  * Generated class for the ChoicemodalPage page.
  *
@@ -16,6 +17,7 @@ import { SlidetestPage } from '../slidetest/slidetest';
   templateUrl: 'choicemodal.html',
 })
 export class ChoicemodalPage {
+  token:any="";
   @ViewChild('input')  myInput ;
   @ViewChild('input2') myInput2 ;
   @ViewChild('input3') myInput3 ;
@@ -141,14 +143,14 @@ export class ChoicemodalPage {
   angelcount:any=0;
   numofpeople:any=0;
   inagasi:any=0;
-  constructor(public platform : Platform,private modalCtrl: ModalController , public util:UtilsProvider, public alertController:AlertController,public renderer:Renderer2,public modal:ModalController,public loading:LoadingController,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public http:HTTP,public platform : Platform,private modalCtrl: ModalController , public util:UtilsProvider, public alertController:AlertController,public renderer:Renderer2,public modal:ModalController,public loading:LoadingController,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     this.company = localStorage.getItem("company");
     this.name = localStorage.getItem("name");
     this.nickname=localStorage.getItem("nickname");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
+    this.token = localStorage.getItem("token");
     this.a =  this.navParams.get("a");
-    console.log(this.a);
     this.inagasi = this.navParams.get("inagasi");
     this.angelcount = this.navParams.get("angelcount");
     this.numofpeople = this.navParams.get("numofpeople");
@@ -157,6 +159,15 @@ export class ChoicemodalPage {
     }else{
       agasi = this.a.agasi;
     }
+
+    console.log(this.a);
+    console.log(this.inagasi);
+    console.log(this.angelcount);
+    console.log(this.numofpeople);
+    console.log("came to choice modal page");
+    //메이드시, http request를 통해 룸 디테일 테이블에 넣어주기. 
+    
+    return;
     this.platform.registerBackButtonAction(() => { 
       const av = this.navCtrl.getActive();
       const activePage = av ? av.instance : null;
@@ -561,7 +572,7 @@ export class ChoicemodalPage {
     //console.log(this.numofpeople);//4
     //console.log(this.inagasi-this.angelcount); //3
     //console.log("위 둘이 비교를 먼저 해야함. 그 다음에 현재 새로 등록하는 아가씨의 수 .")
-    //console.log(this.agasilist.length+"+"+this.inagasi+"-"+this.angelcount+"-"+angelcount)
+    console.log(this.numofpeople+",,,,"+this.agasilist.length+"+"+this.inagasi+"-"+this.angelcount+"-"+angelcount)
     if(this.numofpeople<this.agasilist.length+this.inagasi-this.angelcount-angelcount){
 
       this.util.dismissLoading();
@@ -613,7 +624,92 @@ export class ChoicemodalPage {
       a.present();
 
     }else{
-      this.regagasi();
+      console.log("just register...");
+      //http request to register roomdetail 
+      console.log(this.agasilist);
+      
+      this.http.get("https://captainq.wadteam.com/captainq/apis/member",{},{"token":this.token}).then(data => {
+      console.log("get result...");
+      console.log(data);
+      var a = JSON.parse(data.data)
+      var result = JSON.parse(a.rst_content);
+      console.log(result);
+      console.log("was result...");
+      var regflag=false;
+      for(var value in result){
+        console.log(result[value])
+        for(var agasi in this.agasilist){
+          console.log(this.agasilist[agasi]);
+          if(result[value].nickname==this.agasilist[agasi].name){
+            this.agasilist[agasi].flag=true;
+            console.log("same name");
+            //이미 등록된 회원이며 room_detail테이블에 바로 넣어버리자.
+            
+            
+
+            regflag=true;
+
+
+            // this.agasilist[agasi].wt_id=result[value].wt_id;
+            // this.agasilist[agasi].director_id=result[value].director_id;
+            // this.agasilist[agasi].status=result[value].status;
+            // console.log(this.agasilist[agasi]);
+          }
+  
+        }
+
+  //       console.log(result[value].idx)
+  //       console.log(result[value].room_name)
+  //       // if(result[value].room_name==this.a.name){
+
+  //       // }
+  //       console.log(result[value].num_of_people)
+  //       console.log(result[value].max_people_count)
+  //       console.log(result[value].wt_id)
+  //       console.log(result[value].director_id)
+  //       console.log(result[value].status)
+      }
+      var notregistered = [];
+      for(var agasi in this.agasilist){
+        if(this.agasilist[agasi].flag==undefined||!this.agasilist[agasi].flag){
+          notregistered.push(this.agasilist[agasi]);
+        }
+      }
+      console.log(a);//멤버?
+      console.log(this.a);//방정보 
+      console.log(notregistered);
+      console.log("not registered");
+
+
+      let modal2 = this.modal.create(Choicemodal2Page,{ "agasi":notregistered,"room":this.a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
+
+          modal2.onDidDismiss(url => {
+
+            console.log(url);
+
+            if(url==undefined){
+              return;
+            }else if(url.result == false){
+              this.view.dismiss();
+            }else{
+              if(url.result=="ok"){
+                window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
+                //console.log(this.originalList);
+                
+              this.view.dismiss();
+              }
+            }
+          });
+          modal2.present();
+
+
+      if(regflag){
+        //이미등록ㄷ
+      }else{
+        //등록 안된 회원의 경우에는 따로 조핀팀 설정창으로 이동한 후 등록처리. 
+      }
+  });
+      // this.regagasi();
     }
      
     //console.log("agasilist to put in company node");

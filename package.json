@@ -39,6 +39,7 @@
         "@ionic/storage": "2.2.0",
         "@ngx-translate/core": "^12.1.2",
         "@ngx-translate/http-loader": "^4.0.0",
+        "@portone/browser-sdk": "0.0.2",
         "angular-svg-round-progressbar": "6.0.0",
         "angularfire2": "^5.4.2",
         "com-sarriaroman-photoviewer": "^1.2.4",

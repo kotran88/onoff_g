@@ -5,8 +5,9 @@ import { Component ,NgZone,ViewChild, ElementRef, AfterViewInit} from '@angular/
 import { UtilsProvider } from '../../providers/utils/utils';
 import  firebase from 'firebase';
 import { ChoicePage } from '../choice/choice';
-import { E, T } from '@angular/core/src/render3';
+import { b, E, T } from '@angular/core/src/render3';
 import { SlidetestPage } from '../slidetest/slidetest';
+import { HTTP } from '@ionic-native/http/ngx';
 /**
  * Generated class for the ChoicedetailPage page.
  *
@@ -59,16 +60,65 @@ export class ChoicedetailPage {
   key:any;
   roomno:any;
   modalopen:any=false;
+  token:any;
 
-  constructor(public platform:Platform,public alertCtrl:AlertController, public util:UtilsProvider,public view:ViewController,public loading:LoadingController,public modal:ModalController,public zone:NgZone, public navCtrl: NavController, public navParams: NavParams) {
-    
+  constructor(public http:HTTP,public platform:Platform,public alertCtrl:AlertController, public util:UtilsProvider,public view:ViewController,public loading:LoadingController,public modal:ModalController,public zone:NgZone, public navCtrl: NavController, public navParams: NavParams) {
+    this.token = localStorage.getItem("token");
     console.log("choice detail come...");
+
 
     this.a=this.navParams.get("a");
 
-    console.log("this.a ->"+this.a);
+    console.log("this.a... ->"+this.a);
+    console.log(this.a);
+    console.log(this.a.key);
+    console.log(this.token);
 
+this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+this.a.key,{},{"token":this.token}).then(data => {
+      console.log("get result...");
+      console.log(data);
+      var a = JSON.parse(data.data)
+
+      var result = JSON.parse(a.rst_content);
+      console.log(result);
+      console.log(result.length);
+  //     this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"idx":this.a.key,"updated_by":this.nickname,"num_of_people":result.length,"cmd":"none"},{"token":this.token}).then(data => {
+  //   console.log("patch...."+data);
+  //   console.log(data);
+  // });
+      for(var value in result){
+        console.log(result[value].nickname);
+        this.mainlist.push({"created_by":result[value].created_by, "name":result[value].nickname,"angel":result[value].angel,"date":result[value].enter_dt})
+      }
+      console.log("was result...");
+      console.log(this.mainlist);
+  });
+  //   this.http.get("https://captainq.wadteam.com/captainq/apis/currentroom",{},{"token":this.token}).then(data => {
+  //     console.log("get result...");
+  //     console.log(data);
+  //     var a = JSON.parse(data.data)
+  //     var result = JSON.parse(a.rst_content);
+  //     console.log(result);
+  //     console.log("wassss result...");
+  //     for(var value in result){
+  //       this.mainlist.push({"key":result[value].key,"room_name":result[value].room_name,"num_of_people":result[value].num_of_people,"max_people_count":result[value].max_people_count,"wt":result[value].wt_id,"incharge":result[value].incharge,"status":result[value].status,"created_at":result[value].created_at})
+  //       console.log(result[value])
+  //       console.log(result[value].idx)
+  //       console.log(result[value].room_name)
+  //       // if(result[value].room_name==this.a.name){
+
+  //       // }
+  //       console.log(result[value].num_of_people)
+  //       console.log(result[value].max_people_count)
+  //       console.log(result[value].wt_id)
+  //       console.log(result[value].director_id)
+  //       console.log(result[value].status)
+  //     }
+  //     console.log(this.mainlist);
+  // });
     this.v=this.navParams.get("v");
+    console.log(this.a);
+    console.log("was a...");
     this.nickname=localStorage.getItem("nickname");
     this.platform.registerBackButtonAction(() => { 
       console.log("back in detail..");
@@ -377,8 +427,8 @@ export class ChoicedetailPage {
   openclose(){
 
     console.log("open and cloe");
-
-    this.navCtrl.setRoot(SlidetestPage);
+    this.view.dismiss();
+    // this.navCtrl.setRoot(SlidetestPage);
 
   }
   /**
@@ -410,7 +460,7 @@ export class ChoicedetailPage {
                                                                                                   "name":this.a.name, 
                                                                                                   "startdate":new Date()});
 
-    let modal = this.modal.create(ChoicemodalPage,{"a":this.a,"numofpeople":this.numofpeople,"inagasi":this.inagasi,"angelcount":this.angelcount})
+    let modal = this.modal.create(ChoicemodalPage,{"a":this.a,"numofpeople":this.a.max_people_count,"inagasi":this.a.numofpeople,"angelcount":this.angelcount})
 
     modal.onDidDismiss(url => {
 

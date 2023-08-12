@@ -16,6 +16,7 @@ import { HTTP } from '@ionic-native/http/ngx';
   templateUrl: 'editingroom.html',
 })
 export class EditingroomPage {
+  token:any;
   a:any;
   jopan:any;
   id:any;
@@ -55,7 +56,7 @@ export class EditingroomPage {
   constructor(public util:UtilsProvider, public http:HTTP,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
      this.a = this.navParams.get("a");
      console.log("a is : ");
-
+     this.token = localStorage.getItem("token");
     this.nickname= localStorage.getItem("nickname");
      console.log(this.a);
      this.mainlist= this.navParams.get("mainlist");
@@ -127,18 +128,19 @@ export class EditingroomPage {
     }
   }
   clicking2(v){
+    console.log("clicking2")
     if(this.booleanValue3){
       window.alert("변경불가");
       return;
     }
-    //console.log(v);
-    //console.log(v.avec);
-    //console.log(this.avec);
-    if(v.avec==true){
-      //console.log("make it false")
-      this.avec=!this.avec;
+    console.log(v);
+    console.log(v.avec);
+    console.log(this.avec);
+    if(this.avec==1){
+      console.log("make it false")
+      this.avec=0;
     }else{
-      this.avec=!this.avec;
+      this.avec=1;
     }
   }
   clicking(v){
@@ -253,7 +255,7 @@ export class EditingroomPage {
      
     }
     if(this.status=="fin"){
-      this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"room_name": this.room,"idx":this.a.key,"cmd":"fin","finished_by":this.nickname,"updated_by":this.nickname},{"token":"8179e9dc-ec5f-4bdf-b8b6-c951a2fda646"}).then(data => {
+      this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"room_name": this.room,"idx":this.a.key,"cmd":"fin","finished_by":this.nickname,"updated_by":this.nickname},{"token":this.token}).then(data => {
         console.log(data);
         var a = JSON.parse(data.data)
         console.log(a);
@@ -262,9 +264,12 @@ export class EditingroomPage {
         if(a.rst_content.toString()=="수정 완료"){
           // window.alert("수정 완료");
         }
+
+
+        
       });
     }else if(this.status=="entered"){
-      this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"room_name": this.room,"idx":this.a.key,"cmd":"entered","updated_by":this.nickname},{"token":"8179e9dc-ec5f-4bdf-b8b6-c951a2fda646"}).then(data => {
+      this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"room_name": this.room,"idx":this.a.key,"cmd":"entered","updated_by":this.nickname},{"token":this.token}).then(data => {
         console.log(data);
         var a = JSON.parse(data.data)
         console.log(a);
@@ -275,7 +280,7 @@ export class EditingroomPage {
         }
       });
     }else if(this.status=="reserved"){
-      this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"room_name": this.room,"idx":this.a.key,"cmd":"reserved","updated_by":this.nickname},{"token":"8179e9dc-ec5f-4bdf-b8b6-c951a2fda646"}).then(data => {
+      this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"room_name": this.room,"idx":this.a.key,"cmd":"reserved","updated_by":this.nickname},{"token":this.token}).then(data => {
         console.log(data);
         var a = JSON.parse(data.data)
         console.log(a);

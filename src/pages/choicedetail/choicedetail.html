@@ -55,16 +55,13 @@
             <span>완료</span>
           </div>
           <div class="datas">
-            <div *ngFor="let aa of mainlist" class="main">
-              <span>{{aa.name}}</span>
-              <span>{{aa.incharge}}</span>
-              <span>{{aa.numofpeople}} 인 </span> 
-              <span *ngIf="aa!=undefined&&aa.agasi!=undefined">{{aa.numofagasi}} 인</span>
-              <span *ngIf="aa.agasi==undefined">0 인</span>
-              <span>{{aa.wt}}</span>
-              <span>{{aa.insert_date}}</span> 
+              <span>{{a.name}}</span>
+              <span>{{a.incharge}}</span>
+              <span>{{a.max_people_count}} 인 </span> 
+              <span >{{a.numofpeople}} 인</span>
+              <span>{{a.wt}}</span>
+              <span>{{a.created_at.split(" ")[1].split(":")[0]}}:{{a.created_at.split(" ")[1].split(":")[1]}}</span> 
               <span>-</span> 
-            </div>
           </div>
         </div>
       </div>
@@ -72,54 +69,54 @@
         <div *ngIf="mainlist.length==0" class="datas">
           <p>  초이스방 내역이 없습니다. </p>
         </div>
-        <div *ngFor="let a of mainlist let j = index" class="mainlistloop">
-          <div  *ngIf="a.agasi" class="panel-4" id="panel-4-{{j}}">
-            <div *ngFor="let b of a.agasi" class="looping" >
+        <div   class="mainlistloop">
+          <div   class="panel-4" id="panel-4-0">
+            <div *ngFor="let a of mainlist" class="looping" >
               <div>
                 <table>
                   <tr style="width:100%">
-                    <td *ngIf="b.angel" style="width:30px;">
+                    <td *ngIf="a.angel==1" style="width:30px;">
                       <span >
                         <img style=" height: 28px; width:28px;" class="logo" src="assets/img/angel.png" />
                       </span>
                     </td>
-                    <td style="text-align: right;">
-                      <span *ngIf="!b.angel&&b.findate==undefined&&modifyflag" style=" margin: 0px !important;">
-                        {{b.name}}
+                    <td *ngIf="a.angel==0" style="text-align: right;">
+                      <span *ngIf="a.angel==0&&a.findate==undefined&&modifyflag" style=" margin: 0px !important;">
+                        {{a.name}}
                       </span>
-                      <span *ngIf="!b.angel&&b.findate==undefined&&!modifyflag" style=" margin: 0px !important;">
-                        {{b.name}}
+                      <span *ngIf="a.angel==0&&a.findate==undefined&&!modifyflag" style=" margin: 0px !important;">
+                        {{a.name}}
                       </span>
-                      <span *ngIf="!b.angel&&b.findate!=undefined&&!modifyflag" style=" margin: 0px !important;">
-                        {{b.name}}
+                      <span *ngIf="a.angel==0&&a.findate!=undefined&&!modifyflag" style=" margin: 0px !important;">
+                        {{a.name}}
                       </span>
-                      <span *ngIf="!b.angel&&b.findate!=undefined&&modifyflag" style=" margin: 0px !important;">
-                        <input [(ngModel)]='b.name' value="{{b.name}}" type="text">
+                      <span *ngIf="a.angel==0&&a.findate!=undefined&&modifyflag" style=" margin: 0px !important;">
+                        <input [(ngModel)]='a.name' value="{{a.name}}" type="text">
                       </span>
-                      <span *ngIf="b.angel" style=" margin: 0px !important;">
-                        {{b.name}}
+                      <span *ngIf="a.angel==1" style=" margin: 0px !important;">
+                        {{a.name}}
                       </span>
                     </td>
                     <td>
                       <span>
-                        {{b.date.split(" ")[1]}}
+                        {{a.date.split(" ")[1]}}
                       </span>
                     </td>
                     <td>
-                      <span *ngIf="(b.findate!=undefined&&!modifyflag)">
+                      <!-- <span *ngIf="(b.findate!=undefined&&!modifyflag)">
                         {{b.findate.split(" ")[1]}}
-                      </span>
-                      <span *ngIf="(b.findate==undefined&&!modifyflag)">
+                      </span> -->
+                      <span *ngIf="(a.findate==undefined&&!modifyflag)">
                         -
                       </span>
                     </td>
                     <td>
-                      <span *ngIf="b.tc!=undefined&&!modifyflag">
+                      <!-- <span *ngIf="b.tc!=undefined&&!modifyflag">
                         <small>{{b.tc}}<small>개</small></small> <br><small>{{b.money}}<small>만원</small></small>
-                      </span>
+                      </span> -->
                     </td>
                     <td>
-                      <div *ngIf="modifyflag">
+                      <!-- <div *ngIf="modifyflag">
                         <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined">
                           <input *ngIf="b.tc!=undefined&&modifyflag" [(ngModel)]='b.tc' value="{{b.tc}}" type="text">
                           <br>{{b.money}}만원
@@ -128,41 +125,41 @@
                           . {{b.tc}}개 
                           <br>{{b.money}}
                         </span>
-                      </div>
+                      </div> -->
                     </td>
                     <td>
-                      <span *ngIf="b.writer==undefined">
+                      <span *ngIf="a.created_by==undefined">
                         -?
                       </span>
                     </td>
                     <td>
-                      <span *ngIf="b.writer!=undefined">
-                        {{b.writer}}
+                      <span *ngIf="a.created_by!=undefined">
+                        {{a.created_by}}
                       </span>
                     </td>
                     <td>
-                      <span *ngIf="b.date!=undefined">
-                        {{abcd(b.date)}}
+                      <span *ngIf="a.date!=undefined">
+                        {{a.date}}
                       </span>
                     </td>
                     <td>
-                      <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
+                      <button *ngIf="a.findate==undefined" (click)="end(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
                         종료
                       </button>
-                      <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px; 
+                      <!-- <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px; 
                       font-size: 10px;
                       height: 30px;
                       padding: 0px;
                       width: 50px;" class="default-btn">
                         재진행
-                      </button>
+                      </button> -->
                     </td>
                   </tr>
                 </table>
               </div>
             </div>
           </div>
-          <div class="messagessss">
+          <!-- <div class="messagessss">
             <div *ngFor="let aa of a.message" class="messagediv">
               <span style=" left: 15px; font-size: 15px !important; margin-left: 10px; color:black;">
               {{aa.uploader}} {{aa.contents}} {{aa.tc}} {{aa.agasi}}
@@ -171,7 +168,7 @@
               {{aa.date}}
               </span> 
             </div>
-          </div>
+          </div> -->
           <div class="memo">
             <span *ngIf="a.memo!=undefined&&a.memo.length>0"> {{a.memo}}</span>
           </div>

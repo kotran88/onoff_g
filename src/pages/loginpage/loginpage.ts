@@ -62,15 +62,79 @@ export class LoginpagePage {
         this.id = localStorage.getItem("id");
         this.password = localStorage.getItem("password");
         this.name = localStorage.getItem("name");
-        this.login();
+        // this.login();
       }else{
         $("#checked").prop('checked', false);
       }
     localStorage.setItem('version',this.version)
       setTimeout(()=>{
         console.log("settimeout!");
+
+        // pg: 'html5_inicis.INIpayTest',
+
+        // var userCode = 'imp20852006';                       // 가맹점 식별코드
+        // var data = {
+        //   pg:'inicis_unified.{CPID}',//본인인증 설정이 2개이상 되어 있는 경우 필수 
+        // merchant_uid: "ORD20180131-0000011", // 주문 번호
+        // m_redirect_url : "{리디렉션 될 URL}", // 모바일환경에서 popup:false(기본값) 인 경우 필수, 예: https://www.myservice.com/payments/complete/mobile
+        // popup : false 
+        // };
+        // var titleOptions = {
+        //   text: '포트원 코르도바 테스트',                   // 타이틀
+        //   textColor: '#ffffff',                         // 타이틀 색
+        //   textSize: '20',                               // 타이틀 크기
+        //   textAlignment: 'left',                        // 타이틀 정렬 유형
+        //   backgroundColor: '#344e81',                   // 타이틀 배경색
+        //   show: true,                                   // 타이틀 유무
+        //   leftButtonType: 'back',                       // 왼쪽 버튼 유형
+        //   leftButtonColor: '#ffffff',                   // 왼쪽 버튼 색
+        //   rightButtonType: 'close',                     // 오른쪽 버튼 유형
+        //   rightButtonColor: '#ffffff',                  // 오른쪽 버튼 색
+        // };
+    
+        // // 4. 포트원 코르도바 파라미터 정의
+        // var params = {
+        //   userCode: userCode,                           // 4-1. 가맹점 식별코드 정의
+        //   data: data,                                   // 4-2. 결제 데이터 정의
+        //   titleOptions: titleOptions,                   // 4-3. 결제창 헤더 옵션 정의
+        //   callback: function(response) {                // 4-3. 콜백 함수 정의
+        //     alert(JSON.stringify(response));
+        //   },
+        // };
+        // // 5. 결제창 호출
+        // IamportCordova.payment(params);
+
+
+        
+        // var userCode = 'imp20852006';                       // 가맹점 식별코드
+        // var data = {
+        //   carrier: 'LGU',                               // 통신사
+        //   pg:'inisis_unified.MIIiasTest',
+        //   merchant_uid: 'mid_' + new Date().getTime(),  // 주문번호
+        //   company: 'SIOT',                              // 회사명
+        //   phone:"01079998598",
+        //   name:"정평두",
+        //   popup:false,
+        // };
+        // var titleOptions = {
+        //   "name":"gg",
+        //   "color": '#ffffff'
+        // };
+    
+        // // 4. 포트원 코르도바 파라미터 정의
+        // var params = {
+        //   userCode: userCode,                           // 4-1. 가맹점 식별코드 정의
+        //   data: data,                                   // 4-2. 결제 데이터 정의
+        //   titleOptions: titleOptions,                   // 4-3. 본인인증 창 헤더 옵션 정의
+        //   callback: function(response) {                // 4-3. 콜백 함수 정의
+        //     alert(JSON.stringify(response));
+        //   },
+        // };
+        // // 5. 본인인증 창 호출
+        // IamportCordova.certification(params);
+
         this.requestLogin("wt3","ananan");
-      },1000);
+      },3000);
       }
       private subscribeToWebSocket() {
 
@@ -99,6 +163,7 @@ export class LoginpagePage {
       localStorage.setItem("login_data",JSON.stringify(result) );
       localStorage.setItem("name",result.name);
       localStorage.setItem("nickname",result.nickname);
+      localStorage.setItem("token",result.token);
       // localStorage.setItem("jopan",result.jopan);
       var approved=result.approved;
       var type = result.mtype;
