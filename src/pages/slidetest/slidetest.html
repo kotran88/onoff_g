@@ -400,7 +400,7 @@
                       <div  class="contentmain">
                         <!-- avec == true -->
                         <p *ngIf="main.avec=='1'" style="font-size: 18px; font-weight: 900;">
-                          {{main.num}}  {{main.v}} #{{main.name}}  
+                          {{main.num}}  #{{main.name}}  
                           <span class="sm">
                             A {{main.incharge}} {{main.max_people_count}}명 {{main.wt}}
                           </span> 
@@ -414,7 +414,7 @@
                         </p>
                         <!-- avec == false -->
                         <p *ngIf="main.avec=='0'" style="font-size: 18px; font-weight: 900;">
-                       {{main.num}}   {{main.v}} #{{main.name}} 
+                       {{main.num}}  #{{main.name}} 
                           <span class="sm">
                             {{main.incharge}} {{main.max_people_count}}명 {{main.wt}}
                           </span> 
@@ -514,17 +514,16 @@
             </div>
           </div>
         </div><!-- area :) -->
-
         <!-- 진행중인방 -->
         <div class="area" id="ion-label-area-2">
-          <div *ngIf="mainlist2_mine.length!=0" class="container">
+          <div *ngIf="mainlist_choice2.length!=0" class="container">
             <div class="avatars">
-              <div *ngFor="let b of mainlist2_mine" (click)="godetail(b,2)" class="avatar">
+              <div *ngFor="let b of mainlist_choice2" (click)="gotomorepage(b,2)" class="avatar">
                 <div class="avatartext">{{b.name}}</div>
               </div>
             </div>
           </div>
-          <ion-list *ngIf="mainlist_finished_choice.length==0||mainlist_finished_choice[0].numofpeople==''" style=" height: 72% !important; overflow-y: scroll;" class="lll"  no-lines >
+          <ion-list *ngIf="mainlist_choice2.length==0" style=" height: 72% !important; overflow-y: scroll;" class="lll"  no-lines >
             <ion-item class="it" >
               <div class="chat-container">
                 <div class="chat-messages">
@@ -541,46 +540,46 @@
               </div>
             </ion-item>
           </ion-list>
-          <ion-list *ngIf="mainlist_finished_choice.length!=0&&mainlist_finished_choice[0].numofpeople!=''" style=" height: 72% !important; overflow-y: scroll;" class="lll"  no-lines >
-            <ion-item *ngFor="let main of mainlist_finished_choice" (click)="gotomorepage(main,2)" class="it">
+          <ion-list style=" height: 72% !important; overflow-y: scroll;" class="lll"  no-lines >
+            <ion-item *ngFor="let main of mainlist_choice2" (click)="gotomorepage(main,2)" class="it">
               <div class="chat-container">
                 <div class="chat-messages">
                   <div class="message">
                     <div class="message-content">
                       <div *ngIf="main.numofpeople!=''" class="contentmain">
                         <!-- main.avec == true -->
-                        <p *ngIf="main.avec" style="font-size: 18px; font-weight: 900;">
-                          {{main.v}} #{{main.name}}  
+                        <p *ngIf="main.avec==1" style="font-size: 18px; font-weight: 900;">
+                           #{{main.name}}  
                           <span class="sm">
                             A{{main.incharge}}
                           </span> 
-                          <span *ngIf="main.totalagasi==0&&main.numofagasi==0" class="sm" style="color: black; background: pink;" > 
-                            신규{{main.lack}} 
+                          <span *ngIf="main.numofpeople==0" class="sm" style="color: black; background: pink;" > 
+                            신규{{main.max_people_count-main.numofpeople}} 
                           </span>
-                          <span *ngIf="main.numofpeople-main.numofagasi>0&&main.totalagasi!=0" class="sm" style="color: black; background: yellow;" > 
-                            빵{{main.lack}} 
+                          <span *ngIf="main.numofpeople!=0" class="sm" style="color: black; background: yellow;" > 
+                            빵{{main.max_people_count-main.numofpeople}}
                           </span>  
                           <span></span>
                         </p>
                         <!-- main.avec == true :) -->
                         <!-- main.avec == false -->
-                        <p *ngIf="!main.avec" style="font-size: 18px; font-weight: 900;">
-                          {{main.v}} #{{main.name}} 
+                        <p *ngIf="main.avec==0" style="font-size: 18px; font-weight: 900;">
+                           #{{main.name}} 
                           <span class="sm">
-                            {{main.incharge}} {{main.numofpeople}}명 {{main.wt}}
+                            {{main.incharge}} {{main.max_people_count}}명 {{main.wt}}
                           </span> 
-                          <span *ngIf="main.totalagasi==0&&main.numofagasi==0" class="sm" style="color: black; background: pink;" > 
-                            신규{{main.lack}} 
+                          <span *ngIf="main.numofpeople==0" class="sm" style="color: black; background: pink;" > 
+                            신규{{main.max_people_count-main.numofpeople}} 
                           </span>
-                          <span *ngIf="main.numofpeople-main.numofagasi>0&&main.totalagasi!=0" class="sm" style="color: black; background: yellow;" > 
-                            빵{{main.lack}} 
+                          <span *ngIf="main.numofpeople!=0" class="sm" style="color: black; background: yellow;" > 
+                            빵{{main.max_people_count-main.numofpeople}}
                           </span>  
                           <span></span>
                         </p>
                         <!-- main.avec == false :) -->
-                        <span *ngIf="main.status=='fin'" style=" border: solid 1px; font-size: 12px; padding: 3px; margin-left: 10px; background: white;" >
+                        <!-- <span *ngIf="main.status=='fin'" style=" border: solid 1px; font-size: 12px; padding: 3px; margin-left: 10px; background: white;" >
                           종료
-                        </span>
+                        </span> -->
                       </div>
                       <div class="latter">
                         <p style="font-size:18px;" *ngIf="main.memo!=undefined">{{main.memo}}</p>

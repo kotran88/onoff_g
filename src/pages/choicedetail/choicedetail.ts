@@ -496,34 +496,6 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
   }//choicestart :)
 
   /**
-   * 탭바 영역 클리시 호출되는 함수) 화면이 바뀐다. 
-   * @param values 
-   */
-  screenSwitch(values) : void {
-
-    console.log("screenSwitch");
-    console.log(values);
-  
-    for (let i = 1; i <= 3; i++) { 
-
-      console.log("i to none"+i);
-      console.log("ion-label-area-" + i)
-      console.log(document.getElementById("ion-label-area-"+i))
-
-      document.getElementById("ion-label-area-"+i).style.display = "none"; 
-    }
-    console.log(document.getElementById("ion-label-area-" + values))
-
-    document.getElementById("ion-label-area-" + values).style.display = "";
-
-    this.zone.run(()=>{
-      this.activeclass=values;
-      
-      console.log(this.activeclass)
-    })
-  }
-
-  /**
    * 전체종료
    * @param c 
    * @param room 

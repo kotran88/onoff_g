@@ -26,6 +26,7 @@ export class InfomodalPage {
   booleanValue2:any=0;
   booleanValue3:any=false;
   mainlist:any=[];
+  mainlist2:any=[];
   lloading:any;
   currentstartday:any="";
   currentstart:any="";
@@ -49,6 +50,7 @@ export class InfomodalPage {
     this.nickname=localStorage.getItem("nickname");
     //console.log(this.directorList)
     this.mainlist = this.navParams.get("mainlist");
+    this.mainlist2 = this.navParams.get("mainlist2");
     console.log(this.mainlist);
     console.log("was mainlist...");
    this.company = localStorage.getItem("company");
@@ -247,7 +249,7 @@ export class InfomodalPage {
           }
     var nomemo = this.nomemo
     var json  = [];
-    var num = Number(this.mainlist.length)+1;
+    var num = Number(this.mainlist.length)+Number(this.mainlist2.length)+1;
     json.push({"room_name":room_name,"num":num, "logic":this.booleanValue.toString(),"avec":this.booleanValue2.toString(),"bu":this.bu.toString(), "wt_id":wt_id,"director_id":director_id,"max_people_count":max_people_count,"created_by":this.nickname,"cmd":cmd,"nomemo":nomemo, "num_of_people":num_of_people});
     console.log(json);
     this.http.post("https://captainq.wadteam.com/captainq/apis/currentroom", {"room_name":room_name,"ss":0,"num":num, "logic":this.booleanValue.toString(),"avec":this.booleanValue2.toString(),"bu":this.bu.toString(), "wt_id":wt_id,"director_id":director_id,"max_people_count":max_people_count,"created_by":this.nickname,"cmd":cmd,"nomemo":nomemo, "num_of_people":num_of_people}, {"token":this.token}).then(data => {

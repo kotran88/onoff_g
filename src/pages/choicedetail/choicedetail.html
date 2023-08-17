@@ -42,7 +42,7 @@
   <div class="ion-label-area">
     <!-- 초이스 -->
     <!-- area 1 -->
-    <div class="area" [ngClass]="activeclass=='1' ? 'show' : 'noshow'" id="ion-label-area-1">
+    <div class="show"  id="ion-label-area-1">
       <div style="width: 100%; align-items: center; z-index: 2000; border-top: solid 1px; height: 39px;">
         <div class="chart-div">
           <div class="name-keys">
@@ -70,7 +70,7 @@
           <p>  초이스방 내역이 없습니다. </p>
         </div>
         <div   class="mainlistloop">
-          <div   class="panel-4" id="panel-4-0">
+          <div   >
             <div *ngFor="let a of mainlist" class="looping" >
               <div>
                 <table>
@@ -177,7 +177,7 @@
         </div> <!-- mainlistloop:)-->
         <div class="bottomdiv">
           <button *ngIf="!modifyflag" class="btnbottom" (click)="choicestart();" style=" margin-left: 5px; height: 40px; background: transparent; border: solid 1px !important; width: 58px; font-size: 14px; color:black !important; border-radius: 10px; width: 55px; padding-left:0px !important; padding-right:0px !important; background: white !important; top: 0px; margin-top: -10px;">
-		        메이드
+		        메이드..
 	        </button>
           <button *ngIf="!modifyflag" class="btnbottom" (click)="endall(a,a.name,a,1)" style=" margin-left: 5px; height: 40px; background: transparent; border: solid 1px !important; color:black !important; border-radius: 10px; padding-left:0px !important; padding-right:0px !important; width: 70px; top: 0px; font-size: 16px; margin-top: -10px;">
 	         전체종료

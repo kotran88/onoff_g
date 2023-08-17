@@ -110,6 +110,7 @@ export class SlidetestPage {
   mainlist_mine:any=[];//초이스
   searchResult:any=[];
   mainlist_choice:any=[];
+  mainlist_choice2:any=[];
   mainlist2_mine:any=[];
   mainlist_finished_choice:any=[];//진행중인방
   mainlist_finished_status_choice:any=[];//완료된방
@@ -268,20 +269,38 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
                 //초이스 혹은 진행중인방. 
                   console.log("this.mainlist_info[aaa]:");
                   console.log(this.mainlist_info[aaa]);
-                  this.mainlist_choice.push({
-                    "num":this.mainlist_info[aaa].num,
-                                              "name":this.mainlist_info[aaa].name,
-                                              "avec":this.mainlist_info[aaa].avec,
-                                              "logic":this.mainlist_info[aaa].logic,
-                                              "key":this.mainlist_info[aaa].key,
-                                              "incharge":this.mainlist_info[aaa].incharge,
-                                              "max_people_count":this.mainlist_info[aaa].max_people_count,
-                                              "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
-                                              "status":this.mainlist_info[aaa].status,
-                                              "wt":this.mainlist_info[aaa].wt,
-                                              "memo":this.mainlist_info[aaa].memo,
-                                              "created_at":this.mainlist_info[aaa].created_at,
-                                              });
+                  if(this.mainlist_info[aaa].numofpeople!=0){
+                    this.mainlist_choice2.push({
+                      "num":this.mainlist_info[aaa].num,
+                                                "name":this.mainlist_info[aaa].name,
+                                                "avec":this.mainlist_info[aaa].avec,
+                                                "logic":this.mainlist_info[aaa].logic,
+                                                "key":this.mainlist_info[aaa].key,
+                                                "incharge":this.mainlist_info[aaa].incharge,
+                                                "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                                "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                                "status":this.mainlist_info[aaa].status,
+                                                "wt":this.mainlist_info[aaa].wt,
+                                                "memo":this.mainlist_info[aaa].memo,
+                                                "created_at":this.mainlist_info[aaa].created_at,
+                                                });
+                  }else{
+                    this.mainlist_choice.push({
+                      "num":this.mainlist_info[aaa].num,
+                                                "name":this.mainlist_info[aaa].name,
+                                                "avec":this.mainlist_info[aaa].avec,
+                                                "logic":this.mainlist_info[aaa].logic,
+                                                "key":this.mainlist_info[aaa].key,
+                                                "incharge":this.mainlist_info[aaa].incharge,
+                                                "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                                "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                                "status":this.mainlist_info[aaa].status,
+                                                "wt":this.mainlist_info[aaa].wt,
+                                                "memo":this.mainlist_info[aaa].memo,
+                                                "created_at":this.mainlist_info[aaa].created_at,
+                                                });
+                  }
+                
               }else if(this.mainlist_info[aaa].status=="fin"){
                 //완료된방..
                 this.mainlist_finished_status_choice.push({
@@ -2099,23 +2118,44 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
             for(var aaa in this.mainlist_info){
               if(this.mainlist_info[aaa].status!="fin"&&this.mainlist_info[aaa].status!="disabled"){
                 //초이스 혹은 진행중인방. 
-                  this.mainlist_choice.push({
-                    "num":this.mainlist_info[aaa].num,
-                                              "name":this.mainlist_info[aaa].name,
-                                              "avec":this.mainlist_info[aaa].avec,
-                                              "logic":this.mainlist_info[aaa].logic,
-                                              "key":this.mainlist_info[aaa].key,
-                                              "incharge":this.mainlist_info[aaa].incharge,
-                                              "max_people_count":this.mainlist_info[aaa].max_people_count,
-                                              "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
-                                              "status":this.mainlist_info[aaa].status,
-                                              "wt":this.mainlist_info[aaa].wt,
-                                              "memo":this.mainlist_info[aaa].memo,
-                                              "created_at":this.mainlist_info[aaa].created_at,
-                                              });
+                  console.log("this.mainlist_info[aaa]:");
+                  console.log(this.mainlist_info[aaa]);
+                  if(this.mainlist_info[aaa].numofpeople!=0){
+                    this.mainlist_choice2.push({
+                      "num":this.mainlist_info[aaa].num,
+                                                "name":this.mainlist_info[aaa].name,
+                                                "avec":this.mainlist_info[aaa].avec,
+                                                "logic":this.mainlist_info[aaa].logic,
+                                                "key":this.mainlist_info[aaa].key,
+                                                "incharge":this.mainlist_info[aaa].incharge,
+                                                "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                                "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                                "status":this.mainlist_info[aaa].status,
+                                                "wt":this.mainlist_info[aaa].wt,
+                                                "memo":this.mainlist_info[aaa].memo,
+                                                "created_at":this.mainlist_info[aaa].created_at,
+                                                });
+                  }else{
+                    this.mainlist_choice.push({
+                      "num":this.mainlist_info[aaa].num,
+                                                "name":this.mainlist_info[aaa].name,
+                                                "avec":this.mainlist_info[aaa].avec,
+                                                "logic":this.mainlist_info[aaa].logic,
+                                                "key":this.mainlist_info[aaa].key,
+                                                "incharge":this.mainlist_info[aaa].incharge,
+                                                "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                                "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                                "status":this.mainlist_info[aaa].status,
+                                                "wt":this.mainlist_info[aaa].wt,
+                                                "memo":this.mainlist_info[aaa].memo,
+                                                "created_at":this.mainlist_info[aaa].created_at,
+                                                });
+                  }
+                
               }else if(this.mainlist_info[aaa].status=="fin"){
                 //완료된방..
                 this.mainlist_finished_status_choice.push({
+                  "num":this.mainlist_info[aaa].num,
                   "name":this.mainlist_info[aaa].name,
                                               "avec":this.mainlist_info[aaa].avec,
                                               "logic":this.mainlist_info[aaa].logic,
@@ -2521,7 +2561,7 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
     
     console.log("ad room come");
     console.log(room);
-    let modal = this.modal.create(InfomodalPage,{"room":room, "bu":this.bu,"selectedKey":this.selectedKey, "selectedIncharge":this.selectedIncharge,"selectedAvec":this.selectedAvec,"selectedLogic":this.selectedLogic , "selectedNumber":this.selectedNumber,"mainlist":this.mainlist_choice});
+    let modal = this.modal.create(InfomodalPage,{"room":room, "bu":this.bu,"selectedKey":this.selectedKey, "selectedIncharge":this.selectedIncharge,"selectedAvec":this.selectedAvec,"selectedLogic":this.selectedLogic , "selectedNumber":this.selectedNumber,"mainlist":this.mainlist_choice,"mainlist2":this.mainlist_choice2});
     modal.onDidDismiss(url => {
       console.log(url);
 
