@@ -248,7 +248,6 @@ export class InfomodalPage {
     var nomemo = this.nomemo
     var json  = [];
     var num = Number(this.mainlist.length)+1;
-    window.alert("num : "+num);
     json.push({"room_name":room_name,"num":num, "logic":this.booleanValue.toString(),"avec":this.booleanValue2.toString(),"bu":this.bu.toString(), "wt_id":wt_id,"director_id":director_id,"max_people_count":max_people_count,"created_by":this.nickname,"cmd":cmd,"nomemo":nomemo, "num_of_people":num_of_people});
     console.log(json);
     this.http.post("https://captainq.wadteam.com/captainq/apis/currentroom", {"room_name":room_name,"ss":0,"num":num, "logic":this.booleanValue.toString(),"avec":this.booleanValue2.toString(),"bu":this.bu.toString(), "wt_id":wt_id,"director_id":director_id,"max_people_count":max_people_count,"created_by":this.nickname,"cmd":cmd,"nomemo":nomemo, "num_of_people":num_of_people}, {"token":this.token}).then(data => {

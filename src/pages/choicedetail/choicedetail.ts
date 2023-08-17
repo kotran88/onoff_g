@@ -61,7 +61,7 @@ export class ChoicedetailPage {
   roomno:any;
   modalopen:any=false;
   token:any;
-
+  numofagasi:any=0;
   constructor(public http:HTTP,public platform:Platform,public alertCtrl:AlertController, public util:UtilsProvider,public view:ViewController,public loading:LoadingController,public modal:ModalController,public zone:NgZone, public navCtrl: NavController, public navParams: NavParams) {
     this.token = localStorage.getItem("token");
     console.log("choice detail come...");
@@ -82,10 +82,7 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
       var result = JSON.parse(a.rst_content);
       console.log(result);
       console.log(result.length);
-  //     this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"idx":this.a.key,"updated_by":this.nickname,"num_of_people":result.length,"cmd":"none"},{"token":this.token}).then(data => {
-  //   console.log("patch...."+data);
-  //   console.log(data);
-  // });
+      var count=0;
       for(var value in result){
         console.log("iterating....");
         console.log(result[value]);
@@ -93,8 +90,13 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
         console.log(result[value].tc);
         console.log(result[value].money);
         console.log(result[value].exit_dt);
+        if(result[value].exit_dt==null){
+          count++;
+        }
         this.mainlist.push({"tc":result[value].tc,"money":result[value].money,"exit_dt":result[value].exit_dt, "idx":result[value].idx,"room_idx":result[value].room_idx,"member_idx":result[value].member_idx,"created_by":result[value].created_by, "name":result[value].nickname,"angel":result[value].angel,"date":result[value].enter_dt})
       }
+
+      this.numofagasi = count;
       console.log("was result...");
       console.log(this.mainlist);
   });
@@ -866,8 +868,35 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
       console.log(a);
       console.log(a.rst_content);
       if(a.rst_code=="SUCCESS"){
-        window.alert("종료되었습니다.");
-        this.view.dismiss();
+        this.a.numofpeople = this.a.numofpeople-1;
+      this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"idx":this.a.key,"updated_by":this.nickname,"num_of_people":this.numofagasi-1,"cmd":"none"},{"token":this.token}).then(data => {
+    console.log("patch...."+data);
+    console.log(data);
+
+    this.numofagasi = this.numofagasi-1;
+  });
+
+this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+this.a.key,{},{"token":this.token}).then(data => {
+  console.log("get result...");
+  console.log(data);
+  var a = JSON.parse(data.data)
+
+  var result = JSON.parse(a.rst_content);
+  console.log(result);
+  console.log(result.length);
+  this.mainlist = [];
+  for(var value in result){
+    console.log("iterating....");
+    console.log(result[value]);
+    console.log(result[value].nickname);
+    console.log(result[value].tc);
+    console.log(result[value].money);
+    console.log(result[value].exit_dt);
+    this.mainlist.push({"tc":result[value].tc,"money":result[value].money,"exit_dt":result[value].exit_dt, "idx":result[value].idx,"room_idx":result[value].room_idx,"member_idx":result[value].member_idx,"created_by":result[value].created_by, "name":result[value].nickname,"angel":result[value].angel,"date":result[value].enter_dt})
+  }
+  console.log("was result...");
+  console.log(this.mainlist);
+});
       }
       
   });

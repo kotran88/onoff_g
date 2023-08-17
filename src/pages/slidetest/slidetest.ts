@@ -2525,6 +2525,13 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
     modal.onDidDismiss(url => {
       console.log(url);
 
+      console.log(this.mainlist_choice);
+      this.mainlist_choice.sort(function(a,b){
+        return a.num - b.num;
+      });
+
+      console.log(this.mainlist_choice);
+      console.log("done...");
       return;
 
     });
