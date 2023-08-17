@@ -241,9 +241,7 @@ export class Choicemodal2Page {
       
     }
     if(this.successcount == this.agasilist.length){
-      window.alert(this.agasilist.length+"명 추가 완료!");
     }else{
-      window.alert("추가하는데 문제가 발생하였습니다.");
     }
     this.util.dismissLoading();
     this.view.dismiss({"result":"ok"})

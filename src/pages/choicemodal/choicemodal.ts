@@ -643,12 +643,24 @@ export class ChoicemodalPage {
           if(result[value].nickname==this.agasilist[agasi].name){
             this.agasilist[agasi].flag=true;
             console.log("same name");
-            //이미 등록된 회원이며 room_detail테이블에 바로 넣어버리자.
+            console.log(result[value]);
+            //이미 등록된 회원이면 room_detail테이블에 바로 넣어버리자.
             
             
 
             regflag=true;
+            var json2  = [];
+            console.log("a is : ");
+            console.log(this.a);
+            json2.push({"room_idx":this.a.key,"member_idx":result[value].idx,"angel":0,"incharge":this.a.incharge,"enter_dt":this.util.getCurrentFormattedDateTime(),"created_by":this.nickname});
+            console.log("json2222 : ");
+            console.log(json2);
+        this.http.post("https://captainq.wadteam.com/captainq/apis/roomdetail", {"room_idx":this.a.key,"member_idx":result[value].idx,"angel":0,"incharge":this.a.incharge,"enter_dt":this.util.getCurrentFormattedDateTime(),"created_by":this.nickname}, {"token":this.token}).then(data => {
+           
+              console.log("data from roomdetail");
+              console.log(data);
 
+          });      
 
             // this.agasilist[agasi].wt_id=result[value].wt_id;
             // this.agasilist[agasi].director_id=result[value].director_id;
@@ -679,30 +691,33 @@ export class ChoicemodalPage {
       console.log(this.a);//방정보 
       console.log(notregistered);
       console.log("not registered");
-
-
+      if(notregistered.length==0){
+        this.util.dismissLoading();
+          this.view.dismiss();
+      }else{
       let modal2 = this.modal.create(Choicemodal2Page,{ "agasi":notregistered,"room":this.a,"currentstartday":this.currentstartday,"hour":hour,"min":min});
 
-          modal2.onDidDismiss(url => {
+      modal2.onDidDismiss(url => {
 
-            console.log(url);
+        console.log(url);
 
-            if(url==undefined){
-              return;
-            }else if(url.result == false){
-              this.view.dismiss();
-            }else{
-              if(url.result=="ok"){
-                window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
-                //console.log(this.originalList);
-                
-              this.view.dismiss();
-              }
-            }
-          });
-          modal2.present();
+        if(url==undefined){
+          return;
+        }else if(url.result == false){
+          this.view.dismiss();
+        }else{
+          if(url.result=="ok"){
+            window.alert("신규아가씨 출근처리/배정되었습니다.(가입은안되었습니다)");
+            //console.log(this.originalList);
+            
+          this.view.dismiss();
+          }
+        }
+      });
+      modal2.present();
 
 
+      }
       if(regflag){
         //이미등록ㄷ
       }else{

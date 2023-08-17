@@ -400,9 +400,9 @@
                       <div  class="contentmain">
                         <!-- avec == true -->
                         <p *ngIf="main.avec=='1'" style="font-size: 18px; font-weight: 900;">
-                          {{main.v}} #{{main.name}}  
+                          {{main.num}}  {{main.v}} #{{main.name}}  
                           <span class="sm">
-                            A {{main.incharge}}
+                            A {{main.incharge}} {{main.max_people_count}}명 {{main.wt}}
                           </span> 
                           <span *ngIf="main.numofpeople==0" class="sm" style="color: black; background: pink;" > 
                             신규{{main.max_people_count-main.numofpeople}} 
@@ -414,9 +414,9 @@
                         </p>
                         <!-- avec == false -->
                         <p *ngIf="main.avec=='0'" style="font-size: 18px; font-weight: 900;">
-                         {{main.v}} #{{main.name}} 
+                       {{main.num}}   {{main.v}} #{{main.name}} 
                           <span class="sm">
-                            {{main.incharge}} {{main.max_people_count-main.numofpeople}}명 {{main.wt}}
+                            {{main.incharge}} {{main.max_people_count}}명 {{main.wt}}
                           </span> 
                           <span *ngIf="main.numofpeople==0" class="sm" style="color: black; background: pink;" > 
                             신규{{main.max_people_count-main.numofpeople}} 
@@ -714,15 +714,13 @@
                 </tr>
                 <ng-container *ngFor="let a of mainlist_att">
                 <tr (click)="editing2(a);"  style="border-bottom: 1px solid;">
-                    <td style="border-right:1px solid;text-align: left;padding-left: 4px;">{{a.team}}</td>
+                    <td style="border-right:1px solid;text-align: left;padding-left: 4px;">팀명-</td>
                     <td>{{a.name}}</td>
-                    <td>{{a.wantee}}</td>
-                    <td>{{a.tc}}</td>
+                    <td></td>
+                    <td></td>
                     <td>
-                      <ng-container *ngIf="a.status=='standby'">대기</ng-container>
-                      <ng-container *ngIf="a.status=='justcome'">출근</ng-container>
-                      <ng-container *ngIf="a.status=='attend'">방중</ng-container>
-                      <ng-container *ngIf="a.status=='gotohome'">퇴근</ng-container>
+                      <ng-container *ngIf="a.status=='ready'">대기</ng-container>
+                      <ng-container *ngIf="a.status=='working'">출근중</ng-container>
                     </td>
                 </tr>
                 </ng-container>

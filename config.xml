@@ -29,12 +29,12 @@
         </edit-config>
         <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
         <allow-intent href="market:*" />
-        <icon density="ldpi" src="resources/android/icon/icon.png" />
-        <icon density="mdpi" src="resources/android/icon/icon.png" />
-        <icon density="hdpi" src="resources/android/icon/icon.png" />
-        <icon density="xhdpi" src="resources/android/icon/icon.png" />
-        <icon density="xxhdpi" src="resources/android/icon/icon.png" />
-        <icon density="xxxhdpi" src="resources/android/icon/icon.png" />
+        <icon density="ldpi" src="resources/android/icon/wadlogo.jpeg" />
+        <icon density="mdpi" src="resources/android/icon/wadlogo.jpeg" />
+        <icon density="hdpi" src="resources/android/icon/wadlogo.jpeg" />
+        <icon density="xhdpi" src="resources/android/icon/wadlogo.jpeg" />
+        <icon density="xxhdpi" src="resources/android/icon/wadlogo.jpeg" />
+        <icon density="xxxhdpi" src="resources/android/icon/wadlogo.jpeg" />
         <splash density="land-ldpi" src="resources/android/splash/port.png" />
         <splash density="land-mdpi" src="resources/android/splash/port.png" />
         <splash density="land-hdpi" src="resources/android/splash/port.png" />
@@ -74,7 +74,7 @@
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
             <string>위치정보는 절대 수집되지 않고, 지역제한에 따른 확인조치를 위한 위치파악용도입니다.</string>
         </edit-config>
-        <icon height="57" src="resources/ios/icon/icon.png" width="57" />
+        <icon height="57" src="resources/ios/icon/wadlogo.jpeg" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />
         <icon height="58" src="resources/ios/icon/icon-small@2x.png" width="58" />

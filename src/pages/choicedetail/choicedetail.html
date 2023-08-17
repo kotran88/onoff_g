@@ -99,7 +99,7 @@
                     </td>
                     <td>
                       <span>
-                        {{a.date.split(" ")[1]}}
+                        {{a.date.split(" ")[1].split(":")[0]}}:{{a.date.split(" ")[1].split(":")[1]}}
                       </span>
                     </td>
                     <td>
@@ -129,7 +129,7 @@
                     </td>
                     <td>
                       <span *ngIf="a.created_by==undefined">
-                        -?
+                        -
                       </span>
                     </td>
                     <td>
@@ -138,21 +138,23 @@
                       </span>
                     </td>
                     <td>
-                      <span *ngIf="a.date!=undefined">
-                        {{a.date}}
+                      <span *ngIf="a.exit_dt!=undefined">
+                        {{a.exit_dt.split(" ")[1].split(":")[0]}}:{{a.exit_dt.split(" ")[1].split(":")[1]}}
                       </span>
                     </td>
                     <td>
-                      <button *ngIf="a.findate==undefined" (click)="end(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
+                      <button *ngIf="a.exit_dt==undefined" (click)="end(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px;  
+                      width: 50px;
+                      height: 30px;" class="default-btn">
                         종료
                       </button>
-                      <!-- <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px; 
+                      <button *ngIf="a.exit_dt!=undefine" (click)="reinit(b,a.name,a,1)" style="border: 1px solid black;border-radius: 5px; 
                       font-size: 10px;
                       height: 30px;
                       padding: 0px;
                       width: 50px;" class="default-btn">
                         재진행
-                      </button> -->
+                      </button>
                     </td>
                   </tr>
                 </table>
@@ -200,262 +202,7 @@
     </div><!-- area :) -->
     <!-- 진행중인방 -->
     <!-- area 2 -->
-    <div class="area" [ngClass]="activeclass=='2' ? 'show' : 'noshow'" id="ion-label-area-2">
-      <div style="width: 100%; align-items: center; z-index: 2000; border-top: solid 1px; height: 39px;">
-        <div class="chart-div">
-          <div class="name-keys">
-            <span>룸NO</span>
-            <span>담당자</span>
-            <span>인원</span>
-            <span>입장</span>
-            <span>WT</span>
-            <span>입실T</span>
-            <span>완료</span>
-          </div>
-          <div  class="datas">
-            <div *ngFor="let aa of mainlist_finished" class="main">
-              <span>{{aa.name}}</span>
-              <span>{{aa.incharge}}</span>
-              <span>{{aa.numofpeople}} 인 </span> 
-              <span *ngIf="aa!=undefined&&aa.agasi!=undefined">{{aa.numofagasi}} 인</span>
-              <span *ngIf="aa.agasi==undefined">0 인</span>
-              <span>{{aa.wt}}</span>
-              <span>{{aa.insert_date}}</span> 
-              <span>-</span> 
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="showmain">
-        <div *ngIf="mainlist_finished.length==0" class="datas">
-          <p>초이스방 내역이 없습니다.. </p>
-        </div>
-        <div *ngFor="let a of mainlist_finished let j = index" >
-          <div *ngIf="a.agasi!=undefined" style="margin-top:33px;" class="panel-4" id="panel-4-{{j}}">
-            <div *ngFor="let b of a.agasi" class="looping" >
-              <div>
-                <table>
-                  <tr style="width: 100%;">
-                    <td *ngIf="b.angel" style="width:30px;">
-                      <span >
-                        <img style=" height: 28px; width:28px;" class="logo" src="assets/img/angel.png" />
-                      </span>
-                    </td>
-                    <td style="text-align: right;">
-                      <span *ngIf="!b.angel&&b.findate==undefined&&modifyflag" style="margin: 0px !important; 
-                      font-size: 12px !important; ">
-                        {{b.name}}
-                      </span>
-                      <span *ngIf="!b.angel&&b.findate==undefined&&!modifyflag" style="margin: 0px !important; 
-                      font-size: 12px !important;">
-                        {{b.name}}
-                      </span>
-                      <span *ngIf="!b.angel&&b.findate!=undefined&&!modifyflag" style="margin: 0px !important; 
-                      font-size: 12px !important; ">
-                        {{b.name}}
-                      </span>
-                      <span *ngIf="!b.angel&&b.findate!=undefined&&modifyflag" style=" margin: 0px !important;
-                      font-size: 12px !important; ">
-                        <input [(ngModel)]='b.name' value="{{b.name}}" type="text">
-                      </span>
-                      <span *ngIf="b.angel" style=" margin: 0px !important; 
-                      font-size: 12px !important;">
-                        {{b.name}}
-                      </span>
-                    </td>
-                    <td>
-                      <span>
-                        {{b.date.split(" ")[1]}}
-                      </span>
-                    </td>
-                    <td>
-                      <span *ngIf="b.findate!=undefined&&!modifyflag">
-                        {{b.findate.split(" ")[1]}}
-                      </span>
-                      <span *ngIf="b.findate==undefined&&!modifyflag">
-                        -
-                      </span>
-                    </td>
-                    <td>
-                      <span *ngIf="b.tc!=undefined&&!modifyflag">
-                        <small>{{b.tc}}<small>개</small></small> <br><small>{{b.money}}<small>만원</small></small>
-                      </span>
-                    </td>
-                    <td>
-                      <div *ngIf="modifyflag">
-                        <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate!=undefined">
-                          <input *ngIf="b.tc!=undefined&&modifyflag" [(ngModel)]='b.tc' value="{{b.tc}}" type="text">
-                          <br>{{b.money}}만원
-                        </span>
-                        <span *ngIf="b.tc!=undefined&&modifyflag&&b.findate==undefined">
-                          {{b.tc}}개 <br>{{b.money}}만원
-                        </span>
-                      </div>
-                    </td>
-                    <td>
-                      <span *ngIf="b.writer!=undefined">
-                        {{b.writer}}
-                      </span>
-                    </td>
-                    <td>
-                      <span *ngIf="b.date!=undefined">
-                        {{abcd(b.date)}}
-                      </span>
-                    </td>
-                    <td>
-                      <button *ngIf="b.findate==undefined||b.findate.length==0" (click)="end(b,a.name,a,2)" style="border: 1px solid black;border-radius: 5px;padding: 10px 20px;" class="default-btn">
-                        종료
-                      </button>                
-                      <button *ngIf="!modifyflag&&b.findate!=undefined&&b.findate.length!=0" (click)="reinit(b,a.name,a,2)" style="border: 1px solid black;border-radius: 5px;  
-                      font-size: 10px;
-                      height: 30px;
-                      padding: 0px;
-                      width: 50px;" class="default-btn">
-                        재진행
-                      </button>
-                    </td>
-                  </tr>
-
-                </table>
-
-              </div>
-
-            </div><!-- for loop :)-->
-          </div>
-          <div class="messagessss">
-            <div *ngFor="let aa of a.message" class="messagediv">
-              <span style=" left: 15px; font-size: 15px !important; margin-left: 10px; color:black;">
-                {{aa.uploader}} {{aa.contents}} {{aa.tc}} {{aa.agasi}}
-              </span> 
-              <span style=" right: 40px; font-size: 15px !important; color:black; float: right; margin-right: 10px;">
-                {{aa.date}}
-              </span> 
-            </div>
-          </div>
-          <div class="memo">
-            <span *ngIf="a.memo!=undefined&& a.memo.length>0"> 
-              {{a.memo}}
-            </span>
-          </div>
-        </div> 
-        <div class="bottomdiv">
-          <button *ngIf="!modifyflag" (click)="choicestart();" style=" margin-left: 5px; height: 40px; background: transparent; border: solid 1px !important; width: 58px; font-size: 14px; color:black !important; border-radius: 10px; width: 55px; padding-left:0px !important; padding-right:0px !important; background: white !important; top: 0px; margin-top: -10px;">
-            메이드
-          </button>
-          <button *ngIf="!modifyflag" (click)="endall(a,a.name,a,2)" style=" margin-left: 5px; height: 40px; background: transparent; border: solid 1px !important; color:black !important; border-radius: 10px; padding-left:0px !important; padding-right:0px !important; width: 70px; top: 0px; font-size: 16px; margin-top: -10px;">
-            전체종료
-          </button>
-          <div *ngFor="let aa of mainlist_finished" class="c">
-            <button *ngIf="!modifyflag&&aa.numofagasi==aa.numofpeople"  (click)="ss3(a,a.name,a)" style=" margin-left: 5px; height: 40px; background: transparent; border: solid 1px !important; color:black !important; border-radius: 10px; width: 60px; padding-left:0px !important; padding-right:0px !important; font-size: 14px; top: 0px; margin-top: -10px;">
-              날개
-            </button>
-            <button *ngIf="!modifyflag&&aa.numofagasi!=aa.numofpeople" (click)="ss2(a,a.name,a)" style=" margin-left: 5px; height: 40px; background: transparent; border: solid 1px !important; color:black !important; border-radius: 10px; padding-left:0px !important; padding-right:0px !important; font-size: 15px; width: 55px; top: 0px; margin-top: -10px;">
-              재초
-            </button>
-          </div> <!-- for loop :) -->
-          <button *ngIf="!modifyflag" class="btnbottom" (click)="memo(a,a.name,a)" style=" margin-left: 5px; height: 40px; background: transparent; border: solid 1px !important; color:black !important; border-radius: 10px; padding-left:0px !important; padding-right:0px !important; font-size: 15px; width: 55px; top: 0px; margin-top: -10px;">
-            메모
-          </button>
-          <button *ngIf="!modifyflag" class="btnbottom" (click)="modify(a,a.name,a)" style=" margin-left: 5px; height: 40px; background: transparent; border: solid 1px !important; color:black !important; border-radius: 10px; padding-left:0px !important; padding-right:0px !important; font-size: 15px; width: 55px; top: 0px; margin-top: -10px;">
-            수정
-          </button>
-          <button *ngIf="modifyflag" (click)="modifyfin(a,a.name,a,a.agasi)" style=" margin-left: 5px; height: 55px; background: transparent; border: solid 1px; border-radius: 10px; width: 55px; font-size:16px; top: 0px; margin-top: -10px; ">
-            완료
-          </button>
-          <button *ngIf="modifyflag" (click)="modifycancel(a,a.name,a)" style=" margin-left: 10px; height: 55px; background: transparent; border: solid 1px; border-radius: 10px; width: 55px; font-size:16px; top: 0px; margin-top: -10px; ">
-            취소
-          </button>
-        </div><!-- bottomdiv :) -->
-      </div> <!-- showmain :) -->
-    </div><!-- area :) -->
-    <!-- 완료된방 -->
-    <!-- area 3 -->
-    <div class="area" [ngClass]="activeclass=='3' ? 'show' : 'noshow'" id="ion-label-area-3">
-      <div style="width: 100%; align-items: center; z-index: 2000; border-top: solid 1px; height: 39px;">
-        <div class="chart-div">
-          <div class="name-keys">
-              <span>룸NO</span>
-              <span>담당자</span>
-              <span>인원</span>
-              <span>입장</span>
-              <span>WT</span>
-              <span>입실T</span>
-              <span>완료</span>
-          </div>
-          <div class="datas">
-            <div *ngIf="mainlist_finished_status.length==0" class="datas">
-              <p >  초이스방 내역이 없습니다... </p>
-            </div>
-            <div *ngFor="let aa of mainlist_finished_status" class="main">
-              <span>{{aa.name}}</span>
-              <span>{{aa.incharge}}</span>
-              <span>{{aa.numofpeople}} 인 </span> 
-              <span *ngIf="aa!=undefined&&aa.agasi!=undefined">{{aa.numofagasi}} 인</span>
-              <span *ngIf="aa.agasi==undefined">0 인</span>
-              <span>{{aa.wt}}</span>
-              <span>{{aa.insert_date}}</span> 
-              <span>-</span> 
-            </div><!-- for loop :) -->
-          </div>
-        </div>
-      </div>
-      <div class="showmain">
-        <div *ngFor="let a of mainlist_finished_status let j = index" >
-          <div  *ngIf="a.agasi!=undefined" class="panel-4" id="panel-4-{{j}}">
-            <div *ngFor="let b of a.agasi" class="looping" >
-              <div class="mainmain">
-                <span style="line-height: 40px; width:40px; text-align: center;">{{b.name}}</span>
-                <span style="line-height: 40px; width:40px; font-size: 12px !important; text-align: center;">{{b.date.split(" ")[1]}}</span>
-                <span *ngIf="b.findate!=undefined&&!modifyflag" style="line-height: 40px; font-size: 12px !important; width:40px; text-align: center;">
-                  {{b.findate.split(" ")[1]}}
-                </span>
-                <span *ngIf="b.tc!=undefined&&!modifyflag" style="line-height: 20px; font-size: 11px !important; width:40px; text-align: center;">
-                  {{b.tc}}개 <br>{{b.money}}만원
-                </span>
-                  <div style=" width: 50px; line-height: 25px;" class="aaa">
-                    <span *ngIf="b.money!=undefined&&modifyflag" style="line-height: 20px; width:40px; text-align: center;"> 
-                      <input [(ngModel)]='b.tc' style="    width: 40px; border: solid 2px; border-radius: 10px; text-align: center;" *ngIf="b.tc!=undefined&&modifyflag" value="{{b.tc}}" type="text">
-                      <br>{{b.money}}만원
-                    </span>
-                  </div>
-                  <span *ngIf="b.writer==undefined" style="line-height: 40px;font-size: 12px !important;  width:40px; text-align: center;">
-                    -
-                  </span>
-                  <span *ngIf="b.writer!=undefined" style="line-height: 40px; font-size: 12px !important; width:40px; text-align: center;">
-                    {{b.writer}}
-                  </span>
-                  <span *ngIf="b.date!=undefined" style=" line-height: 50px; font-size: 11px !important; width: 55px; margin: 0px; ">
-                    {{abcd(b.date)}}
-                  </span> 
-              </div>
-            </div>
-          </div>
-          <div class="messagessss">
-            <div *ngFor="let aa of a.message" class="messagediv">
-              <span style="left: 15px; font-size: 14px !important; margin-left: 10px; color:black; position: absolute;"> 
-                {{aa.uploader}} {{aa.contents}}  {{aa.agasi}} {{aa.tc}}
-              </span> 
-              <span style="right: 40px; font-size: 14px !important; color:black; position: absolute;">
-                {{aa.date}}
-              </span> 
-            </div>
-          </div>
-          <div class="memo">
-            <span *ngIf="a.memo!=undefined&&a.memo.length>0"> 
-              {{a.memo}}
-            </span>
-          </div>
-        </div><!-- for loop :) -->
-        <div class="bottomdiv">
-          <button (click)="modify(a,a.name,a)" style=" margin-left: 10px; height: 40px; background: transparent; border: solid 1px; border-radius: 10px; width: 80px; top: 0px; margin-top: -10px; ">
-            수정
-          </button>
-          <button *ngIf="modifyflag" (click)="modifyfin2(a,a.name,a)" style=" margin-left: 10px; height: 40px; background: transparent; border: solid 1px; border-radius: 10px; width: 80px; top: 0px; margin-top: -10px; ">
-            수정완료
-          </button>
-        </div><!-- bottomdiv :) -->
-      </div><!-- showmain :) -->
-    </div><!-- area :) -->
+    
     <!-- 날개초이스 -->
     <!-- area 4 -->
     <div class="area" [ngClass]="activeclass=='4' ? 'show' : 'noshow'" id="ion-label-area-4">

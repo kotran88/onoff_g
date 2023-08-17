@@ -25,6 +25,7 @@ export class InfomodalPage {
   booleanValue:any=0;
   booleanValue2:any=0;
   booleanValue3:any=false;
+  mainlist:any=[];
   lloading:any;
   currentstartday:any="";
   currentstart:any="";
@@ -47,7 +48,9 @@ export class InfomodalPage {
     this.bu= this.navParams.get("bu");
     this.nickname=localStorage.getItem("nickname");
     //console.log(this.directorList)
-    
+    this.mainlist = this.navParams.get("mainlist");
+    console.log(this.mainlist);
+    console.log("was mainlist...");
    this.company = localStorage.getItem("company");
    this.currentstart=localStorage.getItem("start");
    this.name = localStorage.getItem("name");
@@ -78,7 +81,6 @@ export class InfomodalPage {
        this.booleanValue2=0;
     }
    }
-   window.alert(this.booleanValue2);
    //console.log(this.currentstartday);
    //console.log("room",this.room);
    //console.log(this.company)
@@ -132,7 +134,7 @@ export class InfomodalPage {
     }
   }
   confirm(){
-    
+    console.log("confirm...");
     var date = new Date();
     
     var year=date.getFullYear();
@@ -245,10 +247,11 @@ export class InfomodalPage {
           }
     var nomemo = this.nomemo
     var json  = [];
-    json.push({"room_name":room_name,"logic":this.booleanValue.toString(),"avec":this.booleanValue2.toString(),"bu":this.bu.toString(), "wt_id":wt_id,"director_id":director_id,"max_people_count":max_people_count,"created_by":this.nickname,"cmd":cmd,"nomemo":nomemo, "num_of_people":num_of_people});
+    var num = Number(this.mainlist.length)+1;
+    window.alert("num : "+num);
+    json.push({"room_name":room_name,"num":num, "logic":this.booleanValue.toString(),"avec":this.booleanValue2.toString(),"bu":this.bu.toString(), "wt_id":wt_id,"director_id":director_id,"max_people_count":max_people_count,"created_by":this.nickname,"cmd":cmd,"nomemo":nomemo, "num_of_people":num_of_people});
     console.log(json);
-    
-    this.http.post("https://captainq.wadteam.com/captainq/apis/currentroom", {"room_name":room_name,"ss":0, "logic":this.booleanValue.toString(),"avec":this.booleanValue2.toString(),"bu":this.bu.toString(), "wt_id":wt_id,"director_id":director_id,"max_people_count":max_people_count,"created_by":this.nickname,"cmd":cmd,"nomemo":nomemo, "num_of_people":num_of_people}, {"token":this.token}).then(data => {
+    this.http.post("https://captainq.wadteam.com/captainq/apis/currentroom", {"room_name":room_name,"ss":0,"num":num, "logic":this.booleanValue.toString(),"avec":this.booleanValue2.toString(),"bu":this.bu.toString(), "wt_id":wt_id,"director_id":director_id,"max_people_count":max_people_count,"created_by":this.nickname,"cmd":cmd,"nomemo":nomemo, "num_of_people":num_of_people}, {"token":this.token}).then(data => {
           console.log(data);
           console.log("return value comeㄷㄷㄷㄷㄷㄷ...");
  

@@ -87,8 +87,13 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
   //   console.log(data);
   // });
       for(var value in result){
+        console.log("iterating....");
+        console.log(result[value]);
         console.log(result[value].nickname);
-        this.mainlist.push({"created_by":result[value].created_by, "name":result[value].nickname,"angel":result[value].angel,"date":result[value].enter_dt})
+        console.log(result[value].tc);
+        console.log(result[value].money);
+        console.log(result[value].exit_dt);
+        this.mainlist.push({"tc":result[value].tc,"money":result[value].money,"exit_dt":result[value].exit_dt, "idx":result[value].idx,"room_idx":result[value].room_idx,"member_idx":result[value].member_idx,"created_by":result[value].created_by, "name":result[value].nickname,"angel":result[value].angel,"date":result[value].enter_dt})
       }
       console.log("was result...");
       console.log(this.mainlist);
@@ -848,12 +853,26 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
 
     console.log("-------------------------end-------------------------");
     console.log("------------------------- param -------------------------");
-    console.log(c);//a.agasi
-    console.log(room);//a.name
     console.log(mainlist);//a
-    console.log(f);//1
     console.log("------------------------- param :) -------------------------");
+    console.log(this.util.getCurrentFormattedDateTime())
+    console.log("was date...to end");
+    console.log(mainlist.room_idx);
+    console.log(mainlist.end_dt);
+    this.http.patch("https://captainq.wadteam.com/captainq/apis/roomdetail",{"idx": mainlist.idx,"exit_dt":this.util.getCurrentFormattedDateTime()},{"token":this.token}).then(data => {
+      console.log("patch done...");
+    console.log(data);
+      var a = JSON.parse(data.data)
+      console.log(a);
+      console.log(a.rst_content);
+      if(a.rst_code=="SUCCESS"){
+        window.alert("종료되었습니다.");
+        this.view.dismiss();
+      }
+      
+  });
 
+    return;
     console.log(this.mainlist_finished_clone);
 
     this.util.presentLoading();
