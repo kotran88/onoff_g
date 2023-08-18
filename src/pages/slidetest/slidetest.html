@@ -88,82 +88,83 @@
     <!-- 웨이터 -->
     <ion-slide >
       <div class="c">
-        <div *ngIf="orderlist.length==0" class="orderlisting" style=" font-size: 30px; font-weight: 900; text-align: center; margin: auto; margin-top: 20px; text-align: center; color:black;">
+        <div *ngIf="wtbujanglist.length==0" class="orderlisting" style=" font-size: 30px; font-weight: 900; text-align: center; margin: auto; margin-top: 20px; text-align: center; color:black;">
           <p style=" font-size: 30px; font-weight: 900; text-align: center; margin: auto; text-align: center; color: black;"> 
-            본 영업일에 내역이 없습니다.. 
+            본 영업일에 내역이 없습니다.
           </p>
         </div>
         <ion-list style="height: 90%; position: fixed; overflow:scroll; display: flow-root; width: 100%;" class="accordion-list">
-          <ion-list-header *ngFor="let i of orderlist; let j = index;" style="box-shadow: 1px 1px 1px 1px;" no-lines no-padding>
+          <ion-list-header *ngFor="let i of wtbujanglist; let j = index;" style="box-shadow: 1px 1px 1px 1px;" no-lines no-padding>
             <button *ngIf="i.status=='fin'" style="background:gray;" ion-item detail-none [ngClass]="{'section-active':i.open, 'section':!i.open}" (click)="togglesection(j)">
               <ion-icon item-left name="arrow-forward" *ngIf="!i.open"></ion-icon>
               <ion-icon item-left name="arrow-down" *ngIf="i.open"></ion-icon>
               <div class="centr">
                 <span *ngIf="i.logic==1||i.logic=='1'" style="font-size: 16px; background: yellow;">
-                  {{i.roomno}}T   {{i.incharge}} 
+                  {{i.name}}T   {{i.incharge}} 
                 </span> 
                 <span *ngIf="i.logic==1" style="font-size: 12px; ">
                    1ㅅㅌㅌ
                 </span> 
                 <span *ngIf="i.logic==2||i.logic=='2'" style="font-size: 16px; background: yellow;">
-                  {{i.roomno}}T   {{i.incharge}} 
+                  {{i.name}}T   {{i.incharge}} 
                 </span> 
                 <span *ngIf="i.logic==2" style="font-size: 12px; ">
                    2ㅅㅌㅌ
                 </span> 
                 <span *ngIf="i.logic==0||i.logic==false||i.logic==undefined" style="font-size: 16px; background: yellow;">
-                  {{i.roomno}}T   {{i.incharge}} 
+                  {{i.name}}T   {{i.incharge}} 
                 </span> 
                 <span *ngIf="i.logic==0||i.logic==false||i.logic==undefined" style="font-size: 12px; ">
                    중방/대방 OFF.
                 </span> 
-                <p *ngIf="i.noflag" style="color:red; letter-spacing: 1px !important; font-size: 16px; margin: 0;">
+                <!-- <p *ngIf="i.noflag" style="color:red; letter-spacing: 1px !important; font-size: 16px; margin: 0;">
                    W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}
                 </p>
                 <p *ngIf="!i.noflag||i.noflag==undefined" style="color:black; letter-spacing: 1px !important; font-size: 16px; margin: 0;"> 
                   W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}
-                </p>
+                </p> -->
               </div>
             </button>
-            <button *ngIf="i.flag=='nono'"  ion-item detail-none [ngClass]="{'section-active':i.open, 'section':!i.open}" ></button>
+            <!-- <button *ngIf="i.flag=='nono'"  ion-item detail-none [ngClass]="{'section-active':i.open, 'section':!i.open}" ></button>
             <button *ngIf="i.flag=='nono'"  ion-item detail-none class="padding">
               <div  class="centr"></div>
-            </button>
-            <button *ngIf="i.flag!='nono'&&i.status!='fin'"  ion-item detail-none [ngClass]="{'section-active':i.open, 'section':!i.open}" (click)="togglesection(j)">
+            </button> -->
+            <button *ngIf="i.status!='fin'"  ion-item detail-none [ngClass]="{'section-active':i.open, 'section':!i.open}" (click)="togglesection(j)">
               <ion-icon item-left name="arrow-forward" *ngIf="!i.open"></ion-icon>
               <ion-icon item-left name="arrow-down" *ngIf="i.open"></ion-icon>
               <div class="centr">
                 <span *ngIf="i.logic==1" style="font-size: 16px; background: yellow;">
-                  {{i.roomno}}T   {{i.incharge}} 
+                  {{i.name}}T   {{i.incharge}} 
                 </span> 
                 <span *ngIf="i.logic==1" style="font-size: 12px; ">
                    1ㅅㅌㅌ
                 </span> 
                 <span *ngIf="i.logic==2" style="font-size: 16px; background: yellow;">
-                  {{i.roomno}}T   {{i.incharge}} 
+                  {{i.name}}T   {{i.incharge}} 
                 </span> 
                 <span *ngIf="i.logic==2" style="font-size: 12px; ">
                    2ㅅㅌㅌ
                 </span> 
                 <span *ngIf="i.logic==0||i.logic==false||i.logic==undefined" style="font-size: 16px; background: yellow;">
-                  {{i.roomno}}T   {{i.incharge}} 
+                  {{i.name}}T   {{i.incharge}} 
                 </span> 
                 <span *ngIf="i.logic==0||i.logic==false||i.logic==undefined" style="font-size: 12px; ">
                    중방/대방 OFF..
                 </span> 
-                <p *ngIf="i.noflag" style=" color:red; letter-spacing: 1px !important; font-size: 16px; margin: 0;">
+                <!-- <p *ngIf="i.noflag" style=" color:red; letter-spacing: 1px !important; font-size: 16px; margin: 0;">
                    W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}
                 </p>
                 <p *ngIf="!i.noflag||i.noflag==undefined" style=" color:black; letter-spacing: 1px !important; font-size: 16px; margin: 0;">
                    W/T : {{i.wt}} , 방 인원 : {{i.numofpeople}}, 아가씨 : {{i.inagasi}} 총 술병수 : {{i.tbottle}}
-                </p>
+                </p> -->
               </div>
             </button>
-            <ion-item  *ngIf="i.flag!='nono'&&i.open" class="child-item" >
-              <p style=" margin: 0;"> 
-                주문일22 : {{i.date}}
+            <ion-item  *ngIf="i.open" class="child-item" >
+              
+              <p style=" margin: 0;">
+                TC합계 : {{i.tc}} , 액수합계:{{i.money.toLocaleString()}}원
               </p>
-              <span *ngFor="let j of i.value">
+              <!-- <span *ngFor="let j of i.value">
               <p style=" margin: 0;" *ngIf="j.category=='주류'">
                 {{j.name}} , {{j.num}}병, {{j.price.toLocaleString()}}원
               </p>
@@ -185,7 +186,7 @@
               </p>
               <p style="font-size: 18px; background: pink; width: 160px;">
                 합계 :  {{(i.tp+i.money+(i.yeonti*10000) ).toLocaleString()}}
-              </p>
+              </p> -->
             </ion-item>
           </ion-list-header>
         </ion-list>
@@ -400,7 +401,7 @@
                       <div  class="contentmain">
                         <!-- avec == true -->
                         <p *ngIf="main.avec=='1'" style="font-size: 18px; font-weight: 900;">
-                          {{main.num}}  #{{main.name}}  
+                           #{{main.name}}  
                           <span class="sm">
                             A {{main.incharge}} {{main.max_people_count}}명 {{main.wt}}
                           </span> 
@@ -414,7 +415,7 @@
                         </p>
                         <!-- avec == false -->
                         <p *ngIf="main.avec=='0'" style="font-size: 18px; font-weight: 900;">
-                       {{main.num}}  #{{main.name}} 
+                        #{{main.name}} 
                           <span class="sm">
                             {{main.incharge}} {{main.max_people_count}}명 {{main.wt}}
                           </span> 

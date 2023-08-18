@@ -49,8 +49,8 @@ top: 30%;" padding>
                 <span (click)="clicking(3);" class="newspan" *ngIf="status=='reserved'" > 예약 </span>
                 <span (click)="clicking(4);" class="newspan" *ngIf="status=='fin'" > 완료 </span>
                 
-                <span (click)="clicking2(a);" class="newspan"  *ngIf="avec"> A </span>
-                <span (click)="clicking2(a);" class="newspan" *ngIf="!avec"> - </span>
+                <span (click)="clicking2(a);" class="newspan"  *ngIf="avec==1"> A </span>
+                <span (click)="clicking2(a);" class="newspan" *ngIf="avec==0"> - </span>
                 
                 <span><input *ngIf="!firststatus||firststatus==undefined" style="    width: 50px !important;
                   margin-left: 15px;"  class="input-box" placeholder="인원"  [(ngModel)]="numofpeople" type="text"/> </span>

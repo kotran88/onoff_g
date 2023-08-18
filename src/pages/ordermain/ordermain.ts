@@ -3,6 +3,7 @@ import { IonicPage,ModalController,ViewController, NavController, NavParams,Menu
 import { InfomodalPage } from '../infomodal/infomodal';
 import { LoginpagePage } from '../loginpage/loginpage';
 
+import { HTTP } from '@ionic-native/http/ngx';
 import  firebase from 'firebase';
 import { EditingroomPage } from '../editingroom/editingroom';
 import { OrderPage } from '../order/order';
@@ -32,13 +33,25 @@ export class OrdermainPage {
   company:any="";
   nickname:any="";
   name:any="";
+  token:any="";
+  //https://captainq.wadteam.com/captainq/apis/item
   firemain = firebase.database().ref();
-  constructor(public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public http:HTTP,public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
     this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
     this.name= localStorage.getItem("name");
     this.nickname=localStorage.getItem("nickname");
     this.currentstartday=localStorage.getItem("startDate");
+    this.token = this.navParams.get("token");
+
+
+    this.http.get("https://captainq.wadteam.com/captainq/apis/item",{},{"token":this.token}).then(data => {
+      console.log("get item result...");
+      console.log(data);
+      var a = JSON.parse(data.data)
+      var result = JSON.parse(a.rst_content);
+      console.log(result);
+  });
   }
   selecting(a){
     console.log("selecting...")

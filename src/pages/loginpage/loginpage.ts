@@ -132,9 +132,8 @@ export class LoginpagePage {
         // };
         // // 5. 본인인증 창 호출
         // IamportCordova.certification(params);
-
-        this.requestLogin("wt3","ananan");
-      },3000);
+        this.requestLogin("wt8","ananan");
+      },500);
       }
       private subscribeToWebSocket() {
 
@@ -146,7 +145,7 @@ export class LoginpagePage {
       }
   requestLogin(id,pass){
     var apiUrl = "https://captainq.wadteam.com/captainq/apis/login";
-    this.http.get(apiUrl, {"userid":"wt3","userpw":"ananan"}, {}).then(data => {
+    this.http.get(apiUrl, {"userid":id,"userpw":pass}, {}).then(data => {
       console.log("data is...");
       var a = JSON.parse(data.data)
       console.log(a.rst_code);
@@ -167,7 +166,7 @@ export class LoginpagePage {
       // localStorage.setItem("jopan",result.jopan);
       var approved=result.approved;
       var type = result.mtype;
-      var young = result.young
+      var young = result.salesteam
       var payment=result.payment;
 
   
@@ -181,54 +180,55 @@ export class LoginpagePage {
   localStorage.setItem('id',this.id.split('@')[0]);
   localStorage.setItem('name',result.name);
   localStorage.setItem('password',this.password);
-  localStorage.setItem('company',result.company);
+  localStorage.setItem('company',result.company.trim());
 
   localStorage.setItem("type",result.mytype);
-  if(approved!=1||approved==undefined){
-    // window.alert("관리자가 승인해야 이용가능합니다.");
-    // this.util.dismissLoading();
-    // return;
-  }
-  if(young!=undefined&&young.length==1){
+  // if(approved!=1||approved==undefined){
+  //   // window.alert("관리자가 승인해야 이용가능합니다.");
+  //   // this.util.dismissLoading();
+  //   // return;
+  // }
+  // if(young!=undefined&&young.length==1){
      
-      window.alert("코드번호가 부여되지않아서 조회만 가능합니다. ")
-      this.util.dismissLoading();
-      // this.navCtrl.setRoot(InfoPage,{"user":this.directorList});
-      return;
+  //     window.alert("코드번호가 부여되지않아서 조회만 가능합니다. ")
+  //     this.util.dismissLoading();
+  //     // this.navCtrl.setRoot(InfoPage,{"user":this.directorList});
+  //     return;
    
-  }else{
-  }
+  // }else{
+  // }
 
   this.util.dismissLoading();
-  this.firemain.child("company").child(result.company).once("value",(snap2)=>{
-    console.log(snap2.val())
-    var tc=0;
-    if(snap2.val().tc==undefined){
-      window.alert("tc설정이 안되있으므로 기본값 13으로 설정됩니다.")
-      tc=13;
-    }else{
-      tc=snap2.val().tc;
-    }
-
-    localStorage.setItem("tc",snap2.val().tc);
-    localStorage.setItem("auto",snap2.val().autoflag);
-    localStorage.setItem("flag",snap2.val().openandclose.flag);
-
-    this.login_flag_update();
-    var price = snap2.val().price;
-    console.log(price);
-    localStorage.setItem("price",price)
-    console.log("gogo type is : "+type);
-    if(snap2.val().openandclose.flag==true){
-      localStorage.setItem("startDate",snap2.val().openandclose.startDate);
-      localStorage.setItem("start",snap2.val().openandclose.start);
-
-    }else{
-      window.alert("업장 개시하지 않았습니다 매니저에게 문의하세요")
-      return;
-    }
     this.navCtrl.push(SlidetestPage);
-  });
+  // this.firemain.child("company").child(result.company).once("value",(snap2)=>{
+  //   console.log(snap2.val())
+  //   var tc=0;
+  //   if(snap2.val().tc==undefined){
+  //     window.alert("tc설정이 안되있으므로 기본값 13으로 설정됩니다.")
+  //     tc=13;
+  //   }else{
+  //     tc=snap2.val().tc;
+  //   }
+
+  //   localStorage.setItem("tc",snap2.val().tc);
+  //   localStorage.setItem("auto",snap2.val().autoflag);
+  //   localStorage.setItem("flag",snap2.val().openandclose.flag);
+
+  //   this.login_flag_update();
+  //   var price = snap2.val().price;
+  //   console.log(price);
+  //   localStorage.setItem("price",price)
+  //   console.log("gogo type is : "+type);
+  //   if(snap2.val().openandclose.flag==true){
+  //     localStorage.setItem("startDate",snap2.val().openandclose.startDate);
+  //     localStorage.setItem("start",snap2.val().openandclose.start);
+
+  //   }else{
+  //     window.alert("업장 개시하지 않았습니다 매니저에게 문의하세요")
+  //     return;
+  //   }
+  //   this.navCtrl.push(SlidetestPage);
+  // });
 
 
 

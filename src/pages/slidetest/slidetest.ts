@@ -55,6 +55,7 @@ export class SlidetestPage {
   firemain = firebase.database().ref();
   count : number[] = new Array();
   orderlist=[];
+  wtbujanglist=[];
   noflaglist=[];
   information=[];
   todaymoney=0;
@@ -260,6 +261,7 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
         console.log("mainlist_info....");
       this.paginateArray();
 
+      this.mainlist_choice2=[];
       this.mainlist_choice=[];
             console.log(this.mainlist_info)
             console.log(this.mainlist_finished_info)
@@ -269,7 +271,7 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
                 //초이스 혹은 진행중인방. 
                   console.log("this.mainlist_info[aaa]:");
                   console.log(this.mainlist_info[aaa]);
-                  if(this.mainlist_info[aaa].numofpeople!=0){
+                  if(this.mainlist_info[aaa].numofpeople==this.mainlist_info[aaa].max_people_count){
                     this.mainlist_choice2.push({
                       "num":this.mainlist_info[aaa].num,
                                                 "name":this.mainlist_info[aaa].name,
@@ -402,13 +404,14 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
     });
   }
   write(){
-    this.tabclicked(2);
-    let modal = this.modal.create(ChoicejimyungPage,{});
-    modal.onDidDismiss(url => {
-      this.refreshChoiceonlyjimyung();
-    });
+    window.alert("write)");
+    // this.tabclicked(2);
+    // let modal = this.modal.create(ChoicejimyungPage,{});
+    // modal.onDidDismiss(url => {
+    //   this.refreshChoiceonlyjimyung();
+    // });
 
-    modal.present();
+    // modal.present();
   }
   buchange(){
     if(this.type=="info"){
@@ -636,10 +639,10 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
   }
   gotolink(value){
     if(value == 0){
-      this.navCtrl.push(OrdermainPage,{flag:true}).then(() => {
+      this.navCtrl.push(OrdermainPage,{flag:true,token:this.token}).then(() => {
         this.navCtrl.getActive().onDidDismiss(data => {
           console.log("refresh...");
-          this.generate();
+          // this.generate();
       
         });
       });
@@ -715,7 +718,7 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
     //console.log(i)
     //console.log(this.orderlist);
     //console.log(this.orderlist[i]);
-    this.orderlist[i].open = !this.orderlist[i].open;
+    this.wtbujanglist[i].open = !this.wtbujanglist[i].open;
     //console.log(this.orderlist[i]);
   }
 
@@ -1558,13 +1561,56 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
       console.log(result);
       console.log("was result...");
       for(var value in result){
-        
+        if(result[value].wt_id==this.nickname){
+          this.wtbujanglist.push({"money":0, "tc":0,"flag":"nono","idx":result[value].idx,
+          "open":false,"logic":result[value].logic,"wt":result[value].wt_id,"bu":result[value].bu,"name":result[value].room_name,"max_people_count":result[value].max_people_count, "numofpeople":result[value].num_of_people,"incharge":result[value].director_id});
+          console.log(result[value]);
+          console.log("request...http")
+          this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+result[value].idx,{},{"token":this.token}).then(data => {
+            console.log("each room 's get result...");
+            var a = JSON.parse(data.data)
+
+            var result2 = JSON.parse(a.rst_content);
+            console.log("rst_content");
+            console.log(result2);
+            console.log(result);
+            console.log(result[value]);
+            // console.log("room  "+result[value].idx+"'s result2...");
+            for(var value in result2){
+              for(var newvalue in this.wtbujanglist){
+                console.log(this.wtbujanglist[newvalue].idx);
+                console.log(result2[value].room_idx);
+                console.log("mmmmm")
+                if(this.wtbujanglist[newvalue].idx == result2[value].room_idx){{
+                  console.log(result2[value]);
+                  console.log(result2[value].tc);
+                  console.log("was tc");
+
+                  if(result2[value].tc!=null||result2[value].tc!=undefined){
+                    console.log("tc is  defined");
+                    console.log(this.wtbujanglist[newvalue].name);
+                    console.log(Number(result2[value].tc));
+                    this.wtbujanglist[newvalue].money += Number(result2[value].money);
+                    this.wtbujanglist[newvalue].tc += Number(result2[value].tc);
+                  }
+                }
+              }
+             
+            }
+          }
+          console.log("wtbujanglist");
+          console.log(this.wtbujanglist);
+        });
+        }
         if(result[value].status=="fin"){
           this.mainlist_finished_info.push({"bu":result[value].bu,"num":result[value].num,"created_at":result[value].created_at, "logic":result[value].logic,"avec":result[value].avec, "status":result[value].status,"key":result[value].idx,"name":result[value].room_name,"max_people_count":result[value].max_people_count, "numofpeople":result[value].num_of_people,"wt":result[value].wt_id,"incharge":result[value].director_id});
         }else{
           this.mainlist_info.push({"bu":result[value].bu,"num":result[value].num, "created_at":result[value].created_at, "memo":result[value].memo,"logic":result[value].logic,"avec":result[value].avec, "status":result[value].status,"key":result[value].idx,"name":result[value].room_name, "max_people_count":result[value].max_people_count, "numofpeople":result[value].num_of_people,"wt":result[value].wt_id,"incharge":result[value].director_id});
         }
-              }
+
+
+      }
+
       console.log("this.mainlist_info");
       console.log(this.mainlist_info);
       this.paginateArray();
@@ -1729,6 +1775,22 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
                 //초이스 혹은 진행중인방. 
                   console.log("adding choice");
                   console.log(this.mainlist_info[aaa]);
+                  if(this.mainlist_info[aaa].numofpeople==this.mainlist_info[aaa].max_people_count){
+                    this.mainlist_choice2.push({
+                      "num":this.mainlist_info[aaa].num,
+                                                "name":this.mainlist_info[aaa].name,
+                                                "avec":this.mainlist_info[aaa].avec,
+                                                "logic":this.mainlist_info[aaa].logic,
+                                                "key":this.mainlist_info[aaa].key,
+                                                "incharge":this.mainlist_info[aaa].incharge,
+                                                "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                                "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                                "status":this.mainlist_info[aaa].status,
+                                                "wt":this.mainlist_info[aaa].wt,
+                                                "memo":this.mainlist_info[aaa].memo,
+                                                "created_at":this.mainlist_info[aaa].created_at,
+                                                });
+                  }else{
                   this.mainlist_choice.push({
                                               "name":this.mainlist_info[aaa].name,
                                               "avec":this.mainlist_info[aaa].avec,
@@ -1742,25 +1804,26 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
                                               "memo":this.mainlist_info[aaa].memo,
                                               "created_at":this.mainlist_info[aaa].created_at,
                                               });
-              }else if(this.mainlist_info[aaa].status=="fin"){
-                //완료된방..
-
-                console.log("adding finished choice");
-                console.log(this.mainlist_info[aaa]);
-                this.mainlist_finished_status_choice.push({
-                  "name":this.mainlist_info[aaa].name,
-                                              "avec":this.mainlist_info[aaa].avec,
-                                              "logic":this.mainlist_info[aaa].logic,
-                                              "key":this.mainlist_info[aaa].key,
-                                              "incharge":this.mainlist_info[aaa].incharge,
-                                              "max_people_count":this.mainlist_info[aaa].max_people_count,
-                                              "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
-                                              "status":this.mainlist_info[aaa].status,
-                                              "wt":this.mainlist_info[aaa].wt,
-                                              "memo":this.mainlist_info[aaa].memo,
-                                              "created_at":this.mainlist_info[aaa].created_at,
-                  });
               }
+               
+            }else if(this.mainlist_info[aaa].status=="fin"){
+              //완료된방..
+
+              console.log("adding finished choice");
+              console.log(this.mainlist_info[aaa]);
+              this.mainlist_finished_status_choice.push({
+                "name":this.mainlist_info[aaa].name,
+                                            "avec":this.mainlist_info[aaa].avec,
+                                            "logic":this.mainlist_info[aaa].logic,
+                                            "key":this.mainlist_info[aaa].key,
+                                            "incharge":this.mainlist_info[aaa].incharge,
+                                            "max_people_count":this.mainlist_info[aaa].max_people_count,
+                                            "numofpeople":this.mainlist_info[aaa].numofpeople, //아가씨수
+                                            "status":this.mainlist_info[aaa].status,
+                                            "wt":this.mainlist_info[aaa].wt,
+                                            "memo":this.mainlist_info[aaa].memo,
+                                            "created_at":this.mainlist_info[aaa].created_at,
+                });
             }
             console.log("for fin");
             console.log(this.mainlist_choice);
@@ -1769,21 +1832,20 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
 
 
 
-      this.firemain.child('attendance').child(this.company).once('value').then((snap)=>{
-        this.mainlist_attend=[];
-        for(var a in snap.val()){
-          if(a==this.currentstartday){
-            for(var b in snap.val()[a]){
-              if(snap.val()[a][b].attend!=undefined){
-                this.mainlist_attend.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});    
-              }
-            }
-          }
-        }
-
-
-    })//firemain :)
+    //   this.firemain.child('attendance').child(this.company).once('value').then((snap)=>{
+    //     this.mainlist_attend=[];
+    //     for(var a in snap.val()){
+    //       if(a==this.currentstartday){
+    //         for(var b in snap.val()[a]){
+    //           if(snap.val()[a][b].attend!=undefined){
+    //             this.mainlist_attend.push({"name":snap.val()[a][b].attend.name,"status":snap.val()[a][b].attend.flag,"team":snap.val()[a][b].attend.team,"tc":"-","wantee":"-","money":"-","bantee":"-"});    
+    //           }
+    //         }
+    //       }
+    //     }
+    // })
   }
+};
 
   generateroomcategory(){
 
