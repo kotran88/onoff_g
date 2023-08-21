@@ -231,7 +231,7 @@
             <span (click)="editing(a);" *ngIf="a.status!='disabled'&&(a.noflag==false||a.noflag==undefined)">{{a.wt}}</span>
             <span (click)="editing(a);" *ngIf="a.status!='disabled'&&(a.noflag==false||a.noflag==undefined)">{{a.insert_date}}</span>
             <span (click)="editing(a);" style="    font-size: 10px;" *ngIf="a.status!='disabled'&&(a.noflag==false||a.noflag==undefined)">{{a.end_date}}</span>
-            <span (click)="editing(a);" *ngIf="a.status=='disabled'" class="noflag" style="width:70%;">{{a.memo}}</span>
+            <span (click)="editing(a);" *ngIf="a.status=='disabled'" class="noflag" style="width:70%;">{{a.nomemo}}</span>
           </div>
         </div>
         <div class="pagination">

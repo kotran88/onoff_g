@@ -3,6 +3,7 @@ import { IonicPage,ViewController, NavController, NavParams } from 'ionic-angula
 
 import  firebase from 'firebase';
 import { OrdermainPage } from '../ordermain/ordermain';
+import { HTTP } from '@ionic-native/http/ngx';
 /**
  * Generated class for the OrderdetailPage page.
  *
@@ -21,6 +22,7 @@ export class OrderdetailPage {
   uniquedrink=[];
   obj22={};
   obj33={};
+  token:any="";
   obj44={};
   firemain = firebase.database().ref();
   company:any="";
@@ -36,17 +38,87 @@ export class OrderdetailPage {
   anjulist=[];
   drinklist=[];
   flag:any;
-  constructor(public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
+  order_member_idx:any = "";
+  constructor(public http: HTTP,public view:ViewController,public navCtrl: NavController, public navParams: NavParams) {
     this.a=this.navParams.get("a");
-    //console.log("a is...");
-      //console.log(this.a);
+    console.log("a is...");
+      console.log(this.a);
+      window.alert(this.a.key);
     this.name = localStorage.getItem("name");
+    this.token = this.navParams.get("token");
+    this.order_member_idx = localStorage.getItem("member_idx");
     //console.log(this.a);
     this.flag=this.navParams.get("flag");
     //console.log(this.flag);
     this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
+
+    this.http.get("https://captainq.wadteam.com/captainq/apis/item",{},{"token":this.token}).then(data => {
+      console.log("get item result...");
+      console.log(data);
+      var a = JSON.parse(data.data)
+      var result = JSON.parse(a.rst_content);
+      console.log(result);
+      for(var values in result){
+        console.log(result[values])
+        console.log(result[values].category);
+        if(result[values].category=="주류"){
+
+        this.obj.push(result[values].bu);
+        //console.log(a);
+        //console.log(snap.val()[a].subcategory)
+            this.sullist.push(result[values]);
+        }
+        // for(var a in snap.val()){
+        //   //console.log(snap.val()[a]);
+        //   if(snap.val()[a].category=="주류"){
+            
+        // this.obj.push(snap.val()[a].subcategory);
+        // //console.log(a);
+        // //console.log(snap.val()[a].subcategory)
+        //     this.sullist.push(snap.val()[a]);
+        //   }
+        //   if(snap.val()[a].category=="안주"){
+        //     this.obj2.push(snap.val()[a].subcategory);
+        //     this.anjulist.push(snap.val()[a]);
+            
+        //   }
+        //   if(snap.val()[a].category=="음료/사입"){
+        //     this.obj3.push(snap.val()[a].subcategory);
+        //     this.drinklist.push(snap.val()[a]);
+            
+        //   }
+        // }
+        this.unique = this.obj.filter(this.onlyUnique);
+      this.obj22={};
+      for(var aaa in this.unique){
+        this.obj22[this.unique[aaa]]=[];
+      }
+//       for(var aaa in this.uniqueanju){
+//         this.obj33[this.uniqueanju[aaa]]=[];
+//       }
+//       for(var aaa in this.uniquedrink){
+//         this.obj44[this.uniquedrink[aaa]]=[];
+//       }
+//       //console.log(this.obj22)
+//       for(var a in this.anjulist){
+//         this.obj33[this.anjulist[a].subcategory].push({"name":this.anjulist[a].name,"category":this.anjulist[a].category,"subcategory":this.anjulist[a].subcategory,"price":Number(this.anjulist[a].price).toLocaleString()});
+//       }
+console.log("this.sullist...");
+console.log(this.sullist);
+      for(var aa in this.sullist){
+        this.obj22[this.sullist[aa].bu].push({"item_idx":this.sullist[aa].idx,"name":this.sullist[aa].item_nm,"category":this.sullist[aa].category,"subcategory":this.sullist[aa].subcategory,"price":Number(this.sullist[aa].item_price).toLocaleString()});
+      }
+//       //console.log(this.drinklist)
+//       for(var a in this.drinklist){
+//         this.obj44[this.drinklist[a].subcategory].push({"name":this.drinklist[a].name,"category":this.drinklist[a].category,"subcategory":this.drinklist[a].subcategory,"price":Number(this.drinklist[a].price).toLocaleString()});
+//       }
+//       //console.log(this.obj22);
+        // this.uniqueanju = this.obj2.filter(this.onlyUnique);
+        // this.uniquedrink = this.obj3.filter(this.onlyUnique);
+      }
+  });
     if(this.flag=="more"){
       //console.log("추가주문");
       this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("orderlist").once("value",snap=>{
@@ -132,12 +204,16 @@ export class OrderdetailPage {
     }
   }
   completed(){
-    //console.log("completed...");
+    console.log("completed...");
     console.log(this.selectedList);
+    console.log(this.a.key);
+    console.log(this.order_member_idx);
     if(this.selectedList.length==0){
       window.alert("선택해주세요");
       return;
     }
+
+    
     var date = new Date();
 
     var year=date.getFullYear();
@@ -146,22 +222,39 @@ export class OrderdetailPage {
     var hour = date.getHours();
     var min = date.getMinutes();
     var sec = date.getSeconds();
+    var json2  = [];
+    console.log("a is : ");
+    console.log(this.a);
+    //"" -d "item_idx=23&room_idx=28&order_member_idx=1&created_by=홍홍"
+    // json2.push({"room_idx":this.a.key,"member_idx":result[value].idx,"angel":0,"incharge":this.a.incharge,"enter_dt":this.util.getCurrentFormattedDateTime(),"created_by":this.nickname});
+    console.log("json2222 : ");
+    console.log(json2);
+// this.http.post("https://captainq.wadteam.com/captainq/apis/currentorderitem", {"room_idx":this.a.key,"member_idx":result[value].idx,"angel":0,"incharge":this.a.incharge,"enter_dt":this.util.getCurrentFormattedDateTime(),"created_by":this.nickname}, {"token":this.token}).then(data => {
+   
+//       console.log("data from roomdetail");
+//       console.log(data);
+
+//   });   
+
     //console.log(this.company+"/"+this.a.name+"/"+this.currentstartday+"/"+this.a.key+"/"+hour+":"+min+":"+sec);
     //console.log(this.a);
     //console.log("1111");
-    this.firemain.child("users").child(this.a.wt).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
-   
-    this.firemain.child("users").child(this.a.directorId).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
-   
-    this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
-    //console.log("2222");
-    this.firemain.child("users").child(this.a.directorId).child("incentive").child(this.currentstartday).child(this.a.key).child("ordertype").update({"bu":this.a.bu, "type":"order", "roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+    // this.firemain.child("users").child(this.a.wt).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+    // this.firemain.child("users").child(this.a.directorId).child("roomhistory").child(this.currentstartday).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+    // this.firemain.child("company").child(this.company).child("madelist").child(this.currentstartday).child(this.a.name).child(this.a.key).child("orderlist").update({"roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+    // this.firemain.child("users").child(this.a.directorId).child("incentive").child(this.currentstartday).child(this.a.key).child("ordertype").update({"bu":this.a.bu, "type":"order", "roomno":this.a.name,"wt":this.name,"incharge":this.a.incharge, "orderlist":this.selectedList,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+    
+    
+    
     window.alert("주문이 완료되었습니다.");
     this.view.dismiss({"result":true})
   }
   clicked(b){
+    console.log("clicked...")
     console.log(b);
     console.log(this.selectedList);
+    console.log(this.a.key);
+
     b.selected=true;
     if(b.num==undefined){
       b.num=1;
@@ -191,110 +284,110 @@ export class OrderdetailPage {
      
 
     if(flag){
-      this.selectedList.push({num:num,"name":b.name,"price":b.price,"category":b.category,"subcategory":b.subcategory,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+      this.selectedList.push({"item_idx":b.idx,num:num,"name":b.name,"price":b.price,"category":b.category,"subcategory":b.subcategory,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
     }else{
-      this.selectedList.push({num:num,"name":b.name,"price":b.price,"category":b.category,"subcategory":b.subcategory,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
+      this.selectedList.push({"item_idx":b.idx,num:num,"name":b.name,"price":b.price,"category":b.category,"subcategory":b.subcategory,orderDate:year+"-"+month+"-"+day+" "+hour+":"+min});
     }
     //console.log(this.selectedList);
   }
   ionViewDidLoad() {
     //console.log('ionViewDidLoad OrderdetailPage');
 
-    this.firemain.child("company").child(this.company).child("menulist").once('value').then((snap)=>{
-      //console.log(snap.val());
-      if(snap.val()!=null){
+//     this.firemain.child("company").child(this.company).child("menulist").once('value').then((snap)=>{
+//       //console.log(snap.val());
+//       if(snap.val()!=null){
 
-        for(var a in snap.val()){
-          //console.log(snap.val()[a]);
-          if(snap.val()[a].category=="주류"){
+//         for(var a in snap.val()){
+//           //console.log(snap.val()[a]);
+//           if(snap.val()[a].category=="주류"){
             
-        this.obj.push(snap.val()[a].subcategory);
-        //console.log(a);
-        //console.log(snap.val()[a].subcategory)
-            this.sullist.push(snap.val()[a]);
-          }
-          if(snap.val()[a].category=="안주"){
-            this.obj2.push(snap.val()[a].subcategory);
-            this.anjulist.push(snap.val()[a]);
+//         this.obj.push(snap.val()[a].subcategory);
+//         //console.log(a);
+//         //console.log(snap.val()[a].subcategory)
+//             this.sullist.push(snap.val()[a]);
+//           }
+//           if(snap.val()[a].category=="안주"){
+//             this.obj2.push(snap.val()[a].subcategory);
+//             this.anjulist.push(snap.val()[a]);
             
-          }
-          if(snap.val()[a].category=="음료/사입"){
-            this.obj3.push(snap.val()[a].subcategory);
-            this.drinklist.push(snap.val()[a]);
+//           }
+//           if(snap.val()[a].category=="음료/사입"){
+//             this.obj3.push(snap.val()[a].subcategory);
+//             this.drinklist.push(snap.val()[a]);
             
-          }
-        }
-        this.unique = this.obj.filter(this.onlyUnique);
+//           }
+//         }
+//         this.unique = this.obj.filter(this.onlyUnique);
 
-        this.uniqueanju = this.obj2.filter(this.onlyUnique);
-        this.uniquedrink = this.obj3.filter(this.onlyUnique);
+//         this.uniqueanju = this.obj2.filter(this.onlyUnique);
+//         this.uniquedrink = this.obj3.filter(this.onlyUnique);
 
-// for(var a in unique){
-//   //console.log(a)
-//   for(var b in this.sullist){
-//     //console.log(this.sullist[b].subcategory)
-//     if(this.sullist[b].subcategory==unique[a]){
-//       //console.log("같다")
-//       //console.log(this.sullist[b])
-//       // this.newarray.push({"1":this.sullist[b]})
-//     }
-//   }
-//   // //console.log(unique[a]);
-//   // this.newarray.push({a:unique[a]})
-// }
-//console.log(this.newarray)
-        //console.log(this.obj);
-        //console.log(this.sullist)
-        //console.log(this.anjulist)
-        //console.log(this.drinklist)
+// // for(var a in unique){
+// //   //console.log(a)
+// //   for(var b in this.sullist){
+// //     //console.log(this.sullist[b].subcategory)
+// //     if(this.sullist[b].subcategory==unique[a]){
+// //       //console.log("같다")
+// //       //console.log(this.sullist[b])
+// //       // this.newarray.push({"1":this.sullist[b]})
+// //     }
+// //   }
+// //   // //console.log(unique[a]);
+// //   // this.newarray.push({a:unique[a]})
+// // }
+// //console.log(this.newarray)
+//         //console.log(this.obj);
+//         //console.log(this.sullist)
+//         //console.log(this.anjulist)
+//         //console.log(this.drinklist)
 
-        //console.log("mmmm");
-        //console.log(this.unique);
-        //console.log(this.uniqueanju);
-        //console.log(this.uniquedrink)
-      }
+//         //console.log("mmmm");
+//         //console.log(this.unique);
+//         //console.log(this.uniqueanju);
+//         //console.log(this.uniquedrink)
+//       }
 
-      //console.log("sull : ");
-      //console.log(this.sullist)
-      //re arrange sullist that with key of subcategory 
-      this.sullist.sort(function(a,b){
-        if(a.subcategory>b.subcategory){
-          return 1;
-        }else if(a.subcategory<b.subcategory){
-          return -1;
-        }else{
-          return 0;
-        }
-      })
-      //console.log(this.sullist)
-      //make it hashkey style array with sullist that with key of name
-      this.obj22={};
-      for(var aaa in this.unique){
-        this.obj22[this.unique[aaa]]=[];
-      }
-      for(var aaa in this.uniqueanju){
-        this.obj33[this.uniqueanju[aaa]]=[];
-      }
-      for(var aaa in this.uniquedrink){
-        this.obj44[this.uniquedrink[aaa]]=[];
-      }
-      //console.log(this.obj22)
-      for(var a in this.anjulist){
-        this.obj33[this.anjulist[a].subcategory].push({"name":this.anjulist[a].name,"category":this.anjulist[a].category,"subcategory":this.anjulist[a].subcategory,"price":Number(this.anjulist[a].price).toLocaleString()});
-      }
-      for(var a in this.sullist){
-        this.obj22[this.sullist[a].subcategory].push({"name":this.sullist[a].name,"category":this.sullist[a].category,"subcategory":this.sullist[a].subcategory,"price":Number(this.sullist[a].price).toLocaleString()});
-      }
-      //console.log(this.drinklist)
-      for(var a in this.drinklist){
-        this.obj44[this.drinklist[a].subcategory].push({"name":this.drinklist[a].name,"category":this.drinklist[a].category,"subcategory":this.drinklist[a].subcategory,"price":Number(this.drinklist[a].price).toLocaleString()});
-      }
-      //console.log(this.obj22);
-      //console.log(this.obj33);
-      //console.log(this.obj44);
+//       //console.log("sull : ");
+//       //console.log(this.sullist)
+//       //re arrange sullist that with key of subcategory 
+//       this.sullist.sort(function(a,b){
+//         if(a.subcategory>b.subcategory){
+//           return 1;
+//         }else if(a.subcategory<b.subcategory){
+//           return -1;
+//         }else{
+//           return 0;
+//         }
+//       })
+//       //console.log(this.sullist)
+//       //make it hashkey style array with sullist that with key of name
+//       this.obj22={};
+//       for(var aaa in this.unique){
+//         this.obj22[this.unique[aaa]]=[];
+//       }
+//       for(var aaa in this.uniqueanju){
+//         this.obj33[this.uniqueanju[aaa]]=[];
+//       }
+//       for(var aaa in this.uniquedrink){
+//         this.obj44[this.uniquedrink[aaa]]=[];
+//       }
+//       //console.log(this.obj22)
+//       for(var a in this.anjulist){
+//         this.obj33[this.anjulist[a].subcategory].push({"name":this.anjulist[a].name,"category":this.anjulist[a].category,"subcategory":this.anjulist[a].subcategory,"price":Number(this.anjulist[a].price).toLocaleString()});
+//       }
+//       for(var a in this.sullist){
+//         this.obj22[this.sullist[a].subcategory].push({"name":this.sullist[a].name,"category":this.sullist[a].category,"subcategory":this.sullist[a].subcategory,"price":Number(this.sullist[a].price).toLocaleString()});
+//       }
+//       //console.log(this.drinklist)
+//       for(var a in this.drinklist){
+//         this.obj44[this.drinklist[a].subcategory].push({"name":this.drinklist[a].name,"category":this.drinklist[a].category,"subcategory":this.drinklist[a].subcategory,"price":Number(this.drinklist[a].price).toLocaleString()});
+//       }
+//       //console.log(this.obj22);
+//       //console.log(this.obj33);
+//       //console.log(this.obj44);
 
-     //console.log(this.sullist);
-    });
+//      //console.log(this.sullist);
+//     });
 
   }
 

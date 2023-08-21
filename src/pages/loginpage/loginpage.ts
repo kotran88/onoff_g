@@ -47,7 +47,7 @@ export class LoginpagePage {
   id:any = "";
   password:any = "";
   check=false;
-  version='20230717 v4.48';
+  version='20230821 v5.01';
   name:any;
   loading:any;
   firemain = firebase.database().ref();
@@ -132,8 +132,8 @@ export class LoginpagePage {
         // };
         // // 5. 본인인증 창 호출
         // IamportCordova.certification(params);
-        this.requestLogin("wt8","ananan");
-      },500);
+        // this.requestLogin("wt8","ananan");
+      },1000);
       }
       private subscribeToWebSocket() {
 
@@ -160,6 +160,7 @@ export class LoginpagePage {
 
       this.nickname=result.nickname;
       localStorage.setItem("login_data",JSON.stringify(result) );
+      localStorage.setItem("member_idx",result.idx);
       localStorage.setItem("name",result.name);
       localStorage.setItem("nickname",result.nickname);
       localStorage.setItem("token",result.token);

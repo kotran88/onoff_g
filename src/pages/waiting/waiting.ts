@@ -17,6 +17,7 @@ import { OrdermainPage } from '../ordermain/ordermain';
 import { UtilsProvider } from '../../providers/utils/utils';
 import { InfoPage } from '../info/info';
 import { WaitingmodalPage } from '../waitingmodal/waitingmodal';
+import { HTTP } from '@ionic-native/http/ngx';
 /**
  * Generated class for the WaitingPage page.
  *
@@ -62,7 +63,7 @@ export class WaitingPage {
   id:any="";
   type:any="";
   firemain = firebase.database().ref();
-  constructor(public util:UtilsProvider, public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public http:HTTP,public util:UtilsProvider, public view:ViewController,public modal:ModalController,public menuCtrl: MenuController ,public navCtrl: NavController, public navParams: NavParams) {
     this.company=  localStorage.getItem("company");
     this.currentstart=localStorage.getItem("start");
     this.currentstartday=localStorage.getItem("startDate");
@@ -109,7 +110,11 @@ export class WaitingPage {
 }
 clicking2(v){
   console.log(v);
-    this.avec=!this.avec;
+    if(this.avec==1){
+      this.avec=0;
+    }else{
+      this.avec=1;
+    }
 }
 clickforlogic(v){
     console.log("v is "+v);
@@ -221,7 +226,7 @@ gotopayment(){
         
     });
     });
-    //console.log(this.mainlist);
+    console.log(this.mainlist);
   }
   remove(a){
     console.log(a);
@@ -262,6 +267,18 @@ gotopayment(){
 
     var dte = new Date();
     var fulldate = this.currentstartday;
+
+
+    // this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"room_name": this.room,"idx":this.a.key,"cmd":"entered","updated_by":this.nickname},{"token":this.token}).then(data => {
+    //   console.log(data);
+    //   var a = JSON.parse(data.data)
+    //   console.log(a);
+    //   console.log(a.rst_content);
+    //   console.log(a.rst_content.toString());
+    //   if(a.rst_content.toString()=="수정 완료"){
+    //     // window.alert("수정 완료");
+    //   }
+    // });
     var key =  this.firemain.child("company").child(this.company).child("waiting").child(this.currentstartday+"").push().key ;
     this.firemain.child("company").child(this.company).child("waiting").child(this.currentstartday+"").child(key).update({"avec":this.avec, "logic":this.logic, "incharge":this.incharge,"numofpeople":this.numofpeople,"insert_date":hour+":"+min,"insert_date_full":dte,"last_updated":dte, "key":key,"date":fulldate ,"lastupdatedperson":this.nickname, "lastupdated":(dte.getMonth()+1)+"-"+dte.getDate()+" "+dte.getHours()+":"+dte.getMinutes()})
     this.generate();

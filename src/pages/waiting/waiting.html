@@ -143,8 +143,8 @@ border-radius
         <span (click)="editing(a);"> {{j+1}} </span>
         <span (click)="editing(a);">{{a.incharge}}</span>
         <span (click)="editing(a);">{{a.numofpeople}}인</span>
-        <span (click)="editing(a);" *ngIf="a.avec">A </span>
-        <span (click)="editing(a);" *ngIf="!a.avec">- </span>
+        <span (click)="editing(a);" *ngIf="a.avec==1">A </span>
+        <span (click)="editing(a);" *ngIf="a.avec==0">- </span>
         <span (click)="editing(a);" *ngIf="a.logic==0">OFF</span>
         <span (click)="editing(a);" *ngIf="a.logic==1">1ㅅㅌㅌ</span>
         <span (click)="editing(a);" *ngIf="a.logic==2">2ㅅㅌㅌ</span>
@@ -186,8 +186,8 @@ border-radius
     float: left;
     border: solid 1px black;
 " class="input-box" placeholder="아베크Y/N" [(ngModel)]="avec" type="text"></ion-input> -->
-<span (click)="clicking2();" class="newspan"  *ngIf="avec"> A </span>
-                <span (click)="clicking2();" class="newspan" *ngIf="!avec"> - </span>
+<span (click)="clicking2();" class="newspan"  *ngIf="avec==1"> A </span>
+                <span (click)="clicking2();" class="newspan" *ngIf="avec==0"> - </span>
 
                 <span (click)="clickforlogic(0);" class="sspan" *ngIf="logic==0" > OFF </span>
                 <span (click)="clickforlogic(1);" class="sspan" *ngIf="logic==1" > 1ㅅㅌㅌ </span>

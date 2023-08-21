@@ -216,7 +216,6 @@ export class SlidetestPage {
         console.log(result.status);
 
     })
-
     let roomList: Observable<any> = this.soc.subscribe('/topic/info', {});
     roomList.subscribe(result => {
       console.log("subscribeToWebSocketsubscribeToWebSocketsubscribeToWebSocket");
@@ -249,11 +248,13 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
           }
         }
         
+        this.mainlist.push({"nomemo":result.nomemo,"num":result.num,"bu":result.bu,"ss":result.ss,"memo":result.memo, "logic":result.logic,"avec":result.avec,"key":result.idx, "status":result.status,"name":result.room_name,"created_at":result.created_at, "max_people_count":result.max_people_count, "numofpeople":result.num_of_people,"wt":result.wt_id,"incharge":result.director_id});
+          
 
           if(result.status=="fin"){
-            this.mainlist_finished_info.push({"num":result.num,"bu":result.bu,"ss":result.ss,"memo":result.memo,"nomemo":result.memo, "logic":result.logic,"avec":result.avec,"key":result.idx, "status":result.status,"name":result.room_name,"created_at":result.created_at, "max_people_count":result.max_people_count, "numofpeople":result.num_of_people,"wt":result.wt_id,"incharge":result.director_id});
+            this.mainlist_finished_info.push({"nomemo":result.nomemo,"num":result.num,"bu":result.bu,"ss":result.ss,"memo":result.memo, "logic":result.logic,"avec":result.avec,"key":result.idx, "status":result.status,"name":result.room_name,"created_at":result.created_at, "max_people_count":result.max_people_count, "numofpeople":result.num_of_people,"wt":result.wt_id,"incharge":result.director_id});
           }else{
-            this.mainlist_info.push({"num":result.num,"bu":result.bu,"memo":result.memo,"ss":result.ss,"nomemo":result.memo, "logic":result.logic,"key":result.idx, "avec":result.avec, "status":result.status,"name":result.room_name,"created_at":result.created_at, "max_people_count":result.max_people_count, "numofpeople":result.num_of_people,"wt":result.wt_id,"incharge":result.director_id});
+            this.mainlist_info.push({"nomemo":result.nomemo,"num":result.num,"bu":result.bu,"memo":result.memo,"ss":result.ss, "logic":result.logic,"key":result.idx, "avec":result.avec, "status":result.status,"name":result.room_name,"created_at":result.created_at, "max_people_count":result.max_people_count, "numofpeople":result.num_of_people,"wt":result.wt_id,"incharge":result.director_id});
           }
 
 
@@ -634,12 +635,11 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
 
     this.slider.slideTo(index);
     if(index==3){
-
     }
   }
   gotolink(value){
     if(value == 0){
-      this.navCtrl.push(OrdermainPage,{flag:true,token:this.token}).then(() => {
+      this.navCtrl.push(OrdermainPage,{flag:true,token:this.token,"roomlist":this.mainlist}).then(() => {
         this.navCtrl.getActive().onDidDismiss(data => {
           console.log("refresh...");
           // this.generate();
@@ -830,7 +830,7 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
   };
   gotowaiting(){
 
-    this.navCtrl.push(WaitingPage,{flag:true}).then(() => {
+    this.navCtrl.push(WaitingPage,{flag:true,mainlist:this.mainlist_info}).then(() => {
 
       console.log("WaitingPage back");
 
@@ -854,7 +854,6 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
           this.selectedAvec = data.data.avec;
           this.selectedLogic = data.data.logic;
           this.selectedNumber = data.data.numofpeople;
-
           console.log(data.data.avec);
           console.log(data.data.logic);
         }
@@ -1552,7 +1551,6 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
     return "aaaaaa";
   }
   ionViewDidLoad() {
-
     this.http.get("https://captainq.wadteam.com/captainq/apis/currentroom",{},{"token":this.token}).then(data => {
       console.log("get result...ionViewDidLoad");
       console.log(data);
@@ -1602,10 +1600,12 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
           console.log(this.wtbujanglist);
         });
         }
+        this.mainlist.push({"nomemo":result[value].nomemo, "bu":result[value].bu,"num":result[value].num, "created_at":result[value].created_at, "memo":result[value].memo,"logic":result[value].logic,"avec":result[value].avec, "status":result[value].status,"key":result[value].idx,"name":result[value].room_name, "max_people_count":result[value].max_people_count, "numofpeople":result[value].num_of_people,"wt":result[value].wt_id,"incharge":result[value].director_id});
+
         if(result[value].status=="fin"){
-          this.mainlist_finished_info.push({"bu":result[value].bu,"num":result[value].num,"created_at":result[value].created_at, "logic":result[value].logic,"avec":result[value].avec, "status":result[value].status,"key":result[value].idx,"name":result[value].room_name,"max_people_count":result[value].max_people_count, "numofpeople":result[value].num_of_people,"wt":result[value].wt_id,"incharge":result[value].director_id});
+          this.mainlist_finished_info.push({"nomemo":result[value].nomemo,"bu":result[value].bu,"num":result[value].num,"created_at":result[value].created_at, "logic":result[value].logic,"avec":result[value].avec, "status":result[value].status,"key":result[value].idx,"name":result[value].room_name,"max_people_count":result[value].max_people_count, "numofpeople":result[value].num_of_people,"wt":result[value].wt_id,"incharge":result[value].director_id});
         }else{
-          this.mainlist_info.push({"bu":result[value].bu,"num":result[value].num, "created_at":result[value].created_at, "memo":result[value].memo,"logic":result[value].logic,"avec":result[value].avec, "status":result[value].status,"key":result[value].idx,"name":result[value].room_name, "max_people_count":result[value].max_people_count, "numofpeople":result[value].num_of_people,"wt":result[value].wt_id,"incharge":result[value].director_id});
+          this.mainlist_info.push({"nomemo":result[value].nomemo,"bu":result[value].bu,"num":result[value].num, "created_at":result[value].created_at, "memo":result[value].memo,"logic":result[value].logic,"avec":result[value].avec, "status":result[value].status,"key":result[value].idx,"name":result[value].room_name, "max_people_count":result[value].max_people_count, "numofpeople":result[value].num_of_people,"wt":result[value].wt_id,"incharge":result[value].director_id});
         }
 
 
@@ -2084,6 +2084,11 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
     modal.onDidDismiss(url => {
       console.log(url);
 
+      this.selectedKey = ""
+      this.selectedIncharge=""
+      this.selectedAvec = 0
+      this.selectedLogic = 0
+      this.selectedNumber = ""
       console.log(this.mainlist_choice);
       this.mainlist_choice.sort(function(a,b){
         return a.num - b.num;

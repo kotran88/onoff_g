@@ -56,7 +56,7 @@
 
   <ion-nav #mycontent [root]="rootPage"></ion-nav>
 <ion-content class="contents" padding>
-  <div class="selecting">
+  <!-- <div class="selecting">
     <ion-select style="    float: left;
     color: black;
     height: 50px;
@@ -86,7 +86,7 @@
     width: 50px;" (click)="searching();" ion-button icon-only color="royal">
       검색
     </button>
-  </div>
+  </div> -->
   <div style="margin-top:50px;" class="room-current">
     <div class="title-div">
       <ion-icon class="square" name="square"></ion-icon>
@@ -101,14 +101,14 @@
         <span>WT</span>
         <span>주문</span>
       </div>
-      <div style="height:50px;"  *ngIf="mainlist.length==0" class="datas">
+      <div style="height:50px;"  *ngIf="mainlist_order.length==0" class="datas">
         <p >   방 내역이 없습니다. </p>
      
         </div>
-      <div (click)="editing(a);" *ngFor="let a of mainlist" class="datas">
+      <div (click)="editing(a);" *ngFor="let a of mainlist_order" class="datas">
         <span>{{a.name}}</span>
         <span>{{a.incharge}}</span>
-        <span>{{a.numofpeople}} 인 </span>
+        <span>{{a.max_people_count}} 인 </span>
         <span>{{a.wt}}</span>
         <span>주문</span>
       </div>
@@ -137,7 +137,7 @@
       <div (click)="editing(a);" *ngFor="let a of mainlist_no_order" class="datas">
         <span>{{a.name}}</span>
         <span>{{a.incharge}}</span>
-        <span>{{a.numofpeople}} 인 </span>
+        <span>{{a.max_people_count}} 인 </span>
         <span>{{a.wt}}</span>
         <span>미주문</span>
       </div>
