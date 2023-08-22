@@ -2080,9 +2080,15 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
     
     console.log("ad room come");
     console.log(room);
+    this.firemain.child("company").child(this.company).child("roomlist").child(room.name).update({"flag":true,"lastupdatedperson":this.nickname,"reason":"bool3false"})
     let modal = this.modal.create(InfomodalPage,{"room":room, "bu":this.bu,"selectedKey":this.selectedKey, "selectedIncharge":this.selectedIncharge,"selectedAvec":this.selectedAvec,"selectedLogic":this.selectedLogic , "selectedNumber":this.selectedNumber,"mainlist":this.mainlist_choice,"mainlist2":this.mainlist_choice2});
     modal.onDidDismiss(url => {
       console.log(url);
+      if(url.result){
+        this.firemain.child("company").child(this.company).child("roomlist").child(room.name).update({"flag":false,"lastupdatedperson":this.nickname,"reason":"bool3false"})
+      }else{
+
+      }
 
       this.selectedKey = ""
       this.selectedIncharge=""
@@ -2201,8 +2207,30 @@ this.http.get("https://captainq.wadteam.com/captainq/apis/roomdetail?room_idx="+
     console.log("gotomorepage");
     console.log(a);
     console.log(v);
+    var oldstatus = a.status;
+
+    this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"room_name": a.name,"idx":a.key,"cmd":"waiting","updated_by":this.nickname},{"token":this.token}).then(data => {
+      console.log(data);
+      var a = JSON.parse(data.data)
+      console.log(a);
+      console.log(a.rst_content);
+      console.log(a.rst_content.toString());
+      // if(a.rst_content.toString()=="수정 완료"){
+      // }
+    });
+
     this.navCtrl.push(ChoicedetailPage,{"a":a,"v":v}).then(() => {
       this.navCtrl.getActive().onDidDismiss(data => {
+    this.http.patch("https://captainq.wadteam.com/captainq/apis/currentroom",{"room_name": a.name,"idx":a.key,"cmd":oldstatus,"updated_by":this.nickname},{"token":this.token}).then(data => {
+      console.log(data);
+      var a = JSON.parse(data.data)
+      console.log(a);
+      console.log(a.rst_content);
+      console.log(a.rst_content.toString());
+      // if(a.rst_content.toString()=="수정 완료"){
+      // }
+    });
+
         console.log("CccccchoicedetailPage ondiddismiss....");
         console.log(data);
         console.log(this.mainlist_choice);

@@ -425,7 +425,7 @@
                           <span *ngIf="main.numofpeople!=0" class="sm" style="color: black; background: yellow;" > 
                             빵{{main.max_people_count-main.numofpeople}}
                           </span>  
-                          <img *ngIf="main.onStatus!=undefined&&main.onStatus" style="width: 47px; height: 36px; margin: auto;" src="assets/img/load.gif"/> 
+                          <img *ngIf="main.status=='waiting'" style="width: 47px; height: 36px; margin: auto;" src="assets/img/load.gif"/> 
                         </p>
                         <!-- avec == false :) -->
                         <span *ngIf="main.status=='fin'" style="border: solid 1px; font-size: 12px; padding: 3px; margin-left: 10px; background: white;" >

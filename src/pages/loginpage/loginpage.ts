@@ -132,7 +132,7 @@ export class LoginpagePage {
         // };
         // // 5. 본인인증 창 호출
         // IamportCordova.certification(params);
-        // this.requestLogin("wt8","ananan");
+        this.requestLogin("wt8","ananan");
       },1000);
       }
       private subscribeToWebSocket() {
